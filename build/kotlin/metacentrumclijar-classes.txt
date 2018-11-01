@@ -1,0 +1,1 @@
+/Users/jakubtucek/Documents/Projects/FIT/metacentrum-cli/build/classes/kotlin/main/cz/fit/metacentrum/MainKt.class
