@@ -2,7 +2,6 @@ package cz.fit.metacentrum.service
 
 import cz.fit.metacentrum.domain.ArgumentInput
 import mu.KotlinLogging
-import java.lang.IllegalArgumentException
 
 private val logger = KotlinLogging.logger {}
 
@@ -14,18 +13,18 @@ class CommandLineParser {
     fun parseArguments(args: Array<String>): ArgumentInput {
         val iterator = args.iterator()
 
-        var inputFile = ""
+        val inputFile = mutableMapOf<String, String>()
 
         while (iterator.hasNext()) {
             val value = iterator.next()
             when (value) {
-                "-i", "--i" -> inputFile = retrieveNextValue(iterator)
+                "-i", "--i" -> inputFile["inputFile"] = retrieveNextValue(iterator)
             }
         }
 
 
         return ArgumentInput(
-                inputFile
+                inputFile["inputFile"] ?: throw IllegalArgumentException("Input file not given")
         )
     }
 

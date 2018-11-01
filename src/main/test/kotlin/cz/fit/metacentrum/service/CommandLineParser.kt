@@ -3,8 +3,6 @@ package cz.fit.metacentrum.service
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-import cz.fit.metacentrum.service.CommandLineParser
-
 
 class CommandLineParserTest {
 
