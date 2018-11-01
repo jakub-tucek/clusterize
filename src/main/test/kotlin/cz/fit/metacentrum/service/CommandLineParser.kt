@@ -11,4 +11,13 @@ class CommandLineParserTest {
         val res = CommandLineParser().parseArguments(arrayOf("-i", "file"))
         Assertions.assertEquals("file", res.inputFile)
     }
+
+    @Test
+    fun testThatInputWithoutArgumentFails() {
+        Assertions.assertThrows(
+                IllegalArgumentException::class.java
+        ) {
+            CommandLineParser().parseArguments(arrayOf("-i"))
+        }
+    }
 }

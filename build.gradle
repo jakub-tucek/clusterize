@@ -3,7 +3,9 @@ buildscript {
     ext.junitVersion = "5.0.0"
     ext.junitPlatformVersion = "1.0.0"
 
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral()
+    }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
@@ -19,8 +21,10 @@ apply plugin: 'application'
 apply from: "junit5.gradle"
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
     compile 'io.github.microutils:kotlin-logging:1.6.10'
 
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
