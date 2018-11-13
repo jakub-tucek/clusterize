@@ -13,18 +13,20 @@ class CommandLineParser {
     fun parseArguments(args: Array<String>): ArgumentInput {
         val iterator = args.iterator()
 
-        val inputFile = mutableMapOf<String, String>()
+        val parameters = mutableMapOf<String, String>()
 
         while (iterator.hasNext()) {
             val value = iterator.next()
             when (value) {
-                "-i", "--i" -> inputFile["inputFile"] = retrieveNextValue(iterator)
+                "-i", "--i" -> parameters["inputFile"] = retrieveNextValue(iterator)
+                "-c", "--c" -> parameters["configFile"] = retrieveNextValue(iterator)
             }
         }
 
 
         return ArgumentInput(
-                inputFile["inputFile"] ?: throw IllegalArgumentException("Input file not given")
+                parameters["inputFile"] ?: throw IllegalArgumentException("Input file not given"),
+                parameters["configFile"]
         )
     }
 
