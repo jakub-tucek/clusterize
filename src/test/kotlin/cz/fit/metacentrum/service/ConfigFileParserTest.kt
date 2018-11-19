@@ -2,7 +2,6 @@ package cz.fit.metacentrum.service
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 
 /**
  * @author Jakub Tucek
