@@ -8,8 +8,8 @@ internal class CommandLineParserTest {
 
     @Test
     fun testThatInputIsParsedCorrectly() {
-        val res = CommandLineParser().parseArguments(arrayOf("-i", "file"))
-        Assertions.assertEquals("file", res.inputFile)
+        val res = CommandLineParser().parseArguments(arrayOf("-c", "file"))
+        Assertions.assertEquals("file", res.configFile)
     }
 
     @Test
@@ -17,7 +17,7 @@ internal class CommandLineParserTest {
         Assertions.assertThrows(
                 IllegalArgumentException::class.java
         ) {
-            CommandLineParser().parseArguments(arrayOf("-i"))
+            CommandLineParser().parseArguments(arrayOf("-c"))
         }
     }
 }

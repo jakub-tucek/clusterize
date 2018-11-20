@@ -18,15 +18,13 @@ class CommandLineParser {
         while (iterator.hasNext()) {
             val value = iterator.next()
             when (value) {
-                "-i", "--i" -> parameters["inputFile"] = retrieveNextValue(iterator)
                 "-c", "--c" -> parameters["configFile"] = retrieveNextValue(iterator)
             }
         }
 
 
         return ArgumentInput(
-                parameters["inputFile"] ?: throw IllegalArgumentException("Input file not set"),
-                parameters["configFile"]
+                parameters["configFile"] ?: throw IllegalArgumentException("Input file not set")
         )
     }
 

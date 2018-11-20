@@ -3,8 +3,9 @@ package cz.fit.metacentrum.service
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import cz.fit.metacentrum.domain.ConfigurationFile
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import cz.fit.metacentrum.domain.ConfigFile
 import mu.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -17,32 +18,27 @@ private val logger = KotlinLogging.logger {}
  */
 class ConfigFileParser {
 
-    fun parse(filePath: String): ConfigurationFile {
+    fun parse(filePath: String): ConfigFile {
         val path = Paths.get(filePath)
         if (Files.notExists(path)) {
-            throw IllegalArgumentException("Path ${path.toAbsolutePath()} to configuration file does not exists!")
+            throw IllegalArgumentException("Path ${path.toAbsolutePath()} of configuration file does not exists!")
         }
 
         try {
-            val (variables) = Files.newBufferedReader(path).use {
-                mapper.readValue(it, ConfigurationFileNullable::class.java)
+            val configurationFile = Files.newBufferedReader(path).use {
+                mapper.readValue<ConfigFile>(it)
             }
-            return ConfigurationFile(
-                    variables ?: emptyMap<String, String>()
-            )
+
+            return configurationFile
         } catch (e: JsonProcessingException) {
             logger.error("Parsing yml failed", e)
-            throw IllegalArgumentException("Configuration file has invalid format. Check if file has proper format.", e)
+            throw IllegalArgumentException(
+                    "ConfigFile file has invalid format. Check if file has proper format. ${e.message}",
+                    e)
         }
     }
 
     companion object {
-        val mapper = ObjectMapper(YAMLFactory()) // Enable YAML parsing
-
-        init {
-            mapper.registerModule(KotlinModule()) // Enable Kotlin support
-        }
+        var mapper = ObjectMapper(YAMLFactory()).registerKotlinModule() // Enable YAML parsing
     }
-
-    data class ConfigurationFileNullable(val variables: Map<String, String>?)
 }

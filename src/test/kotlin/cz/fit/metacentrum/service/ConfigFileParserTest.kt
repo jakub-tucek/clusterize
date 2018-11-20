@@ -3,30 +3,31 @@ package cz.fit.metacentrum.service
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+
+
 /**
  * @author Jakub Tucek
  */
 internal class ConfigFileParserTest {
 
+    private val folderPath = "src/test/resources/configFileParser"
+
     @Test
     fun parse() {
-        val res = ConfigFileParser().parse("src/main/test/resources/configFileParser/configFileTest.yml")
+        val res = ConfigFileParser().parse("$folderPath/configFileTest.yml")
 
-        Assertions.assertEquals(false, res.variables.isEmpty())
-        Assertions.assertEquals("SUPER ASDASD", res.variables.get("RUN_APP"))
+        Assertions.assertEquals(false, res.iterations.isEmpty())
+        Assertions.assertEquals("VICINITY_TYPE", res.iterations[0].name)
+
+        println(res)
     }
 
     @Test
     fun parseFail() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            ConfigFileParser().parse("src/main/test/resources/configFileParser/configFileTestEmpty.yml")
+        val throwsRes =Assertions.assertThrows(IllegalArgumentException::class.java) {
+            ConfigFileParser().parse("$folderPath/configFileTestInvalid.yml")
         }
-    }
 
-    @Test
-    fun parseEmptyVariables() {
-        val res = ConfigFileParser().parse("src/main/test/resources/configFileParser/configFileTestEmptyVars.yml")
-
-        Assertions.assertEquals(true, res.variables.isEmpty())
+        Assertions.assertTrue(throwsRes.message!!.isNotBlank())
     }
 }

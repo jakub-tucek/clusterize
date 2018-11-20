@@ -1,0 +1,4 @@
+iterations:
+- type: ARRAY
+  name: VICINITY_TYPE
+  valuesasd: [10, 20]
