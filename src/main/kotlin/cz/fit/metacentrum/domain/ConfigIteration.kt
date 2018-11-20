@@ -26,8 +26,8 @@ data class ConfigIterationArray(val values: List<String>,
                                 override val name: String) : ConfigIteration(name)
 
 @JsonTypeName(ConfigIterationIntRangeType)
-data class ConfigIterationIntRange(val from: String,
-                                   val to: String,
+data class ConfigIterationIntRange(val from: Int,
+                                   val to: Int,
                                    override val name: String) : ConfigIteration(name)
 
 
