@@ -58,7 +58,7 @@ class ConfigFileValidator {
                 }
                 if (iteration.from < 0 || iteration.to < 0) {
                     return ValidationResult.merge(baseResult,
-                            "ConfigIterationIntRange has values > 0: ${iteration.from}, ${iteration.to}")
+                            "ConfigIterationIntRange has invalid values < 0: ${iteration.from}, ${iteration.to}")
                 }
 
                 return baseResult

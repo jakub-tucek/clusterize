@@ -34,6 +34,7 @@ dependencies {
 
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testCompile 'org.assertj:assertj-core:3.11.1'
 
     runtime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     runtime "org.junit.platform:junit-platform-console:$junitPlatformVersion"
@@ -48,5 +49,5 @@ task wrapper(type: Wrapper) {
     gradleVersion = '4.10.2'
 }
 
-compileKotlin { kotlinOptions { jvmTarget = "1.8" }}
-compileTestKotlin { kotlinOptions { jvmTarget = "1.8" }}
+compileKotlin { kotlinOptions { jvmTarget = "1.8" } }
+compileTestKotlin { kotlinOptions { jvmTarget = "1.8" } }
