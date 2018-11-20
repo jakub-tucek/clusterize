@@ -25,7 +25,7 @@ class CommandLineParser {
 
 
         return ArgumentInput(
-                parameters["inputFile"] ?: throw IllegalArgumentException("Input file not given"),
+                parameters["inputFile"] ?: throw IllegalArgumentException("Input file not set"),
                 parameters["configFile"]
         )
     }

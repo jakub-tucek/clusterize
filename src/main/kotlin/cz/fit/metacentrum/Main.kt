@@ -6,9 +6,22 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 fun main(args: Array<String>) {
-    logger.info("Starting app!")
+    fun doExecute(args: Array<String>) {
+        logger.info("Starting app!")
 
-    val parsedArgs = CommandLineParser().parseArguments(args)
+        val parsedArgs = CommandLineParser().parseArguments(args)
 
-    println(parsedArgs)
+        println(parsedArgs)
+    }
+
+    try {
+        doExecute(args)
+    } catch (e: Throwable) {
+        logger.info("Running app failed", e)
+        System.err.println(e.message)
+        System.exit(1)
+    }
+
+
 }
+
