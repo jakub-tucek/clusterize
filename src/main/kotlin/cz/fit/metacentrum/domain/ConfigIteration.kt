@@ -23,15 +23,15 @@ sealed class ConfigIteration(open val name: String)
 
 @JsonTypeName(ConfigIterationArrayType)
 data class ConfigIterationArray(val values: List<String>,
-                                override val name: String) : ConfigIteration(name) {}
+                                override val name: String) : ConfigIteration(name)
 
 @JsonTypeName(ConfigIterationIntRangeType)
 data class ConfigIterationIntRange(val from: String,
                                    val to: String,
-                                   override val name: String) : ConfigIteration(name) {}
+                                   override val name: String) : ConfigIteration(name)
 
 
 @JsonTypeName(ConfigIterationDependentType)
 data class ConfigIterationDependent(val dependentVarName: String,
                                     val modifier: String,
-                                    override val name: String) : ConfigIteration(name) {}
+                                    override val name: String) : ConfigIteration(name)
