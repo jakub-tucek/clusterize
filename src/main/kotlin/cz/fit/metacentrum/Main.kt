@@ -1,7 +1,7 @@
 package cz.fit.metacentrum
 
 import com.google.inject.Guice
-import cz.fit.metacentrum.service.MetacentrumCliService
+import cz.fit.metacentrum.service.MainService
 import mu.KotlinLogging
 
 
@@ -11,8 +11,8 @@ fun main(args: Array<String>) {
     try {
         logger.debug("Starting app!")
 
-        val injector = Guice.createInjector(MetacentrumModule())
-        injector.getInstance(MetacentrumCliService::class.java).execute(args)
+        val injector = Guice.createInjector(MainModule())
+        injector.getInstance(MainService::class.java).execute(args)
 
         logger.debug("App finished without unexpected error")
     } catch (e: Throwable) {
