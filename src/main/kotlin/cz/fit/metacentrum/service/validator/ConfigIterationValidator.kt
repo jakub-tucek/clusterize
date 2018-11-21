@@ -1,32 +1,36 @@
-package cz.fit.metacentrum.service
+package cz.fit.metacentrum.service.validator
 
 import cz.fit.metacentrum.domain.*
 
 
-class ConfigFileValidator {
+class ConfigIterationValidator {
 
-    fun validate(configFile: ConfigFile): ValidationResult {
-        val iterationsRes = validateIterations(configFile)
 
-        return iterationsRes
-    }
+    fun validate(iterations: List<ConfigIteration>) = validateIterations(iterations)
 
-    private fun validateIterations(configFile: ConfigFile): ValidationResult {
-        val iterationUnitResult = configFile.iterations
-                .map { this.validateIteration(it, configFile.iterations) }
+    private fun validateIterations(iterations: List<ConfigIteration>): ValidationResult {
+        // validate each iteration separately
+        val iterationUnitResult = iterations
+                .map { this.validateIteration(it, iterations) }
                 .reduce(ValidationResult.Companion::merge)
-        val multipleVariables = configFile.iterations
+        // count and keep iteration names that are not unique
+        val iterationNameCount = iterations
                 .map { it.name }
                 .groupingBy { it }
                 .eachCount().filter { it.value > 1 }
-        if (multipleVariables.isNotEmpty()) {
-            ValidationResult.merge(iterationUnitResult, "Some iteration names are not unique: $multipleVariables")
+        // if not empty merge new error
+        if (iterationNameCount.isNotEmpty()) {
+            val notUniqueVarsFormatted = iterationNameCount
+                    .map { entry -> "[${entry.key} x ${entry.value}]" }
+                    .joinToString(", ")
+            return ValidationResult.merge(iterationUnitResult, "Some iteration names are not unique: $notUniqueVarsFormatted")
         }
 
         return iterationUnitResult
     }
 
     private fun validateIteration(iteration: ConfigIteration, iterations: List<ConfigIteration>): ValidationResult {
+        // first check common required property
         val baseResult = when (iteration.name.isBlank()) {
             false -> ValidationResult()
             true -> ValidationResult("Name of config iteration cannot be blank", false)
