@@ -13,6 +13,8 @@ class ConfigFileValidator {
     fun validate(configFile: ConfigFile): ValidationResult {
         val iterationsRes = configIterationValidator.validate(configFile.iterations)
 
+        // TODO: Add validation for environment and task type
+
         return iterationsRes
     }
 }
