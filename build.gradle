@@ -32,6 +32,8 @@ dependencies {
     compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: jacksonVersion
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: jacksonVersion
 
+    compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
+
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
     testCompile 'org.assertj:assertj-core:3.11.1'

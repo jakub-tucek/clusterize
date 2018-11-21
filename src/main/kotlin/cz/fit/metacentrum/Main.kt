@@ -1,27 +1,24 @@
 package cz.fit.metacentrum
 
-import cz.fit.metacentrum.service.CommandLineParser
+import com.google.inject.Guice
+import cz.fit.metacentrum.service.MetacentrumCliService
 import mu.KotlinLogging
+
 
 private val logger = KotlinLogging.logger {}
 
 fun main(args: Array<String>) {
-    fun doExecute(args: Array<String>) {
-        logger.info("Starting app!")
-
-        val parsedArgs = CommandLineParser().parseArguments(args)
-
-        println(parsedArgs)
-    }
-
     try {
-        doExecute(args)
+        logger.debug("Starting app!")
+
+        val injector = Guice.createInjector(MetacentrumModule())
+        injector.getInstance(MetacentrumCliService::class.java).execute(args)
+
+        logger.debug("App finished without unexpected error")
     } catch (e: Throwable) {
         logger.info("Running app failed", e)
         System.err.println(e.message)
         System.exit(1)
     }
-
-
 }
 

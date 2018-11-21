@@ -23,7 +23,7 @@ class CommandLineParser {
         }
 
         return ArgumentInput(
-                parameters["configFile"] ?: throw IllegalArgumentException("Input file not set")
+                parameters["configFile"] ?: throw IllegalArgumentException("Config file not set")
         )
     }
 
