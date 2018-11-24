@@ -9,11 +9,11 @@ import cz.fit.metacentrum.service.api.TaskExecutor
  *
  * @author Jakub Tucek
  */
-class CopyMatlabTaskExecutor : TaskExecutor {
+class CopyMatlabFilesExecutor : TaskExecutor {
     override fun execute(configFile: ConfigFile, metadata: ExecutionMetadata): ExecutionMetadata {
         val matlabAction = configFile.taskType as MatlabTaskType
 
-
+        
 
         return metadata
     }
