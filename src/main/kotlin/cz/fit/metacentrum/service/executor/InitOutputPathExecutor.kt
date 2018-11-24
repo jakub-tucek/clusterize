@@ -1,6 +1,5 @@
 package cz.fit.metacentrum.service.executor
 
-import cz.fit.metacentrum.domain.ConfigFile
 import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.service.api.TaskExecutor
 import java.nio.file.Files
@@ -13,12 +12,12 @@ import java.time.format.DateTimeFormatter
  * @author Jakub Tucek
  */
 class InitOutputPathExecutor : TaskExecutor {
-    override fun execute(configFile: ConfigFile, metadata: ExecutionMetadata): ExecutionMetadata {
+    override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
 
 
         val outputPath = when (metadata.executionOutputPath) {
             null -> {
-                val basePath = configFile.environment.basePath
+                val basePath = metadata.configFile.environment.basePath
 
                 val newName = LocalDateTime.now().format(
                         DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")

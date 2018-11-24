@@ -31,11 +31,12 @@ internal class InitOutputPathExecutorIntegTest {
         val basePath = Paths.get(tempDir)
 
         val metadata = executor.execute(
-                TestData.config.copy(environment = ConfigEnvironment(
-                        basePath.toString(),
-                        emptyMap()
-                )),
-                ExecutionMetadata()
+                ExecutionMetadata(
+                        configFile = TestData.config.copy(environment = ConfigEnvironment(
+                                basePath.toString(),
+                                emptyMap()
+                        ))
+                )
         )
         outputDir = metadata.executionOutputPath
 

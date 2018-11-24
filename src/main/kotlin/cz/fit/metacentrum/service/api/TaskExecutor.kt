@@ -1,6 +1,5 @@
 package cz.fit.metacentrum.service.api
 
-import cz.fit.metacentrum.domain.ConfigFile
 import cz.fit.metacentrum.domain.ExecutionMetadata
 
 /**
@@ -12,6 +11,6 @@ interface TaskExecutor {
     /**
      * Performs execution based on given valid configuration file.
      */
-    fun execute(configFile: ConfigFile, metadata: ExecutionMetadata): ExecutionMetadata
+    fun execute(metadata: ExecutionMetadata): ExecutionMetadata
 
 }

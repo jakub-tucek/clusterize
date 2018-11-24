@@ -26,13 +26,10 @@ internal class InitOutputPathExecutorTest {
 
         Assertions.assertThat(foo).doesNotExist()
 
-        executor.execute(
-                TestData.config.copy(environment = ConfigEnvironment(
-                        foo.toString(),
-                        emptyMap()
-                )),
-                ExecutionMetadata(foo)
-        )
+        executor.execute(ExecutionMetadata(
+                foo,
+                TestData.config.copy(environment = ConfigEnvironment(foo.toString(), emptyMap()))
+        ))
 
         Assertions.assertThat(foo).exists()
     }
@@ -45,13 +42,10 @@ internal class InitOutputPathExecutorTest {
         Files.createDirectories(foo)
 
         assertThrows(IllegalStateException::class.java) {
-            executor.execute(
-                    TestData.config.copy(environment = ConfigEnvironment(
-                            foo.toString(),
-                            emptyMap()
-                    )),
-                    ExecutionMetadata(foo)
-            )
+            executor.execute(ExecutionMetadata(
+                    foo,
+                    TestData.config.copy(environment = ConfigEnvironment(foo.toString(), emptyMap()))
+            ))
         }
     }
 }

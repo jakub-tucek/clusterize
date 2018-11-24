@@ -7,5 +7,6 @@ import java.nio.file.Path
  * @author Jakub Tucek
  */
 data class ExecutionMetadata(
-        val executionOutputPath: Path? = null
+        val executionOutputPath: Path? = null,
+        val configFile: ConfigFile
 )
