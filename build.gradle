@@ -33,6 +33,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: jacksonVersion
 
     compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
+    compile group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.5'
 
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"

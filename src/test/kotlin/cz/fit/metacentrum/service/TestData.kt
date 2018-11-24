@@ -14,15 +14,15 @@ internal object TestData {
                             name = "ConfigIterationArray1",
                             values = listOf("1", "2")
                     ),
-                    ConfigIterationDependent(
-                            name = "ConfigIterationDependent",
-                            dependentVarName = "ConfigIterationIntRange",
-                            modifier = "+1"
-                    ),
                     ConfigIterationIntRange(
                             name = "ConfigIterationIntRange",
                             from = 0,
                             to = 20
+                    ),
+                    ConfigIterationDependent(
+                            name = "ConfigIterationDependent",
+                            dependentVarName = "ConfigIterationIntRange",
+                            modifier = "+1"
                     )
             ),
             ConfigEnvironment("", emptyMap()),

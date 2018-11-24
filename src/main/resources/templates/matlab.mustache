@@ -1,0 +1,24 @@
+#!/bin/bash
+
+{{#iterations}}
+    {{#from}}
+        for (( {{name}}={{from}}; {{name}}<={{to}}; {{name}}++ )); do
+    {{/from}}
+    {{#values.size}}
+        array_{{name}}=( {{#values}}"{{.}}" {{/values}})
+        for {{name}} in "${array_{{name}}[@]}"; do
+    {{/values.size}}
+    {{#dependentVarName}}
+        {{name}}=$(({{dependentVarName}} {{modifier}}))
+    {{/dependentVarName}}
+{{/iterations}}
+
+
+echo $ConfigIterationDependent
+echo $ConfigIterationIntRange
+
+{{#iterations}}
+    {{^dependentVarName}}
+        done
+    {{/dependentVarName}}
+{{/iterations}}
