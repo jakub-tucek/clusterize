@@ -5,8 +5,8 @@ import cz.fit.metacentrum.service.ActionSubmitService
 import cz.fit.metacentrum.service.CommandLineParser
 import cz.fit.metacentrum.service.ConfigFileParser
 import cz.fit.metacentrum.service.MainService
-import cz.fit.metacentrum.service.validator.ConfigFileValidator
-import cz.fit.metacentrum.service.validator.ConfigIterationValidator
+import cz.fit.metacentrum.service.validator.ConfigValidationService
+import cz.fit.metacentrum.service.validator.IterationConfigValidator
 
 
 class MainModule : AbstractModule() {
@@ -18,8 +18,8 @@ class MainModule : AbstractModule() {
         bind(CommandLineParser::class.java)
 
         // validator
-        bind(ConfigFileValidator::class.java)
-        bind(ConfigIterationValidator::class.java)
+        bind(ConfigValidationService::class.java)
+        bind(IterationConfigValidator::class.java)
 
         bind(ActionSubmitService::class.java)
     }

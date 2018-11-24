@@ -3,7 +3,7 @@ package cz.fit.metacentrum.service
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.domain.ValidationResult
 import cz.fit.metacentrum.service.api.ActionService
-import cz.fit.metacentrum.service.validator.ConfigFileValidator
+import cz.fit.metacentrum.service.validator.ConfigValidationService
 import javax.inject.Inject
 
 /**
@@ -14,7 +14,7 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     @Inject
     private lateinit var configFileParser: ConfigFileParser
     @Inject
-    private lateinit var configFileValidator: ConfigFileValidator
+    private lateinit var configValidationService: ConfigValidationService
 
     override fun processAction(argumentAction: ActionSubmit) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -25,7 +25,7 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
         // parse configuration file
         val parsedConfig = configFileParser.parse(parsedArgs.configFile)
         // validate configuration file values
-        val validationResult = configFileValidator.validate(parsedConfig)
+        val validationResult = configValidationService.validate(parsedConfig)
         // failed if not set
         if (!validationResult.success) {
             System.err.println(validationResult.messages.joinToString("\n"))

@@ -1,12 +1,12 @@
 package cz.fit.metacentrum.service.validator
 
 import cz.fit.metacentrum.domain.*
+import cz.fit.metacentrum.service.api.ConfigValidator
 
 
-class ConfigIterationValidator {
+class IterationConfigValidator : ConfigValidator {
 
-
-    fun validate(iterations: List<ConfigIteration>) = validateIterations(iterations)
+    override fun validate(configFile: ConfigFile) = validateIterations(configFile.iterations)
 
     private fun validateIterations(iterations: List<ConfigIteration>): ValidationResult {
         // validate each iteration separately

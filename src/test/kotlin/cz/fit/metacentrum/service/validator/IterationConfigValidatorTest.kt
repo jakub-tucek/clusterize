@@ -1,10 +1,7 @@
 package cz.fit.metacentrum.service.validator
 
 
-import cz.fit.metacentrum.domain.ConfigIteration
-import cz.fit.metacentrum.domain.ConfigIterationArray
-import cz.fit.metacentrum.domain.ConfigIterationDependent
-import cz.fit.metacentrum.domain.ConfigIterationIntRange
+import cz.fit.metacentrum.domain.*
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,40 +10,46 @@ import org.junit.jupiter.api.Test
 /**
  * @author Jakub Tucek
  */
-internal class ConfigFileValidatorTest {
+internal class IterationConfigValidatorTest {
 
-    var config: List<ConfigIteration>? = null
+    var config: ConfigFile? = null
 
     @BeforeEach
     fun setUp() {
-        config = listOf(
-                ConfigIterationArray(
-                        name = "ConfigIterationArray1",
-                        values = listOf("1", "2")
+        config = ConfigFile(
+                listOf(
+                        ConfigIterationArray(
+                                name = "ConfigIterationArray1",
+                                values = listOf("1", "2")
+                        ),
+                        ConfigIterationDependent(
+                                name = "ConfigIterationDependent",
+                                dependentVarName = "ConfigIterationIntRange",
+                                modifier = "+1"
+                        ),
+                        ConfigIterationIntRange(
+                                name = "ConfigIterationIntRange",
+                                from = 0,
+                                to = 20
+                        )
                 ),
-                ConfigIterationDependent(
-                        name = "ConfigIterationDependent",
-                        dependentVarName = "ConfigIterationIntRange",
-                        modifier = "+1"
-                ),
-                ConfigIterationIntRange(
-                        name = "ConfigIterationIntRange",
-                        from = 0,
-                        to = 20
+                ConfigEnvironment("", emptyMap()),
+                TaskTypeMatlab(
+                        "", "", emptyList()
                 )
         )
     }
 
     @Test
     fun testProperConfig() {
-        val res = ConfigIterationValidator().validate(config!!)
+        val res = IterationConfigValidator().validate(config!!)
         Assertions.assertThat(res.success).isTrue()
         Assertions.assertThat(res.messages).isEmpty()
     }
 
     @Test
     fun testInvalidIterations() {
-        val invalidConfig = listOf(
+        val invalidConfig = config!!.copy(iterations = listOf(
                 ConfigIterationArray(
                         name = "ConfigIterationArray1",
                         values = emptyList()
@@ -66,8 +69,8 @@ internal class ConfigFileValidatorTest {
                         from = 20,
                         to = 10
                 )
-        )
-        val res = ConfigIterationValidator().validate(invalidConfig)
+        ))
+        val res = IterationConfigValidator().validate(invalidConfig)
 
         Assertions.assertThat(res.success)
         Assertions.assertThat(res.messages)
