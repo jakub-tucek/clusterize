@@ -25,6 +25,7 @@ class ResolvePathExecutor : TaskExecutor {
                 val newMatlabFolder = FileUtil.relativizePath(matlab.folder)
                 matlab.copy(folder = newMatlabFolder)
             }
+            else -> config.taskType
         }
 
         val newConfig = config.copy(
