@@ -1,7 +1,11 @@
 package cz.fit.metacentrum.service.validator
 
 
-import cz.fit.metacentrum.domain.*
+import cz.fit.metacentrum.domain.ConfigFile
+import cz.fit.metacentrum.domain.ConfigIterationArray
+import cz.fit.metacentrum.domain.ConfigIterationDependent
+import cz.fit.metacentrum.domain.ConfigIterationIntRange
+import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,8 +20,8 @@ internal class IterationConfigValidatorTest {
 
     @BeforeEach
     fun setUp() {
-        config = ConfigFile(
-                listOf(
+        config = TestData.config
+                .copy(iterations = listOf(
                         ConfigIterationArray(
                                 name = "ConfigIterationArray1",
                                 values = listOf("1", "2")
@@ -32,12 +36,7 @@ internal class IterationConfigValidatorTest {
                                 from = 0,
                                 to = 20
                         )
-                ),
-                ConfigEnvironment("", emptyMap()),
-                MatlabTaskType(
-                        "", "", emptyList()
-                )
-        )
+                ))
     }
 
     @Test

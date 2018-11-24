@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.api
 
 import cz.fit.metacentrum.domain.ConfigFile
-import cz.fit.metacentrum.domain.ExecutionResult
+import cz.fit.metacentrum.domain.ExecutionMetadata
 
 /**
  * TaskExecutor is interface that defines and performs one execution step while running some action.
@@ -12,6 +12,6 @@ interface TaskExecutor {
     /**
      * Performs execution based on given valid configuration file.
      */
-    fun execute(configFile: ConfigFile): ExecutionResult
+    fun execute(configFile: ConfigFile, metadata: ExecutionMetadata): ExecutionMetadata
 
 }

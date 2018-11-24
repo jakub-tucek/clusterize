@@ -29,7 +29,7 @@ iterations:
   to: 200
 
 environment:
-  homeDir: './out/scriptRun'
+  basePath: './out/scriptRun'
   variables:
     USE_GPU_ID: 'useGPU'
     USE_GPU_VALUE: 'yes'
