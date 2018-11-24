@@ -38,6 +38,7 @@ environment:
 taskType:
   type: MATLAB # type of runner
   folder: './input'
+  matlabDir: '$HOME/Matlab'
   functionName: 'main_batch01'
   parameters:
   - MIN_TRANSL
