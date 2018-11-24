@@ -4,10 +4,10 @@ import cz.fit.metacentrum.domain.ConfigFile
 import cz.fit.metacentrum.domain.ExecutionResult
 
 /**
- * ActionExecutor is interface that defines and performs one execution step while running some action.
+ * TaskExecutor is interface that defines and performs one execution step while running some action.
  * @author Jakub Tucek
  */
-interface ActionExecutor {
+interface TaskExecutor {
 
     /**
      * Performs execution based on given valid configuration file.

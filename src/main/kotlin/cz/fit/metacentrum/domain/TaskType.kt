@@ -13,12 +13,12 @@ const val taskTypeMatlabType = "MATLAB"
         property = "type"
 )
 @JsonSubTypes(
-        JsonSubTypes.Type(value = TaskTypeMatlab::class, name = taskTypeMatlabType)
+        JsonSubTypes.Type(value = MatlabTaskType::class, name = taskTypeMatlabType)
 )
 sealed class TaskType()
 
 @JsonTypeName(taskTypeMatlabType)
-data class TaskTypeMatlab(
+data class MatlabTaskType(
         val folder: String,
         val functionName: String,
         val parameters: List<String>

@@ -34,7 +34,7 @@ internal class IterationConfigValidatorTest {
                         )
                 ),
                 ConfigEnvironment("", emptyMap()),
-                TaskTypeMatlab(
+                MatlabTaskType(
                         "", "", emptyList()
                 )
         )
