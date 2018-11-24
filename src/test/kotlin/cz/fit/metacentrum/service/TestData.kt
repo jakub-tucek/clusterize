@@ -30,5 +30,8 @@ internal object TestData {
                     "", "", emptyList()
             )
     )
+    val metadata = ExecutionMetadata(
+            configFile = config
+    )
 }
 

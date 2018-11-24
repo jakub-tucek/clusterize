@@ -12,7 +12,6 @@ internal class FileUtilTest {
     @Test
     fun testPathReplace() {
         Assertions.assertThat(FileUtil.relativizePath("~/12"))
-                .toString()
-                .equals(System.getProperty("user.home") + "/12")
+                .isEqualTo(System.getProperty("user.home") + "/12")
     }
 }
