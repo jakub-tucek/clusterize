@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test
 /**
  * @author Jakub Tucek
  */
-internal class FileUtilTest {
+internal class FileUtilsTest {
 
 
     @Test
     fun testPathReplace() {
-        Assertions.assertThat(FileUtil.relativizePath("~/12"))
+        Assertions.assertThat(FileUtils.relativizePath("~/12"))
                 .isEqualTo(System.getProperty("user.home") + "/12")
     }
 }

@@ -7,7 +7,7 @@ import java.nio.file.Path
  *
  * @author Jakub Tucek
  */
-object FileUtil {
+object FileUtils {
 
     fun relativizePath(path: String): String {
         return path.replace(Regex("^~"), System.getProperty("user.home"))

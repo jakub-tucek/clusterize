@@ -3,7 +3,7 @@ package cz.fit.metacentrum.service.executor
 import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.TaskExecutor
-import cz.fit.metacentrum.util.FileUtil
+import cz.fit.metacentrum.util.FileUtils
 
 /**
  * Resolves paths so they can be used in Java/Kotlin API. Such example can be string path starting
@@ -17,13 +17,13 @@ class ResolvePathExecutor : TaskExecutor {
         val config = metadata.configFile
 
         // fix base path in env
-        val newBasePath = FileUtil.relativizePath(config.environment.basePath)
+        val newBasePath = FileUtils.relativizePath(config.environment.basePath)
 
         // fix specific stuff
         val newTaskType = when (config.taskType) {
             is MatlabTaskType -> {
                 val matlab = config.taskType
-                val newMatlabFolder = FileUtil.relativizePath(matlab.matlabDir)
+                val newMatlabFolder = FileUtils.relativizePath(matlab.matlabDir)
                 matlab.copy(matlabDir = newMatlabFolder)
             }
             else -> throw IllegalStateException("Unexpected MatlabTaskType type")
