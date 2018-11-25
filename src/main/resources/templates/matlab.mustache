@@ -1,24 +1,25 @@
-#!/bin/bash
+# load Matlab module
+module add matlab
 
-{{#iterations}}
-    {{#from}}
-        for (( {{name}}={{from}}; {{name}}<={{to}}; {{name}}++ )); do
-    {{/from}}
-    {{#values.size}}
-        array_{{name}}=( {{#values}}"{{.}}" {{/values}})
-        for {{name}} in "${array_{{name}}[@]}"; do
-    {{/values.size}}
-    {{#dependentVarName}}
-        {{name}}=$(({{dependentVarName}} {{modifier}}))
-    {{/dependentVarName}}
-{{/iterations}}
+{{#variables}}export {{first}}={{second}}{{/variables}}
 
+# execute Matlab command
+# Parallel Computing Toolbox requires JVM !!!!!!!!
+matlab -nodesktop -nosplash -nodisplay -r     \
+"try,                                               "\
+"    maxNumCompThreads($MATLAB_THREADS);,           "\
+"    addpath('$MATLAB_DIR'),                        "\
+"    {{taskType.functionName}}({{functionParams}}), "\
+"catch e,                                           "\
+"    disp(getReport(e)),                            "\
+"    exit(1),                                       "\
+"end,                                               "\
+"exit(0)"                                     \
+&> "$OUT_DIR/matlab_stdout.log"
 
-echo $ConfigIterationDependent
-echo $ConfigIterationIntRange
-
-{{#iterations}}
-    {{^dependentVarName}}
-        done
-    {{/dependentVarName}}
-{{/iterations}}
+if [ "$?" -eq 0 ]; then
+# create file 'success', must be last, signals that everything went OK
+echo "run number '$RUN_ID' successfully finished" > "$OUT_DIR/success"
+else
+echo -e "\nMatlab script completed with exit status != 0\n"
+fi

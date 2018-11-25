@@ -18,7 +18,7 @@ class CopyMatlabFilesExecutor : TaskExecutor {
         val outPath = metadata.executionOutputPath ?: throw IllegalStateException("Execution path not set")
 
         Files.copy(
-                Paths.get(matlabAction.folder),
+                Paths.get(matlabAction.matlabDir),
                 outPath.resolve("matlab")
         )
 

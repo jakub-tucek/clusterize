@@ -22,8 +22,8 @@ class ResolvePathExecutor : TaskExecutor {
         val newTaskType = when (config.taskType) {
             is MatlabTaskType -> {
                 val matlab = config.taskType
-                val newMatlabFolder = FileUtil.relativizePath(matlab.folder)
-                matlab.copy(folder = newMatlabFolder)
+                val newMatlabFolder = FileUtil.relativizePath(matlab.matlabDir)
+                matlab.copy(matlabDir = newMatlabFolder)
             }
             else -> config.taskType
         }

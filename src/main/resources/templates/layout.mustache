@@ -1,0 +1,27 @@
+#!/bin/bash
+
+{{#variables.entires}}
+    {{key}}={{value}}
+{{/variables.entires}}
+
+
+{{#iterations}}
+    {{#from}}
+        for (( {{name}}={{from}}; {{name}}<={{to}}; {{name}}++ )); do
+    {{/from}}
+    {{#values.size}}
+        array_{{name}}=( {{#values}}"{{.}}" {{/values}})
+        for {{name}} in "${array_{{name}}[@]}"; do
+    {{/values.size}}
+    {{#dependentVarName}}
+        {{name}}=$(({{dependentVarName}} {{modifier}}))
+    {{/dependentVarName}}
+{{/iterations}}
+
+{{$content}}{{/content}}
+
+{{#iterations}}
+    {{^dependentVarName}}
+        done
+    {{/dependentVarName}}
+{{/iterations}}
