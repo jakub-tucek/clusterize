@@ -32,28 +32,27 @@ class IterationExecutor : TaskExecutor {
 
     private fun generateCombinations(options: List<Pair<String, ResetableIterator<String>>>): List<Map<String, String>> {
         var combinations: List<Map<String, String>> = mutableListOf()
-        // currentValue increment iterator index
-        val optionIterator = options.resetableIterator()
-        optionIterator.last()
-
 
         while (options.first().second.hasNext()) {
-            // append state to combinations
-            combinations += getCurrentIteratorValues(options)
-
+            val lastItem = options.last().second
             // if current option has more values, use next one
-            if (optionIterator.currentValue().second.hasNext()) {
-                optionIterator.next()
+            if (lastItem.hasNext()) {
+                // append state to combinations
+                combinations += getCurrentIteratorValues(options)
+                lastItem.next()
                 continue
             }
-            // cant go back (left) as its first item so just break (and loop should end)
-            if (!optionIterator.hasPrevious()) break
+
+            val optionIterator = options.resetableIterator()
+            optionIterator.last()
 
             // go back (left) for all options needed
-            while (!optionIterator.currentValue().second.hasNext()) {
+            while (optionIterator.currentValue().second.isLast()) {
                 optionIterator.currentValue().second.reset()
-                optionIterator.previousValue()
+                optionIterator.previous()
+                if (optionIterator.previousIndex() == -1) break
             }
+            optionIterator.currentValue().second.next()
         }
 
         return combinations

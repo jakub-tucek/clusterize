@@ -13,5 +13,7 @@ interface ResetableIterator<T> : ListIterator<T> {
     // go to last item
     fun last(): T
 
+    fun isLast(): Boolean
+
     fun getCurrentIndex(): Int
 }

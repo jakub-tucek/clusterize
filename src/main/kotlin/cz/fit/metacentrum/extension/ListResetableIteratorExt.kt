@@ -7,6 +7,8 @@ package cz.fit.metacentrum.extension
  */
 fun <T> List<T>.resetableIterator(): ResetableIterator<T> {
     open class ResetableIteratorImpl : ResetableIterator<T> {
+        override fun isLast(): Boolean = index >= (size - 1)
+
         protected var index = 0
 
         override fun getCurrentIndex(): Int = index
@@ -39,7 +41,7 @@ fun <T> List<T>.resetableIterator(): ResetableIterator<T> {
         override fun hasPrevious(): Boolean = index > 0
 
         override fun next(): T {
-            val nextVal = nextValue()
+            val nextVal = currentValue()
             index++
             return nextVal
         }
