@@ -68,7 +68,7 @@ class IterationConfigValidator : ConfigValidator {
 
                 return baseResult
             }
-//            else -> ValidationResult.merge(baseResult, "Unknown config iteration type: ${iteration.javaClass.name} ")
+            else -> throw IllegalStateException("Unexpected Config iteration type")
         }
     }
 }
