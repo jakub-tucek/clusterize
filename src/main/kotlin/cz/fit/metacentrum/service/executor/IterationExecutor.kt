@@ -3,6 +3,7 @@ package cz.fit.metacentrum.service.executor
 import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.domain.config.ConfigIterationArray
 import cz.fit.metacentrum.domain.config.ConfigIterationIntRange
+import cz.fit.metacentrum.extension.ResetableIterator
 import cz.fit.metacentrum.extension.resetableIterator
 import cz.fit.metacentrum.service.api.TaskExecutor
 
@@ -12,8 +13,9 @@ import cz.fit.metacentrum.service.api.TaskExecutor
  */
 class IterationExecutor : TaskExecutor {
 
+    @Suppress("REDUNDANT_ELSE_IN_WHEN")
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        val options = metadata.configFile.iterations.asSequence()
+        val iterationVariablesRanges = metadata.configFile.iterations.asSequence()
                 .map {
                     val values = when (it) {
                         is ConfigIterationArray -> it.values
@@ -21,12 +23,46 @@ class IterationExecutor : TaskExecutor {
                         else -> throw IllegalStateException("Unexpected config iteration type")
                     }
                     Pair(it.name, values.resetableIterator())
-                }
+                }.toList()
 
+        val combinations = generateCombinations(iterationVariablesRanges)
 
-
-        return metadata
+        return metadata.copy(iterationCombinations = combinations)
     }
+
+    private fun generateCombinations(options: List<Pair<String, ResetableIterator<String>>>): List<Map<String, String>> {
+        var combinations: List<Map<String, String>> = mutableListOf()
+        // currentValue increment iterator index
+        val optionIterator = options.resetableIterator()
+        optionIterator.last()
+
+
+        while (options.first().second.hasNext()) {
+            // append state to combinations
+            combinations += getCurrentIteratorValues(options)
+
+            // if current option has more values, use next one
+            if (optionIterator.currentValue().second.hasNext()) {
+                optionIterator.next()
+                continue
+            }
+            // cant go back (left) as its first item so just break (and loop should end)
+            if (!optionIterator.hasPrevious()) break
+
+            // go back (left) for all options needed
+            while (!optionIterator.currentValue().second.hasNext()) {
+                optionIterator.currentValue().second.reset()
+                optionIterator.previousValue()
+            }
+        }
+
+        return combinations
+    }
+
+    private fun getCurrentIteratorValues(options: List<Pair<String, ResetableIterator<String>>>): Map<String, String> =
+            options.map { Pair(it.first, it.second.currentValue()) }
+                    .toMap()
+
 
     private fun createIntRangeSequence(from: Int, to: Int): List<String> {
         return (from..to).toList()

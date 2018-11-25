@@ -9,5 +9,6 @@ import java.nio.file.Path
  */
 data class ExecutionMetadata(
         val executionOutputPath: Path? = null,
-        val configFile: ConfigFile
+        val configFile: ConfigFile,
+        val iterationCombinations: List<Map<String, String>>? = null
 )
