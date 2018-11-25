@@ -3,7 +3,6 @@ package cz.fit.metacentrum.service.validator
 
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.config.ConfigIterationArray
-import cz.fit.metacentrum.domain.config.ConfigIterationDependent
 import cz.fit.metacentrum.domain.config.ConfigIterationIntRange
 import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
@@ -26,11 +25,6 @@ internal class IterationConfigValidatorTest {
                                 name = "ConfigIterationArray1",
                                 values = listOf("1", "2")
                         ),
-                        ConfigIterationDependent(
-                                name = "ConfigIterationDependent",
-                                dependentVarName = "ConfigIterationIntRange",
-                                modifier = "+1"
-                        ),
                         ConfigIterationIntRange(
                                 name = "ConfigIterationIntRange",
                                 from = 0,
@@ -50,13 +44,8 @@ internal class IterationConfigValidatorTest {
     fun testInvalidIterations() {
         val invalidConfig = config!!.copy(iterations = listOf(
                 ConfigIterationArray(
-                        name = "ConfigIterationArray1",
+                        name = "ConfigIterationIntRange",
                         values = emptyList()
-                ),
-                ConfigIterationDependent(
-                        name = "ConfigIterationDependent",
-                        dependentVarName = "NOT_KNOWN",
-                        modifier = "+1"
                 ),
                 ConfigIterationIntRange(
                         name = "",
@@ -64,7 +53,7 @@ internal class IterationConfigValidatorTest {
                         to = 10
                 ),
                 ConfigIterationIntRange(
-                        name = "ConfigIterationDependent",
+                        name = "ConfigIterationIntRange",
                         from = 20,
                         to = 10
                 )
@@ -73,11 +62,9 @@ internal class IterationConfigValidatorTest {
 
         Assertions.assertThat(res.success)
         Assertions.assertThat(res.messages)
-                .hasSize(6)
                 .containsExactlyInAnyOrder(
-                        "Some iteration names are not unique: [ConfigIterationDependent x 2]",
+                        "Some iteration names are not unique: [ConfigIterationIntRange x 2]",
                         "ConfigIterationArray array value cannot be empty",
-                        "ConfigIterationDependent variable does not exist in other iterations",
                         "Name of config iteration cannot be blank",
                         "ConfigIterationIntRange has invalid range: 20 > 10",
                         "ConfigIterationIntRange has invalid values < 0: -1, 10"

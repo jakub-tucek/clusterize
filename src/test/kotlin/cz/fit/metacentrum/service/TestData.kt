@@ -19,16 +19,16 @@ internal object TestData {
                             name = "CONFIG_ITERATION_INT_RANGE",
                             from = 0,
                             to = 20
-                    ),
-                    ConfigIterationDependent(
-                            name = "CONFIG_ITERATION_DEPENDENT",
-                            dependentVarName = "CONFIG_ITERATION_INT_RANGE",
-                            modifier = "+1"
                     )
             ),
             ConfigEnvironment(
                     "./out/scriptRun",
-                    mapOf("USE_GPU_ID" to "gpu", "USE_GPU_VALUE" to "yes")
+                    mapOf("USE_GPU_ID" to "gpu", "USE_GPU_VALUE" to "yes"),
+                    listOf(ConfigEnvironmentDependent(
+                            name = "CONFIG_ITERATION_DEPENDENT",
+                            dependentVarName = "CONFIG_ITERATION_INT_RANGE",
+                            modifier = "+1"
+                    ))
             ),
             MatlabTaskType(
                     "./input",

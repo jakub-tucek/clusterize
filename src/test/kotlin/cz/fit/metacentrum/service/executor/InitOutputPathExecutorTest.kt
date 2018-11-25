@@ -3,7 +3,6 @@ package cz.fit.metacentrum.service.executor
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.ExecutionMetadata
-import cz.fit.metacentrum.domain.config.ConfigEnvironment
 import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -28,7 +27,7 @@ internal class InitOutputPathExecutorTest {
 
         executor.execute(ExecutionMetadata(
                 foo,
-                TestData.config.copy(environment = ConfigEnvironment(foo.toString(), emptyMap()))
+                TestData.config.copy(environment = TestData.config.environment.copy(basePath = foo.toString()))
         ))
 
         Assertions.assertThat(foo).exists()
@@ -44,7 +43,7 @@ internal class InitOutputPathExecutorTest {
         assertThrows(IllegalStateException::class.java) {
             executor.execute(ExecutionMetadata(
                     foo,
-                    TestData.config.copy(environment = ConfigEnvironment(foo.toString(), emptyMap()))
+                    TestData.config.copy(environment = TestData.config.environment.copy(basePath = foo.toString()))
             ))
         }
     }

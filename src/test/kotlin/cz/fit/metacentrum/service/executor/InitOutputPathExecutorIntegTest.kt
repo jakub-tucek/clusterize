@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.service.executor
 
 import cz.fit.metacentrum.domain.ExecutionMetadata
-import cz.fit.metacentrum.domain.config.ConfigEnvironment
 import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
@@ -32,10 +31,8 @@ internal class InitOutputPathExecutorIntegTest {
 
         val metadata = executor.execute(
                 ExecutionMetadata(
-                        configFile = TestData.config.copy(environment = ConfigEnvironment(
-                                basePath.toString(),
-                                emptyMap()
-                        ))
+                        configFile = TestData.config.copy(environment = TestData.config.environment.copy(basePath = basePath.toString()))
+
                 )
         )
         outputDir = metadata.executionOutputPath

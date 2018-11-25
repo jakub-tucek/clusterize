@@ -1,7 +1,10 @@
 package cz.fit.metacentrum.service.validator
 
 import cz.fit.metacentrum.domain.ValidationResult
-import cz.fit.metacentrum.domain.config.*
+import cz.fit.metacentrum.domain.config.ConfigFile
+import cz.fit.metacentrum.domain.config.ConfigIteration
+import cz.fit.metacentrum.domain.config.ConfigIterationArray
+import cz.fit.metacentrum.domain.config.ConfigIterationIntRange
 import cz.fit.metacentrum.service.api.ConfigValidator
 
 
@@ -12,7 +15,7 @@ class IterationConfigValidator : ConfigValidator {
     private fun validateIterations(iterations: List<ConfigIteration>): ValidationResult {
         // validate each iteration separately
         val iterationUnitResult = iterations
-                .map { this.validateIteration(it, iterations) }
+                .map { this.validateIteration(it) }
                 .reduce(ValidationResult.Companion::merge)
         // count and keep iteration names that are not unique
         val iterationNameCount = iterations
@@ -30,7 +33,8 @@ class IterationConfigValidator : ConfigValidator {
         return iterationUnitResult
     }
 
-    private fun validateIteration(iteration: ConfigIteration, iterations: List<ConfigIteration>): ValidationResult {
+    @Suppress("REDUNDANT_ELSE_IN_WHEN")
+    private fun validateIteration(iteration: ConfigIteration): ValidationResult {
         // first check common required property
         val baseResult = when (iteration.name.isBlank()) {
             false -> ValidationResult()
@@ -46,15 +50,6 @@ class IterationConfigValidator : ConfigValidator {
                 }
 
                 baseResult
-            }
-            is ConfigIterationDependent -> {
-                if (iterations.asSequence().find { it.name == iteration.dependentVarName } == null) {
-                    return ValidationResult.merge(
-                            baseResult,
-                            "ConfigIterationDependent variable does not exist in other iterations"
-                    )
-                }
-                return baseResult
             }
             is ConfigIterationIntRange -> {
                 if (iteration.from > iteration.to) {

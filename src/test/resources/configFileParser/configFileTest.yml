@@ -1,32 +1,27 @@
 # defines iterations in given order
 iterations:
-- type: ARRAY # will iterate over values given in array
-  name: VICINITY_TYPE
-  values: [10, 20]
+  - type: ARRAY # will iterate over values given in array
+    name: VICINITY_TYPE
+    values: [10, 20]
 
-- type: INT_RANGE # will iterate over given integer range
-  name: MIN_TRANSL
-  from: 0
-  to: 19
+  - type: INT_RANGE # will iterate over given integer range
+    name: MIN_TRANSL
+    from: 0
+    to: 19
 
-- type: DEPENDENT # variable dependent on others
-  name: MAX_TRANSL
-  dependentVarName: VICINITY_TYPE
-  modifier: '+ 1'
+  - type: ARRAY
+    name: ADDED_LAYERS
+    values: ['[10, 20, 30]', '[20, 20]']
 
-- type: ARRAY
-  name: ADDED_LAYERS
-  values: ['[10, 20, 30]', '[20, 20]']
+  - type: INT_RANGE
+    name: SUB_IMG_IDX
+    from: 1
+    to: 20
 
-- type: INT_RANGE
-  name: SUB_IMG_IDX
-  from: 1
-  to: 20
-
-- type: INT_RANGE
-  name: RUN_ID
-  from: 1
-  to: 200
+  - type: INT_RANGE
+    name: RUN_ID
+    from: 1
+    to: 200
 
 environment:
   basePath: './out/scriptRun'
@@ -34,17 +29,21 @@ environment:
     USE_GPU_ID: 'useGPU'
     USE_GPU_VALUE: 'yes'
     ADDED_LAYERS_ID: 'layers'
+  dependents:
+    - name: MAX_TRANSL
+      dependentVarName: VICINITY_TYPE
+      modifier: '+1'
 
 taskType:
   type: MATLAB # type of runner
   matlabDir: './Matlab'
   functionName: 'main_batch01'
   parameters:
-  - MIN_TRANSL
-  - MAX_TRANSL
-  - VICINITY_TYPE
-  - SUB_IMG_IDX
-  - USE_GPU_ID # First env variable
-  - USE_GPU_VALUE
-  - ADDED_LAYERS_ID
-  - ADDED_LAYERS
+    - MIN_TRANSL
+    - MAX_TRANSL
+    - VICINITY_TYPE
+    - SUB_IMG_IDX
+    - USE_GPU_ID # First env variable
+    - USE_GPU_VALUE
+    - ADDED_LAYERS_ID
+    - ADDED_LAYERS
