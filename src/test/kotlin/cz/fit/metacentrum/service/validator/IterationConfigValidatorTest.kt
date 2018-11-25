@@ -1,10 +1,10 @@
 package cz.fit.metacentrum.service.validator
 
 
-import cz.fit.metacentrum.domain.ConfigFile
-import cz.fit.metacentrum.domain.ConfigIterationArray
-import cz.fit.metacentrum.domain.ConfigIterationDependent
-import cz.fit.metacentrum.domain.ConfigIterationIntRange
+import cz.fit.metacentrum.domain.config.ConfigFile
+import cz.fit.metacentrum.domain.config.ConfigIterationArray
+import cz.fit.metacentrum.domain.config.ConfigIterationDependent
+import cz.fit.metacentrum.domain.config.ConfigIterationIntRange
 import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach

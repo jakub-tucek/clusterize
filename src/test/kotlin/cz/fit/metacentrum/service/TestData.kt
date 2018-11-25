@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service
 
-import cz.fit.metacentrum.domain.*
+import cz.fit.metacentrum.domain.ExecutionMetadata
+import cz.fit.metacentrum.domain.config.*
 
 /**
  *

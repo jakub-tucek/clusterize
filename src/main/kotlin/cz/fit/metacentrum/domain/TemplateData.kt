@@ -1,5 +1,7 @@
 package cz.fit.metacentrum.domain
 
+import cz.fit.metacentrum.domain.config.TaskType
+
 /**
  *
  * @author Jakub Tucek

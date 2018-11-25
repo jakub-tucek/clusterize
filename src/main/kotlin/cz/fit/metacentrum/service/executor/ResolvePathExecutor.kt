@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.executor
 
 import cz.fit.metacentrum.domain.ExecutionMetadata
-import cz.fit.metacentrum.domain.MatlabTaskType
+import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.FileUtil
 

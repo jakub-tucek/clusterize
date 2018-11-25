@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service.validator
 
-import cz.fit.metacentrum.domain.*
+import cz.fit.metacentrum.domain.ValidationResult
+import cz.fit.metacentrum.domain.config.*
 import cz.fit.metacentrum.service.api.ConfigValidator
 
 

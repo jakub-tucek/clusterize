@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.domain
 
+import cz.fit.metacentrum.domain.config.ConfigFile
 import java.nio.file.Path
 
 /**

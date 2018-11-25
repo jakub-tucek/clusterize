@@ -2,8 +2,8 @@ package cz.fit.metacentrum.service.executor
 
 import com.github.mustachejava.DefaultMustacheFactory
 import cz.fit.metacentrum.domain.ExecutionMetadata
-import cz.fit.metacentrum.domain.MatlabTaskType
 import cz.fit.metacentrum.domain.TemplateData
+import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.TemplateUtils
 import java.io.PrintWriter

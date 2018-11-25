@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.domain
+package cz.fit.metacentrum.domain.config
 
 /**
  * Representation of configuration file

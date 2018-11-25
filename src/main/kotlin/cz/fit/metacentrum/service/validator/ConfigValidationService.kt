@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.validator
 
-import cz.fit.metacentrum.domain.ConfigFile
 import cz.fit.metacentrum.domain.ValidationResult
+import cz.fit.metacentrum.domain.config.ConfigFile
 import javax.inject.Inject
 
 

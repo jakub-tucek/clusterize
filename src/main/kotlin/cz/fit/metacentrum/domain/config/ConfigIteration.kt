@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.domain
+package cz.fit.metacentrum.domain.config
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
