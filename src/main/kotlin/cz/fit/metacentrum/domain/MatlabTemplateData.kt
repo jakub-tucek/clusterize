@@ -12,5 +12,5 @@ data class MatlabTemplateData(
         val variables: List<Pair<String, String>>,
         val functionParams: String,
         val dependentVariables: List<ConfigEnvironmentDependent>,
-        val storagePath: String
+        val runPath: String
 )
