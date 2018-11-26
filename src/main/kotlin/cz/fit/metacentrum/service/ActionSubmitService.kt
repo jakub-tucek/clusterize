@@ -1,8 +1,11 @@
 package cz.fit.metacentrum.service
 
 import cz.fit.metacentrum.domain.ActionSubmit
-import cz.fit.metacentrum.domain.ValidationResult
+import cz.fit.metacentrum.domain.ExecutionMetadata
+import cz.fit.metacentrum.domain.config.ConfigFile
+import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.ActionService
+import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.service.validator.ConfigValidationService
 import javax.inject.Inject
 
@@ -15,13 +18,28 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     private lateinit var configFileParser: ConfigFileParser
     @Inject
     private lateinit var configValidationService: ConfigValidationService
+    @Inject
+    private lateinit var matlabExecutors: Set<@JvmSuppressWildcards TaskExecutor>
 
     override fun processAction(argumentAction: ActionSubmit) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val config = getConfig(argumentAction)
+
+        when (config.taskType) {
+            is MatlabTaskType -> runExecutors(config, matlabExecutors)
+        }
     }
 
 
-    private fun getConfig(parsedArgs: ActionSubmit): ValidationResult {
+    private fun runExecutors(config: ConfigFile, executorSet: Set<TaskExecutor>) {
+        val initMetadata = ExecutionMetadata(configFile = config)
+        val resultMetadata = executorSet.asSequence()
+                .fold(initMetadata) { metadata, executor ->
+                    executor.execute(metadata)
+                }
+    }
+
+
+    private fun getConfig(parsedArgs: ActionSubmit): ConfigFile {
         // parse configuration file
         val parsedConfig = configFileParser.parse(parsedArgs.configFile)
         // validate configuration file values
@@ -31,6 +49,6 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
             System.err.println(validationResult.messages.joinToString("\n"))
             System.exit(1)
         }
-        return validationResult
+        return parsedConfig
     }
 }

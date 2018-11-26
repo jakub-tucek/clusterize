@@ -1,6 +1,7 @@
 package cz.fit.metacentrum
 
 import com.google.inject.Guice
+import cz.fit.metacentrum.config.MainModule
 import cz.fit.metacentrum.service.MainService
 import mu.KotlinLogging
 

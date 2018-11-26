@@ -15,7 +15,7 @@ class CopyMatlabFilesExecutor : TaskExecutor {
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         val matlabAction = metadata.configFile.taskType as MatlabTaskType
 
-        val outPath = metadata.metadataStoragePath ?: throw IllegalStateException("Execution path not set")
+        val outPath = metadata.metadataStoragePath ?: throw IllegalStateException("MetadataStorage path not set")
 
         Files.copy(
                 Paths.get(matlabAction.matlabDir),

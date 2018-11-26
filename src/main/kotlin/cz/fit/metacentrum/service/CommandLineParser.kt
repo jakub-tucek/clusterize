@@ -33,7 +33,7 @@ class CommandLineParser {
                 return ActionHelp
             }
             else -> {
-                val msg = "Unrecognized parameter"
+                val msg = "Unrecognized parameter: $nextValue"
                 printHelp()
                 throw IllegalArgumentException(msg)
             }
