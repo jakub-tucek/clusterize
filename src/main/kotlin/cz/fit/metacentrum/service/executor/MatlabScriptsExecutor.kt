@@ -6,8 +6,9 @@ import cz.fit.metacentrum.domain.MatlabTemplateData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.TemplateUtils
-import java.io.PrintWriter
+import java.io.StringWriter
 import java.nio.file.Files
+import java.nio.file.Path
 
 
 /**
@@ -39,13 +40,14 @@ class MatlabScriptsExecutor : TaskExecutor {
     private fun createTemplate(metadata: ExecutionMetadata, variableData: HashMap<String, String>, runCounter: Int) {
         val taskType = metadata.configFile.taskType as MatlabTaskType
 
-        val runPath = metadata.metadataStoragePath?.resolve(runCounter.toString())
-                ?: throw IllegalStateException("Couldn't create run path")
-        if (!Files.exists(runPath)) Files.createDirectories(runPath)
+        val runPath = initializePath(metadata.storagePath, runCounter)
+        val metadataRunPath = initializePath(metadata.metadataStoragePath, runCounter)
 
         val mf = DefaultMustacheFactory()
         val mustache = mf.compile("templates/matlab.mustache")
-        mustache.execute(PrintWriter(System.out),
+        val templateStr = StringWriter()
+
+        mustache.execute(templateStr,
                 MatlabTemplateData(
                         taskType,
                         variableData.toSortedMap().toList(),
@@ -55,5 +57,18 @@ class MatlabScriptsExecutor : TaskExecutor {
                 )
         ).flush()
 
+        val innerScriptPath = metadataRunPath.resolve("inner_script.sh")
+        Files.createFile(innerScriptPath)
+        Files.write(innerScriptPath, templateStr.buffer.lines())
+
+        println(templateStr)
+    }
+
+    private fun initializePath(path: Path?, runCounter: Int): Path {
+        val initializedPath = path?.resolve(runCounter.toString())
+                ?: throw IllegalStateException("Couldn't create run path")
+        if (!Files.exists(initializedPath)) Files.createDirectories(initializedPath)
+
+        return initializedPath
     }
 }

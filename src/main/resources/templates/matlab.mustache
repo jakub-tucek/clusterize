@@ -2,7 +2,6 @@
 #PBS -N oneCPUjob
 #PBS -l walltime=4:00:00
 #PBS -l select=1:ncpus=2:mem=6gb:scratch_local=12gb
-#PBS -j oe
 #PBS -m e
 #PBS -o {{runPath}}/stdout.log
 #PBS -e {{runPath}}/stderr.log
@@ -27,6 +26,7 @@ DATADIR="{{storagePath}}" # sets up your input data directory
 {{/dependentVariables}}
 
 export MATLAB_DIR="{{taskType.matlabDir}}"
+export MATLAB_THREADS=2
 
 # execute Matlab command
 # Parallel Computing Toolbox requires JVM !!!!!!!!
