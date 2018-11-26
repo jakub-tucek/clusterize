@@ -40,8 +40,8 @@ class MatlabScriptsExecutor : TaskExecutor {
     private fun createTemplate(metadata: ExecutionMetadata, variableData: HashMap<String, String>, runCounter: Int) {
         val taskType = metadata.configFile.taskType as MatlabTaskType
 
-        val runPath = initializePath(metadata.storagePath, runCounter)
-        val metadataRunPath = initializePath(metadata.metadataStoragePath, runCounter)
+        val runPath = initializePath(metadata.storagePath).resolve(runCounter.toString())
+        val metadataScriptRunPath = initializePath(metadata.metadataStoragePath).resolve("generated_scripts")
 
         val mf = DefaultMustacheFactory()
         val mustache = mf.compile("templates/matlab.mustache")
@@ -57,18 +57,16 @@ class MatlabScriptsExecutor : TaskExecutor {
                 )
         ).flush()
 
-        val innerScriptPath = metadataRunPath.resolve("inner_script.sh")
+        val innerScriptPath = metadataScriptRunPath.resolve("${runCounter}_inner_script.sh")
         Files.createFile(innerScriptPath)
         Files.write(innerScriptPath, templateStr.buffer.lines())
 
         println(templateStr)
     }
 
-    private fun initializePath(path: Path?, runCounter: Int): Path {
-        val initializedPath = path?.resolve(runCounter.toString())
+    private fun initializePath(path: Path?): Path {
+        val initializedPath = path
                 ?: throw IllegalStateException("Couldn't create run path")
-        if (!Files.exists(initializedPath)) Files.createDirectories(initializedPath)
-
         return initializedPath
     }
 }
