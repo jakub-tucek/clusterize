@@ -24,11 +24,9 @@ iterations:
     to: 200
 
 environment:
-  basePath: './out/scriptRun'
+  metadataStoragePath: './out/scriptRun'
+  storagePath: './out/storage' #usually storage
   variables:
-    USE_GPU_ID: 'useGPU'
-    USE_GPU_VALUE: 'yes'
-    ADDED_LAYERS_ID: 'layers'
   dependents:
     - name: MAX_TRANSL
       dependentVarName: VICINITY_TYPE
@@ -39,11 +37,11 @@ taskType:
   matlabDir: './Matlab'
   functionName: 'main_batch01'
   parameters:
-    - MIN_TRANSL
-    - MAX_TRANSL
-    - VICINITY_TYPE
-    - SUB_IMG_IDX
-    - USE_GPU_ID # First env variable
-    - USE_GPU_VALUE
-    - ADDED_LAYERS_ID
-    - ADDED_LAYERS
+    - $MIN_TRANSL
+    - $MAX_TRANSL
+    - $VICINITY_TYPE
+    - $SUB_IMG_IDX
+    - 'useGPU' # First env variable
+    - 'yes'
+    - 'layers'
+    - 'yes'

@@ -1,5 +1,7 @@
 package cz.fit.metacentrum.service
 
+import com.google.common.jimfs.Configuration
+import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.domain.config.*
 
@@ -22,7 +24,8 @@ internal object TestData {
                     )
             ),
             ConfigEnvironment(
-                    "./out/scriptRun",
+                    "./out/metadataStorage/",
+                    "./out/storage/",
                     mapOf("USE_GPU_ID" to "gpu", "USE_GPU_VALUE" to "yes"),
                     listOf(ConfigEnvironmentDependent(
                             name = "CONFIG_ITERATION_DEPENDENT",
@@ -43,7 +46,15 @@ internal object TestData {
             )
     )
     val metadata = ExecutionMetadata(
-            configFile = config
+            configFile = config,
+            iterationCombinations = listOf(
+                    mapOf(
+                            "CONFIG_ITERATION_ARRAY" to "1",
+                            "CONFIG_ITERATION_INT_RANGE" to "2"
+                    )
+            ),
+            storagePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storagePath"),
+            metadataStoragePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStoragePath")
     )
 }
 

@@ -8,7 +8,8 @@ import java.nio.file.Path
  * @author Jakub Tucek
  */
 data class ExecutionMetadata(
-        val executionOutputPath: Path? = null,
+        val metadataStoragePath: Path? = null,
+        val storagePath: Path? = null,
         val configFile: ConfigFile,
         val iterationCombinations: List<Map<String, String>>? = null
 )

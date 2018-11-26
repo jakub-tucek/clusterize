@@ -21,29 +21,29 @@ internal class InitOutputPathExecutorTest {
 
     @Test
     fun testThatDirectoryIsCreatedWithMockedPath() {
-        val foo = fs.getPath("path/is/mocked")
+        val path = fs.getPath("path/is/mocked")
 
-        Assertions.assertThat(foo).doesNotExist()
+        Assertions.assertThat(path).doesNotExist()
 
         executor.execute(ExecutionMetadata(
-                foo,
-                TestData.config.copy(environment = TestData.config.environment.copy(basePath = foo.toString()))
+                storagePath = path,
+                configFile = TestData.config.copy(environment = TestData.config.environment.copy(storagePath = path.toString()))
         ))
 
-        Assertions.assertThat(foo).exists()
+        Assertions.assertThat(path).exists()
     }
 
 
     @Test
     fun testThatDirectoryIsNotCreatedIfMockedExists() {
-        val foo = fs.getPath("path/is/mocked")
+        val path = fs.getPath("path/is/mocked")
 
-        Files.createDirectories(foo)
+        Files.createDirectories(path)
 
         assertThrows(IllegalStateException::class.java) {
             executor.execute(ExecutionMetadata(
-                    foo,
-                    TestData.config.copy(environment = TestData.config.environment.copy(basePath = foo.toString()))
+                    storagePath = path,
+                    configFile = TestData.config.copy(environment = TestData.config.environment.copy(storagePath = path.toString()))
             ))
         }
     }

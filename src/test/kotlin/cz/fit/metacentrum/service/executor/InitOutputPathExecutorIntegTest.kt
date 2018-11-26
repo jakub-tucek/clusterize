@@ -20,6 +20,7 @@ internal class InitOutputPathExecutorIntegTest {
     val executor = InitOutputPathExecutor()
 
     var outputDir: Path? = null
+    var metadataOutputDir: Path? = null
 
     @Test()
     fun testThatDirectoryIsActuallyCreated() {
@@ -31,14 +32,25 @@ internal class InitOutputPathExecutorIntegTest {
 
         val metadata = executor.execute(
                 ExecutionMetadata(
-                        configFile = TestData.config.copy(environment = TestData.config.environment.copy(basePath = basePath.toString()))
+                        configFile = TestData.config.copy(environment = TestData.config.environment
+                                .copy(
+                                        storagePath = basePath.resolve("storage").toString(),
+                                        metadataStoragePath = basePath.resolve("metadata").toString()
+                                )
+                        )
 
                 )
         )
-        outputDir = metadata.executionOutputPath
+        outputDir = metadata.storagePath
+        metadataOutputDir = metadata.metadataStoragePath
 
 
-        Assertions.assertThat(outputDir)
+        checkOutDirIsCreated(outputDir!!)
+        checkOutDirIsCreated(metadataOutputDir!!)
+    }
+
+    private fun checkOutDirIsCreated(dir: Path) {
+        Assertions.assertThat(dir)
                 .exists()
                 .extracting { t -> t.fileName.toString() }
                 .asString()
@@ -49,6 +61,9 @@ internal class InitOutputPathExecutorIntegTest {
     fun cleanUp() {
         if (outputDir != null) {
             Files.deleteIfExists(outputDir)
+        }
+        if (metadataOutputDir != null) {
+            Files.deleteIfExists(metadataOutputDir)
         }
     }
 
