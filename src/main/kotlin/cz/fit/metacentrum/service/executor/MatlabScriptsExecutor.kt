@@ -17,9 +17,11 @@ import java.nio.file.Files
 class MatlabScriptsExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-
-        val iterationCombinations = metadata.iterationCombinations
-                ?: throw IllegalStateException("Iteration combination is not initialized")
+        val iterationCombinations = when {
+            metadata.iterationCombinations == null -> throw IllegalStateException("Iteration combination is not initialized")
+            metadata.iterationCombinations.isEmpty() -> listOf(emptyMap())
+            else -> metadata.iterationCombinations
+        }
 
         val variableData = HashMap<String, String>()
         variableData.putAll(metadata.configFile.environment.variables ?: emptyMap())

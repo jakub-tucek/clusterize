@@ -26,7 +26,7 @@ internal object TestData {
             ConfigEnvironment(
                     "./out/metadataStorage/",
                     "./out/storage/",
-                    mapOf("USE_GPU_ID" to "gpu", "USE_GPU_VALUE" to "yes"),
+                    mapOf(),
                     listOf(ConfigEnvironmentDependent(
                             name = "CONFIG_ITERATION_DEPENDENT",
                             dependentVarName = "CONFIG_ITERATION_INT_RANGE",
@@ -37,11 +37,11 @@ internal object TestData {
                     "./input",
                     "main_batch01",
                     listOf(
-                            "CONFIG_ITERATION_ARRAY",
-                            "CONFIG_ITERATION_INT_RANGE",
-                            "CONFIG_ITERATION_DEPENDENT",
-                            "USE_GPU_ID",
-                            "USE_GPU_VALUE"
+                            "\$CONFIG_ITERATION_ARRAY",
+                            "\$CONFIG_ITERATION_INT_RANGE",
+                            "\$CONFIG_ITERATION_DEPENDENT",
+                            "useGPU",
+                            "yes"
                     )
             )
     )

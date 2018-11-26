@@ -25,16 +25,16 @@ export MATLAB_DIR="{{taskType.matlabDir}}"
 
 # execute Matlab command
 # Parallel Computing Toolbox requires JVM !!!!!!!!
-matlab -nodesktop -nosplash -nodisplay -r     \
+matlab -nodesktop -nosplash -nodisplay -r            \
 "try,                                               "\
 "    maxNumCompThreads($MATLAB_THREADS);,           "\
 "    addpath('$MATLAB_DIR'),                        "\
-"    {{taskType.functionName}}({{functionParams}}), "\
+"    {{taskType.functionName}}({{{functionParams}}}), "\
 "catch e,                                           "\
 "    disp(getReport(e)),                            "\
 "    exit(1),                                       "\
 "end,                                               "\
-"exit(0)"                                     \
+"exit(0)"                                            \
 &> "$OUT_DIR/matlab_stdout.log"
 
 if [ "$?" -eq 0 ]; then

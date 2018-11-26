@@ -6,5 +6,6 @@ package cz.fit.metacentrum.util
  */
 object TemplateUtils {
 
-    fun formatFunctionParameters(data: List<String>) = data.joinToString(", ")
+    fun formatFunctionParameters(data: List<String>) = data.map { "\"$it\"" }
+            .joinToString(", ")
 }
