@@ -3,7 +3,7 @@
 # build script will be triggered
 FROM pbspro/pbspro AS builder
 
-ADD stub.sh /src/stub/
+ADD async-task-stub.sh /src/stub/
 RUN ls -l /src/stub/
 RUN mv /src/stub/stub.sh /usr/local/bin/matlab
 
