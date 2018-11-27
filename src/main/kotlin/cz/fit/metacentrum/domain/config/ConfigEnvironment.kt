@@ -6,6 +6,7 @@ package cz.fit.metacentrum.domain.config
 data class ConfigEnvironment(
         val metadataStoragePath: String,
         val storagePath: String,
+        val sourcesPath: String,
         val variables: Map<String, String>? = emptyMap(),
         val dependents: List<ConfigEnvironmentDependent>
 )

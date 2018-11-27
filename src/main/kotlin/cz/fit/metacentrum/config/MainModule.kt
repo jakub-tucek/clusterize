@@ -32,7 +32,7 @@ class MainModule : AbstractModule() {
 
         matlabBinder.addBinding().to(ResolvePathExecutor::class.java)
         matlabBinder.addBinding().to(InitOutputPathExecutor::class.java)
-        matlabBinder.addBinding().to(CopyMatlabFilesExecutor::class.java)
+        matlabBinder.addBinding().to(CopySourcesFilesExecutor::class.java)
         matlabBinder.addBinding().to(IterationExecutor::class.java)
         matlabBinder.addBinding().to(MatlabScriptsExecutor::class.java)
     }

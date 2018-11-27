@@ -26,6 +26,7 @@ internal object TestData {
             ConfigEnvironment(
                     "./out/metadataStorage/",
                     "./out/storage/",
+                    "./src/test/resources/sources",
                     mapOf(),
                     listOf(ConfigEnvironmentDependent(
                             name = "CONFIG_ITERATION_DEPENDENT",
@@ -34,7 +35,6 @@ internal object TestData {
                     ))
             ),
             MatlabTaskType(
-                    "./input",
                     "main_batch01",
                     listOf(
                             "\$CONFIG_ITERATION_ARRAY",

@@ -10,19 +10,20 @@ import java.nio.file.Paths
  *
  * @author Jakub Tucek
  */
-class CopyMatlabFilesExecutor : TaskExecutor {
+class CopySourcesFilesExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         val matlabAction = metadata.configFile.taskType as MatlabTaskType
 
         val outPath = metadata.metadataStoragePath ?: throw IllegalStateException("MetadataStorage path not set")
+        val sourcesOutPath = outPath.resolve("sources")
 
         Files.copy(
-                Paths.get(matlabAction.matlabDir),
-                outPath.resolve("matlab")
+                Paths.get(metadata.configFile.environment.sourcesPath),
+                outPath.resolve("sources")
         )
 
-        return metadata
+        return metadata.copy(sourcesPath = sourcesOutPath)
     }
 
 }

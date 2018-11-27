@@ -10,6 +10,7 @@ import java.nio.file.Path
 data class ExecutionMetadata(
         val metadataStoragePath: Path? = null,
         val storagePath: Path? = null,
+        val sourcesPath: Path? = null,
         val configFile: ConfigFile,
         val iterationCombinations: List<Map<String, String>>? = null
 )

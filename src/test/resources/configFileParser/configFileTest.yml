@@ -26,6 +26,7 @@ iterations:
 environment:
   metadataStoragePath: './out/scriptRun'
   storagePath: './out/storage' #usually storage
+  sourcesPath: './src/test/resources/sources'
   variables:
   dependents:
     - name: MAX_TRANSL
@@ -34,7 +35,6 @@ environment:
 
 taskType:
   type: MATLAB # type of runner
-  matlabDir: './gradle'
   functionName: 'main_batch01'
   parameters:
     - $MIN_TRANSL
@@ -44,4 +44,4 @@ taskType:
     - 'useGPU' # First env variable
     - 'yes'
     - 'layers'
-    - 'yes'
+    - $ADDED_LAYERS

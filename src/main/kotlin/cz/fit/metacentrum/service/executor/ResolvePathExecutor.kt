@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.service.executor
 
 import cz.fit.metacentrum.domain.ExecutionMetadata
-import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.FileUtils
 
@@ -19,18 +18,7 @@ class ResolvePathExecutor : TaskExecutor {
         // fix base path in env
         val newBasePath = FileUtils.relativizePath(config.environment.metadataStoragePath)
 
-        // fix specific stuff
-        val newTaskType = when (config.taskType) {
-            is MatlabTaskType -> {
-                val matlab = config.taskType
-                val newMatlabFolder = FileUtils.relativizePath(matlab.matlabDir)
-                matlab.copy(matlabDir = newMatlabFolder)
-            }
-            else -> throw IllegalStateException("Unexpected MatlabTaskType type")
-        }
-
         val newConfig = config.copy(
-                taskType = newTaskType,
                 environment = config.environment.copy(metadataStoragePath = newBasePath)
         )
         return ExecutionMetadata(configFile = newConfig)

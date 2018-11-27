@@ -54,7 +54,8 @@ class MatlabScriptsExecutor : TaskExecutor {
                         variableData.toSortedMap().toList(),
                         TemplateUtils.formatFunctionParameters(taskType.parameters),
                         metadata.configFile.environment.dependents,
-                        runPath.toAbsolutePath().toString()
+                        runPath.toAbsolutePath().toString(),
+                        metadata.sourcesPath?.toAbsolutePath() ?: throw IllegalStateException("Sources path not set")
                 )
         ).flush()
 
