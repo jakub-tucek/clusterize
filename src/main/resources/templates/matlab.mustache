@@ -9,7 +9,7 @@
 # Error output and standard output will be merged (-j oe), a notification email will be sent when the job is finished (-m e)
 # You can adjust these options by your needs
 
-c
+
 echo "$PBS_JOBID" > {{runPath}}/pid.log
 
 module add matlab # loads desired application

@@ -24,7 +24,7 @@ iterations:
     to: 5
 
 environment:
-  metadataStoragePath: './out/scriptRun'
+  metadataStoragePath: './out/metadataStorage'
   storagePath: './out/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
   variables:
