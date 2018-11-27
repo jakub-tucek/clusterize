@@ -6,6 +6,7 @@ import cz.fit.metacentrum.domain.config.ConfigIterationIntRange
 import cz.fit.metacentrum.extension.ResetableIterator
 import cz.fit.metacentrum.extension.resetableIterator
 import cz.fit.metacentrum.service.api.TaskExecutor
+import cz.fit.metacentrum.util.ConsoleWriter
 
 /**
  *
@@ -15,6 +16,7 @@ class IterationExecutor : TaskExecutor {
 
     @Suppress("REDUNDANT_ELSE_IN_WHEN")
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
+        ConsoleWriter.writeStatus("Generating all parameters combinations")
         val iterationVariablesRanges = metadata.configFile.iterations.asSequence()
                 .map {
                     val values = when (it) {
@@ -27,6 +29,7 @@ class IterationExecutor : TaskExecutor {
 
         val combinations = generateCombinations(iterationVariablesRanges)
 
+        ConsoleWriter.writeStatusDetail("Total size: ${combinations.size}")
         return metadata.copy(iterationCombinations = combinations)
     }
 

@@ -18,8 +18,6 @@ internal class ConfigFileParserTest {
 
         Assertions.assertEquals(false, res.iterations.isEmpty())
         Assertions.assertEquals("VICINITY_TYPE", res.iterations[0].name)
-
-        println(res)
     }
 
     @Test

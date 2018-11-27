@@ -6,6 +6,7 @@ import cz.fit.metacentrum.domain.ExecutionMetadataRunScript
 import cz.fit.metacentrum.domain.MatlabTemplateData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.TaskExecutor
+import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.TemplateUtils
 import java.io.StringWriter
 import java.nio.file.Files
@@ -19,6 +20,7 @@ import java.nio.file.Path
 class MatlabScriptsExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
+        ConsoleWriter.writeStatus("Generating bash scripts wrapping matlab")
         val iterationCombinations = when {
             metadata.iterationCombinations == null -> throw IllegalStateException("Iteration combination is not initialized")
             metadata.iterationCombinations.isEmpty() -> listOf(emptyMap())

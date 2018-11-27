@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.service.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
+import cz.fit.metacentrum.util.ConsoleWriter
 import mu.KotlinLogging
 import java.io.IOException
 
@@ -19,6 +20,7 @@ class SubmitExecutor : TaskExecutor {
     private lateinit var shellService: ShellService
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
+        ConsoleWriter.writeStatus("Submitting runs/jobs to queue")
         val scripts = metadata.runScripts ?: throw IllegalStateException("No scripts to run available")
 
         val scriptsWithPid = scripts
@@ -26,8 +28,9 @@ class SubmitExecutor : TaskExecutor {
                     val cmdResult = shellService.runCommand("qsub", it.scriptPath.toAbsolutePath().toString())
                     if (cmdResult.status != 0)
                         throw IOException("Submitting script ${it.scriptPath} failed with ${cmdResult.status}. ${cmdResult.errOutput}")
-                    logger.info { "Run ${it.runId} with PID ${cmdResult.output} successfully submitted" }
-                    return@map it.copy(pid = cmdResult.output)
+
+                    ConsoleWriter.writeStatusDetail("Run ${it.runId} submitted under ${cmdResult.output.replace("\n", "")}")
+                    it.copy(pid = cmdResult.output)
                 }
 
         return metadata.copy(runScripts = scriptsWithPid)

@@ -1,8 +1,8 @@
 package cz.fit.metacentrum.service.executor
 
 import cz.fit.metacentrum.domain.ExecutionMetadata
-import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.TaskExecutor
+import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.FileUtils
 import java.nio.file.Paths
 
@@ -13,7 +13,7 @@ import java.nio.file.Paths
 class CopySourcesFilesExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        val matlabAction = metadata.configFile.taskType as MatlabTaskType
+        ConsoleWriter.writeStatus("Copying sources files from ${metadata.configFile.environment.sourcesPath}")
 
         val outPath = metadata.metadataStoragePath ?: throw IllegalStateException("MetadataStorage path not set")
         val sourcesOutPath = outPath.resolve("sources")

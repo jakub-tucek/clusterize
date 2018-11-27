@@ -7,6 +7,7 @@ import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.service.validator.ConfigValidationService
+import cz.fit.metacentrum.util.ConsoleWriter
 import javax.inject.Inject
 
 /**
@@ -32,9 +33,11 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
 
     private fun runExecutors(config: ConfigFile, executorSet: Set<TaskExecutor>) {
         val initMetadata = ExecutionMetadata(configFile = config)
-        val resultMetadata = executorSet.asSequence()
+        executorSet.asSequence()
                 .fold(initMetadata) { metadata, executor ->
-                    executor.execute(metadata)
+                    val res = executor.execute(metadata)
+                    ConsoleWriter.writeStatusDone()
+                    res
                 }
     }
 

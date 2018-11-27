@@ -36,8 +36,6 @@ internal class IterationExecutorTest {
                 )
         )
 
-        println(result.iterationCombinations)
-
         Assertions.assertThat(result.iterationCombinations)
                 .isNotNull()
                 .hasSize(8)

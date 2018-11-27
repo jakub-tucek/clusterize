@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.executor
 
 import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.service.api.TaskExecutor
+import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.FileUtils
 
 /**
@@ -13,6 +14,7 @@ class ResolvePathExecutor : TaskExecutor {
 
     @Suppress("REDUNDANT_ELSE_IN_WHEN")
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
+        ConsoleWriter.writeStatus("Processing and resolving given paths")
         val config = metadata.configFile
 
         // fix base path in env
