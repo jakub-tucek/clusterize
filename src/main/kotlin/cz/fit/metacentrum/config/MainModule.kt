@@ -14,7 +14,7 @@ class MainModule : AbstractModule() {
     override fun configure() {
         bind(MainService::class.java)
 
-        bind(ConfigFileParser::class.java)
+        bind(SerializationService::class.java)
         bind(CommandLineParser::class.java)
 
         // validator

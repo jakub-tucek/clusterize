@@ -12,7 +12,7 @@ class MainService() {
 
 
     fun execute(args: Array<String>) {
-        // parse arguments
+        // parseConfig arguments
         val argumentAction = commandLineParser.parseArguments(args)
 
 

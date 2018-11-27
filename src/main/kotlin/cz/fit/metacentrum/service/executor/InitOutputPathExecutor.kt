@@ -6,7 +6,6 @@ import cz.fit.metacentrum.util.ConsoleWriter
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 /**
@@ -15,7 +14,7 @@ import java.time.format.DateTimeFormatter
  */
 class InitOutputPathExecutor : TaskExecutor {
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        val newName = LocalDateTime.now().format(
+        val newName = metadata.timestamp.format(
                 DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")
         )
         ConsoleWriter.writeStatus("Initializing output directories under name $newName")

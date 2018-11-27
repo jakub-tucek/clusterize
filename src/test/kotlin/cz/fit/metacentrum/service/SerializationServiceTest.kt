@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 /**
  * @author Jakub Tucek
  */
-internal class ConfigFileParserTest {
+internal class SerializationServiceTest {
 
     private val folderPath = "src/test/resources/configFileParser"
 
     @Test
     fun parse() {
-        val res = ConfigFileParser().parse("$folderPath/configFileTest.yml")
+        val res = SerializationService().parseConfig("$folderPath/configFileTest.yml")
 
         Assertions.assertEquals(false, res.iterations.isEmpty())
         Assertions.assertEquals("VICINITY_TYPE", res.iterations[0].name)
@@ -23,7 +23,7 @@ internal class ConfigFileParserTest {
     @Test
     fun parseFail() {
         val throwsRes =Assertions.assertThrows(IllegalArgumentException::class.java) {
-            ConfigFileParser().parse("$folderPath/configFileTestInvalid.yml")
+            SerializationService().parseConfig("$folderPath/configFileTestInvalid.yml")
         }
 
         Assertions.assertTrue(throwsRes.message!!.isNotBlank())

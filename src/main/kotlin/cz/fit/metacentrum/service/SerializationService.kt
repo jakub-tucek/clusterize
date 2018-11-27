@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.domain.config.ConfigFile
 import mu.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 
 private val logger = KotlinLogging.logger {}
 
@@ -16,9 +18,9 @@ private val logger = KotlinLogging.logger {}
  *
  * @author Jakub Tucek
  */
-class ConfigFileParser {
+class SerializationService {
 
-    fun parse(filePath: String): ConfigFile {
+    fun parseConfig(filePath: String): ConfigFile {
         val path = Paths.get(filePath)
         if (Files.notExists(path)) {
             throw IllegalArgumentException("Path ${path.toAbsolutePath()} of configuration file does not exists!")
@@ -36,6 +38,14 @@ class ConfigFileParser {
                     "ConfigFile file has invalid format. Check if file has proper format. ${e.message}",
                     e)
         }
+    }
+
+    fun persistMetadata(metadata: ExecutionMetadata) {
+        val metadataFile = metadata.metadataStoragePath?.resolve("metadata.yml")
+                ?: throw IllegalStateException("Metadata storage path not set")
+
+        val writer = Files.newBufferedWriter(metadataFile, StandardOpenOption.CREATE_NEW)
+        mapper.writeValue(writer, metadata)
     }
 
     companion object {

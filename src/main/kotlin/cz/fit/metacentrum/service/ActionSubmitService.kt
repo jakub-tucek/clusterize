@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 class ActionSubmitService() : ActionService<ActionSubmit> {
     @Inject
-    private lateinit var configFileParser: ConfigFileParser
+    private lateinit var serializationService: SerializationService
     @Inject
     private lateinit var configValidationService: ConfigValidationService
     @Inject
@@ -33,18 +33,19 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
 
     private fun runExecutors(config: ConfigFile, executorSet: Set<TaskExecutor>) {
         val initMetadata = ExecutionMetadata(configFile = config)
-        executorSet.asSequence()
+        val finalMetadata = executorSet.asSequence()
                 .fold(initMetadata) { metadata, executor ->
                     val res = executor.execute(metadata)
                     ConsoleWriter.writeStatusDone()
                     res
                 }
+        serializationService.persistMetadata(finalMetadata)
     }
 
 
     private fun getConfig(parsedArgs: ActionSubmit): ConfigFile {
-        // parse configuration file
-        val parsedConfig = configFileParser.parse(parsedArgs.configFile)
+        // parseConfig configuration file
+        val parsedConfig = serializationService.parseConfig(parsedArgs.configFile)
         // validate configuration file values
         val validationResult = configValidationService.validate(parsedConfig)
         // failed if not set
