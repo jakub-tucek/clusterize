@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.executor
 
 import com.github.mustachejava.DefaultMustacheFactory
 import cz.fit.metacentrum.domain.ExecutionMetadata
+import cz.fit.metacentrum.domain.ExecutionMetadataRunScript
 import cz.fit.metacentrum.domain.MatlabTemplateData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.api.TaskExecutor
@@ -27,17 +28,16 @@ class MatlabScriptsExecutor : TaskExecutor {
         val variableData = HashMap<String, String>()
         variableData.putAll(metadata.configFile.environment.variables ?: emptyMap())
 
-        for ((index, iteration) in iterationCombinations.withIndex()) {
-            variableData.putAll(iteration)
+        val runScripts = iterationCombinations.mapIndexed { index, iterationCombination ->
+            variableData.putAll(iterationCombination)
             createTemplate(metadata, variableData, index)
         }
 
 
-
-        return metadata
+        return metadata.copy(runScripts = runScripts)
     }
 
-    private fun createTemplate(metadata: ExecutionMetadata, variableData: HashMap<String, String>, runCounter: Int) {
+    private fun createTemplate(metadata: ExecutionMetadata, variableData: HashMap<String, String>, runCounter: Int): ExecutionMetadataRunScript {
         val taskType = metadata.configFile.taskType as MatlabTaskType
 
         val runPath = initializePath(metadata.storagePath).resolve(runCounter.toString())
@@ -62,7 +62,10 @@ class MatlabScriptsExecutor : TaskExecutor {
         Files.createFile(innerScriptPath)
         Files.write(innerScriptPath, templateStr.buffer.lines())
 
-        println(templateStr)
+        return ExecutionMetadataRunScript(
+                scriptPath = innerScriptPath,
+                runId = runCounter
+        )
     }
 
     private fun initializePath(path: Path?): Path {

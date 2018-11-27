@@ -12,5 +12,12 @@ data class ExecutionMetadata(
         val storagePath: Path? = null,
         val sourcesPath: Path? = null,
         val configFile: ConfigFile,
-        val iterationCombinations: List<Map<String, String>>? = null
+        val iterationCombinations: List<Map<String, String>>? = null,
+        val runScripts: List<ExecutionMetadataRunScript>? = null
+)
+
+
+data class ExecutionMetadataRunScript(val scriptPath: Path,
+                                      val runId: Int, // identical to iteration combination index
+                                      val pid: String? = null
 )

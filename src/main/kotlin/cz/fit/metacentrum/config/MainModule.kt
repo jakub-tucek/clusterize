@@ -35,5 +35,6 @@ class MainModule : AbstractModule() {
         matlabBinder.addBinding().to(CopySourcesFilesExecutor::class.java)
         matlabBinder.addBinding().to(IterationExecutor::class.java)
         matlabBinder.addBinding().to(MatlabScriptsExecutor::class.java)
+        matlabBinder.addBinding().to(SubmitExecutor::class.java)
     }
 }
