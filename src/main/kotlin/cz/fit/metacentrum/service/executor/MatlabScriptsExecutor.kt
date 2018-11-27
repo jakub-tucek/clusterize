@@ -41,8 +41,7 @@ class MatlabScriptsExecutor : TaskExecutor {
         val taskType = metadata.configFile.taskType as MatlabTaskType
 
         val runPath = initializePath(metadata.storagePath).resolve(runCounter.toString())
-        val metadataScriptRunPath = initializePath(metadata.metadataStoragePath).resolve("generated_scripts")
-        Files.createDirectories(metadataScriptRunPath)
+        Files.createDirectories(runPath)
 
         val mf = DefaultMustacheFactory()
         val mustache = mf.compile("templates/matlab.mustache")
@@ -59,7 +58,7 @@ class MatlabScriptsExecutor : TaskExecutor {
                 )
         ).flush()
 
-        val innerScriptPath = metadataScriptRunPath.resolve("${runCounter}_inner_script.sh")
+        val innerScriptPath = runPath.resolve("inner_script.sh")
         Files.createFile(innerScriptPath)
         Files.write(innerScriptPath, templateStr.buffer.lines())
 

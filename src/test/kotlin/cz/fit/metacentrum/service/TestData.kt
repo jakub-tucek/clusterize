@@ -53,8 +53,9 @@ internal object TestData {
                             "CONFIG_ITERATION_INT_RANGE" to "2"
                     )
             ),
-            storagePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storagePath"),
-            metadataStoragePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStoragePath")
+            storagePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage"),
+            metadataStoragePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStorage"),
+            sourcesPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStorage/sources")
     )
 }
 
