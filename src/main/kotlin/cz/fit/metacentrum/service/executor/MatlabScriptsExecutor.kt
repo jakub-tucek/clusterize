@@ -42,6 +42,7 @@ class MatlabScriptsExecutor : TaskExecutor {
 
         val runPath = initializePath(metadata.storagePath).resolve(runCounter.toString())
         val metadataScriptRunPath = initializePath(metadata.metadataStoragePath).resolve("generated_scripts")
+        Files.createDirectories(metadataScriptRunPath)
 
         val mf = DefaultMustacheFactory()
         val mustache = mf.compile("templates/matlab.mustache")

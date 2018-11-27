@@ -33,5 +33,5 @@ qstat
 
 Use existing container
 ```
-docker exec -it --user pbsuser [containerId] bash 
+docker exec -it --user pbsuser pbs bash -l -c "" 
 ```

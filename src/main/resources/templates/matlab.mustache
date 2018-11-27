@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -N oneCPUjob
 #PBS -l walltime=4:00:00
-#PBS -l select=1:ncpus=2:mem=6gb:scratch_local=12gb
+#PBS -l select=1:ncpus=2:mem=6gb
 #PBS -m e
 #PBS -o {{runPath}}/stdout.log
 #PBS -e {{runPath}}/stderr.log
@@ -9,7 +9,7 @@
 # Error output and standard output will be merged (-j oe), a notification email will be sent when the job is finished (-m e)
 # You can adjust these options by your needs
 
-
+c
 echo "$PBS_JOBID" > {{runPath}}/pid.log
 
 module add matlab # loads desired application

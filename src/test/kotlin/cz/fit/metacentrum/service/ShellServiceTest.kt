@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service
 
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 /**
@@ -26,5 +27,14 @@ internal class ShellServiceTest {
         Assertions.assertThat(status).isEqualTo(2)
         Assertions.assertThat(errOutput).contains("ls --help")
         Assertions.assertThat(output).isEmpty()
+    }
+
+    @Test
+    @Disabled
+    fun runDocker() {
+        val runCommand = shell
+                .runCommand("docker", "exec", "--user", "pbsuser", "pbs", "bash", "-c", "\"echo \$PATH\" ")
+
+        println(runCommand)
     }
 }
