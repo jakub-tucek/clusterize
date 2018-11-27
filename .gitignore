@@ -2,7 +2,8 @@
 *.log
 
 *.iml
-.idea
+.idea/*
+!.idea/runConfigurations
 build
 out
 .gradle
