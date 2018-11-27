@@ -2,10 +2,7 @@ package cz.fit.metacentrum.config
 
 import com.google.inject.AbstractModule
 import com.google.inject.multibindings.Multibinder
-import cz.fit.metacentrum.service.ActionSubmitService
-import cz.fit.metacentrum.service.CommandLineParser
-import cz.fit.metacentrum.service.ConfigFileParser
-import cz.fit.metacentrum.service.MainService
+import cz.fit.metacentrum.service.*
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.service.executor.*
 import cz.fit.metacentrum.service.validator.ConfigValidationService
@@ -27,6 +24,7 @@ class MainModule : AbstractModule() {
         bindExecutors()
 
         bind(ActionSubmitService::class.java)
+        bind(ShellService::class.java)
     }
 
     private fun bindExecutors() {
