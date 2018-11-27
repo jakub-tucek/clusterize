@@ -24,6 +24,7 @@ class MainModule : AbstractModule() {
         bindExecutors()
 
         bind(ActionSubmitService::class.java)
+        bind(ActionListService::class.java)
         bind(ShellService::class.java)
     }
 
