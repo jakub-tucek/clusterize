@@ -7,7 +7,7 @@ iterations:
   - type: INT_RANGE # will iterate over given integer range
     name: MIN_TRANSL
     from: 0
-    to: 5
+    to: 2
 
   - type: ARRAY
     name: ADDED_LAYERS
@@ -16,12 +16,12 @@ iterations:
   - type: INT_RANGE
     name: SUB_IMG_IDX
     from: 1
-    to: 5
+    to: 2
 
   - type: INT_RANGE
     name: RUN_ID
     from: 1
-    to: 5
+    to: 2
 
 environment:
   metadataStoragePath: './out/metadataStorage'
