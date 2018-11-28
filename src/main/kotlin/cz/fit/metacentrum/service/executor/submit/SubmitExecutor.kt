@@ -21,7 +21,7 @@ class SubmitExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Submitting runs/jobs to queue")
-        val scripts = metadata.runScripts ?: throw IllegalStateException("No scripts to run available")
+        val scripts = metadata.jobs ?: throw IllegalStateException("No scripts to run available")
 
         val scriptsWithPid = scripts
                 .map {
@@ -33,7 +33,7 @@ class SubmitExecutor : TaskExecutor {
                     it.copy(pid = cmdResult.output)
                 }
 
-        return metadata.copy(runScripts = scriptsWithPid)
+        return metadata.copy(jobs = scriptsWithPid)
     }
 
 }

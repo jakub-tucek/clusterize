@@ -1,16 +1,26 @@
 package cz.fit.metacentrum.domain.meta
 
-/**
- *
- * @author Jakub Tucek
- */
+
+sealed class ExecutionMetadataState
 
 
-data class ExecutionMetadataStatus(
-        val state: State
-) {
+object ExecutionMetadataStateOk : ExecutionMetadataState()
 
-    enum class State() {
-        OK, RUNNING, FAILED
-    }
-}
+class ExecutionMetadataStateRunning(
+        val runningJobs: List<ExecutionMetadataRunningJob>,
+        val failedJobs: List<ExecutionMetadataFailedJob>
+) : ExecutionMetadataState()
+
+class ExecutionMetadataStateFailed(
+        val failedJobs: List<ExecutionMetadataFailedJob>
+) : ExecutionMetadataState()
+
+
+data class ExecutionMetadataFailedJob(
+        val scriptJob: ExecutionMetadataScriptJob
+)
+
+data class ExecutionMetadataRunningJob(
+        val scriptJob: ExecutionMetadataScriptJob,
+        val runTime: String
+)

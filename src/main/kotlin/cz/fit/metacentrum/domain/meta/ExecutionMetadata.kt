@@ -15,8 +15,8 @@ data class ExecutionMetadata(
         val storagePath: Path? = null,
         val sourcesPath: Path? = null,
         val iterationCombinations: List<Map<String, String>>? = null,
-        val runScripts: List<ExecutionMetadataScriptRun>? = null,
-        val status: ExecutionMetadataStatus? = null
+        val jobs: List<ExecutionMetadataScriptJob>? = null,
+        val state: ExecutionMetadataState? = null
 )
 
 object ExecutionMetadataComparator : Comparator<ExecutionMetadata> {
