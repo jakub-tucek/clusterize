@@ -4,6 +4,7 @@ buildscript {
     ext.junitPlatformVersion = "1.0.0"
     ext.jacksonVersion = "2.9.7"
     ext.guiceVersion = "4.2.2"
+    ext.mockitoVersion = "2.23.4"
 
     repositories {
         mavenCentral()
@@ -42,9 +43,11 @@ dependencies {
     testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
     testCompile 'org.assertj:assertj-core:3.11.1'
     testCompile 'com.google.jimfs:jimfs:1.1'
-    
-    runtime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    runtime "org.junit.platform:junit-platform-console:$junitPlatformVersion"
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: mockitoVersion
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
+
+    testRuntime "org.junit.platform:junit-platform-console:$junitPlatformVersion"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
 
 

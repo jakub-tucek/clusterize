@@ -9,8 +9,9 @@ import cz.fit.metacentrum.service.api.TaskExecutor
  */
 class CheckQueueExecutor : TaskExecutor {
 
+
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO()
     }
 
 }
