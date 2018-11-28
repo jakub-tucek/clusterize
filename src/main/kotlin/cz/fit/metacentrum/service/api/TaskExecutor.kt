@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.service.api
 
-import cz.fit.metacentrum.domain.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 
 /**
  * TaskExecutor is interface that defines and performs one execution step while running some action.

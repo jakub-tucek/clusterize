@@ -1,8 +1,8 @@
 package cz.fit.metacentrum.service.executor.submit
 
-import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.domain.config.ConfigIterationArray
 import cz.fit.metacentrum.domain.config.ConfigIterationIntRange
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.extension.ResetableIterator
 import cz.fit.metacentrum.extension.resetableIterator
 import cz.fit.metacentrum.service.api.TaskExecutor

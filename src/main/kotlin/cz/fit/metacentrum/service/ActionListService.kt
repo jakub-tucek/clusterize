@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service
 
 import cz.fit.metacentrum.domain.ActionList
-import cz.fit.metacentrum.domain.ExecutionMetadataComparator
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataComparator
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.util.ConsoleWriter
 import java.nio.file.Files

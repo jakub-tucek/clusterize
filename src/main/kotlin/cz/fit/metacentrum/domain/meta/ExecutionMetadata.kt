@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.domain
+package cz.fit.metacentrum.domain.meta
 
 import cz.fit.metacentrum.domain.config.ConfigFile
 import java.nio.file.Path
@@ -15,15 +15,9 @@ data class ExecutionMetadata(
         val storagePath: Path? = null,
         val sourcesPath: Path? = null,
         val iterationCombinations: List<Map<String, String>>? = null,
-        val runScripts: List<ExecutionMetadataRunScript>? = null
+        val runScripts: List<ExecutionMetadataScriptRun>? = null,
+        val status: ExecutionMetadataStatus? = null
 )
-
-
-data class ExecutionMetadataRunScript(val scriptPath: Path,
-                                      val runId: Int, // identical to iteration combination index
-                                      val pid: String? = null
-)
-
 
 object ExecutionMetadataComparator : Comparator<ExecutionMetadata> {
     override fun compare(o1: ExecutionMetadata?, o2: ExecutionMetadata?): Int {

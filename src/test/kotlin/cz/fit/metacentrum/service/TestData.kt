@@ -2,8 +2,8 @@ package cz.fit.metacentrum.service
 
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
-import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.domain.config.*
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 
 /**
  *

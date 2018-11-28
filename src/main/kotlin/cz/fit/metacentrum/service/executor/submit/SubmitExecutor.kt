@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.executor.submit
 
 import com.google.inject.Inject
-import cz.fit.metacentrum.domain.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter

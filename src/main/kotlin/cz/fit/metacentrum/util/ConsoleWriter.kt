@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.util
 
-import cz.fit.metacentrum.domain.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import java.time.format.DateTimeFormatter
 
 

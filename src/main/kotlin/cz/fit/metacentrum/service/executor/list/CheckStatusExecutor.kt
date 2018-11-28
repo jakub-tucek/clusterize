@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.service.executor.list
 
-import cz.fit.metacentrum.domain.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.api.TaskExecutor
 
 /**
