@@ -1,0 +1,2 @@
+#!/bin/bash
+./build/install/metacentrum-cli/bin/metacentrum-cli $@
