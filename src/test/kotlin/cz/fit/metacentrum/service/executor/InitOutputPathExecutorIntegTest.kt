@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.executor
 
 import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.service.TestData
+import cz.fit.metacentrum.service.executor.submit.InitOutputPathExecutor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test

@@ -34,10 +34,11 @@ class CommandLineParser {
                 return ActionHelp
             }
             "list" -> {
-                val type = retrieveNextValue(iterator, true)
+                val type = retrieveNextValue(iterator)
                 when (type) {
                     "-p" -> return ActionList(metadataStoragePath = retrieveNextValue(iterator, true))
-                    "-c" -> return ActionList(configFile = retrieveNextValue(iterator) ?: defaultConfigPath)
+                    "-c" -> return ActionList(configFile = retrieveNextValue(iterator, true))
+                    null -> return ActionList(configFile = defaultConfigPath)
                     else -> {
                         printHelp()
                         throw IllegalArgumentException("Unrecognized flag $type")
@@ -64,7 +65,7 @@ class CommandLineParser {
                     help - displays help
                     list [OPTIONS] - lists tasks
                        -p [VALUE] - define path to metadata folder
-                       -c [OPTIONAL VALUE] - specify path to configuration file or default is used ($defaultConfigPath)
+                       -c [VALUE] - specify path to configuration file or default is used ($defaultConfigPath)
         """.trimIndent())
     }
 

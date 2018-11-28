@@ -33,12 +33,14 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
 
     private fun runExecutors(config: ConfigFile, executorSet: Set<TaskExecutor>) {
         val initMetadata = ExecutionMetadata(configFile = config)
+        ConsoleWriter.writeExecutorsRunEnd()
         val finalMetadata = executorSet.asSequence()
                 .fold(initMetadata) { metadata, executor ->
                     val res = executor.execute(metadata)
                     ConsoleWriter.writeStatusDone()
                     res
                 }
+        ConsoleWriter.writeExecutorsRunEnd()
         serializationService.persistMetadata(finalMetadata)
     }
 

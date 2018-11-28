@@ -4,6 +4,7 @@ import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.ExecutionMetadata
 import cz.fit.metacentrum.service.TestData
+import cz.fit.metacentrum.service.executor.submit.InitOutputPathExecutor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

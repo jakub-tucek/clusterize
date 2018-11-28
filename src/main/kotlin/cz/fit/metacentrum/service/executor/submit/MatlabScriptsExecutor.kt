@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.executor
+package cz.fit.metacentrum.service.executor.submit
 
 import com.github.mustachejava.DefaultMustacheFactory
 import cz.fit.metacentrum.domain.ExecutionMetadata

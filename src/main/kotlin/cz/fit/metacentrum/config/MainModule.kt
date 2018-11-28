@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule
 import com.google.inject.multibindings.Multibinder
 import cz.fit.metacentrum.service.*
 import cz.fit.metacentrum.service.api.TaskExecutor
-import cz.fit.metacentrum.service.executor.*
+import cz.fit.metacentrum.service.executor.submit.*
 import cz.fit.metacentrum.service.validator.ConfigValidationService
 import cz.fit.metacentrum.service.validator.IterationConfigValidator
 
