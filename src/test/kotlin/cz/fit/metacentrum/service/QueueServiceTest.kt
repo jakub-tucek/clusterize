@@ -37,10 +37,19 @@ JobId jobName username         0 Q q_1d
     }
 
     @Test
-    fun testCacheIsProperlyMapped() {
+    fun testResultIsProperlyMapped() {
         val res = queueService.retrieveQueueForUser()
         Assertions.assertThat(res)
                 .hasSize(1)
                 .contains(QueueRecord("JobId", "jobName", "username", "0", "Q", "q_1d"))
+    }
+
+    @Test
+    fun testThatResultIsCached() {
+        val res = queueService.retrieveQueueForUser()
+        val res2 = queueService.retrieveQueueForUser()
+
+        Assertions.assertThat(res).isEqualTo(res2)
+        Mockito.verify(shellService, Mockito.times(1)).runCommand(KotlinMockito.any())
     }
 }
