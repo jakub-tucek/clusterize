@@ -32,6 +32,7 @@ class MainModule : AbstractModule() {
         val matlabBinder = Multibinder.newSetBinder(binder(), TaskExecutor::class.java)
 
         matlabBinder.addBinding().to(ResolvePathExecutor::class.java)
+        matlabBinder.addBinding().to(UsernameResolverExecutor::class.java)
         matlabBinder.addBinding().to(InitOutputPathExecutor::class.java)
         matlabBinder.addBinding().to(CopySourcesFilesExecutor::class.java)
         matlabBinder.addBinding().to(IterationExecutor::class.java)
