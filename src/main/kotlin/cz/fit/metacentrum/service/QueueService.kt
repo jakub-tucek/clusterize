@@ -14,13 +14,13 @@ class QueueService {
     private lateinit var shellService: ShellService
 
 
-    // cache of records
-    private lateinit var cache: List<QueueRecord>
+    // cache of records for username
+    private var cache: MutableMap<String, List<QueueRecord>> = mutableMapOf()
 
-
-    fun retrieveQueueForUser(): List<QueueRecord> {
-        if (this::cache.isInitialized) {
-            return cache
+    fun retrieveQueueForUser(username: String): List<QueueRecord> {
+        val cachedResult = cache.get(username)
+        if (cachedResult != null) {
+            return cachedResult
         }
 
 
@@ -31,7 +31,8 @@ class QueueService {
         val queueRecords = output.lines()
                 .map { it.replace("""\s+""".toRegex(), " ") }
                 .map { parseQueueLine(it) }
-        cache = queueRecords
+                .filter { it.username.equals(username, true) }
+        cache[username] = queueRecords
 
         return queueRecords
     }
