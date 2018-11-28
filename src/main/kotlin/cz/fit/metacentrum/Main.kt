@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
 
         logger.debug("App finished without unexpected error")
     } catch (e: Throwable) {
-        logger.info("Running app failed", e)
+        logger.error("Running app failed", e)
         System.err.println(e.message)
         System.exit(1)
     }

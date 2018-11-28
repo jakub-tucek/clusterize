@@ -3,6 +3,7 @@ package cz.fit.metacentrum.service
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import cz.fit.metacentrum.domain.ExecutionMetadata
@@ -13,6 +14,8 @@ import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 
 private val logger = KotlinLogging.logger {}
+
+private const val metadataFileName: String = "metadata.yml"
 
 /**
  *
@@ -34,21 +37,36 @@ class SerializationService {
             return configurationFile
         } catch (e: JsonProcessingException) {
             logger.error("Parsing yml failed", e)
-            throw IllegalArgumentException(
-                    "ConfigFile file has invalid format. Check if file has proper format. ${e.message}",
-                    e)
+            throw IllegalArgumentException("ConfigFile file probably does not exist in path ${path} or has invalid format", e)
         }
     }
 
     fun persistMetadata(metadata: ExecutionMetadata) {
-        val metadataFile = metadata.metadataStoragePath?.resolve("metadata.yml")
+        val metadataFile = metadata.metadataStoragePath?.resolve(metadataFileName)
                 ?: throw IllegalStateException("Metadata storage path not set")
 
         val writer = Files.newBufferedWriter(metadataFile, StandardOpenOption.CREATE_NEW)
         mapper.writeValue(writer, metadata)
     }
 
+    fun parseMetadata(metadataPath: String): ExecutionMetadata? {
+        val path = Paths.get(metadataPath).resolve(metadataFileName)
+        if (!Files.exists(path)) {
+            return null
+        }
+        try {
+            return Files.newBufferedReader(path).use {
+                mapper.readValue<ExecutionMetadata>(it)
+            }
+        } catch (e: JsonProcessingException) {
+            logger.error("Parsing metadata yml failed", e)
+            throw IllegalArgumentException("Metadata file in path ${path} has probably invalid format")
+        }
+    }
+
     companion object {
-        var mapper = ObjectMapper(YAMLFactory()).registerKotlinModule() // Enable YAML parsing
+        var mapper = ObjectMapper(YAMLFactory()) // Enable YAML parsing
+                .registerKotlinModule()
+                .registerModule(JavaTimeModule())
     }
 }

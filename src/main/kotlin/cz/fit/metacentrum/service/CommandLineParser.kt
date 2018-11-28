@@ -11,8 +11,7 @@ private val logger = KotlinLogging.logger {}
 
 
 const val genericErrorMessage = "Parsing arguments failed, value after argument expected but none was found"
-const val submitCommand = "submit [path to configuration file]"
-const val listCommand = "submit [options]"
+const val defaultConfigPath = "${appName}-configuration.yml"
 
 /**
  * Parser of command line arguments
@@ -22,23 +21,23 @@ class CommandLineParser {
     fun parseArguments(args: Array<String>): Action {
         val iterator = args.iterator()
 
-        val nextValue = retrieveNextValue(iterator, "No parameters given. Type help for possible options")
+        val nextValue = retrieveNextValue(iterator, true)
 
 
         when (nextValue) {
             "submit" -> {
-                val configFile = retrieveNextValue(iterator, "Usage: $appName $submitCommand")
-                return ActionSubmit(configFile)
+                val configFile = retrieveNextValue(iterator)
+                return ActionSubmit(configFile ?: defaultConfigPath)
             }
             "help" -> {
                 printHelp()
                 return ActionHelp
             }
             "list" -> {
-                val type = retrieveNextValue(iterator, "Usage: $appName $listCommand")
+                val type = retrieveNextValue(iterator, true)
                 when (type) {
-                    "-p" -> return ActionList(metadataStoragePath = retrieveNextValue(iterator, "Argument expected"))
-                    "-c" -> return ActionList(configFile = retrieveNextValue(iterator, "Argument expected"))
+                    "-p" -> return ActionList(metadataStoragePath = retrieveNextValue(iterator, true))
+                    "-c" -> return ActionList(configFile = retrieveNextValue(iterator) ?: defaultConfigPath)
                     else -> {
                         printHelp()
                         throw IllegalArgumentException("Unrecognized flag $type")
@@ -60,19 +59,22 @@ class CommandLineParser {
 
             Usage: $appName <command> [...additional variables]
 
-                commands:
-                    $submitCommand - submits new task to clust according to configuration structure
+                    submit [optional path to configuration file] - submits new task to cluster according to configuration structure
+                                                                 - default path is used if not specified ($defaultConfigPath)
                     help - displays help
-                    $listCommand
+                    list [OPTIONS] - lists tasks
                        -p [VALUE] - define path to metadata folder
-                       -c [VALUE] - specify path to configuration file
+                       -c [OPTIONAL VALUE] - specify path to configuration file or default is used ($defaultConfigPath)
         """.trimIndent())
     }
 
-    private fun retrieveNextValue(iterator: Iterator<String>, msg: String = genericErrorMessage): String {
+    private fun retrieveNextValue(iterator: Iterator<String>, required: Boolean = false): String? {
         if (!iterator.hasNext()) {
-            logger.error(msg)
-            throw IllegalArgumentException(msg)
+            if (required) {
+                throw IllegalArgumentException(genericErrorMessage)
+            } else {
+                return null
+            }
         }
         return iterator.next()
     }

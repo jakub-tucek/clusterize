@@ -2,7 +2,10 @@ package cz.fit.metacentrum.service
 
 import cz.fit.metacentrum.domain.ActionList
 import cz.fit.metacentrum.service.api.ActionService
+import java.nio.file.Files
+import java.nio.file.Paths
 import javax.inject.Inject
+import kotlin.streams.toList
 
 /**
  *
@@ -13,9 +16,14 @@ class ActionListService() : ActionService<ActionList> {
     private lateinit var serializationService: SerializationService
 
     override fun processAction(argumentAction: ActionList) {
-        val config = getMetadataPath(argumentAction)
+        val metadataPath = Paths.get(getMetadataPath(argumentAction))
 
-        println(config)
+        val metadatas = Files.walk(metadataPath)
+                .filter { Files.isDirectory(it) }
+                .map { serializationService.parseMetadata(it.toString()) }
+                .toList()
+
+        println(metadatas)
     }
 
     private fun getMetadataPath(actionList: ActionList): String {

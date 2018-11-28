@@ -1,0 +1,47 @@
+# defines iterations in given order
+iterations:
+  - type: ARRAY # will iterate over values given in array
+    name: VICINITY_TYPE
+    values: [10, 20]
+
+  - type: INT_RANGE # will iterate over given integer range
+    name: MIN_TRANSL
+    from: 0
+    to: 2
+
+  - type: ARRAY
+    name: ADDED_LAYERS
+    values: ['[10, 20, 30]', '[20, 20]']
+
+  - type: INT_RANGE
+    name: SUB_IMG_IDX
+    from: 1
+    to: 2
+
+  - type: INT_RANGE
+    name: RUN_ID
+    from: 1
+    to: 2
+
+environment:
+  metadataStoragePath: './out/metadataStorage'
+  storagePath: './out/storage' #usually storage
+  sourcesPath: './src/test/resources/sources'
+  variables:
+  dependents:
+    - name: MAX_TRANSL
+      dependentVarName: VICINITY_TYPE
+      modifier: '+1'
+
+taskType:
+  type: MATLAB # type of runner
+  functionName: 'main_batch01'
+  parameters:
+    - $MIN_TRANSL
+    - $MAX_TRANSL
+    - $VICINITY_TYPE
+    - $SUB_IMG_IDX
+    - 'useGPU' # First env variable
+    - 'yes'
+    - 'layers'
+    - $ADDED_LAYERS
