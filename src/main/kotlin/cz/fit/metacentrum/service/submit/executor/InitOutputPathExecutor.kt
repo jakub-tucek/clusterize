@@ -52,11 +52,11 @@ class InitOutputPathExecutor : TaskExecutor {
                     .sortedDescending()
                     .firstOrNull()
             if (highestFolderNumber != null) {
-                newName = "${taskFolderPrefix}_${highestFolderNumber + 1}"
+                newName = "${taskFolderPrefix}${highestFolderNumber + 1}"
             }
         }
 
-        return "$newName-$formattedTimestamp"
+        return "${newName}__$formattedTimestamp"
     }
 
     private fun initPath(folderName: String, pathFromMetadata: Path?, configPath: String): Path {
