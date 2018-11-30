@@ -37,3 +37,6 @@ disp('useGPU');
 disp(useGPU);
 disp('layers');
 disp(layers);
+
+disp('sleep')
+java.lang.Thread.sleep(10*1000)
