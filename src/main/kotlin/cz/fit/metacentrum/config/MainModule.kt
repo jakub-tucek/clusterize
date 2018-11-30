@@ -10,7 +10,9 @@ import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
 import cz.fit.metacentrum.service.list.ActionListService
+import cz.fit.metacentrum.service.list.CheckQueueExecutor
 import cz.fit.metacentrum.service.list.FailedJobFinderService
+import cz.fit.metacentrum.service.list.MetadataInfoPrinter
 import cz.fit.metacentrum.service.submit.ActionSubmitService
 import cz.fit.metacentrum.service.submit.executor.*
 
@@ -33,6 +35,7 @@ class MainModule : AbstractModule() {
         bind(ActionListService::class.java)
         bind(ShellService::class.java)
         bind(FailedJobFinderService::class.java)
+        bind(MetadataInfoPrinter::class.java)
     }
 
     private fun bindExecutors() {
@@ -45,5 +48,8 @@ class MainModule : AbstractModule() {
         matlabBinder.addBinding().to(IterationExecutor::class.java)
         matlabBinder.addBinding().to(MatlabScriptsExecutor::class.java)
         matlabBinder.addBinding().to(SubmitExecutor::class.java)
+
+
+        bind(CheckQueueExecutor::class.java)
     }
 }

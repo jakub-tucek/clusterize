@@ -26,11 +26,12 @@ class QueueRecordsService {
 
 
         // run qstat command and ship useless lines
-        val (output, status, errOutput) = shellService.runCommand("qstat", "|", "tail", "-n", "+3")
+        val (output, status, errOutput) = shellService.runCommand("qstat | tail -n +3")
         if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
 
         val queueRecords = output.lines()
                 .map { it.replace("""\s+""".toRegex(), " ") }
+                .filter { it.isBlank() }
                 .map { parseQueueLine(it) }
                 .filter { it.username.equals(username, true) }
         cache[username] = queueRecords
@@ -39,7 +40,10 @@ class QueueRecordsService {
     }
 
     private fun parseQueueLine(line: String): QueueRecord {
-        val lineColumns = line.split(" ")
+        val lineColumns = line
+                // merge job id so it does not fuck up parsing
+                .replace("Job id", "JobId")
+                .split(" ")
         if (lineColumns.count() != 6)
             throw IllegalArgumentException("Parsed line has invalid count of columns (${lineColumns.count()}). \"${line}\"")
 

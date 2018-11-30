@@ -1,8 +1,5 @@
 package cz.fit.metacentrum.util
 
-import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import java.time.format.DateTimeFormatter
-
 
 const val defaultCommandDelimiter = "================================================================================"
 
@@ -12,12 +9,20 @@ const val defaultCommandDelimiter = "===========================================
  */
 object ConsoleWriter {
 
+    fun writeHeader(head: String) {
+        println("==== $head =====")
+    }
+
     fun writeStatus(msg: String) {
         println(" --- $msg")
     }
 
     fun writeStatusDetail(msg: String) {
-        println("          $msg")
+        println(getStatusDetailLine(msg))
+    }
+
+    fun getStatusDetailLine(msg: String): String {
+        return "          $msg"
     }
 
     fun writeStatusDone() {
@@ -25,20 +30,6 @@ object ConsoleWriter {
     }
 
     fun writeDelimiter() {
-        println(defaultCommandDelimiter)
-    }
-
-
-    fun writeMetadas(metadatas: List<ExecutionMetadata>) {
-        println(defaultCommandDelimiter)
-        println("Found task executions")
-        println(defaultCommandDelimiter)
-        metadatas.forEachIndexed { index, executionMetadata ->
-            val formattedDate = executionMetadata.timestamp.format(
-                    DateTimeFormatter.ofPattern("dd/MM/YYYY hh:mm")
-            )
-            println("  $index - ${formattedDate}")
-        }
         println(defaultCommandDelimiter)
     }
 }

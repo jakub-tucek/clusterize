@@ -17,6 +17,10 @@ import kotlin.streams.toList
 class ActionListService() : ActionService<ActionList> {
     @Inject
     private lateinit var serializationService: SerializationService
+    @Inject
+    private lateinit var checkQueueExecutor: CheckQueueExecutor
+    @Inject
+    private lateinit var metadataInfoPrinter: MetadataInfoPrinter
 
     override fun processAction(argumentAction: ActionList) {
         val metadataPath = Paths.get(getMetadataPath(argumentAction))
@@ -33,8 +37,9 @@ class ActionListService() : ActionService<ActionList> {
                 .sorted(ExecutionMetadataComparator::compare)
                 .toList()
                 .filterNotNull()
+                .map { checkQueueExecutor.execute(it) }
 
-        ConsoleWriter.writeMetadas(metadatas)
+        metadataInfoPrinter.printMetadataListInfo(metadatas)
     }
 
     private fun getMetadataPath(actionList: ActionList): String {
