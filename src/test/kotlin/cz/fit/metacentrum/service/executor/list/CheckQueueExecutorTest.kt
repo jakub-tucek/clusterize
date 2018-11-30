@@ -140,9 +140,9 @@ internal class CheckQueueExecutorTest {
             Assertions.assertThat(getActiveJobs(state))
                     .extracting<ExecutionMetadataJob> { it.job }
                     .isEqualTo(metadata.jobs!!)
-            Assertions.assertThat(state.queuedJobs)
+            Assertions.assertThat(getActiveJobs(state))
                     .extracting<String> { it.runTime }
-                    .isEqualTo("00:00:00")
+                    .contains("00:00:00")
 
         }
     }

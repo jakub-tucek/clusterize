@@ -62,9 +62,9 @@ JobId jobName username2         0 Q q_1d
 
         Assertions.assertThat(res)
                 .extracting<String> { it.username }
-                .isEqualTo("username")
+                .contains("username")
         Assertions.assertThat(res2)
                 .extracting<String> { it.username }
-                .isEqualTo("username2")
+                .contains("username2")
     }
 }
