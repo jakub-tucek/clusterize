@@ -30,7 +30,7 @@ class QueueRecordsService {
         if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
 
         val queueRecords = output.lines()
-                .map { it.replace("""\s+""".toRegex(), " ") }
+                .map { it.replace("""\s+""".toRegex(), " ").trim() }
                 .filter { it.isNotBlank() }
                 .map { parseQueueLine(it) }
                 .filter { it.username.equals(username, true) }
