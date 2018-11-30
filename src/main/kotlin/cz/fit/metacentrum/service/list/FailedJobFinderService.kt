@@ -26,11 +26,13 @@ class FailedJobFinderService {
     private fun checkForErrorInPath(job: ExecutionMetadataJob): ExecutionMetadataJobFailedWrapper? {
         val statusFile = job.runPath.resolve("status.log")
         var status: Int? = null
+
         try {
             status = Files.readAllLines(statusFile).first().toInt()
         } catch (e: NumberFormatException) {
-            logger.error("Status file is is missing ")
+            logger.error("Status file cannot be read")
         }
+
         // finished OK, no error
         if (status == 0) return null
         val output = Files.list(job.runPath)
