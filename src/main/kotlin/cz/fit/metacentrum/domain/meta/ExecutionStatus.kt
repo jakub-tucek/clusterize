@@ -21,7 +21,9 @@ class ExecutionMetadataStateFailed(val failedJobs: List<ExecutionMetadataJobFail
 
 // Wrapping object for failed job
 data class ExecutionMetadataJobFailedWrapper(
-        val job: ExecutionMetadataJob
+        val job: ExecutionMetadataJob,
+        val status: Int?,
+        val output: String
 )
 
 // Wrapping object for running job

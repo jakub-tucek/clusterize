@@ -26,6 +26,7 @@ class MainModule : AbstractModule() {
         bind(ActionSubmitService::class.java)
         bind(ActionListService::class.java)
         bind(ShellService::class.java)
+        bind(FailedJobFinderService::class.java)
     }
 
     private fun bindExecutors() {

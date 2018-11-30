@@ -44,11 +44,6 @@ matlab -nodesktop -nosplash -nodisplay -r            \
 "    exit(1),                                       "\
 "end,                                               "\
 "exit(0)"                                            \
-&> "{{runPath}}/stdout_matlab.log"
+&> "{{runPath}}/stdout_job.log"
 
-if [ "$?" -eq 0 ]; then
-# create file 'success', must be last, signals that everything went OK
-echo "OK\nrun number $PBS_JOBID successfully finished" > "{{runPath}}/status.log"
-else
-echo "FAIL\nrun number $PBS_JOBID completed with exit status != 0" > {{runPath}}/status.log
-fi
+echo "$?" > "{{runPath}}/status.log"
