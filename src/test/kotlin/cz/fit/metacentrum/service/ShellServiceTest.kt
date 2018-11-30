@@ -13,7 +13,7 @@ internal class ShellServiceTest {
 
     @Test
     fun testRunningSimpleCommand() {
-        val (output, status, errOutput) = shell.runCommand("echo", "123")
+        val (output, status, errOutput) = shell.runCommand("echo 123")
 
         Assertions.assertThat(status).isEqualTo(0)
         Assertions.assertThat(errOutput).isEmpty()
@@ -22,7 +22,7 @@ internal class ShellServiceTest {
 
     @Test
     fun testRunFailed() {
-        val (output, status, errOutput) = shell.runCommand("ls", "-2")
+        val (output, status, errOutput) = shell.runCommand("ls -2")
 
         Assertions.assertThat(status).isEqualTo(2)
         Assertions.assertThat(errOutput).contains("ls --help")
@@ -33,7 +33,7 @@ internal class ShellServiceTest {
     @Disabled
     fun runDocker() {
         val runCommand = shell
-                .runCommand("docker", "exec", "--user", "pbsuser", "pbs", "bash", "-c", "\"echo \$PATH\" ")
+                .runCommand("docker exec --user pbsuser pbs bash -c \"echo \$PATH\" ")
 
         println(runCommand)
     }

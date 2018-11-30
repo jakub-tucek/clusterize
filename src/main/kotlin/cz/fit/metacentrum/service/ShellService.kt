@@ -10,11 +10,10 @@ import java.util.concurrent.TimeUnit
 class ShellService {
 
     /**
-     * Runs commands in console with 5s timeout. Commands that would normally be split by spaces like:
-     * 'echo 123' must be passed as two commands: 'echo', '123'.
+     * Runs commands in console with 5s timeout in /bin/sh
      */
-    fun runCommand(vararg commands: String): CommandOutput {
-        val process = ProcessBuilder(*commands)
+    fun runCommand(command: String): CommandOutput {
+        val process = ProcessBuilder("/bin/sh", "-c", command)
                 .start()
 
         process.waitFor(5, TimeUnit.SECONDS)
