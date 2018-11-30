@@ -55,11 +55,11 @@ class MetadataInfoPrinter {
 
     private fun getRunningDescription(state: ExecutionMetadataStateRunning, totalCountJobs: Int): String {
         val desc = StringBuilder()
-        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.failedJobs}/${totalCountJobs}"))
+        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.failedJobs.count()}/${totalCountJobs}"))
         desc.append("\n")
-        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.queuedJobs}/${totalCountJobs}"))
+        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.failedJobs.count()}/${totalCountJobs}"))
         desc.append("\n")
-        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.runningJobs}/${totalCountJobs}"))
+        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.failedJobs.count()}/${totalCountJobs}"))
         desc.append("\n")
         val runningJobsDetail = state.runningJobs
                 .map { "${it.job.pid}: ${it.runTime}" }
