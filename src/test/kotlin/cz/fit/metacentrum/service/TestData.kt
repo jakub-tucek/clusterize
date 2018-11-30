@@ -4,6 +4,7 @@ import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.config.*
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 
 /**
  *
@@ -56,6 +57,27 @@ internal object TestData {
             storagePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage"),
             metadataStoragePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStorage"),
             sourcesPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStorage/sources")
+    )
+
+    val executedMetadata = metadata.copy(
+            submittingUsername = "BigBoy",
+            jobs = listOf(
+                    ExecutionMetadataJob(
+                            runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job1"),
+                            runId = 1,
+                            pid = "pid1"
+                    ),
+                    ExecutionMetadataJob(
+                            runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job2"),
+                            runId = 2,
+                            pid = "pid2"
+                    ),
+                    ExecutionMetadataJob(
+                            runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job3"),
+                            runId = 3,
+                            pid = "pid3"
+                    )
+            )
     )
 }
 

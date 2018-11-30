@@ -38,7 +38,7 @@ class CheckQueueExecutor : TaskExecutor {
         val failedJobs = failedJobFinderService.findFailedJobs(jobs)
 
         // no running jobs - so it either failed or finished successfully
-        if (running.isEmpty()) {
+        if (running.isEmpty() && queued.isEmpty()) {
             if (failedJobs.isEmpty()) {
                 return metadata.copy(state = ExecutionMetadataStateOk)
             } else {

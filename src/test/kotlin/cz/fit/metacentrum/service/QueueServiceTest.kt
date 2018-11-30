@@ -61,8 +61,10 @@ JobId jobName username2         0 Q q_1d
         val res2 = queueService.retrieveQueueForUser("username2")
 
         Assertions.assertThat(res)
-                .allSatisfy({ it.username == "username" })
+                .extracting<String> { it.username }
+                .isEqualTo("username")
         Assertions.assertThat(res2)
-                .allSatisfy({ it.username == "username2" })
+                .extracting<String> { it.username }
+                .isEqualTo("username2")
     }
 }
