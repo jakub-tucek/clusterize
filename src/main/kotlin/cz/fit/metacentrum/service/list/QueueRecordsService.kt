@@ -33,6 +33,7 @@ class QueueRecordsService {
                 .map { it.replace("""\s+""".toRegex(), " ") }
                 .filter { it.isNotBlank() }
                 .map { parseQueueLine(it) }
+                .filter { it.username.equals(username, true) }
         cache[username] = queueRecords
 
         return queueRecords
