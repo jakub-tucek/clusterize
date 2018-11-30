@@ -2,11 +2,17 @@ package cz.fit.metacentrum.config
 
 import com.google.inject.AbstractModule
 import com.google.inject.multibindings.Multibinder
-import cz.fit.metacentrum.service.*
+import cz.fit.metacentrum.service.MainService
+import cz.fit.metacentrum.service.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
-import cz.fit.metacentrum.service.executor.submit.*
-import cz.fit.metacentrum.service.validator.ConfigValidationService
-import cz.fit.metacentrum.service.validator.IterationConfigValidator
+import cz.fit.metacentrum.service.input.CommandLineParser
+import cz.fit.metacentrum.service.input.SerializationService
+import cz.fit.metacentrum.service.input.validator.ConfigValidationService
+import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
+import cz.fit.metacentrum.service.list.ActionListService
+import cz.fit.metacentrum.service.list.FailedJobFinderService
+import cz.fit.metacentrum.service.submit.ActionSubmitService
+import cz.fit.metacentrum.service.submit.executor.*
 
 
 class MainModule : AbstractModule() {

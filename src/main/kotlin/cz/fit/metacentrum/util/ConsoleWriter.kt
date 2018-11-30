@@ -4,7 +4,7 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import java.time.format.DateTimeFormatter
 
 
-private const val defaultListDelimeter = "================================================================================"
+const val defaultCommandDelimiter = "================================================================================"
 
 /**
  *
@@ -24,20 +24,21 @@ object ConsoleWriter {
         println("          DONE")
     }
 
-    fun writeExecutorsRunEnd() {
-        println(defaultListDelimeter)
+    fun writeDelimiter() {
+        println(defaultCommandDelimiter)
     }
 
+
     fun writeMetadas(metadatas: List<ExecutionMetadata>) {
-        println(defaultListDelimeter)
+        println(defaultCommandDelimiter)
         println("Found task executions")
-        println(defaultListDelimeter)
+        println(defaultCommandDelimiter)
         metadatas.forEachIndexed { index, executionMetadata ->
             val formattedDate = executionMetadata.timestamp.format(
                     DateTimeFormatter.ofPattern("dd/MM/YYYY hh:mm")
             )
             println("  $index - ${formattedDate}")
         }
-        println(defaultListDelimeter)
+        println(defaultCommandDelimiter)
     }
 }
