@@ -16,8 +16,7 @@ class MetadataInfoPrinter {
 
     fun printMetadataListInfo(metadatas: List<ExecutionMetadata>) {
         ConsoleWriter.writeDelimiter()
-        ConsoleWriter.writeHeader("Found tasks")
-        ConsoleWriter.writeDelimiter()
+        ConsoleWriter.writeHeader("Found tasks:")
         metadatas.forEachIndexed { index, executionMetadata ->
             printMetadataInfo(index, executionMetadata)
         }
@@ -37,15 +36,15 @@ class MetadataInfoPrinter {
 
         when (state) {
             is ExecutionMetadataStateOk -> {
-                stringBuild.append("- OK")
+                stringBuild.append(" - OK")
             }
             is ExecutionMetadataStateFailed -> {
                 val failedStateFailed = state
-                stringBuild.append("- ${failedStateFailed.failedJobs.count()}/${jobs.count()} FAILED")
+                stringBuild.append(" - ${failedStateFailed.failedJobs.count()}/${jobs.count()} FAILED")
             }
             is ExecutionMetadataStateRunning -> {
                 val runningDescription = getRunningDescription(state, jobs.count())
-                stringBuild.append("- RUNNING\n")
+                stringBuild.append(" - RUNNING\n")
                 stringBuild.append(runningDescription)
             }
             else -> throw IllegalStateException("Proper state is not set in metadata. ${state}")
