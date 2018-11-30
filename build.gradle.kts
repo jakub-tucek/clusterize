@@ -66,6 +66,9 @@ dependencies {
 
     testRuntime("org.junit.platform:junit-platform-console:$junitPlatformVersion")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    // tests are failing in IDEA without this
+    testCompile(group = "org.junit.platform", name = "junit-platform-launcher", version = "1.3.2")
+
 }
 
 
