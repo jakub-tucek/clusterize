@@ -4,7 +4,6 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJobFailedWrapper
 import mu.KotlinLogging
 import java.nio.file.Files
-import java.nio.file.Path
 import kotlin.streams.toList
 
 private val logger = KotlinLogging.logger {}
@@ -15,27 +14,27 @@ private val logger = KotlinLogging.logger {}
  */
 class FailedJobFinderService {
 
-    fun findFailedJobs(storagePath: Path, jobs: List<ExecutionMetadataJob>): List<ExecutionMetadataJobFailedWrapper> {
-        return Files.list(storagePath)
-                .toList()
+    fun findFailedJobs(jobs: List<ExecutionMetadataJob>): List<ExecutionMetadataJobFailedWrapper> {
+        return jobs
                 // if status is missing it should mean that job is not finished
-                .filter { Files.exists(it.resolve("status.log")) }
-                .mapIndexed { index, path -> checkForErrorInPath(path, jobs[index]) }
+                .filter { Files.exists(it.runPath.resolve("status.log")) }
+                .map { checkForErrorInPath(it) }
                 .filterNotNull()
 
     }
 
-    private fun checkForErrorInPath(jobPath: Path, executionMetadataJob: ExecutionMetadataJob): ExecutionMetadataJobFailedWrapper? {
-        val statusFile = jobPath.resolve("status.log")
+    private fun checkForErrorInPath(job: ExecutionMetadataJob): ExecutionMetadataJobFailedWrapper? {
+        val statusFile = job.runPath.resolve("status.log")
         var status: Int? = null
         try {
             status = Files.readAllLines(statusFile).first().toInt()
         } catch (e: NumberFormatException) {
             logger.error("Status file is is missing ")
         }
-        if (status == 1) return null
-        val output = Files.walk(jobPath)
-                .filter { it.fileName.endsWith(".log") }
+        // finished OK, no error
+        if (status == 0) return null
+        val output = Files.list(job.runPath)
+                .filter { it.toString().endsWith(".log") }
                 .map {
                     """
                     ==================== ${it.fileName} =========================
@@ -46,6 +45,6 @@ class FailedJobFinderService {
                 .toList()
                 .joinToString("\n")
 
-        return ExecutionMetadataJobFailedWrapper(job = executionMetadataJob, status = status, output = output)
+        return ExecutionMetadataJobFailedWrapper(job = job, status = status, output = output)
     }
 }

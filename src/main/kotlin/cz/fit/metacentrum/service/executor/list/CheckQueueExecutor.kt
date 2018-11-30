@@ -24,9 +24,6 @@ class CheckQueueExecutor : TaskExecutor {
             // no need to check status again
             return metadata
         }
-        // extract jobs and path for further usage
-        val storagePath = metadata.storagePath
-                ?: throw IllegalStateException("Storage path is missing in metadata object")
         val jobs = metadata.jobs ?: throw IllegalStateException("Jobs are missing from metadata object")
 
         // mapped job by pid so queue records can be mapped to jobs easily
@@ -38,7 +35,7 @@ class CheckQueueExecutor : TaskExecutor {
 
         val queued = mappedRecordsByState[QueueRecord.State.Q] ?: emptyList()
         val running = mappedRecordsByState[QueueRecord.State.R] ?: emptyList()
-        val failedJobs = failedJobFinderService.findFailedJobs(storagePath, jobs)
+        val failedJobs = failedJobFinderService.findFailedJobs(jobs)
 
         // no running jobs - so it either failed or finished successfully
         if (running.isEmpty()) {

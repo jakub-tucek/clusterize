@@ -65,7 +65,7 @@ class MatlabScriptsExecutor : TaskExecutor {
         Files.write(innerScriptPath, templateStr.buffer.lines())
 
         return ExecutionMetadataJob(
-                scriptPath = innerScriptPath,
+                runPath = runPath,
                 runId = runCounter
         )
     }
