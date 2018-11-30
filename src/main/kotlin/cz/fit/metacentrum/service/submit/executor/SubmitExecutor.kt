@@ -30,7 +30,7 @@ class SubmitExecutor : TaskExecutor {
                     if (cmdResult.status != 0)
                         throw IOException("Submitting script ${scriptFile} failed with ${cmdResult.status}. ${cmdResult.errOutput}")
 
-                    ConsoleWriter.writeStatusDetail("Run ${it.runId} submitted under ${cmdResult.output.replace("\n", "")}")
+                    ConsoleWriter.writeStatusDetail("Run ${it.runId} submitted under ${cmdResult.output}")
                     it.copy(pid = cmdResult.output)
                 }
 

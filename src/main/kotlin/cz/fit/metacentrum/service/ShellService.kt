@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 class ShellService {
 
     /**
-     * Runs commands in console with 5s timeout in /bin/sh
+     * Runs commands in console with 5s timeout in /bin/sh. Read text are trimmed.
      */
     fun runCommand(command: String): CommandOutput {
         val process = ProcessBuilder("/bin/sh", "-c", command)
@@ -19,8 +19,8 @@ class ShellService {
         process.waitFor(5, TimeUnit.SECONDS)
 
 
-        val errInput = process.errorStream.bufferedReader().use { it.readText() }
-        val input = process.inputStream.bufferedReader().use { it.readText() }
+        val errInput = process.errorStream.bufferedReader().use { it.readText() }.trim()
+        val input = process.inputStream.bufferedReader().use { it.readText() }.trim()
 
         return CommandOutput(
                 input, process.exitValue(), errInput
