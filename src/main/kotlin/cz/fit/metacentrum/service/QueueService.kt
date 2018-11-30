@@ -47,7 +47,7 @@ class QueueService {
                 lineColumns[1],
                 lineColumns[2],
                 lineColumns[3],
-                lineColumns[4],
+                QueueRecord.State.valueOf(lineColumns[4]),
                 lineColumns[5]
         )
     }

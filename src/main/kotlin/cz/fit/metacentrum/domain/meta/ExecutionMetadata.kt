@@ -15,7 +15,7 @@ data class ExecutionMetadata(
         val storagePath: Path? = null,
         val sourcesPath: Path? = null,
         val iterationCombinations: List<Map<String, String>>? = null,
-        val jobs: List<ExecutionMetadataScriptJob>? = null,
+        val jobs: List<ExecutionMetadataJob>? = null,
         val submittingUsername: String? = null,
         val state: ExecutionMetadataState? = null
 )

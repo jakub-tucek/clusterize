@@ -9,7 +9,11 @@ data class QueueRecord(
         val jobName: String,
         val username: String,
         val timestamp: String,
-        // state of job - should be Q(queued) or R(running)
-        val state: String,
+        val state: State,
         val queueType: String
-)
+) {
+    // state of job - should be Q(queued) or R(running)
+    enum class State() {
+        R, Q
+    }
+}

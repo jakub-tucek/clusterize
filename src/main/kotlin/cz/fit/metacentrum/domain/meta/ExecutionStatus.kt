@@ -10,22 +10,22 @@ object ExecutionMetadataStateOk : ExecutionMetadataState()
 
 // Task still running. Can contain some failed jobs that already finished.
 class ExecutionMetadataStateRunning(
-        val runningJobs: List<ExecutionMetadataRunningJob>,
-        val queuedJobs: List<ExecutionMetadataRunningJob>,
-        val failedJobs: List<ExecutionMetadataFailedJob>
+        val runningJobs: List<ExecutionMetadataJobRunningWrapper>,
+        val queuedJobs: List<ExecutionMetadataJobRunningWrapper>,
+        val failedJobs: List<ExecutionMetadataJobFailedWrapper>
 ) : ExecutionMetadataState()
 
 // Failed status. Task and every job is finished but some failed - did not exit with OK status.
-class ExecutionMetadataStateFailed(val failedJobs: List<ExecutionMetadataFailedJob>) : ExecutionMetadataState()
+class ExecutionMetadataStateFailed(val failedJobs: List<ExecutionMetadataJobFailedWrapper>) : ExecutionMetadataState()
 
 
 // Wrapping object for failed job
-data class ExecutionMetadataFailedJob(
-        val scriptJob: ExecutionMetadataScriptJob
+data class ExecutionMetadataJobFailedWrapper(
+        val job: ExecutionMetadataJob
 )
 
 // Wrapping object for running job
-data class ExecutionMetadataRunningJob(
-        val scriptJob: ExecutionMetadataScriptJob,
+data class ExecutionMetadataJobRunningWrapper(
+        val job: ExecutionMetadataJob,
         val runTime: String
 )
