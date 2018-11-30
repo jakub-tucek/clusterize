@@ -26,14 +26,13 @@ class QueueRecordsService {
 
 
         // run qstat command and ship useless lines
-        val (output, status, errOutput) = shellService.runCommand("qstat | tail -n +3")
+        val (output, status, errOutput) = shellService.runCommand("qstat | grep $username")
         if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
 
         val queueRecords = output.lines()
                 .map { it.replace("""\s+""".toRegex(), " ") }
                 .filter { it.isNotBlank() }
                 .map { parseQueueLine(it) }
-                .filter { it.username.equals(username, true) }
         cache[username] = queueRecords
 
         return queueRecords
