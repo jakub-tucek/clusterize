@@ -3,6 +3,7 @@ package cz.fit.metacentrum.service.list
 import com.google.inject.Inject
 import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.service.ShellService
+import cz.fit.metacentrum.util.QueueUtils
 
 /**
  * Service responsible for retrieving queue. Due to nature of application (command line interface) that
@@ -48,7 +49,7 @@ class QueueRecordsService {
             throw IllegalArgumentException("Parsed line has invalid count of columns (${lineColumns.count()}). \"${line}\"")
 
         return QueueRecord(
-                lineColumns[0],
+                QueueUtils.extractPid(lineColumns[0]),
                 lineColumns[1],
                 lineColumns[2],
                 lineColumns[3],

@@ -5,6 +5,7 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
+import cz.fit.metacentrum.util.QueueUtils
 import mu.KotlinLogging
 import java.io.IOException
 
@@ -31,7 +32,7 @@ class SubmitExecutor : TaskExecutor {
                         throw IOException("Submitting script ${scriptFile} failed with ${cmdResult.status}. ${cmdResult.errOutput}")
 
                     ConsoleWriter.writeStatusDetail("Run ${it.runId} submitted under ${cmdResult.output}")
-                    it.copy(pid = cmdResult.output)
+                    it.copy(pid = QueueUtils.extractPid(cmdResult.output))
                 }
 
         return metadata.copy(jobs = scriptsWithPid)
