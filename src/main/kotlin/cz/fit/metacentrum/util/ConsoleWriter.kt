@@ -10,7 +10,7 @@ const val defaultCommandDelimiter = "===========================================
 object ConsoleWriter {
 
     fun writeHeader(head: String) {
-        println("==== $head =====")
+        println("     $head")
     }
 
     fun writeStatus(msg: String) {
