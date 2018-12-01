@@ -65,12 +65,12 @@ internal class CheckQueueExecutorTest {
         // setup queue records
         val queuedRecord = Mockito.mock(QueueRecord::class.java)
         Mockito.`when`(queuedRecord.pid).thenReturn(queuedJob.pid!!)
-        Mockito.`when`(queuedRecord.state).thenReturn(QueueRecord.State.Q)
+        Mockito.`when`(queuedRecord.state).thenReturn(QueueRecord.State.QUEUED)
         Mockito.`when`(queuedRecord.timestamp).thenReturn("")
 
         val runningRecord = Mockito.mock(QueueRecord::class.java)
         Mockito.`when`(runningRecord.pid).thenReturn(runningJob.pid!!)
-        Mockito.`when`(runningRecord.state).thenReturn(QueueRecord.State.R)
+        Mockito.`when`(runningRecord.state).thenReturn(QueueRecord.State.RUNNING)
         Mockito.`when`(runningRecord.timestamp).thenReturn("")
 
         Mockito.`when`(queueRecordsService.retrieveQueueForUser(metadata.submittingUsername!!)).thenReturn(listOf(
@@ -105,7 +105,7 @@ internal class CheckQueueExecutorTest {
             val allRunningMocks = metadata.jobs!!
                     .map { createQueueJob(it) }
                     .map {
-                        Mockito.`when`(it.state).thenReturn(QueueRecord.State.R)
+                        Mockito.`when`(it.state).thenReturn(QueueRecord.State.RUNNING)
                         it
                     }
             testAllJobsWithSameStatusInQueue(
@@ -149,7 +149,7 @@ internal class CheckQueueExecutorTest {
         val mock = Mockito.mock(QueueRecord::class.java)
         Mockito.`when`(mock.pid).thenReturn(job.pid!!)
         Mockito.`when`(mock.timestamp).thenReturn("00:00:00")
-        Mockito.`when`(mock.state).thenReturn(QueueRecord.State.Q)
+        Mockito.`when`(mock.state).thenReturn(QueueRecord.State.QUEUED)
         return mock
     }
 

@@ -54,7 +54,7 @@ internal class InitOutputPathExecutorIntegTest {
                 .exists()
                 .extracting { t -> t.fileName.toString() }
                 .asString()
-                .startsWith("task-1-" + LocalDate.now().format(DateTimeFormatter.ISO_DATE))
+                .startsWith("task-1__" + LocalDate.now().format(DateTimeFormatter.ISO_DATE))
     }
 
     @AfterEach

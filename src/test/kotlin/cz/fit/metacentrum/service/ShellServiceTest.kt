@@ -17,7 +17,7 @@ internal class ShellServiceTest {
 
         Assertions.assertThat(status).isEqualTo(0)
         Assertions.assertThat(errOutput).isEmpty()
-        Assertions.assertThat(output).isEqualTo("123\n")
+        Assertions.assertThat(output).isEqualTo("123")
     }
 
     @Test

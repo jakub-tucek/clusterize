@@ -48,12 +48,20 @@ class QueueRecordsService {
         if (lineColumns.count() != 6)
             throw IllegalArgumentException("Parsed line has invalid count of columns (${lineColumns.count()}). \"${line}\"")
 
+        // retrieve internal state value
+        val internalState = QueueRecord.InternalState.valueOf(lineColumns[4])
+        // map internal state representation to state
+        val state = when (internalState) {
+            QueueRecord.InternalState.Q -> QueueRecord.State.QUEUED
+            else -> QueueRecord.State.RUNNING
+        }
         return QueueRecord(
                 QueueUtils.extractPid(lineColumns[0]),
                 lineColumns[1],
                 lineColumns[2],
                 lineColumns[3],
-                QueueRecord.State.valueOf(lineColumns[4]),
+                internalState,
+                state,
                 lineColumns[5]
         )
     }

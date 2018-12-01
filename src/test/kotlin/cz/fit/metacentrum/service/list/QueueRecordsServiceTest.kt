@@ -43,8 +43,10 @@ JobId jobName username2         0 Q q_1d
         val res = queueRecordsService.retrieveQueueForUser("username")
         Assertions.assertThat(res)
                 .hasSize(1)
-                .contains(QueueRecord("JobId", "jobName", "username", "0", QueueRecord.State.Q,
-                        "q_1d"))
+                .contains(QueueRecord("1.Q", "jobName", "username", "0",
+                        QueueRecord.InternalState.Q,
+                        QueueRecord.State.QUEUED,
+                        "queueName"))
     }
 
     @Test

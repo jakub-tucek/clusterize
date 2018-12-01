@@ -65,17 +65,17 @@ internal object TestData {
                     ExecutionMetadataJob(
                             runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job1"),
                             runId = 1,
-                            pid = "pid1"
+                            pid = "1.pid"
                     ),
                     ExecutionMetadataJob(
                             runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job2"),
                             runId = 2,
-                            pid = "pid2"
+                            pid = "2.pid"
                     ),
                     ExecutionMetadataJob(
                             runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job3"),
                             runId = 3,
-                            pid = "pid3"
+                            pid = "3.pid"
                     )
             )
     )
