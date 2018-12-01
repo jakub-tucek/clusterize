@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.submit.executor
 
 import com.github.mustachejava.DefaultMustacheFactory
 import cz.fit.metacentrum.config.FileNames
+import cz.fit.metacentrum.config.ModuleConfiguration
 import cz.fit.metacentrum.domain.MatlabTemplateData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
@@ -40,7 +41,9 @@ class MatlabScriptsExecutor : TaskExecutor {
         return metadata.copy(jobs = submittedJobs)
     }
 
-    private fun createTemplate(metadata: ExecutionMetadata, variableData: HashMap<String, String>, runCounter: Int): ExecutionMetadataJob {
+    private fun createTemplate(metadata: ExecutionMetadata,
+                               variableData: HashMap<String, String>,
+                               runCounter: Int): ExecutionMetadataJob {
         val taskType = metadata.configFile.taskType as MatlabTaskType
 
         val runPath = initializePath(metadata.storagePath).resolve(runCounter.toString())
@@ -57,9 +60,10 @@ class MatlabScriptsExecutor : TaskExecutor {
                         TemplateUtils.formatFunctionParameters(taskType.parameters),
                         metadata.configFile.environment.dependents,
                         runPath.toAbsolutePath().toString(),
-                        metadata.sourcesPath?.toAbsolutePath() ?: throw IllegalStateException("Sources path not set")
-                )
-        ).flush()
+                        metadata.sourcesPath?.toAbsolutePath() ?: throw IllegalStateException("Sources path not set"),
+                        ModuleConfiguration.matlabModule,
+                        listOf(ModuleConfiguration.defaultToolbox, *taskType.modules.toTypedArray())
+                )).flush()
 
         val innerScriptPath = runPath.resolve(FileNames.innerScript)
         Files.createFile(innerScriptPath)

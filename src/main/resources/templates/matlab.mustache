@@ -2,8 +2,9 @@
 #PBS -N oneCPUjob
 #PBS -l walltime=4:00:00
 #PBS -l select=1:ncpus=12:mem=6gb
-#PBS -l matlab=1
-#PBS -l matlab_Neural_Network_Toolbox=1
+{{#toolboxes}}
+    #PBS -l {{.}}=1
+{{/toolboxes}}
 #PBS -o {{runPath}}/{{fileNames.stdOutLog}}
 #PBS -e {{runPath}}/{{fileNames.stdErrLog}}
 # Options for scheduling system - job will last 4 hours at maximum, 1 machine with 2 processor + 6gb memory RAM + 12gb scratch storage is requested
