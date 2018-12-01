@@ -6,12 +6,17 @@ package cz.fit.metacentrum.domain
  */
 data class QueueRecord(
         val pid: String,
-        val jobName: String,
         val username: String,
-        val timestamp: String,
+        val queueName: String,
+        val jobName: String,
+        val sessionId: String,
+        val nds: String,
+        val tsk: String,
+        val requiredMemory: String,
+        val requiredTime: String,
         val internalState: InternalState,
-        val state: State,
-        val queueType: String
+        val elapsedTime: String,
+        val state: State
 ) {
     // state of job - should be Q(queued) or R(running). E is for errored job.
     enum class InternalState() {

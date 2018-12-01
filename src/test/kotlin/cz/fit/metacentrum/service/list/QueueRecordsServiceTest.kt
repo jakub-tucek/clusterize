@@ -31,8 +31,12 @@ internal class QueueRecordsServiceTest {
         Mockito.`when`(shellService.runCommand(KotlinMockito.any())).thenReturn(
                 CommandOutput(
                         """
-1.Q jobName username         0 Q q_1d
-2.Q jobName username2         0 Q q_1d
+                                                            Req'd  Req'd   Elap
+Job ID          username Queue    Jobname    SessID NDS TSK Memory Time  S Time
+--------------- -------- -------- ---------- ------ --- --- ------ ----- - -----
+81.pbs          pbsuser  workq    oneCPUjob    5736   1   1    1gb 04:00 R 00:00
+82.pbs          pbsuser2  workq    oneCPUjob    5778   1   1    1gb 04:00 R 00:00
+
                         """.trimIndent(), 0, ""
                 )
         )
@@ -40,19 +44,25 @@ internal class QueueRecordsServiceTest {
 
     @Test
     fun testResultIsProperlyMapped() {
-        val res = queueRecordsService.retrieveQueueForUser("username")
+        val res = queueRecordsService.retrieveQueueForUser("pbsuser")
         Assertions.assertThat(res)
                 .hasSize(1)
-                .contains(QueueRecord("1", "jobName", "username", "0",
-                        QueueRecord.InternalState.Q,
-                        QueueRecord.State.QUEUED,
-                        "q_1d"))
+                .contains(QueueRecord("81", "pbsuser", "workq", "oneCPUjob",
+                        "5736",
+                        "1",
+                        "1",
+                        "1gb",
+                        "04:00",
+                        QueueRecord.InternalState.R,
+                        "00:00",
+                        QueueRecord.State.RUNNING
+                ))
     }
 
     @Test
     fun testThatResultIsCached() {
-        val res = queueRecordsService.retrieveQueueForUser("username")
-        val res2 = queueRecordsService.retrieveQueueForUser("username")
+        val res = queueRecordsService.retrieveQueueForUser("pbsuser")
+        val res2 = queueRecordsService.retrieveQueueForUser("pbsuser")
 
         Assertions.assertThat(res).isEqualTo(res2)
         Mockito.verify(shellService, Mockito.times(1)).runCommand(KotlinMockito.any())
@@ -60,14 +70,14 @@ internal class QueueRecordsServiceTest {
 
     @Test
     fun testTharResultIsOkForDifferentUser() {
-        val res = queueRecordsService.retrieveQueueForUser("username")
-        val res2 = queueRecordsService.retrieveQueueForUser("username2")
+        val res = queueRecordsService.retrieveQueueForUser("pbsuser")
+        val res2 = queueRecordsService.retrieveQueueForUser("pbsuser2")
 
         Assertions.assertThat(res)
                 .extracting<String> { it.username }
-                .contains("username")
+                .contains("pbsuser")
         Assertions.assertThat(res2)
                 .extracting<String> { it.username }
-                .contains("username2")
+                .contains("pbsuser2")
     }
 }

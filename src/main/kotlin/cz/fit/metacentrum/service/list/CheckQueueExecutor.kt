@@ -61,7 +61,7 @@ class CheckQueueExecutor : TaskExecutor {
             val job = mappedJobsByPid[it.pid] ?: throw IllegalStateException("Mapped pid does not exist")
             ExecutionMetadataJobRunningWrapper(
                     job = job,
-                    runTime = it.timestamp
+                    runTime = it.elapsedTime
             )
         }
 

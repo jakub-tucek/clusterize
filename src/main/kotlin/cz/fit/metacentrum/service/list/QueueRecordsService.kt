@@ -27,14 +27,14 @@ class QueueRecordsService {
 
 
         // run qstat command and ship useless lines
-        val (output, status, errOutput) = shellService.runCommand("qstat | grep $username")
+        val (output, status, errOutput) = shellService.runCommand("qstat -u $username")
         if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
 
         val queueRecords = output.lines()
                 .map { it.replace("""\s+""".toRegex(), " ").trim() }
                 .filter { it.isNotBlank() }
+                .filter { it.matches(""".* ${username} .*""".toRegex(RegexOption.IGNORE_CASE)) }
                 .map { parseQueueLine(it) }
-                .filter { it.username.equals(username, true) }
         cache[username] = queueRecords
 
         return queueRecords
@@ -42,27 +42,31 @@ class QueueRecordsService {
 
     private fun parseQueueLine(line: String): QueueRecord {
         val lineColumns = line
-                // merge job id so it does not fuck up parsing
-                .replace("Job id", "JobId")
                 .split(" ")
-        if (lineColumns.count() != 6)
+        if (lineColumns.count() != 11)
             throw IllegalArgumentException("Parsed line has invalid count of columns (${lineColumns.count()}). \"${line}\"")
 
         // retrieve internal state value
-        val internalState = QueueRecord.InternalState.valueOf(lineColumns[4])
+        val internalState = QueueRecord.InternalState.valueOf(lineColumns[9])
         // map internal state representation to state
         val state = when (internalState) {
             QueueRecord.InternalState.Q -> QueueRecord.State.QUEUED
             else -> QueueRecord.State.RUNNING
         }
         return QueueRecord(
-                QueueUtils.extractPid(lineColumns[0]),
-                lineColumns[1],
-                lineColumns[2],
-                lineColumns[3],
-                internalState,
-                state,
-                lineColumns[5]
+                pid = QueueUtils.extractPid(lineColumns[0]),
+                username = lineColumns[1],
+                queueName = lineColumns[2],
+                jobName = lineColumns[3],
+                sessionId = lineColumns[4],
+                nds = lineColumns[5],
+                tsk = lineColumns[6],
+                requiredMemory = lineColumns[7],
+                requiredTime = lineColumns[8],
+                internalState = internalState,
+                elapsedTime = lineColumns[10],
+                state = state
         )
     }
+
 }
