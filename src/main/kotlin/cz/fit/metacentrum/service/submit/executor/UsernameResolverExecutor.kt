@@ -10,7 +10,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger { }
 
 /**
- *
+ * Executor that retrieves current username and sets it to metadata
  * @author Jakub Tucek
  */
 class UsernameResolverExecutor : TaskExecutor {
@@ -19,6 +19,7 @@ class UsernameResolverExecutor : TaskExecutor {
     private lateinit var shellService: ShellService
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
+        // use whoami instead of using system property in case execution is done remotely (like in docker container)
         val (output, status, errOutput) = shellService.runCommand("whoami")
         if (status != 0) {
             logger.info("Retrieving username failed with status ${status}. ${errOutput}")
