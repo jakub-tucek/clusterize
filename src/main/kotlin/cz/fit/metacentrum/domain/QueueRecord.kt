@@ -14,6 +14,6 @@ data class QueueRecord(
 ) {
     // state of job - should be Q(queued) or R(running)
     enum class State() {
-        R, Q
+        R, Q, E
     }
 }
