@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -N oneCPUjob
 #PBS -l walltime=4:00:00
-#PBS -l select=1:ncpus=12:mem=6gb
+#PBS -l select=1:ncpus=1:mem=1gb
 {{#toolboxes}}
     #PBS -l {{.}}=1
 {{/toolboxes}}
@@ -14,7 +14,7 @@
 
 echo "$PBS_JOBID" > {{runPath}}/{{fileNames.pidFile}}
 
-module add matlab # loads desired application
+module add {{moduleName}} # loads desired application
 
 DATADIR="{{storagePath}}" # sets up your input data directory
 
