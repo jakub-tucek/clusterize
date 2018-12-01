@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test
 /**
  * @author Jakub Tucek
  */
-internal class ShellServiceTest {
+internal class ShellServiceImplTest {
 
-    private val shell = ShellService()
+    private val shell = ShellServiceImpl()
 
     @Test
     fun testRunningSimpleCommand() {

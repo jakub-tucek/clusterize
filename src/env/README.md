@@ -37,5 +37,5 @@ docker exec -it --user pbsuser pbs bash -l -c ""
 ```
 
 ```
-docker run -it --name pbsmnt -d -v /$PWD/dockershared:$PWD/dockedshared -h pbs -e PBS_START_MOM=1 newpbs bash
+docker run -it --name pbsmnt -d -v /$PWD/dockershared:$PWD/dockershared -h pbs -e PBS_START_MOM=1 newpbs bash
 ```

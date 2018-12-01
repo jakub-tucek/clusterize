@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="submitDefaultPath" type="JetRunConfigurationType" factoryName="Kotlin">
+  <configuration default="false" name="list Test DefaultPath" type="JetRunConfigurationType" factoryName="Kotlin">
     <module name="metacentrum-cli_main" />
-    <option name="VM_PARAMETERS" value="" />
-    <option name="PROGRAM_PARAMETERS" value="submit" />
+    <option name="VM_PARAMETERS" value="-Dprofile=dev" />
+    <option name="PROGRAM_PARAMETERS" value="list" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <option name="PASS_PARENT_ENVS" value="true" />

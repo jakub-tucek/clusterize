@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="list path" type="JetRunConfigurationType" factoryName="Kotlin">
+  <configuration default="false" name="submitProdMock" type="JetRunConfigurationType" factoryName="Kotlin">
     <module name="metacentrum-cli_main" />
     <option name="VM_PARAMETERS" value="" />
-    <option name="PROGRAM_PARAMETERS" value="list -p out/metadataStorage" />
+    <option name="PROGRAM_PARAMETERS" value="submit src/test/resources/configFileParser/configFileTest.yml" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <option name="PASS_PARENT_ENVS" value="true" />

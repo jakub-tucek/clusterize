@@ -2,7 +2,7 @@ package cz.fit.metacentrum.service.list
 
 import com.google.inject.Inject
 import cz.fit.metacentrum.domain.QueueRecord
-import cz.fit.metacentrum.service.ShellService
+import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.util.QueueUtils
 
 /**

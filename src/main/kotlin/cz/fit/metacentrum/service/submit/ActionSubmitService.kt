@@ -66,7 +66,7 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
             return res
         } catch (e: Exception) {
             logger.error("Executor in submit service failed. Cleaning up")
-            cleanup(metadata)
+//            cleanup(metadata)
             throw e
         }
     }

@@ -1,18 +1,19 @@
 package cz.fit.metacentrum.service
 
 import cz.fit.metacentrum.domain.CommandOutput
+import cz.fit.metacentrum.service.api.ShellService
 import java.util.concurrent.TimeUnit
 
 /**
  * Shell wrapper service for running commands.
  * @author Jakub Tucek
  */
-class ShellService {
+class ShellServiceImpl : ShellService {
 
     /**
      * Runs commands in console with 5s timeout in /bin/sh. Read text are trimmed.
      */
-    fun runCommand(command: String): CommandOutput {
+    override fun runCommand(command: String): CommandOutput {
         val process = ProcessBuilder("/bin/sh", "-c", command)
                 .start()
 

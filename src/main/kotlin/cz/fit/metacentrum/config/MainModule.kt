@@ -3,7 +3,9 @@ package cz.fit.metacentrum.config
 import com.google.inject.AbstractModule
 import com.google.inject.multibindings.Multibinder
 import cz.fit.metacentrum.service.MainService
-import cz.fit.metacentrum.service.ShellService
+import cz.fit.metacentrum.service.ShellServiceDockerProxy
+import cz.fit.metacentrum.service.ShellServiceImpl
+import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.service.input.CommandLineParser
 import cz.fit.metacentrum.service.input.SerializationService
@@ -33,7 +35,13 @@ class MainModule : AbstractModule() {
 
         bind(ActionSubmitService::class.java)
         bind(ActionListService::class.java)
-        bind(ShellService::class.java)
+
+        if (ProfileConfiguration.isDev()) {
+            val dockerShellServiceProxy = ShellServiceDockerProxy(ShellServiceImpl())
+            bind(ShellService::class.java).toInstance(dockerShellServiceProxy)
+        } else {
+            bind(ShellService::class.java).to(ShellServiceImpl::class.java)
+        }
         bind(FailedJobFinderService::class.java)
         bind(MetadataInfoPrinter::class.java)
     }

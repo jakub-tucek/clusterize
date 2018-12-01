@@ -3,7 +3,7 @@ package cz.fit.metacentrum.service.list
 import cz.fit.metacentrum.KotlinMockito
 import cz.fit.metacentrum.domain.CommandOutput
 import cz.fit.metacentrum.domain.QueueRecord
-import cz.fit.metacentrum.service.ShellService
+import cz.fit.metacentrum.service.api.ShellService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

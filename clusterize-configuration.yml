@@ -24,8 +24,8 @@ iterations:
     to: 1
 
 environment:
-  metadataStoragePath: './dockershared/metadataStorage'
-  storagePath: './dockershared/storage' #usually storage
+  metadataStoragePath: 'dockershared/metadataStorage'
+  storagePath: 'dockershared/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
   variables:
   dependents:
