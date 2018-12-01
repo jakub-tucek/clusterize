@@ -6,3 +6,5 @@ package cz.fit.metacentrum.config
  */
 const val appName = "clusterize"
 
+
+const val userDateFormat = "dd/MM/YYYY hh:mm"

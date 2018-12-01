@@ -17,6 +17,10 @@ object ConsoleWriter {
         println(" --- $msg")
     }
 
+    fun writeListItem(msg: String) {
+        println("   * $msg")
+    }
+
     fun writeStatusDetail(msg: String) {
         println(getStatusDetailLine(msg))
     }

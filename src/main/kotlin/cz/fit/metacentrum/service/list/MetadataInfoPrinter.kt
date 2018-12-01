@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.service.list
 
+import cz.fit.metacentrum.config.userDateFormat
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateOk
@@ -28,9 +29,7 @@ class MetadataInfoPrinter {
         val state = metadata.state
         val jobs = metadata.jobs ?: throw IllegalStateException("Jobs not set in metadata")
 
-        val formattedDate = metadata.timestamp.format(
-                DateTimeFormatter.ofPattern("dd/MM/YYYY hh:mm")
-        )
+        val formattedDate = metadata.timestamp.format(DateTimeFormatter.ofPattern(userDateFormat))
 
         val stringBuild = StringBuilder("$index - ${formattedDate}")
 
@@ -50,7 +49,7 @@ class MetadataInfoPrinter {
             else -> throw IllegalStateException("Proper state is not set in metadata. ${state}")
         }
 
-        ConsoleWriter.writeStatus(stringBuild.toString())
+        ConsoleWriter.writeListItem(stringBuild.toString())
     }
 
     private fun getRunningDescription(state: ExecutionMetadataStateRunning, totalCountJobs: Int): String {
