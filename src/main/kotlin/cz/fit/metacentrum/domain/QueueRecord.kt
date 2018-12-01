@@ -12,7 +12,7 @@ data class QueueRecord(
         val state: State,
         val queueType: String
 ) {
-    // state of job - should be Q(queued) or R(running)
+    // state of job - should be Q(queued) or R(running). E is for errored job.
     enum class State() {
         R, Q, E
     }
