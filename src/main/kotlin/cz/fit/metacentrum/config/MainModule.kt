@@ -24,6 +24,7 @@ class MainModule : AbstractModule() {
     override fun configure() {
         bind(MainService::class.java)
 
+        // input parsing and serializations
         bind(SerializationService::class.java)
         bind(CommandLineParser::class.java)
 
@@ -31,24 +32,33 @@ class MainModule : AbstractModule() {
         bind(ConfigValidationService::class.java)
         bind(IterationConfigValidator::class.java)
 
-        bindExecutors()
-
+        // action services
         bind(ActionSubmitService::class.java)
         bind(ActionListService::class.java)
 
+        // Shell service binding
         if (ProfileConfiguration.isDev()) {
             val dockerShellServiceProxy = ShellServiceDockerProxy(ShellServiceImpl())
             bind(ShellService::class.java).toInstance(dockerShellServiceProxy)
         } else {
             bind(ShellService::class.java).to(ShellServiceImpl::class.java)
         }
-        bind(FailedJobFinderService::class.java)
-        bind(MetadataInfoPrinter::class.java)
+
+        // bind action features
+        bindSubmitActionClasses()
+        bindListActionClasses()
     }
 
-    private fun bindExecutors() {
-        val matlabBinder = Multibinder.newSetBinder(binder(), TaskExecutor::class.java)
+    private fun bindListActionClasses() {
+        bind(FailedJobFinderService::class.java)
+        bind(MetadataInfoPrinter::class.java)
 
+        bind(CheckQueueExecutor::class.java)
+    }
+
+    private fun bindSubmitActionClasses() {
+        // matlab executors
+        val matlabBinder = Multibinder.newSetBinder(binder(), TaskExecutor::class.java)
         matlabBinder.addBinding().to(ResolvePathExecutor::class.java)
         matlabBinder.addBinding().to(UsernameResolverExecutor::class.java)
         matlabBinder.addBinding().to(InitOutputPathExecutor::class.java)
@@ -57,7 +67,7 @@ class MainModule : AbstractModule() {
         matlabBinder.addBinding().to(MatlabScriptsExecutor::class.java)
         matlabBinder.addBinding().to(SubmitExecutor::class.java)
 
+        bind(MatlabTemplateDataBuilder::class.java)
 
-        bind(CheckQueueExecutor::class.java)
     }
 }

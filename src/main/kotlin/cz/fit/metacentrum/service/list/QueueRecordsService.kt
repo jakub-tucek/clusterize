@@ -27,7 +27,7 @@ class QueueRecordsService {
 
 
         // run qstat command and ship useless lines
-        val (output, status, errOutput) = shellService.runCommand("ls | grep $username")
+        val (output, status, errOutput) = shellService.runCommand("qstat | grep $username")
         if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
 
         val queueRecords = output.lines()

@@ -1,18 +1,15 @@
 package cz.fit.metacentrum.service.submit.executor
 
 import com.github.mustachejava.DefaultMustacheFactory
+import com.google.inject.Inject
 import cz.fit.metacentrum.config.FileNames
-import cz.fit.metacentrum.config.ModuleConfiguration
-import cz.fit.metacentrum.domain.MatlabTemplateData
-import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
-import cz.fit.metacentrum.util.TemplateUtils
 import java.io.StringWriter
 import java.nio.file.Files
-import java.nio.file.Path
+import java.nio.file.StandardOpenOption
 
 
 /**
@@ -20,6 +17,9 @@ import java.nio.file.Path
  * @author Jakub Tucek
  */
 class MatlabScriptsExecutor : TaskExecutor {
+
+    @Inject
+    private lateinit var matlabTemplateDataBuilder: MatlabTemplateDataBuilder
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Generating bash scripts wrapping matlab")
@@ -44,40 +44,22 @@ class MatlabScriptsExecutor : TaskExecutor {
     private fun createTemplate(metadata: ExecutionMetadata,
                                variableData: HashMap<String, String>,
                                runCounter: Int): ExecutionMetadataJob {
-        val taskType = metadata.configFile.taskType as MatlabTaskType
-
-        val runPath = initializePath(metadata.storagePath).resolve(runCounter.toString())
-        Files.createDirectories(runPath)
-
         val mf = DefaultMustacheFactory()
         val mustache = mf.compile("templates/matlab.mustache")
         val templateStr = StringWriter()
 
-        mustache.execute(templateStr,
-                MatlabTemplateData(
-                        taskType,
-                        variableData.toSortedMap().toList(),
-                        TemplateUtils.formatFunctionParameters(taskType.parameters),
-                        metadata.configFile.environment.dependents,
-                        runPath.toAbsolutePath().toString(),
-                        metadata.sourcesPath?.toAbsolutePath() ?: throw IllegalStateException("Sources path not set"),
-                        ModuleConfiguration.matlabModule,
-                        listOf(ModuleConfiguration.defaultToolbox, *taskType.modules.toTypedArray())
-                )).flush()
+        // prepare template data and use them
+        val templateData = matlabTemplateDataBuilder.prepare(metadata, variableData, runCounter)
 
-        val innerScriptPath = runPath.resolve(FileNames.innerScript)
-        Files.createFile(innerScriptPath)
-        Files.write(innerScriptPath, templateStr.buffer.lines())
+        mustache.execute(templateStr, templateData).flush()
+
+        val innerScriptPath = templateData.runPath.resolve(FileNames.innerScript)
+        Files.write(innerScriptPath, templateStr.buffer.lines(), StandardOpenOption.CREATE_NEW)
 
         return ExecutionMetadataJob(
-                runPath = runPath,
+                runPath = templateData.runPath,
                 runId = runCounter
         )
     }
 
-    private fun initializePath(path: Path?): Path {
-        val initializedPath = path
-                ?: throw IllegalStateException("Couldn't create run path")
-        return initializedPath
-    }
 }

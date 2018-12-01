@@ -43,7 +43,8 @@ internal object TestData {
                             "\$CONFIG_ITERATION_DEPENDENT",
                             "useGPU",
                             "yes"
-                    )
+                    ),
+                    emptyList()
             )
     )
     val metadata = ExecutionMetadata(

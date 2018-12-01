@@ -46,7 +46,7 @@ internal class QueueRecordsServiceTest {
                 .contains(QueueRecord("1", "jobName", "username", "0",
                         QueueRecord.InternalState.Q,
                         QueueRecord.State.QUEUED,
-                        "queueName"))
+                        "q_1d"))
     }
 
     @Test
