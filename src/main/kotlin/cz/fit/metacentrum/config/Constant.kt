@@ -13,8 +13,8 @@ const val userDateFormat = "dd/MM/YYYY hh:mm"
 object FileNames {
     val statusLog = "status.log"
     val pidFile = "pid.log"
-    val stdOutLog = "stderr.log"
-    val stdErrLog = "stdout.log"
+    val stdOutLog = "stdout.log"
+    val stdErrLog = "stderr.log"
     val stdJobLog = "stdout_job.log"
     val innerScript = "inner_script.sh"
 

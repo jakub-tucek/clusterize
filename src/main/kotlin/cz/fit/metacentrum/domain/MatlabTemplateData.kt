@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.domain
 
+import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.config.ConfigEnvironmentDependent
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import java.nio.file.Path
@@ -14,5 +15,6 @@ data class MatlabTemplateData(
         val functionParams: String,
         val dependentVariables: List<ConfigEnvironmentDependent>,
         val runPath: String,
-        val sourcesPath: Path
+        val sourcesPath: Path,
+        val fileNames: FileNames = FileNames
 )
