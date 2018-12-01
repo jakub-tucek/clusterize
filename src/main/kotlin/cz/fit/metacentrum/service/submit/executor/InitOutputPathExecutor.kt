@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.service.submit.executor
 
+import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.config.ConfigEnvironment
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.api.TaskExecutor
@@ -35,9 +36,8 @@ class InitOutputPathExecutor : TaskExecutor {
     private fun getNewName(environment: ConfigEnvironment, formattedTimestamp: String): String {
         val storagePath = Paths.get(environment.storagePath)
 
-        // TODO: Move to constant
-        val taskFolderPrefix = "task-"
-        val taskFolderRegex = """^task-([0-9]+).*$""".toRegex()
+        val taskFolderPrefix = FileNames.storageTaskFolderPrefix
+        val taskFolderRegex = FileNames.storageTaskFolderRegex
         // default new name
         var newName = "${taskFolderPrefix}1"
         if (Files.exists(storagePath)) {

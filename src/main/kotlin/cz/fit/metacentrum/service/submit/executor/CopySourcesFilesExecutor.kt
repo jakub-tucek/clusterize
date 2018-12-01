@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.service.submit.executor
 
+import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
@@ -16,11 +17,11 @@ class CopySourcesFilesExecutor : TaskExecutor {
         ConsoleWriter.writeStatus("Copying sources files from ${metadata.configFile.environment.sourcesPath}")
 
         val outPath = metadata.metadataStoragePath ?: throw IllegalStateException("MetadataStorage path not set")
-        val sourcesOutPath = outPath.resolve("sources")
+        val sourcesOutPath = outPath.resolve(FileNames.sourcesFolder)
 
         FileUtils.copyDirectory(
                 Paths.get(metadata.configFile.environment.sourcesPath),
-                outPath.resolve("sources")
+                outPath.resolve(FileNames.sourcesFolder)
         )
 
         return metadata.copy(sourcesPath = sourcesOutPath)

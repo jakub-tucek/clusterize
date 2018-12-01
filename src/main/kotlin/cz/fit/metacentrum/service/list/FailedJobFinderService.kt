@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.service.list
 
+import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJobFailedWrapper
 import mu.KotlinLogging
@@ -17,14 +18,14 @@ class FailedJobFinderService {
     fun findFailedJobs(jobs: List<ExecutionMetadataJob>): List<ExecutionMetadataJobFailedWrapper> {
         return jobs
                 // if status is missing it should mean that job is not finished
-                .filter { Files.exists(it.runPath.resolve("status.log")) }
+                .filter { Files.exists(it.runPath.resolve(FileNames.statusLog)) }
                 .map { checkForErrorInPath(it) }
                 .filterNotNull()
 
     }
 
     private fun checkForErrorInPath(job: ExecutionMetadataJob): ExecutionMetadataJobFailedWrapper? {
-        val statusFile = job.runPath.resolve("status.log")
+        val statusFile = job.runPath.resolve(FileNames.statusLog)
         var status: Int? = null
 
         try {

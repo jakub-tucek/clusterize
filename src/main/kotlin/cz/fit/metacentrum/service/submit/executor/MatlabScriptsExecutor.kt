@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service.submit.executor
 
 import com.github.mustachejava.DefaultMustacheFactory
+import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.MatlabTemplateData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
@@ -60,7 +61,7 @@ class MatlabScriptsExecutor : TaskExecutor {
                 )
         ).flush()
 
-        val innerScriptPath = runPath.resolve("inner_script.sh")
+        val innerScriptPath = runPath.resolve(FileNames.innerScript)
         Files.createFile(innerScriptPath)
         Files.write(innerScriptPath, templateStr.buffer.lines())
 

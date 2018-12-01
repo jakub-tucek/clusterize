@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service.list
 
 import com.google.common.jimfs.Jimfs
+import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -37,14 +38,14 @@ internal class FailedJobFinderServiceTest {
         job3Failed = initJob("3")
 
         // init job2
-        var status = job2Ok.runPath.resolve("status.log")
+        var status = job2Ok.runPath.resolve(FileNames.statusLog)
         Files.write(status, "0\n".toByteArray(), StandardOpenOption.CREATE_NEW)
 
         //init job3
-        status = job3Failed.runPath.resolve("status.log")
+        status = job3Failed.runPath.resolve(FileNames.statusLog)
         Files.write(status, "1\n".toByteArray(), StandardOpenOption.CREATE_NEW)
-        Files.write(job3Failed.runPath.resolve("stderr_script.log"), "STD SCRIPT ERROR\n".toByteArray(), StandardOpenOption.CREATE_NEW)
-        Files.write(job3Failed.runPath.resolve("stderr.log"), "STD ERROR\n".toByteArray(), StandardOpenOption.CREATE_NEW)
+        Files.write(job3Failed.runPath.resolve(FileNames.stdJobLog), "STD SCRIPT ERROR\n".toByteArray(), StandardOpenOption.CREATE_NEW)
+        Files.write(job3Failed.runPath.resolve(FileNames.stdErrLog), "STD ERROR\n".toByteArray(), StandardOpenOption.CREATE_NEW)
     }
 
     private fun initJob(jobName: String): ExecutionMetadataJob {

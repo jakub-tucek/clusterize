@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service.submit.executor
 
 import com.google.inject.Inject
+import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
@@ -26,7 +27,7 @@ class SubmitExecutor : TaskExecutor {
 
         val scriptsWithPid = scripts
                 .map {
-                    val scriptFile = it.runPath.resolve("inner_script.sh")
+                    val scriptFile = it.runPath.resolve(FileNames.innerScript)
                     val cmdResult = shellService.runCommand("qsub ${scriptFile.toAbsolutePath().toString()}")
                     if (cmdResult.status != 0)
                         throw IOException("Submitting script ${scriptFile} failed with ${cmdResult.status}. ${cmdResult.errOutput}")
