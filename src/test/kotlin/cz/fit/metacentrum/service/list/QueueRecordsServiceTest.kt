@@ -31,8 +31,8 @@ internal class QueueRecordsServiceTest {
         Mockito.`when`(shellService.runCommand(KotlinMockito.any())).thenReturn(
                 CommandOutput(
                         """
-JobId jobName username         0 Q q_1d
-JobId jobName username2         0 Q q_1d
+1.Q jobName username         0 Q q_1d
+2.Q jobName username2         0 Q q_1d
                         """.trimIndent(), 0, ""
                 )
         )
@@ -43,7 +43,7 @@ JobId jobName username2         0 Q q_1d
         val res = queueRecordsService.retrieveQueueForUser("username")
         Assertions.assertThat(res)
                 .hasSize(1)
-                .contains(QueueRecord("1.Q", "jobName", "username", "0",
+                .contains(QueueRecord("1", "jobName", "username", "0",
                         QueueRecord.InternalState.Q,
                         QueueRecord.State.QUEUED,
                         "queueName"))
