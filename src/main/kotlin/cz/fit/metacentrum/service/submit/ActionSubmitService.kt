@@ -1,6 +1,8 @@
 package cz.fit.metacentrum.service.submit
 
 import cz.fit.metacentrum.domain.ActionSubmit
+import cz.fit.metacentrum.domain.ActionSubmitConfig
+import cz.fit.metacentrum.domain.ActionSubmitPath
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
@@ -28,7 +30,10 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     private lateinit var matlabExecutors: Set<@JvmSuppressWildcards TaskExecutor>
 
     override fun processAction(argumentAction: ActionSubmit) {
-        val config = getConfig(argumentAction)
+        val config = when (argumentAction) {
+            is ActionSubmitPath -> getConfig(argumentAction.configFilePath)
+            is ActionSubmitConfig -> argumentAction.configFile
+        }
 
         when (config.taskType) {
             is MatlabTaskType -> runExecutors(config, matlabExecutors)
@@ -46,9 +51,9 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     }
 
 
-    private fun getConfig(parsedArgs: ActionSubmit): ConfigFile {
+    private fun getConfig(configFilePath: String): ConfigFile {
         // parseConfig configuration file
-        val parsedConfig = serializationService.parseConfig(parsedArgs.configFile)
+        val parsedConfig = serializationService.parseConfig(configFilePath)
         // validate configuration file values
         val validationResult = configValidationService.validate(parsedConfig)
         // failed if not set

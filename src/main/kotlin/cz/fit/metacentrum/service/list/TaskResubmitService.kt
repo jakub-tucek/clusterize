@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.list
 
 import com.google.inject.Inject
 import cz.fit.metacentrum.domain.ActionSubmit
+import cz.fit.metacentrum.domain.ActionSubmitConfig
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.service.api.ActionService
@@ -17,35 +18,37 @@ class TaskResubmitService {
 
     fun promptRerunIfError(metadatas: List<ExecutionMetadata>) {
         val failedTasks = metadatas
-                // find handle state
                 .filter { it.state != null && it.state is ExecutionMetadataStateFailed }
+        // check if some failed tasks are present, in yes, prompt resubmit task
         if (failedTasks.isEmpty()) {
             return
         }
 
-
-        submitTask(metadatas)
+        resubmit(metadatas)
     }
 
 
-    fun submitTask(metadatas: List<ExecutionMetadata>, userRerunId: String? = null) {
-        var userRerun = userRerunId
-        if (userRerun == null) {
+    /**
+     * Resubmits for given rerun id if given.
+     */
+    fun resubmit(metadatas: List<ExecutionMetadata>, defaultResubmitId: String? = null) {
+        var resubmitId = defaultResubmitId
+        if (resubmitId == null) {
             println("Looks like you have some failed tasks. Do you want to submit some task again? [ENTER TASK NUMBER]")
-            userRerun = readLine() ?: return
+            resubmitId = readLine() ?: return
         }
 
-        val userInputInt = userRerun.toIntOrNull()
-        if (userInputInt == null
-                || userInputInt < 0
-                || userInputInt >= metadatas.size) {
+        val resubmitIdInt = resubmitId.toIntOrNull()
+        if (resubmitIdInt == null
+                || resubmitIdInt < 0
+                || resubmitIdInt >= metadatas.size) {
             println("Invalid number given. Exiting.")
             return
         }
-        val metadata = metadatas[userInputInt]
+        val metadata = metadatas[resubmitIdInt]
         actionSubmitService.processAction(
-                ActionSubmit(
-                        metadata.configFile.toString() // TODO fix
+                ActionSubmitConfig(
+                        metadata.configFile
                 )
         )
 

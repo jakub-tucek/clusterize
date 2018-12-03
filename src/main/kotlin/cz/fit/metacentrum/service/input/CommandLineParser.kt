@@ -4,7 +4,7 @@ import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.Action
 import cz.fit.metacentrum.domain.ActionHelp
 import cz.fit.metacentrum.domain.ActionList
-import cz.fit.metacentrum.domain.ActionSubmit
+import cz.fit.metacentrum.domain.ActionSubmitPath
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -27,7 +27,7 @@ class CommandLineParser {
         when (nextValue) {
             "submit" -> {
                 val configFile = retrieveNextValue(iterator)
-                return ActionSubmit(configFile ?: defaultConfigPath)
+                return ActionSubmitPath(configFile ?: defaultConfigPath)
             }
             "help" -> {
                 printHelp()

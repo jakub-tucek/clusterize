@@ -1,10 +1,14 @@
 package cz.fit.metacentrum.config
 
 import com.google.inject.AbstractModule
+import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder
+import cz.fit.metacentrum.domain.ActionList
+import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.service.MainService
 import cz.fit.metacentrum.service.ShellServiceDockerProxy
 import cz.fit.metacentrum.service.ShellServiceImpl
+import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.service.input.CommandLineParser
@@ -30,8 +34,8 @@ class MainModule : AbstractModule() {
         bind(IterationConfigValidator::class.java)
 
         // action services
-        bind(ActionSubmitService::class.java)
-        bind(ActionListService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionSubmit>>() {}).to(ActionSubmitService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionList>>() {}).to(ActionListService::class.java)
 
         // Shell service binding
         if (ProfileConfiguration.isDev()) {
