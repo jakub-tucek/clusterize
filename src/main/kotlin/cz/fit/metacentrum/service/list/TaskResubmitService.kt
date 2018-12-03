@@ -42,7 +42,7 @@ class TaskResubmitService {
         if (resubmitIdInt == null
                 || resubmitIdInt < 0
                 || resubmitIdInt >= metadatas.size) {
-            println("Invalid number given. Exiting.")
+            println("No viable input found. Exiting.")
             return
         }
         val metadata = metadatas[resubmitIdInt]
