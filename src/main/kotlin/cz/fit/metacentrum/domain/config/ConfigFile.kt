@@ -7,5 +7,6 @@ package cz.fit.metacentrum.domain.config
 data class ConfigFile(
         val iterations: List<ConfigIteration>,
         val environment: ConfigEnvironment,
-        val taskType: TaskType
+        val taskType: TaskType,
+        val general: ConfigGeneral = ConfigGeneral()
 )

@@ -1,3 +1,5 @@
+jobName:
+
 # defines iterations in given order
 iterations:
   - type: ARRAY # will iterate over values given in array
