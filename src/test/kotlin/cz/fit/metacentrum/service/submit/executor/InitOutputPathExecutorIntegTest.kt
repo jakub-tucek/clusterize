@@ -2,10 +2,10 @@ package cz.fit.metacentrum.service.submit.executor
 
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.TestData
+import cz.fit.metacentrum.util.FileUtils
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDate
@@ -19,34 +19,38 @@ internal class InitOutputPathExecutorIntegTest {
 
     val executor = InitOutputPathExecutor()
 
-    var outputDir: Path? = null
+    var storagePath: Path? = null
     var metadataOutputDir: Path? = null
+
 
     @Test()
     fun testThatDirectoryIsActuallyCreated() {
         val property = "java.io.tmpdir"
         // Get the temporary directory and print it.
         val tempDir = System.getProperty(property)
-
         val basePath = Paths.get(tempDir)
+
+        storagePath = basePath.resolve("storage")
+        metadataOutputDir = basePath.resolve("metadata")
+
 
         val metadata = executor.execute(
                 ExecutionMetadata(
                         configFile = TestData.config.copy(environment = TestData.config.environment
                                 .copy(
-                                        storagePath = basePath.resolve("storage").toString(),
-                                        metadataStoragePath = basePath.resolve("metadata").toString()
+                                        storagePath = storagePath.toString(),
+                                        metadataStoragePath = metadataOutputDir.toString()
                                 )
                         )
 
                 )
         )
-        outputDir = metadata.storagePath
-        metadataOutputDir = metadata.metadataStoragePath
+        val newStoragePath = metadata.paths.storagePath
+        val newMetadataPath = metadata.paths.metadataStoragePath
 
 
-        checkOutDirIsCreated(outputDir!!)
-        checkOutDirIsCreated(metadataOutputDir!!)
+        checkOutDirIsCreated(newStoragePath!!)
+        checkOutDirIsCreated(newMetadataPath!!)
     }
 
     private fun checkOutDirIsCreated(dir: Path) {
@@ -59,11 +63,11 @@ internal class InitOutputPathExecutorIntegTest {
 
     @AfterEach
     fun cleanUp() {
-        if (outputDir != null) {
-            Files.deleteIfExists(outputDir)
+        if (storagePath != null) {
+            FileUtils.deleteFolder(storagePath!!)
         }
         if (metadataOutputDir != null) {
-            Files.deleteIfExists(metadataOutputDir)
+            FileUtils.deleteFolder(metadataOutputDir!!)
         }
     }
 

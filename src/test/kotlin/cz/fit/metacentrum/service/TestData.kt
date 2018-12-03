@@ -5,6 +5,7 @@ import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.config.*
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataPath
 
 /**
  *
@@ -55,9 +56,11 @@ internal object TestData {
                             "CONFIG_ITERATION_INT_RANGE" to "2"
                     )
             ),
-            storagePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage"),
-            metadataStoragePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStorage"),
-            sourcesPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStorage/sources")
+            paths = ExecutionMetadataPath(
+                    storagePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage"),
+                    metadataStoragePath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStorage"),
+                    sourcesPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/metadataStorage/sources")
+            )
     )
 
     val executedMetadata = metadata.copy(

@@ -25,7 +25,7 @@ internal class MatlabScriptsExecutorTest {
     fun testMatlabScriptGeneratedFile() {
         ex.execute(TestData.metadata)
 
-        Assertions.assertThat(TestData.metadata.storagePath!!.resolve("0/${FileNames.innerScript}"))
+        Assertions.assertThat(TestData.metadata.paths.storagePath!!.resolve("0/${FileNames.innerScript}"))
                 .exists()
                 .satisfies { Files.lines(it).anyMatch { it.contains("module add matlab") } }
     }

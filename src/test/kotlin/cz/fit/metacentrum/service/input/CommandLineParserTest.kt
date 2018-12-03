@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.service.input
 
-import cz.fit.metacentrum.domain.ActionSubmit
+import cz.fit.metacentrum.domain.ActionSubmitPath
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -12,8 +12,8 @@ internal class CommandLineParserTest {
     fun testThatInputIsParsedCorrectly() {
         val res = CommandLineParser().parseArguments(arrayOf("submit", "file"))
         Assertions.assertThat(res)
-                .isInstanceOf(ActionSubmit::class.java)
-                .extracting { t -> (t as ActionSubmit).configFilePath }
+                .isInstanceOf(ActionSubmitPath::class.java)
+                .extracting { t -> (t as ActionSubmitPath).configFilePath }
                 .isSameAs("file")
     }
 

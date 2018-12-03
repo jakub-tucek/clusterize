@@ -77,11 +77,11 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     }
 
     private fun cleanup(metadata: ExecutionMetadata) {
-        if (metadata.storagePath != null) {
-            FileUtils.deleteFolder(metadata.storagePath)
+        if (metadata.paths.storagePath != null) {
+            FileUtils.deleteFolder(metadata.paths.storagePath)
         }
-        if (metadata.metadataStoragePath != null) {
-            FileUtils.deleteFolder(metadata.metadataStoragePath)
+        if (metadata.paths.metadataStoragePath != null) {
+            FileUtils.deleteFolder(metadata.paths.metadataStoragePath)
         }
     }
 }

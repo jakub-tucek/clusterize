@@ -16,7 +16,7 @@ class CopySourcesFilesExecutor : TaskExecutor {
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Copying sources files from ${metadata.configFile.environment.sourcesPath}")
 
-        val outPath = metadata.metadataStoragePath ?: throw IllegalStateException("MetadataStorage path not set")
+        val outPath = metadata.paths.metadataStoragePath ?: throw IllegalStateException("MetadataStorage path not set")
         val sourcesOutPath = outPath.resolve(FileNames.sourcesFolder)
 
         FileUtils.copyDirectory(
@@ -24,7 +24,7 @@ class CopySourcesFilesExecutor : TaskExecutor {
                 outPath.resolve(FileNames.sourcesFolder)
         )
 
-        return metadata.copy(sourcesPath = sourcesOutPath)
+        return metadata.copy(paths = metadata.paths.copy(sourcesPath = sourcesOutPath))
     }
 
 }

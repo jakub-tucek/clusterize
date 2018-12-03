@@ -24,10 +24,10 @@ class InitOutputPathExecutor : TaskExecutor {
 
         ConsoleWriter.writeStatus("Initializing output directories under name $formattedTimestamp")
 
-        val storagePath = initPath(newName, metadata.storagePath, metadata.configFile.environment.storagePath)
-        val metadataStoragePath = initPath(newName, metadata.metadataStoragePath, metadata.configFile.environment.metadataStoragePath)
+        val storagePath = initPath(newName, metadata.paths.storagePath, metadata.configFile.environment.storagePath)
+        val metadataStoragePath = initPath(newName, metadata.paths.metadataStoragePath, metadata.configFile.environment.metadataStoragePath)
 
-        return metadata.copy(storagePath = storagePath, metadataStoragePath = metadataStoragePath)
+        return metadata.copy(paths = metadata.paths.copy(storagePath = storagePath, metadataStoragePath = metadataStoragePath))
     }
 
     /**

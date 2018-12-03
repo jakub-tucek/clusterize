@@ -3,6 +3,7 @@ package cz.fit.metacentrum.service.submit.executor
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataPath
 import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -26,7 +27,7 @@ internal class InitOutputPathExecutorTest {
         Assertions.assertThat(path).doesNotExist()
 
         executor.execute(ExecutionMetadata(
-                storagePath = path,
+                paths = ExecutionMetadataPath(storagePath = path),
                 configFile = TestData.config.copy(environment = TestData.config.environment.copy(storagePath = path.toString()))
         ))
 
@@ -42,7 +43,7 @@ internal class InitOutputPathExecutorTest {
 
         assertThrows(IllegalStateException::class.java) {
             executor.execute(ExecutionMetadata(
-                    storagePath = path,
+                    paths = ExecutionMetadataPath(storagePath = path),
                     configFile = TestData.config.copy(environment = TestData.config.environment.copy(storagePath = path.toString()))
             ))
         }

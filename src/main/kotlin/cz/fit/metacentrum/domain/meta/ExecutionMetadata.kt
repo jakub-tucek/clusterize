@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.domain.meta
 
 import cz.fit.metacentrum.domain.config.ConfigFile
-import java.nio.file.Path
 import java.time.LocalDateTime
 
 /**
@@ -11,9 +10,7 @@ import java.time.LocalDateTime
 data class ExecutionMetadata(
         val configFile: ConfigFile,
         val timestamp: LocalDateTime = LocalDateTime.now(),
-        val metadataStoragePath: Path? = null,
-        val storagePath: Path? = null,
-        val sourcesPath: Path? = null,
+        val paths: ExecutionMetadataPath = ExecutionMetadataPath(),
         val iterationCombinations: List<Map<String, String>>? = null,
         val jobs: List<ExecutionMetadataJob>? = null,
         val submittingUsername: String? = null,

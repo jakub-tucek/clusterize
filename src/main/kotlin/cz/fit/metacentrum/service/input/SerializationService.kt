@@ -42,7 +42,7 @@ class SerializationService {
     }
 
     fun persistMetadata(metadata: ExecutionMetadata) {
-        val metadataFile = metadata.metadataStoragePath?.resolve(metadataFileName)
+        val metadataFile = metadata.paths.metadataStoragePath?.resolve(metadataFileName)
                 ?: throw IllegalStateException("Metadata storage path not set")
 
         val writer = Files.newBufferedWriter(metadataFile, StandardOpenOption.CREATE_NEW)

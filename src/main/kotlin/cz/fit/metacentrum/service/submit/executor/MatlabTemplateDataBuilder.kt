@@ -19,10 +19,11 @@ class MatlabTemplateDataBuilder {
                 variableData: HashMap<String, String>,
                 runCounter: Int): MatlabTemplateData {
         val taskType = metadata.configFile.taskType as MatlabTaskType
-        val sourcesPath = metadata.sourcesPath?.toAbsolutePath() ?: throw IllegalStateException("Sources path not set")
+        val sourcesPath = metadata.paths.sourcesPath?.toAbsolutePath()
+                ?: throw IllegalStateException("Sources path not set")
 
         // get run path, initialize folder
-        val runPath = metadata.storagePath
+        val runPath = metadata.paths.storagePath
                 ?.resolve(runCounter.toString())
                 ?.toAbsolutePath()
                 ?: throw IllegalStateException("Couldn't create run path")
