@@ -21,6 +21,8 @@ class ActionListService() : ActionService<ActionList> {
     private lateinit var checkQueueExecutor: CheckQueueExecutor
     @Inject
     private lateinit var metadataInfoPrinter: MetadataInfoPrinter
+    @Inject
+    private lateinit var rerunService: TaskResubmitService
 
     override fun processAction(argumentAction: ActionList) {
         val metadataPath = Paths.get(getMetadataPath(argumentAction))
@@ -40,6 +42,7 @@ class ActionListService() : ActionService<ActionList> {
                 .map { checkQueueExecutor.execute(it) }
 
         metadataInfoPrinter.printMetadataListInfo(metadatas)
+        rerunService.promptRerunIfError(metadatas)
     }
 
     private fun getMetadataPath(actionList: ActionList): String {

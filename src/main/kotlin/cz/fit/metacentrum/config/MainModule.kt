@@ -11,10 +11,7 @@ import cz.fit.metacentrum.service.input.CommandLineParser
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
-import cz.fit.metacentrum.service.list.ActionListService
-import cz.fit.metacentrum.service.list.CheckQueueExecutor
-import cz.fit.metacentrum.service.list.FailedJobFinderService
-import cz.fit.metacentrum.service.list.MetadataInfoPrinter
+import cz.fit.metacentrum.service.list.*
 import cz.fit.metacentrum.service.submit.ActionSubmitService
 import cz.fit.metacentrum.service.submit.executor.*
 
@@ -47,6 +44,11 @@ class MainModule : AbstractModule() {
         // bind action features
         bindSubmitActionClasses()
         bindListActionClasses()
+        bindReSubmitActionClasses()
+    }
+
+    private fun bindReSubmitActionClasses() {
+        bind(TaskResubmitService::class.java)
     }
 
     private fun bindListActionClasses() {
