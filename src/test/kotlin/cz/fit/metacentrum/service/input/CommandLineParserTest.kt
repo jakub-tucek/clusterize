@@ -13,7 +13,7 @@ internal class CommandLineParserTest {
         val res = CommandLineParser().parseArguments(arrayOf("submit", "file"))
         Assertions.assertThat(res)
                 .isInstanceOf(ActionSubmit::class.java)
-                .extracting { t -> (t as ActionSubmit).configFile }
+                .extracting { t -> (t as ActionSubmit).configFilePath }
                 .isSameAs("file")
     }
 
