@@ -4,6 +4,7 @@ import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.domain.ActionSubmitConfig
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
+import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.api.ActionService
 import javax.inject.Inject
 
@@ -11,10 +12,12 @@ import javax.inject.Inject
  * Resubmitting configuration file.
  * @author Jakub Tucek
  */
-class TaskResubmitService {
-
-    @Inject
-    private lateinit var actionSubmitService: ActionService<ActionSubmit>
+class TaskResubmitService(
+        @Inject
+        val actionSubmitService: ActionService<ActionSubmit>,
+        @Inject
+        val consoleReader: ConsoleReader
+) {
 
     fun promptRerunIfError(metadatas: List<ExecutionMetadata>) {
         val failedTasks = metadatas
@@ -32,20 +35,22 @@ class TaskResubmitService {
      * Resubmits for given rerun id if given.
      */
     fun resubmit(metadatas: List<ExecutionMetadata>, defaultResubmitId: String? = null) {
-        var resubmitId = defaultResubmitId
+        var resubmitId = defaultResubmitId?.toIntOrNull()
+
         if (resubmitId == null) {
-            println("Looks like you have some failed tasks. Do you want to submit some task again? [ENTER TASK NUMBER]")
-            resubmitId = readLine() ?: return
+            resubmitId = consoleReader.askForValue(
+                    "Looks like you have some failed tasks. Do you want to submit some task again? [ENTER TASK NUMBER]"
+            ) { s ->
+                s?.toIntOrNull() ?: -1
+            }
         }
 
-        val resubmitIdInt = resubmitId.toIntOrNull()
-        if (resubmitIdInt == null
-                || resubmitIdInt < 0
-                || resubmitIdInt >= metadatas.size) {
+        if (resubmitId < 0
+                || resubmitId >= metadatas.size) {
             println("No viable input found. Exiting.")
             return
         }
-        val metadata = metadatas[resubmitIdInt]
+        val metadata = metadatas[resubmitId]
 
 
         // Update configuration resources path so it directs on copied metadata files
