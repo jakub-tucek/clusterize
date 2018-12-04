@@ -8,7 +8,7 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.service.api.ActionService
 
 /**
- *
+ * Resubmitting configuration file.
  * @author Jakub Tucek
  */
 class TaskResubmitService {
@@ -46,11 +46,14 @@ class TaskResubmitService {
             return
         }
         val metadata = metadatas[resubmitIdInt]
-        actionSubmitService.processAction(
-                ActionSubmitConfig(
-                        metadata.configFile
-                )
-        )
+
+
+        // Update configuration resources path so it directs on copied metadata files
+        val config = metadata.configFile
+                .copy(general = metadata.configFile.general
+                        .copy(sourcesPath = metadata.paths.sourcesPath.toString()))
+
+        actionSubmitService.processAction(ActionSubmitConfig(config))
 
     }
 }

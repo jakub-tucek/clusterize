@@ -10,5 +10,4 @@ data class ExecutionMetadataPath(
         val metadataStoragePath: Path? = null,
         val storagePath: Path? = null,
         val sourcesPath: Path? = null
-) {
-}
+)

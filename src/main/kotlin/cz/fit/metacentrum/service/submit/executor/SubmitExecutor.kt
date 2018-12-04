@@ -13,7 +13,7 @@ import java.io.IOException
 private val logger = KotlinLogging.logger {}
 
 /**
- *
+ * Submits created job to queue and persists pid.
  * @author Jakub Tucek
  */
 class SubmitExecutor : TaskExecutor {

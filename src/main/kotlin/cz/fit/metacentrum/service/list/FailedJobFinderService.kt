@@ -10,7 +10,7 @@ import kotlin.streams.toList
 private val logger = KotlinLogging.logger {}
 
 /**
- *
+ * Service for detecting failed jobs based on exit status.
  * @author Jakub Tucek
  */
 class FailedJobFinderService {

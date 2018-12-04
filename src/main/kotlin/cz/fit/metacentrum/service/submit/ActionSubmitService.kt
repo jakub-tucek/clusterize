@@ -19,7 +19,7 @@ import javax.inject.Inject
 private val logger = KotlinLogging.logger {}
 
 /**
- *
+ * Action Submit service implementation.
  * @author Jakub Tucek
  */
 class ActionSubmitService() : ActionService<ActionSubmit> {

@@ -9,7 +9,7 @@ import cz.fit.metacentrum.util.TemplateUtils
 import java.nio.file.Files
 
 /**
- *
+ * Builder for template parameters.
  * @author Jakub Tucek
  */
 class MatlabTemplateDataBuilder {

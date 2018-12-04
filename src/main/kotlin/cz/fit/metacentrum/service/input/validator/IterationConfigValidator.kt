@@ -33,7 +33,6 @@ class IterationConfigValidator : ConfigValidator {
         return iterationUnitResult
     }
 
-    @Suppress("REDUNDANT_ELSE_IN_WHEN")
     private fun validateIteration(iteration: ConfigIteration): ValidationResult {
         // first check common required property
         val baseResult = when (iteration.name.isBlank()) {
@@ -63,7 +62,6 @@ class IterationConfigValidator : ConfigValidator {
 
                 return baseResult
             }
-            else -> throw IllegalStateException("Unexpected Config iteration type")
         }
     }
 }

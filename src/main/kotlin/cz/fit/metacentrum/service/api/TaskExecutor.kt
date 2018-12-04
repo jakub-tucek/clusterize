@@ -9,7 +9,7 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 interface TaskExecutor {
 
     /**
-     * Performs execution based on given valid configuration file.
+     * Performs execution and saves result to metadata.
      */
     fun execute(metadata: ExecutionMetadata): ExecutionMetadata
 

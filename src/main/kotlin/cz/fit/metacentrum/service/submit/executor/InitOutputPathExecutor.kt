@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.streams.toList
 
 /**
+ * Initializes output paths.
  *
  * @author Jakub Tucek
  */

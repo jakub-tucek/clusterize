@@ -8,7 +8,7 @@ import cz.fit.metacentrum.util.FileUtils
 import java.nio.file.Paths
 
 /**
- *
+ * Copy sources to metadata directory
  * @author Jakub Tucek
  */
 class CopySourcesFilesExecutor : TaskExecutor {

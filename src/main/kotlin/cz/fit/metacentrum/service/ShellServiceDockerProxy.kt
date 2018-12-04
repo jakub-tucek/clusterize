@@ -7,7 +7,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 /**
- * Proxy class for shell service actuall implementation. Prepends command with docker execution.
+ * Proxy class for shell service actual implementation. Prepends command with docker execution.
  * @author Jakub Tucek
  */
 class ShellServiceDockerProxy(val shellService: ShellService) : ShellService {

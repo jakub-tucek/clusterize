@@ -4,7 +4,7 @@ package cz.fit.metacentrum.util
 const val defaultCommandDelimiter = "================================================================================"
 
 /**
- *
+ * Console writer of status and information for user to have consistent spacing
  * @author Jakub Tucek
  */
 object ConsoleWriter {

@@ -6,7 +6,9 @@ import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.input.CommandLineParser
 import javax.inject.Inject
 
-
+/**
+ * Main service that processes user arguments and executors correct action.
+ */
 class MainService() {
     @Inject
     private lateinit var commandLineParser: CommandLineParser

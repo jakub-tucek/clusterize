@@ -9,12 +9,12 @@ import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
 
 /**
+ * Generates iteration combinations.
  *
  * @author Jakub Tucek
  */
 class IterationExecutor : TaskExecutor {
 
-    @Suppress("REDUNDANT_ELSE_IN_WHEN")
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Generating all parameters combinations")
         val iterationVariablesRanges = metadata.configFile.iterations.asSequence()
@@ -22,7 +22,6 @@ class IterationExecutor : TaskExecutor {
                     val values = when (it) {
                         is ConfigIterationArray -> it.values
                         is ConfigIterationIntRange -> createIntRangeSequence(it.from, it.to)
-                        else -> throw IllegalStateException("Unexpected config iteration type")
                     }
                     Pair(it.name, values.resetableIterator())
                 }.toList()

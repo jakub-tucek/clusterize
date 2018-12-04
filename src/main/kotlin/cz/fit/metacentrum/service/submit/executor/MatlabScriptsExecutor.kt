@@ -13,7 +13,7 @@ import java.nio.file.StandardOpenOption
 
 
 /**
- *
+ * Executes matlab script.
  * @author Jakub Tucek
  */
 class MatlabScriptsExecutor : TaskExecutor {

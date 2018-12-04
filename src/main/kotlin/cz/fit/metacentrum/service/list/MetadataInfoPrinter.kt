@@ -10,7 +10,7 @@ import cz.fit.metacentrum.util.defaultCommandDelimiter
 import java.time.format.DateTimeFormatter
 
 /**
- *
+ * Printer of collected metadata information. Prints state of found tasks.
  * @author Jakub Tucek
  */
 class MetadataInfoPrinter {

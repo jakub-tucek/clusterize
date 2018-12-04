@@ -18,7 +18,7 @@ private val logger = KotlinLogging.logger {}
 private const val metadataFileName: String = "metadata.yml"
 
 /**
- *
+ * Serializes and dematerializes yaml files
  * @author Jakub Tucek
  */
 class SerializationService {
@@ -52,6 +52,7 @@ class SerializationService {
     fun parseMetadata(metadataPath: String): ExecutionMetadata? {
         val path = Paths.get(metadataPath).resolve(metadataFileName)
         if (!Files.exists(path)) {
+            logger.error("Metadata file path ${path} does not exists.")
             return null
         }
         try {
