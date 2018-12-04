@@ -1,11 +1,11 @@
 package cz.fit.metacentrum.service.list
 
-import com.google.inject.Inject
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.domain.ActionSubmitConfig
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.service.api.ActionService
+import javax.inject.Inject
 
 /**
  * Resubmitting configuration file.

@@ -1,9 +1,9 @@
 package cz.fit.metacentrum.service.list
 
-import com.google.inject.Inject
 import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.util.QueueUtils
+import javax.inject.Inject
 
 /**
  * Service responsible for retrieving queue. Due to nature of application (command line interface) that

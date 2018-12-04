@@ -1,6 +1,5 @@
 package cz.fit.metacentrum.service.submit.executor
 
-import com.google.inject.Inject
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.api.ShellService
@@ -9,6 +8,7 @@ import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.QueueUtils
 import mu.KotlinLogging
 import java.io.IOException
+import javax.inject.Inject
 
 private val logger = KotlinLogging.logger {}
 

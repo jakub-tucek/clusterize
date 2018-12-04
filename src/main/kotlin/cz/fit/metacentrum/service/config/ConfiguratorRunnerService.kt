@@ -1,8 +1,8 @@
 package cz.fit.metacentrum.service.config
 
-import com.google.inject.Inject
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.service.api.Configurator
+import javax.inject.Inject
 
 /**
  *

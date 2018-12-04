@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.service.submit.executor
 
 import com.github.mustachejava.DefaultMustacheFactory
-import com.google.inject.Inject
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
@@ -10,6 +9,7 @@ import cz.fit.metacentrum.util.ConsoleWriter
 import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
+import javax.inject.Inject
 
 
 /**

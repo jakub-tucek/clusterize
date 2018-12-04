@@ -1,10 +1,10 @@
 package cz.fit.metacentrum.service.submit.executor
 
-import com.google.inject.Inject
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import mu.KotlinLogging
+import javax.inject.Inject
 
 
 private val logger = KotlinLogging.logger { }
