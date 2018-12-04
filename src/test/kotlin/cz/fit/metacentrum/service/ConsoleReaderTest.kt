@@ -51,7 +51,9 @@ internal class ConsoleReaderTest {
     @Test
     fun testReadingInput() {
         writeToConsole("\n\n\n123")
-        val res = consoleReader.askForValue("msg") { v -> v.toInt() }
+        val res = consoleReader.askForValue("msg") { v ->
+            if (v.isNullOrBlank()) null else v.toInt()
+        }
         Assertions.assertThat(res).isEqualTo(123)
     }
 }

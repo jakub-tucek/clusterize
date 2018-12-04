@@ -22,11 +22,13 @@ class ConsoleReader {
     }
 
 
-    fun <T> askForValue(msg: String, parseValue: (String) -> T?): T {
+    /**
+     * Asks for value with type T. Value is accepted after parseValue return nonNull value.
+     */
+    fun <T> askForValue(msg: String, parseValue: (String?) -> T?): T {
         println(msg)
         while (true) {
             val input = readLine()
-            if (input.isNullOrBlank()) continue
             val parsedValue = parseValue(input)
             if (parsedValue != null) {
                 return parsedValue
