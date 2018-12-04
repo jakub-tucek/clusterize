@@ -8,6 +8,7 @@ data class ConfigEnvironment(
         val storagePath: String,
         val sourcesPath: String,
         val variables: Map<String, String>? = emptyMap(),
+        val taskName: String? = null,
         val dependents: List<ConfigEnvironmentDependent>
 )
 

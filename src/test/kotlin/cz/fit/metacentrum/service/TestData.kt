@@ -26,11 +26,11 @@ internal object TestData {
                     )
             ),
             ConfigEnvironment(
-                    "./out/metadataStorage/",
-                    "./out/storage/",
-                    "./src/test/resources/sources",
-                    mapOf(),
-                    listOf(ConfigEnvironmentDependent(
+                    metadataStoragePath = "./out/metadataStorage/",
+                    storagePath = "./out/storage/",
+                    sourcesPath = "./src/test/resources/sources",
+                    variables = mapOf(),
+                    dependents = listOf(ConfigEnvironmentDependent(
                             name = "CONFIG_ITERATION_DEPENDENT",
                             dependentVarName = "CONFIG_ITERATION_INT_RANGE",
                             modifier = "+1"
@@ -46,7 +46,8 @@ internal object TestData {
                             "yes"
                     ),
                     emptyList()
-            )
+            ),
+            ConfigResources(profile = "custom")
     )
     val metadata = ExecutionMetadata(
             configFile = config,
@@ -83,7 +84,7 @@ internal object TestData {
                     )
             ),
             configFile = metadata.configFile.copy(
-                    general = metadata.configFile.general.copy(
+                    environment = metadata.configFile.environment.copy(
                             taskName = "task X"
                     )
             )

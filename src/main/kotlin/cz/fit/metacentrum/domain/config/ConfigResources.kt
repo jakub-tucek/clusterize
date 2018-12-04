@@ -3,7 +3,7 @@ package cz.fit.metacentrum.domain.config
 
 data class ConfigResources(
         val profile: String,
-        val details: ConfigResourcesDetails?
+        val details: ConfigResourcesDetails? = null
 )
 
 data class ConfigResourcesDetails(

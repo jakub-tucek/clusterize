@@ -10,7 +10,7 @@ import cz.fit.metacentrum.service.api.Configurator
 class TaskNameConfigurator : Configurator {
 
     override fun configureInteractively(config: ConfigFile): ConfigFile {
-        var jobName = config.general.taskName
+        var jobName = config.environment.taskName
         while (jobName == null) {
             println("Seems like you did not specify task name. Please enter task name [NAME]:")
             jobName = readLine()?.ifBlank { null }
@@ -18,6 +18,6 @@ class TaskNameConfigurator : Configurator {
         if (jobName.isNullOrBlank()) {
             jobName = config.taskType::class.simpleName
         }
-        return config.copy(general = config.general.copy(taskName = jobName))
+        return config.copy(environment = config.environment.copy(taskName = jobName))
     }
 }

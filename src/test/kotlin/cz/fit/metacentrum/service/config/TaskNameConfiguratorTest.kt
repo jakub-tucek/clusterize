@@ -25,6 +25,6 @@ internal class TaskNameConfiguratorTest {
         System.setIn(testIn)
 
         val res = TaskNameConfigurator().configureInteractively(TestData.config)
-        Assertions.assertThat(res.general.taskName).isEqualTo("name 2")
+        Assertions.assertThat(res.environment.taskName).isEqualTo("name 2")
     }
 }
