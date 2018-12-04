@@ -17,6 +17,7 @@ internal class SerializationServiceTest {
         val res = SerializationService().parseConfig("$folderPath/configFileTest.yml")
 
         Assertions.assertEquals(false, res.iterations.isEmpty())
+        Assertions.assertEquals(null, res.general.taskName)
         Assertions.assertEquals("VICINITY_TYPE", res.iterations[0].name)
     }
 

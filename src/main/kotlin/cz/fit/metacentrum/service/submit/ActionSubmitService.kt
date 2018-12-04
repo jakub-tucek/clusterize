@@ -8,6 +8,7 @@ import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.TaskExecutor
+import cz.fit.metacentrum.service.config.ConfiguratorRunnerService
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import cz.fit.metacentrum.util.ConsoleWriter
@@ -28,15 +29,18 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     private lateinit var configValidationService: ConfigValidationService
     @Inject
     private lateinit var matlabExecutors: Set<@JvmSuppressWildcards TaskExecutor>
+    @Inject
+    private lateinit var configuratorRunnable: ConfiguratorRunnerService
 
     override fun processAction(argumentAction: ActionSubmit) {
         val config = when (argumentAction) {
             is ActionSubmitPath -> getConfig(argumentAction.configFilePath)
             is ActionSubmitConfig -> argumentAction.configFile
         }
+        val interactiveConfig = configuratorRunnable.configurate(config)
 
-        when (config.taskType) {
-            is MatlabTaskType -> runExecutors(config, matlabExecutors)
+        when (interactiveConfig.taskType) {
+            is MatlabTaskType -> runExecutors(interactiveConfig, matlabExecutors)
         }
 
     }
