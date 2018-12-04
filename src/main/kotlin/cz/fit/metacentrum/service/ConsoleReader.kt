@@ -20,4 +20,17 @@ class ConsoleReader {
         }
         return defaultYes
     }
+
+
+    fun <T> askForValue(msg: String, parseValue: (String) -> T?): T {
+        println(msg)
+        while (true) {
+            val input = readLine()
+            if (input.isNullOrBlank()) continue
+            val parsedValue = parseValue(input)
+            if (parsedValue != null) {
+                return parsedValue
+            }
+        }
+    }
 }

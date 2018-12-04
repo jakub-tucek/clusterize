@@ -32,7 +32,7 @@ internal class ConsoleReaderTest {
 
 
     @Test
-    fun testReadingFromConsoleYes() {
+    fun testAskForConfirmYes() {
         writeToConsole("YES")
         val res = consoleReader.askForConfirmation("msg", false)
 
@@ -41,10 +41,17 @@ internal class ConsoleReaderTest {
 
 
     @Test
-    fun testReadingFromConsoleNo() {
+    fun testAskForConfirmNo() {
         writeToConsole("nO")
         val res = consoleReader.askForConfirmation("msg", true)
 
         Assertions.assertThat(res).isFalse()
+    }
+
+    @Test
+    fun testReadingInput() {
+        writeToConsole("\n\n\n123")
+        val res = consoleReader.askForValue("msg") { v -> v.toInt() }
+        Assertions.assertThat(res).isEqualTo(123)
     }
 }
