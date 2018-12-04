@@ -50,7 +50,7 @@ internal class MetadataInfoPrinterTest {
 
     @AfterEach
     fun destroy() {
-        System.setOut(systemOut);
+        System.setOut(systemOut)
     }
 
     @Test
@@ -58,14 +58,14 @@ internal class MetadataInfoPrinterTest {
         MetadataInfoPrinter().printMetadataListInfo(listOf(okJob, failJob, runningJob))
 
 
-        System.setOut(systemOut);
+        System.setOut(systemOut)
 
         val out = testOut.toString()
         val time = TestData.executedMetadata.timestamp.format(DateTimeFormatter.ofPattern(userDateFormat))
         Assertions.assertThat(out).contains(
-                "* 0 - taskX - $time - OK",
-                "* 1 - taskX - $time - 1/3 FAILED",
-                "* 2 - taskX - $time - RUNNING",
+                "* 0 - task X - $time - OK",
+                "* 1 - task X - $time - 1/3 FAILED",
+                "* 2 - task X - $time - RUNNING",
                 "1/3 FAILED",
                 "1/3 QUEUED",
                 "1/3 RUNNING",
