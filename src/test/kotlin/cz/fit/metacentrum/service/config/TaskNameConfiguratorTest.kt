@@ -1,30 +1,51 @@
 package cz.fit.metacentrum.service.config
 
+import cz.fit.metacentrum.KotlinMockito
+import cz.fit.metacentrum.domain.config.MatlabTaskType
+import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import java.io.ByteArrayInputStream
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.jupiter.MockitoExtension
 
 /**
  * @author Jakub Tucek
  */
+@ExtendWith(MockitoExtension::class)
 internal class TaskNameConfiguratorTest {
 
-    private val systemIn = System.`in`
-    private var testIn: ByteArrayInputStream? = null
+    @InjectMocks
+    private lateinit var taskNameConfigurator: TaskNameConfigurator
+    @Mock
+    private lateinit var consoleReader: ConsoleReader
 
-    @AfterEach
-    fun destroy() {
-        System.setIn(systemIn)
-    }
 
     @Test
     fun testJobname() {
-        testIn = ByteArrayInputStream("name 2".toByteArray())
-        System.setIn(testIn)
-
-        val res = TaskNameConfigurator().configureInteractively(TestData.config)
+        mockConsoleReaderAsForValue("name 2")
+        val res = taskNameConfigurator.configureInteractively(TestData.config)
         Assertions.assertThat(res.general.taskName).isEqualTo("name 2")
+    }
+
+    @Test
+    fun testJobnameIfNotGiven() {
+        mockConsoleReaderAsForValue(null)
+        val res = taskNameConfigurator.configureInteractively(TestData.config)
+        Assertions.assertThat(res.general.taskName).isEqualTo(MatlabTaskType::class.simpleName)
+    }
+
+    private fun mockConsoleReaderAsForValue(value: String?) {
+        Mockito.`when`(consoleReader.askForValue<String>(Mockito.anyString(), KotlinMockito.any()))
+                .then { invocation ->
+                    @Suppress("UNCHECKED_CAST")
+                    val formatter = invocation.getArgument<Any>(1) as (String?) -> String?
+
+
+                    formatter(value)
+                }
     }
 }
