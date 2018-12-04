@@ -44,8 +44,7 @@ internal object TestData {
                             "\$CONFIG_ITERATION_DEPENDENT",
                             "useGPU",
                             "yes"
-                    ),
-                    emptyList()
+                    )
             ),
             ConfigResources(profile = "custom")
     )

@@ -37,8 +37,6 @@ general:
 taskType:
   type: MATLAB # type of runner
   functionName: 'main_batch01'
-  modules:
-    - matlab_Neural_Network_Toolbox
   parameters:
     - $MIN_TRANSL
     - $MAX_TRANSL
@@ -51,3 +49,5 @@ taskType:
 
 resources:
   profile: 'custom'
+  modules:
+    - matlab_Neural_Network_Toolbox

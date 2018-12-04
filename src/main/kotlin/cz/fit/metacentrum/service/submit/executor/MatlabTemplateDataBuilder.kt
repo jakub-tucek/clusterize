@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.service.submit.executor
 
 import cz.fit.metacentrum.config.ModuleConfiguration
-import cz.fit.metacentrum.config.ProfileConfiguration
 import cz.fit.metacentrum.domain.MatlabTemplateData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
@@ -37,15 +36,7 @@ class MatlabTemplateDataBuilder {
                 runPath,
                 sourcesPath,
                 ModuleConfiguration.matlabModule,
-                retrieveToolBoxes(taskType)
+                emptyList()
         )
-    }
-
-    fun retrieveToolBoxes(taskType: MatlabTaskType): List<String> {
-        if (ProfileConfiguration.isDev()) {
-            return emptyList()
-        } else {
-            return listOf(ModuleConfiguration.defaultToolbox, *taskType.modules.toTypedArray())
-        }
     }
 }
