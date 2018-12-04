@@ -13,10 +13,7 @@ import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.Configurator
 import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
-import cz.fit.metacentrum.service.config.ConfiguratorRunnerService
-import cz.fit.metacentrum.service.config.ModulesConfigurator
-import cz.fit.metacentrum.service.config.TaskNameConfigurator
-import cz.fit.metacentrum.service.config.ToolboxConfigurator
+import cz.fit.metacentrum.service.config.*
 import cz.fit.metacentrum.service.input.CommandLineParser
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
@@ -63,10 +60,11 @@ class MainModule : AbstractModule() {
         val binder = Multibinder.newSetBinder(binder(), Configurator::class.java)
 
         binder.addBinding().to(TaskNameConfigurator::class.java)
+        binder.addBinding().to(ModulesConfigurator::class.java)
+        binder.addBinding().to(ToolboxConfigurator::class.java)
 
-        if (!ProfileConfiguration.isDev()) {
-            binder.addBinding().to(ModulesConfigurator::class.java)
-            binder.addBinding().to(ToolboxConfigurator::class.java)
+        if (ProfileConfiguration.isDev()) {
+            binder.addBinding().to(DevelopmentCleanerConfigurator::class.java)
         }
         bind(ConfiguratorRunnerService::class.java)
     }

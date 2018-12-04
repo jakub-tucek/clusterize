@@ -10,7 +10,7 @@ data class ConfigResources(
 )
 
 data class ConfigResourcesDetails(
-        val chunks: String,
+        val chunks: Int,
         val walltime: String,
         val mem: String,
         val ncpus: Int

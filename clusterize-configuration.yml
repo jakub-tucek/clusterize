@@ -33,10 +33,6 @@ general:
       dependentVarName: VICINITY_TYPE
       modifier: '+1'
 
-resources:
-  profile: 'custom'
-  modules:
-    - matlab_Neural_Network_Toolbox
 taskType:
   type: MATLAB # type of runner
   functionName: 'main_batch01'
@@ -49,3 +45,10 @@ taskType:
     - 'yes'
     - 'layers'
     - $ADDED_LAYERS
+
+resources:
+  profile: 'custom'
+  toolboxes:
+    - matlab_Neural_Network_Toolbox
+  modules:
+    - jdk-8
