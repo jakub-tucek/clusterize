@@ -62,6 +62,7 @@ class MainModule : AbstractModule() {
         binder.addBinding().to(TaskNameConfigurator::class.java)
         binder.addBinding().to(ModulesConfigurator::class.java)
         binder.addBinding().to(ToolboxConfigurator::class.java)
+        binder.addBinding().to(ResourcesConfigurator::class.java)
 
         if (ProfileConfiguration.isDev()) {
             binder.addBinding().to(DevelopmentCleanerConfigurator::class.java)
