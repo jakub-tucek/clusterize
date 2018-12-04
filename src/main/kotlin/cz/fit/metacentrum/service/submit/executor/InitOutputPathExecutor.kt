@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.submit.executor
 
 import cz.fit.metacentrum.config.FileNames
-import cz.fit.metacentrum.domain.config.ConfigEnvironment
+import cz.fit.metacentrum.domain.config.ConfigGeneral
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
@@ -20,12 +20,12 @@ class InitOutputPathExecutor : TaskExecutor {
         val formattedTimestamp = metadata.timestamp.format(
                 DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")
         )
-        val newName = getNewName(metadata.configFile.environment, formattedTimestamp)
+        val newName = getNewName(metadata.configFile.general, formattedTimestamp)
 
         ConsoleWriter.writeStatus("Initializing output directories under name $formattedTimestamp")
 
-        val storagePath = initPath(newName, metadata.paths.storagePath, metadata.configFile.environment.storagePath)
-        val metadataStoragePath = initPath(newName, metadata.paths.metadataStoragePath, metadata.configFile.environment.metadataStoragePath)
+        val storagePath = initPath(newName, metadata.paths.storagePath, metadata.configFile.general.storagePath)
+        val metadataStoragePath = initPath(newName, metadata.paths.metadataStoragePath, metadata.configFile.general.metadataStoragePath)
 
         return metadata.copy(paths = metadata.paths.copy(storagePath = storagePath, metadataStoragePath = metadataStoragePath))
     }
@@ -33,8 +33,8 @@ class InitOutputPathExecutor : TaskExecutor {
     /**
      * Checks storage path and finds last task folder name. Parses order from folder name, add 1 and uses it as new name.
      */
-    private fun getNewName(environment: ConfigEnvironment, formattedTimestamp: String): String {
-        val storagePath = Paths.get(environment.storagePath)
+    private fun getNewName(general: ConfigGeneral, formattedTimestamp: String): String {
+        val storagePath = Paths.get(general.storagePath)
 
         val taskFolderPrefix = FileNames.storageTaskFolderPrefix
         val taskFolderRegex = FileNames.storageTaskFolderRegex

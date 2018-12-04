@@ -1,18 +1,18 @@
 package cz.fit.metacentrum.domain.config
 
 /**
- * Represents environment where file is run
+ * Represents general configuration.
  */
-data class ConfigEnvironment(
+data class ConfigGeneral(
         val metadataStoragePath: String,
         val storagePath: String,
         val sourcesPath: String,
         val variables: Map<String, String>? = emptyMap(),
         val taskName: String? = null,
-        val dependents: List<ConfigEnvironmentDependent>
+        val dependents: List<ConfigGeneralDependent>
 )
 
-data class ConfigEnvironmentDependent(
+data class ConfigGeneralDependent(
         val name: String,
         val dependentVarName: String,
         val modifier: String

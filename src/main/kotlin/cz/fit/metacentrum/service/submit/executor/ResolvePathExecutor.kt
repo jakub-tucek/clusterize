@@ -18,10 +18,10 @@ class ResolvePathExecutor : TaskExecutor {
         val config = metadata.configFile
 
         // fix base path in env
-        val newBasePath = FileUtils.relativizePath(config.environment.metadataStoragePath)
+        val newBasePath = FileUtils.relativizePath(config.general.metadataStoragePath)
 
         val newConfig = config.copy(
-                environment = config.environment.copy(metadataStoragePath = newBasePath)
+                general = config.general.copy(metadataStoragePath = newBasePath)
         )
         return ExecutionMetadata(configFile = newConfig)
     }

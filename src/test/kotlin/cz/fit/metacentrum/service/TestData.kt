@@ -25,12 +25,12 @@ internal object TestData {
                             to = 20
                     )
             ),
-            ConfigEnvironment(
+            ConfigGeneral(
                     metadataStoragePath = "./out/metadataStorage/",
                     storagePath = "./out/storage/",
                     sourcesPath = "./src/test/resources/sources",
                     variables = mapOf(),
-                    dependents = listOf(ConfigEnvironmentDependent(
+                    dependents = listOf(ConfigGeneralDependent(
                             name = "CONFIG_ITERATION_DEPENDENT",
                             dependentVarName = "CONFIG_ITERATION_INT_RANGE",
                             modifier = "+1"
@@ -84,7 +84,7 @@ internal object TestData {
                     )
             ),
             configFile = metadata.configFile.copy(
-                    environment = metadata.configFile.environment.copy(
+                    general = metadata.configFile.general.copy(
                             taskName = "task X"
                     )
             )

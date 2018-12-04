@@ -30,7 +30,7 @@ class MatlabScriptsExecutor : TaskExecutor {
         }
 
         val variableData = HashMap<String, String>()
-        variableData.putAll(metadata.configFile.environment.variables ?: emptyMap())
+        variableData.putAll(metadata.configFile.general.variables ?: emptyMap())
 
         val submittedJobs = iterationCombinations.mapIndexed { index, iterationCombination ->
             variableData.putAll(iterationCombination)

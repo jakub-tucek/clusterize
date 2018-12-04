@@ -31,7 +31,7 @@ class MetadataInfoPrinter {
 
         val formattedDate = metadata.timestamp.format(DateTimeFormatter.ofPattern(userDateFormat))
 
-        val stringBuild = StringBuilder("$index - ${metadata.configFile.environment.taskName} - ${formattedDate}")
+        val stringBuild = StringBuilder("$index - ${metadata.configFile.general.taskName} - ${formattedDate}")
 
         when (state) {
             is ExecutionMetadataStateOk -> {

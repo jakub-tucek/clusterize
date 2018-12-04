@@ -28,7 +28,7 @@ internal class InitOutputPathExecutorTest {
 
         executor.execute(ExecutionMetadata(
                 paths = ExecutionMetadataPath(storagePath = path),
-                configFile = TestData.config.copy(environment = TestData.config.environment.copy(storagePath = path.toString()))
+                configFile = TestData.config.copy(general = TestData.config.general.copy(storagePath = path.toString()))
         ))
 
         Assertions.assertThat(path).exists()
@@ -44,7 +44,7 @@ internal class InitOutputPathExecutorTest {
         assertThrows(IllegalStateException::class.java) {
             executor.execute(ExecutionMetadata(
                     paths = ExecutionMetadataPath(storagePath = path),
-                    configFile = TestData.config.copy(environment = TestData.config.environment.copy(storagePath = path.toString()))
+                    configFile = TestData.config.copy(general = TestData.config.general.copy(storagePath = path.toString()))
             ))
         }
     }

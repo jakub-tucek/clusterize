@@ -51,7 +51,7 @@ class ActionListService() : ActionService<ActionList> {
             return metadataStoragePath
         }
         if (configFile != null) {
-            return serializationService.parseConfig(configFile).environment.metadataStoragePath
+            return serializationService.parseConfig(configFile).general.metadataStoragePath
         }
         throw IllegalArgumentException("Both paths in action list are null.")
     }

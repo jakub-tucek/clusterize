@@ -14,13 +14,13 @@ import java.nio.file.Paths
 class CopySourcesFilesExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        ConsoleWriter.writeStatus("Copying sources files from ${metadata.configFile.environment.sourcesPath}")
+        ConsoleWriter.writeStatus("Copying sources files from ${metadata.configFile.general.sourcesPath}")
 
         val outPath = metadata.paths.metadataStoragePath ?: throw IllegalStateException("MetadataStorage path not set")
         val sourcesOutPath = outPath.resolve(FileNames.sourcesFolder)
 
         FileUtils.copyDirectory(
-                Paths.get(metadata.configFile.environment.sourcesPath),
+                Paths.get(metadata.configFile.general.sourcesPath),
                 outPath.resolve(FileNames.sourcesFolder)
         )
 

@@ -36,7 +36,7 @@ internal class InitOutputPathExecutorIntegTest {
 
         val metadata = executor.execute(
                 ExecutionMetadata(
-                        configFile = TestData.config.copy(environment = TestData.config.environment
+                        configFile = TestData.config.copy(general = TestData.config.general
                                 .copy(
                                         storagePath = storagePath.toString(),
                                         metadataStoragePath = metadataOutputDir.toString()

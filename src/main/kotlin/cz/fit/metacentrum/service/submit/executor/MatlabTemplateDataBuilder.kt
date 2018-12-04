@@ -33,7 +33,7 @@ class MatlabTemplateDataBuilder {
                 taskType,
                 variableData.toSortedMap().toList(),
                 TemplateUtils.formatFunctionParameters(taskType.parameters),
-                metadata.configFile.environment.dependents,
+                metadata.configFile.general.dependents,
                 runPath,
                 sourcesPath,
                 ModuleConfiguration.matlabModule,

@@ -24,7 +24,7 @@ iterations:
     from: 1
     to: 2
 
-environment:
+general:
   metadataStoragePath: './out/metadataStorage'
   storagePath: './out/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
