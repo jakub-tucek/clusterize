@@ -8,5 +8,6 @@ data class ConfigFile(
         val iterations: List<ConfigIteration>,
         val environment: ConfigEnvironment,
         val taskType: TaskType,
-        val general: ConfigGeneral = ConfigGeneral()
+        val general: ConfigGeneral = ConfigGeneral(),
+        val resources: ConfigResources
 )
