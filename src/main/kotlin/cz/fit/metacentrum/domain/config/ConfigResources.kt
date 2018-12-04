@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.domain.config
 
 
+// defines config resources
 data class ConfigResources(
         val profile: String,
         val details: ConfigResourcesDetails? = null

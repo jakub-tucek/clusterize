@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 
 
-const val ConfigIterationArrayType = "ARRAY"
-const val ConfigIterationIntRangeType = "INT_RANGE"
+private const val ConfigIterationArrayType = "ARRAY"
+private const val ConfigIterationIntRangeType = "INT_RANGE"
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,

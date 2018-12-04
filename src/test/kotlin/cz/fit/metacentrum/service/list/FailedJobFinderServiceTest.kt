@@ -38,20 +38,20 @@ internal class FailedJobFinderServiceTest {
         job3Failed = initJob("3")
 
         // init job2
-        var status = job2Ok.runPath.resolve(FileNames.statusLog)
+        var status = job2Ok.jobPath.resolve(FileNames.statusLog)
         Files.write(status, "0\n".toByteArray(), StandardOpenOption.CREATE_NEW)
 
         //init job3
-        status = job3Failed.runPath.resolve(FileNames.statusLog)
+        status = job3Failed.jobPath.resolve(FileNames.statusLog)
         Files.write(status, "1\n".toByteArray(), StandardOpenOption.CREATE_NEW)
-        Files.write(job3Failed.runPath.resolve(FileNames.stdJobLog), "STD SCRIPT ERROR\n".toByteArray(), StandardOpenOption.CREATE_NEW)
-        Files.write(job3Failed.runPath.resolve(FileNames.stdErrLog), "STD ERROR\n".toByteArray(), StandardOpenOption.CREATE_NEW)
+        Files.write(job3Failed.jobPath.resolve(FileNames.stdJobLog), "STD SCRIPT ERROR\n".toByteArray(), StandardOpenOption.CREATE_NEW)
+        Files.write(job3Failed.jobPath.resolve(FileNames.stdErrLog), "STD ERROR\n".toByteArray(), StandardOpenOption.CREATE_NEW)
     }
 
     private fun initJob(jobName: String): ExecutionMetadataJob {
         val path = rootPath.resolve(jobName)
         Files.createDirectories(path)
-        return ExecutionMetadataJob(path, pid = "123", runId = 12)
+        return ExecutionMetadataJob(path, pid = "123", jobId = 12)
     }
 
     @Test

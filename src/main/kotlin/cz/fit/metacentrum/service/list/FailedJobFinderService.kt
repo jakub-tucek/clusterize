@@ -18,14 +18,14 @@ class FailedJobFinderService {
     fun findFailedJobs(jobs: List<ExecutionMetadataJob>): List<ExecutionMetadataJobFailedWrapper> {
         return jobs
                 // if status is missing it should mean that job is not finished
-                .filter { Files.exists(it.runPath.resolve(FileNames.statusLog)) }
+                .filter { Files.exists(it.jobPath.resolve(FileNames.statusLog)) }
                 .map { checkForErrorInPath(it) }
                 .filterNotNull()
 
     }
 
     private fun checkForErrorInPath(job: ExecutionMetadataJob): ExecutionMetadataJobFailedWrapper? {
-        val statusFile = job.runPath.resolve(FileNames.statusLog)
+        val statusFile = job.jobPath.resolve(FileNames.statusLog)
         var status: Int? = null
 
         try {
@@ -36,7 +36,7 @@ class FailedJobFinderService {
 
         // finished OK, no error
         if (status == 0) return null
-        val output = Files.list(job.runPath)
+        val output = Files.list(job.jobPath)
                 .filter { it.toString().endsWith(".log") }
                 .map {
                     """

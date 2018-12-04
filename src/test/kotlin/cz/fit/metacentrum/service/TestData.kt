@@ -68,18 +68,18 @@ internal object TestData {
             submittingUsername = "BigBoy",
             jobs = listOf(
                     ExecutionMetadataJob(
-                            runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job1"),
-                            runId = 1,
+                            jobPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job1"),
+                            jobId = 1,
                             pid = "1.pid"
                     ),
                     ExecutionMetadataJob(
-                            runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job2"),
-                            runId = 2,
+                            jobPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job2"),
+                            jobId = 2,
                             pid = "2.pid"
                     ),
                     ExecutionMetadataJob(
-                            runPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job3"),
-                            runId = 3,
+                            jobPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job3"),
+                            jobId = 3,
                             pid = "3.pid"
                     )
             ),
