@@ -25,6 +25,7 @@ iterations:
     to: 2
 
 general:
+  taskName: 'matlab-dip'
   metadataStoragePath: './out/metadataStorage'
   storagePath: './out/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
@@ -49,5 +50,7 @@ taskType:
 
 resources:
   profile: 'custom'
-  modules:
+  toolboxes:
     - matlab_Neural_Network_Toolbox
+  modules:
+    - jdk-8

@@ -16,7 +16,7 @@ data class MatlabTemplateData(
         val dependentVariables: List<ConfigGeneralDependent>,
         val runPath: Path,
         val sourcesPath: Path,
-        val moduleName: String, // name of loaded module
-        val toolboxes: List<String>, // name of used toolboxes
+        val modules: Set<String>, // name of loaded module
+        val toolboxes: Set<String>, // name of used toolboxes
         val fileNames: FileNames = FileNames
 )

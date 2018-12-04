@@ -1,6 +1,5 @@
 package cz.fit.metacentrum.service.submit.executor
 
-import cz.fit.metacentrum.config.ModuleConfiguration
 import cz.fit.metacentrum.domain.MatlabTemplateData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
@@ -35,8 +34,8 @@ class MatlabTemplateDataBuilder {
                 metadata.configFile.general.dependents,
                 runPath,
                 sourcesPath,
-                ModuleConfiguration.matlabModule,
-                emptyList()
+                metadata.configFile.resources.modules,
+                metadata.configFile.resources.toolboxes
         )
     }
 }

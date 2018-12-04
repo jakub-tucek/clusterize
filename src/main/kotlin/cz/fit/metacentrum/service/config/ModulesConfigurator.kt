@@ -26,7 +26,7 @@ class ModulesConfigurator : Configurator {
 
         // ask user if he wants to add module
         val confirmationResult = consoleReader.askForConfirmation(
-                "Looks like you are using $taskSpecificModule and you did specify it. Do you wish to add it?",
+                "Looks like you are using $taskSpecificModule and you did specify proper module. Do you wish to add it?",
                 true
         )
         // if yes, add it and return update configuration

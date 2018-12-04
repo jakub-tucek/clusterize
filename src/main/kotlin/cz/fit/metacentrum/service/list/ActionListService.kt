@@ -26,6 +26,9 @@ class ActionListService() : ActionService<ActionList> {
 
     override fun processAction(argumentAction: ActionList) {
         val metadataPath = Paths.get(getMetadataPath(argumentAction))
+        if (!Files.exists(metadataPath)) {
+            throw IllegalStateException("Path ${metadataPath} does not exists. Exiting.")
+        }
 
         val metadatas = Files.list(metadataPath)
                 .filter { Files.isDirectory(it) }

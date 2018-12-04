@@ -14,7 +14,9 @@
 
 echo "$PBS_JOBID" > {{runPath}}/{{fileNames.pidFile}}
 
-module add {{moduleName}} # loads desired application
+{{#modules}}
+    module add {{.}} # loads desired application
+{{/modules}}
 
 DATADIR="{{storagePath}}" # sets up your input data directory
 

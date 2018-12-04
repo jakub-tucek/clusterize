@@ -63,8 +63,11 @@ class MainModule : AbstractModule() {
         val binder = Multibinder.newSetBinder(binder(), Configurator::class.java)
 
         binder.addBinding().to(TaskNameConfigurator::class.java)
-        binder.addBinding().to(ModulesConfigurator::class.java)
-        binder.addBinding().to(ToolboxConfigurator::class.java)
+
+        if (!ProfileConfiguration.isDev()) {
+            binder.addBinding().to(ModulesConfigurator::class.java)
+            binder.addBinding().to(ToolboxConfigurator::class.java)
+        }
         bind(ConfiguratorRunnerService::class.java)
     }
 
