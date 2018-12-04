@@ -12,12 +12,12 @@ import javax.inject.Inject
  * Resubmitting configuration file.
  * @author Jakub Tucek
  */
-class TaskResubmitService(
-        @Inject
-        val actionSubmitService: ActionService<ActionSubmit>,
-        @Inject
-        val consoleReader: ConsoleReader
-) {
+class TaskResubmitService() {
+
+    @Inject
+    private lateinit var actionSubmitService: ActionService<ActionSubmit>
+    @Inject
+    private lateinit var consoleReader: ConsoleReader
 
     fun promptRerunIfError(metadatas: List<ExecutionMetadata>) {
         val failedTasks = metadatas
