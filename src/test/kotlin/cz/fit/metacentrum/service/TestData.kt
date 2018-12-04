@@ -81,6 +81,11 @@ internal object TestData {
                             runId = 3,
                             pid = "3.pid"
                     )
+            ),
+            configFile = metadata.configFile.copy(
+                    general = metadata.configFile.general.copy(
+                            taskName = "task X"
+                    )
             )
     )
 }
