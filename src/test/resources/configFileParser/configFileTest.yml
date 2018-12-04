@@ -48,3 +48,6 @@ taskType:
     - 'yes'
     - 'layers'
     - $ADDED_LAYERS
+
+resources:
+  profile: 'custom'
