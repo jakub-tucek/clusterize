@@ -18,6 +18,7 @@ class ResourcesConfigurator : Configurator {
         if (config.resources.details == null) {
 //            consoleReader.askForConfirmation()
         }
-        TODO()
+//        TODO()
+        return config
     }
 }
