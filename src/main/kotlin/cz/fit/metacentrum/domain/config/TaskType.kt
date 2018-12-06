@@ -19,6 +19,6 @@ sealed class TaskType()
 
 @JsonTypeName(taskTypeMatlabType)
 data class MatlabTaskType(
-        val functionName: String,
+        val functionCall: String,
         val parameters: List<String>
 ) : TaskType()

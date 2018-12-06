@@ -35,7 +35,7 @@ general:
 
 taskType:
   type: MATLAB # type of runner
-  functionName: 'main_batch01'
+  functionCall: 'main_batch01'
   parameters:
     - $MIN_TRANSL
     - $MAX_TRANSL

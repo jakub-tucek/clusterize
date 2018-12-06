@@ -40,7 +40,7 @@ matlab -nodesktop -nosplash -nodisplay -r            \
 "try,                                               "\
 "    maxNumCompThreads($MATLAB_THREADS);,           "\
 "    addpath('$MATLAB_DIR'),                        "\
-"    {{taskType.functionName}}({{{functionParams}}}), "\
+"    {{taskType.functionCall}}({{{functionParams}}}), "\
 "catch e,                                           "\
 "    disp(getReport(e)),                            "\
 "    exit(1),                                       "\
