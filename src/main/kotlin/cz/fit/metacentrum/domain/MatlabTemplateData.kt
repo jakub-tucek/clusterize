@@ -12,7 +12,6 @@ import java.nio.file.Path
 data class MatlabTemplateData(
         val taskType: MatlabTaskType,
         val variables: List<Pair<String, String>>,
-        val functionParams: String,
         val dependentVariables: List<ConfigGeneralDependent>,
         val runPath: Path,
         val sourcesPath: Path,

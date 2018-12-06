@@ -3,7 +3,6 @@ package cz.fit.metacentrum.service.submit.executor
 import cz.fit.metacentrum.domain.MatlabTemplateData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.util.TemplateUtils
 import java.nio.file.Files
 
 /**
@@ -30,7 +29,6 @@ class MatlabTemplateDataBuilder {
         return MatlabTemplateData(
                 taskType,
                 variableData.toSortedMap().toList(),
-                TemplateUtils.formatFunctionParameters(taskType.parameters),
                 metadata.configFile.general.dependents,
                 runPath,
                 sourcesPath,
