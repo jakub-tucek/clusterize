@@ -49,7 +49,7 @@ internal class CheckQueueExecutorTest {
 
         retrieveState<ExecutionMetadataStateRunning>(
                 result.state,
-                ExecutionMetadataStateOk::class
+                ExecutionMetadataStateDone::class
         )
     }
 

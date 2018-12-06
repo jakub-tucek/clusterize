@@ -37,16 +37,9 @@ general:
 
 taskType:
   type: MATLAB # type of runner
-  functionCall: 'main_batch01'
-  parameters:
-    - $MIN_TRANSL
-    - $MAX_TRANSL
-    - $VICINITY_TYPE
-    - $SUB_IMG_IDX
-    - 'useGPU' # First env variable
-    - 'yes'
-    - 'layers'
-    - $ADDED_LAYERS
+  functionCall: |
+    main_batch01($MIN_TRANSL, $MAX_TRANSL, $VICINITY_TYPE, $SUB_IMG_IDX, 'useGPU', 'yes', 'layers', $ADDED_LAYERS)
+
 
 resources:
   profile: 'custom'
