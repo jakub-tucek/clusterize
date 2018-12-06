@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter
 internal class MetadataInfoPrinterTest {
 
 
-    private lateinit var okJob: ExecutionMetadata
+    private lateinit var doneJob: ExecutionMetadata
     private lateinit var failJob: ExecutionMetadata
     private lateinit var runningJob: ExecutionMetadata
 
@@ -36,7 +36,7 @@ internal class MetadataInfoPrinterTest {
                 )
         )
 
-        okJob = TestData.executedMetadata.copy(state = ExecutionMetadataStateOk)
+        doneJob = TestData.executedMetadata.copy(state = ExecutionMetadataStateDone)
         failJob = TestData.executedMetadata.copy(state = ExecutionMetadataStateFailed(firstJobFailedWrappers))
         runningJob = TestData.executedMetadata.copy(state = ExecutionMetadataStateRunning(
                 failedJobs = firstJobFailedWrappers,
@@ -55,7 +55,7 @@ internal class MetadataInfoPrinterTest {
 
     @Test
     fun testPrintingMetadataInfo() {
-        MetadataInfoPrinter().printMetadataListInfo(listOf(okJob, failJob, runningJob))
+        MetadataInfoPrinter().printMetadataListInfo(listOf(doneJob, failJob, runningJob))
 
 
         System.setOut(systemOut)
@@ -63,7 +63,7 @@ internal class MetadataInfoPrinterTest {
         val out = testOut.toString()
         val time = TestData.executedMetadata.timestamp.format(DateTimeFormatter.ofPattern(userDateFormat))
         Assertions.assertThat(out).contains(
-                "* 0 - task X - $time - OK",
+                "* 0 - task X - $time - Done",
                 "* 1 - task X - $time - 1/3 FAILED",
                 "* 2 - task X - $time - RUNNING",
                 "1/3 FAILED",

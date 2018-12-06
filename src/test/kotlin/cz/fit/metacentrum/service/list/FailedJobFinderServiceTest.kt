@@ -23,7 +23,7 @@ internal class FailedJobFinderServiceTest {
     private lateinit var rootPath: Path
 
     private lateinit var job1Running: ExecutionMetadataJob
-    private lateinit var job2Ok: ExecutionMetadataJob
+    private lateinit var job2Done: ExecutionMetadataJob
     private lateinit var job3Failed: ExecutionMetadataJob
 
 
@@ -34,11 +34,11 @@ internal class FailedJobFinderServiceTest {
 
         // init jobs
         job1Running = initJob("1")
-        job2Ok = initJob("2")
+        job2Done = initJob("2")
         job3Failed = initJob("3")
 
         // init job2
-        var status = job2Ok.jobPath.resolve(FileNames.statusLog)
+        var status = job2Done.jobPath.resolve(FileNames.statusLog)
         Files.write(status, "0\n".toByteArray(), StandardOpenOption.CREATE_NEW)
 
         //init job3
@@ -62,7 +62,7 @@ internal class FailedJobFinderServiceTest {
 
     @Test
     fun testRunningAndSuccessfulJob() {
-        val failedJobs = failedJobFinderService.findFailedJobs(listOf(job1Running, job2Ok))
+        val failedJobs = failedJobFinderService.findFailedJobs(listOf(job1Running, job2Done))
         Assertions.assertThat(failedJobs).isEmpty()
     }
 
@@ -70,7 +70,7 @@ internal class FailedJobFinderServiceTest {
     fun testFailedJob() {
         val failedJobs = failedJobFinderService.findFailedJobs(listOf(
                 job1Running,
-                job2Ok,
+                job2Done,
                 job3Failed
         ))
         Assertions.assertThat(failedJobs)

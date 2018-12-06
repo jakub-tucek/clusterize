@@ -2,8 +2,8 @@ package cz.fit.metacentrum.service.list
 
 import cz.fit.metacentrum.config.userDateFormat
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateDone
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateOk
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateRunning
 import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.defaultCommandDelimiter
@@ -34,8 +34,8 @@ class MetadataInfoPrinter {
         val stringBuild = StringBuilder("$index - ${metadata.configFile.general.taskName} - ${formattedDate}")
 
         when (state) {
-            is ExecutionMetadataStateOk -> {
-                stringBuild.append(" - OK")
+            is ExecutionMetadataStateDone -> {
+                stringBuild.append(" - Done")
             }
             is ExecutionMetadataStateFailed -> {
                 val failedStateFailed = state

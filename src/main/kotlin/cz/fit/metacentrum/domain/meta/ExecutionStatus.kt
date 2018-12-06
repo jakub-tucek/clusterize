@@ -5,8 +5,8 @@ package cz.fit.metacentrum.domain.meta
 sealed class ExecutionMetadataState
 
 
-// Ok status. Every script finished successfully
-object ExecutionMetadataStateOk : ExecutionMetadataState()
+// Done status. Every script finished successfully
+object ExecutionMetadataStateDone : ExecutionMetadataState()
 
 // Task still running. Can contain some failed jobs that already finished.
 class ExecutionMetadataStateRunning(
@@ -15,7 +15,7 @@ class ExecutionMetadataStateRunning(
         val failedJobs: List<ExecutionMetadataJobFailedWrapper>
 ) : ExecutionMetadataState()
 
-// Failed status. Task and every job is finished but some failed - did not exit with OK status.
+// Failed status. Task and every job is finished but some failed - did not exit with Done status.
 class ExecutionMetadataStateFailed(val failedJobs: List<ExecutionMetadataJobFailedWrapper>) : ExecutionMetadataState()
 
 

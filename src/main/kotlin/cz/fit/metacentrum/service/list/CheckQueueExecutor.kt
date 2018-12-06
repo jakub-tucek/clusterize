@@ -38,14 +38,14 @@ class CheckQueueExecutor : TaskExecutor {
         // no running jobs - so it either failed or finished successfully
         if (running.isEmpty() && queued.isEmpty()) {
             if (failedJobs.isEmpty()) {
-                return metadata.copy(state = ExecutionMetadataStateOk)
+                return metadata.copy(state = ExecutionMetadataStateDone)
             } else {
                 return metadata.copy(state = ExecutionMetadataStateFailed(
                         failedJobs
                 ))
             }
         } else {
-            // running task, some jobs maybe finished with OK or fail status
+            // running task, some jobs maybe finished with Done or fail status
             return metadata.copy(
                     state = ExecutionMetadataStateRunning(
                             runningJobs = mapRecordsToRunningJob(running, mappedJobsByPid),
@@ -77,7 +77,7 @@ class CheckQueueExecutor : TaskExecutor {
 
     private fun checkIfFinishedQueueWasProcessed(metadata: ExecutionMetadata): Boolean {
         return when (metadata.state) {
-            is ExecutionMetadataStateOk -> true
+            is ExecutionMetadataStateDone -> true
             is ExecutionMetadataStateFailed -> true
             else -> false
         }

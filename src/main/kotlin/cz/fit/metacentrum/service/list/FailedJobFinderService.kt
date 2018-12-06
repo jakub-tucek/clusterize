@@ -34,7 +34,7 @@ class FailedJobFinderService {
             logger.error("Status file cannot be read")
         }
 
-        // finished OK, no error
+        // finished Done, no error
         if (status == 0) return null
         val output = Files.list(job.jobPath)
                 .filter { it.toString().endsWith(".log") }
