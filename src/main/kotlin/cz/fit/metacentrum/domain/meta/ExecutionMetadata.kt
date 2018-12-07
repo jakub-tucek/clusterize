@@ -9,7 +9,8 @@ import java.time.LocalDateTime
  */
 data class ExecutionMetadata(
         val configFile: ConfigFile,
-        val timestamp: LocalDateTime = LocalDateTime.now(),
+        val creationTime: LocalDateTime = LocalDateTime.now(),
+        val updateTime: LocalDateTime = LocalDateTime.now(),
         val paths: ExecutionMetadataPath = ExecutionMetadataPath(),
         val iterationCombinations: List<Map<String, String>>? = null,
         val jobs: List<ExecutionMetadataJob>? = null,
@@ -24,7 +25,7 @@ object ExecutionMetadataComparator : Comparator<ExecutionMetadata> {
         }
         if (o1 == null) return -1
         if (o2 == null) return 1
-        return o1.timestamp.compareTo(o2.timestamp)
+        return o1.creationTime.compareTo(o2.creationTime)
     }
 
 }

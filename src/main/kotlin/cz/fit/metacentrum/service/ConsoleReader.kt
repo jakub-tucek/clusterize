@@ -24,6 +24,8 @@ class ConsoleReader {
 
     /**
      * Asks for value with type T. Value is accepted after parseValue return nonNull value.
+     * @param msg - message for user
+     * @param parseValue - parses value from string and returns its representation as type T, null if value is invalid
      */
     fun <T> askForValue(msg: String, parseValue: (String?) -> T?): T {
         println(msg)

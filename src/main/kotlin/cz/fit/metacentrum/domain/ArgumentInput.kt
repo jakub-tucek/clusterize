@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.domain
 
 import cz.fit.metacentrum.domain.config.ConfigFile
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 
 
 sealed class Action
@@ -20,6 +21,10 @@ data class ActionSubmitConfig(val configFile: ConfigFile) : ActionSubmit()
 // =====================================================================================================================
 // lists all tasks and its status based on executed jobs
 data class ActionList(val metadataStoragePath: String? = null, val configFile: String? = null) : Action()
+
+// =====================================================================================================================
+// Resubmit action
+data class ActionResubmit(val metadata: ExecutionMetadata, val resubmitAll: Boolean) : Action()
 
 // =====================================================================================================================
 // displays help

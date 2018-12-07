@@ -61,7 +61,7 @@ internal class MetadataInfoPrinterTest {
         System.setOut(systemOut)
 
         val out = testOut.toString()
-        val time = TestData.executedMetadata.timestamp.format(DateTimeFormatter.ofPattern(userDateFormat))
+        val time = TestData.executedMetadata.creationTime.format(DateTimeFormatter.ofPattern(userDateFormat))
         Assertions.assertThat(out).contains(
                 "* 0 - task X - $time - Done",
                 "* 1 - task X - $time - 1/3 FAILED",

@@ -27,38 +27,47 @@ class TaskResubmitService() {
             return
         }
 
-        resubmit(metadatas)
+        resubmit(metadatas, readResubmitId {
+            parseValidId(it, metadatas.size)
+        });
     }
 
+    private fun readResubmitId(idParser: (String?) -> Int?): Int {
+        return consoleReader.askForValue(
+                "Looks like you have some failed tasks. Do you want to submit some task again? [ENTER TASK NUMBER]"
+        ) { s -> idParser(s) }
+    }
+
+    private fun parseValidId(idInput: String?, maxSize: Int): Int? {
+        val id = idInput?.toIntOrNull()
+        if (id == null
+                || id < 0
+                || id >= maxSize) {
+            return null
+        }
+        return id
+    }
 
     /**
      * Resubmits for given rerun id if given.
      */
-    fun resubmit(metadatas: List<ExecutionMetadata>, defaultResubmitId: String? = null) {
-        var resubmitId = defaultResubmitId?.toIntOrNull()
-
-        if (resubmitId == null) {
-            resubmitId = consoleReader.askForValue(
-                    "Looks like you have some failed tasks. Do you want to submit some task again? [ENTER TASK NUMBER]"
-            ) { s ->
-                s?.toIntOrNull() ?: -1
-            }
-        }
-
-        if (resubmitId < 0
-                || resubmitId >= metadatas.size) {
-            println("No viable input found. Exiting.")
-            return
-        }
+    fun resubmit(metadatas: List<ExecutionMetadata>, resubmitId: Int) {
         val metadata = metadatas[resubmitId]
 
-
         // Update configuration resources path so it directs on copied metadata files
-        val config = metadata.configFile
-                .copy(general = metadata.configFile.general
-                        .copy(sourcesPath = metadata.paths.sourcesPath.toString()))
+        val config = metadata.configFile.copy(general = metadata.configFile.general
+                .copy(sourcesPath = metadata.paths.sourcesPath.toString())
+        )
 
         actionSubmitService.processAction(ActionSubmitConfig(config))
+    }
 
+    fun resubmit(metadatas: List<ExecutionMetadata>, resubmitIdString: String) {
+        val parsedId = parseValidId(resubmitIdString, metadatas.size)
+        if (parsedId != null) {
+            resubmit(metadatas, parsedId)
+        }
+        println("Given task id is invalid. Existing.")
+        System.exit(1)
     }
 }

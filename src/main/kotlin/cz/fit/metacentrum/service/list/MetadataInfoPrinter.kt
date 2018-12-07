@@ -29,13 +29,13 @@ class MetadataInfoPrinter {
         val state = metadata.state
         val jobs = metadata.jobs ?: throw IllegalStateException("Jobs not set in metadata")
 
-        val formattedDate = metadata.timestamp.format(DateTimeFormatter.ofPattern(userDateFormat))
+        val formattedDate = metadata.creationTime.format(DateTimeFormatter.ofPattern(userDateFormat))
 
         val stringBuild = StringBuilder("$index - ${metadata.configFile.general.taskName} - ${formattedDate}")
 
         when (state) {
             is ExecutionMetadataStateDone -> {
-                stringBuild.append(" - Done")
+                stringBuild.append(" - DONE")
             }
             is ExecutionMetadataStateFailed -> {
                 val failedStateFailed = state

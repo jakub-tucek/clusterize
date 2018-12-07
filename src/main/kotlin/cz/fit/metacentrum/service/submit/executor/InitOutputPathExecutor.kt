@@ -18,7 +18,7 @@ import kotlin.streams.toList
  */
 class InitOutputPathExecutor : TaskExecutor {
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        val formattedTimestamp = metadata.timestamp.format(
+        val formattedTimestamp = metadata.creationTime.format(
                 DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")
         )
         val newName = getNewName(metadata.configFile.general, formattedTimestamp)
