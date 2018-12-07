@@ -20,17 +20,7 @@ class ModulesConfigurator : Configurator {
             is MatlabTaskType -> "matlab"
         }
         val containsSpecificModule = config.resources.modules.contains(taskSpecificModule)
-        if (containsSpecificModule) {
-            return config
-        }
-
-        // ask user if he wants to add module
-        val confirmationResult = consoleReader.askForConfirmation(
-                "Looks like you are using $taskSpecificModule and you did specify proper module. Do you wish to add it?",
-                true
-        )
-        // if yes, add it and return update configuration
-        if (confirmationResult) {
+        if (!containsSpecificModule) {
             return config.copy(resources = config.resources.copy(
                     modules = config.resources.modules + taskSpecificModule
             ))
