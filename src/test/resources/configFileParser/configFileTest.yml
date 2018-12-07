@@ -9,6 +9,8 @@ iterations:
     name: MIN_TRANSL
     from: 0
     to: 2
+    step: 1
+    stepOperation: PLUS
 
   - type: ARRAY
     name: ADDED_LAYERS
@@ -21,8 +23,10 @@ iterations:
 
   - type: INT_RANGE
     name: RUN_ID
-    from: 1
-    to: 2
+    from: 2
+    to: 1
+    step: 1
+    stepOperation: MINUS
 
 general:
   taskName: 'matlab-dip'

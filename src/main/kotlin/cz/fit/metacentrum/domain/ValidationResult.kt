@@ -22,4 +22,12 @@ data class ValidationResult(val messages: List<String> = emptyList(),
             return ValidationResult(newList, false)
         }
     }
+
+    operator fun plus(newRes: ValidationResult): ValidationResult {
+        return merge(this, newRes)
+    }
+
+    operator fun plus(newMessages: String): ValidationResult {
+        return merge(this, newMessages)
+    }
 }

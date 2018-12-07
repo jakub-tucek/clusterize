@@ -8,6 +8,8 @@ iterations:
     name: MIN_TRANSL
     from: 0
     to: 1
+    step: 1
+    stepOperation: PLUS
 
   - type: ARRAY
     name: ADDED_LAYERS
@@ -17,11 +19,15 @@ iterations:
     name: SUB_IMG_IDX
     from: 1
     to: 1
+    step: 1
+    stepOperation: PLUS
 
   - type: INT_RANGE
     name: RUN_ID
     from: 1
     to: 1
+    step: 1
+    stepOperation: PLUS
 
 general:
   metadataStoragePath: 'dockershared/metadataStorage'

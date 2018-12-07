@@ -21,7 +21,7 @@ class IterationExecutor : TaskExecutor {
                 .map {
                     val values = when (it) {
                         is ConfigIterationArray -> it.values
-                        is ConfigIterationIntRange -> createIntRangeSequence(it.from, it.to)
+                        is ConfigIterationIntRange -> createIntRangeSequence(it)
                     }
                     Pair(it.name, values.resetableIterator())
                 }.toList()
@@ -65,8 +65,16 @@ class IterationExecutor : TaskExecutor {
                     .toMap()
 
 
-    private fun createIntRangeSequence(from: Int, to: Int): List<String> {
-        return (from..to).toList()
-                .map { it.toString() }
+    private fun createIntRangeSequence(range: ConfigIterationIntRange): List<String> {
+        var current = range.from
+
+        val values = mutableListOf<String>()
+
+        while (range.stepOperation.compare(current, range.to)) {
+            values += current.toString()
+            current = range.stepOperation.applyAsInt(current, range.step)
+        }
+
+        return values
     }
 }

@@ -22,7 +22,9 @@ internal object TestData {
                     ConfigIterationIntRange(
                             name = "CONFIG_ITERATION_INT_RANGE",
                             from = 0,
-                            to = 20
+                            to = 20,
+                            step = 1,
+                            stepOperation = StepOperation.PLUS
                     )
             ),
             ConfigGeneral(
@@ -37,14 +39,7 @@ internal object TestData {
                     ))
             ),
             MatlabTaskType(
-                    "main_batch01",
-                    listOf(
-                            "\$CONFIG_ITERATION_ARRAY",
-                            "\$CONFIG_ITERATION_INT_RANGE",
-                            "\$CONFIG_ITERATION_DEPENDENT",
-                            "useGPU",
-                            "yes"
-                    )
+                    "main_batch01(\$CONFIG_ITERATION_ARRAY, \$CONFIG_ITERATION_INT_RANGE, \$CONFIG_ITERATION_DEPENDENT, 'userGPU', 'yes')"
             ),
             ConfigResources(profile = "custom")
     )
