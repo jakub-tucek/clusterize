@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.service.list
 
-import cz.fit.metacentrum.domain.ActionSubmit
+import cz.fit.metacentrum.domain.ActionResubmitFailed
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.service.ConsoleReader
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class TaskResubmitService() {
 
     @Inject
-    private lateinit var actionSubmitService: ActionService<ActionSubmit>
+    private lateinit var actionResubmitService: ActionService<ActionResubmitFailed>
     @Inject
     private lateinit var consoleReader: ConsoleReader
 
@@ -53,7 +53,7 @@ class TaskResubmitService() {
     fun resubmit(metadatas: List<ExecutionMetadata>, resubmitId: Int) {
         val metadata = metadatas[resubmitId]
 
-//        actionSubmitService.processAction(ActionSubmitConfig(metadata.configFile))
+        actionResubmitService.processAction(ActionResubmitFailed(metadata))
     }
 
     fun resubmit(metadatas: List<ExecutionMetadata>, resubmitIdString: String) {
