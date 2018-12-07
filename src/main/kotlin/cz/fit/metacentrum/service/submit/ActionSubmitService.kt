@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.service.submit
 
+import com.google.inject.name.Named
 import cz.fit.metacentrum.config.matlabExecutorsToken
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.domain.ActionSubmitConfig
@@ -10,12 +11,11 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.SubmitRunner
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.TaskExecutor
-import cz.fit.metacentrum.service.config.ConfiguratorRunnerService
+import cz.fit.metacentrum.service.config.ConfiguratorRunner
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import mu.KotlinLogging
 import javax.inject.Inject
-import javax.inject.Named
 
 private val logger = KotlinLogging.logger {}
 
@@ -32,7 +32,7 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     @Named(matlabExecutorsToken)
     private lateinit var matlabExecutors: Set<@JvmSuppressWildcards TaskExecutor>
     @Inject
-    private lateinit var configuratorRunnable: ConfiguratorRunnerService
+    private lateinit var configuratorRunner: ConfiguratorRunner
     @Inject
     private lateinit var submitRunner: SubmitRunner
 
@@ -41,8 +41,8 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
             is ActionSubmitPath -> getConfig(argumentAction.configFilePath)
             is ActionSubmitConfig -> argumentAction.configFile
         }
-        val interactiveConfig = configuratorRunnable.configurate(config)
-        val initMetadata = ExecutionMetadata(configFile = config)
+        val interactiveConfig = configuratorRunner.configure(config)
+        val initMetadata = ExecutionMetadata(configFile = interactiveConfig)
 
         when (interactiveConfig.taskType) {
             is MatlabTaskType -> submitRunner.run(initMetadata, matlabExecutors)

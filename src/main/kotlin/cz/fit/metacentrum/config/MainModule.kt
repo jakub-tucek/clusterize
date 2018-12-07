@@ -74,7 +74,7 @@ class MainModule : AbstractModule() {
         if (ProfileConfiguration.isDev()) {
             binder.addBinding().to(DevelopmentCleanerConfigurator::class.java)
         }
-        bind(ConfiguratorRunnerService::class.java)
+        bind(ConfiguratorRunner::class.java)
     }
 
     private fun bindResubmitActionClasses() {

@@ -83,7 +83,7 @@ internal object TestData {
     )
 
     val failedMetadata = executedMetadata.copy(
-            isRerun = true,
+            rerun = true,
             state = ExecutionMetadataStateFailed(
                     failedJobs = listOf(
                             ExecutionMetadataJobFailedWrapper(

@@ -40,7 +40,7 @@ class SubmitRunner {
 
     private fun cleanup(metadata: ExecutionMetadata) {
         // dont cleanup on rerun
-        if (metadata.isRerun) {
+        if (metadata.rerun) {
             return
         }
         if (metadata.paths.storagePath != null) {

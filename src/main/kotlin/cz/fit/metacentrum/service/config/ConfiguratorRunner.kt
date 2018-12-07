@@ -8,14 +8,14 @@ import javax.inject.Inject
  *
  * @author Jakub Tucek
  */
-class ConfiguratorRunnerService {
+class ConfiguratorRunner {
 
 
     @Inject
     private lateinit var configuratorList: Set<@JvmSuppressWildcards Configurator>
 
 
-    fun configurate(config: ConfigFile): ConfigFile {
+    fun configure(config: ConfigFile): ConfigFile {
         return configuratorList
                 .fold(config) { acc, configurator -> configurator.configureInteractively(acc) }
     }

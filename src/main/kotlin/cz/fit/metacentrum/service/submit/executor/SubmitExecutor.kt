@@ -24,7 +24,7 @@ class SubmitExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Submitting runs/jobs to queue")
-        val allJobs = when (metadata.isRerun) {
+        val allJobs = when (metadata.rerun) {
             false -> metadata.jobs ?: throw IllegalStateException("No scripts to run available")
             true -> (metadata.state as ExecutionMetadataStateFailed).failedJobs.map { it.job }
         }
@@ -32,7 +32,7 @@ class SubmitExecutor : TaskExecutor {
         val scriptsWithPid = allJobs
                 .map {
                     val scriptFile = it.jobPath.resolve(FileNames.innerScript).toAbsolutePath()
-                    val cmdResult = shellService.runCommand("qsub ${scriptFile.toString()}")
+                    val cmdResult = shellService.runCommand("qsub -- ${scriptFile.toString()}")
                     if (cmdResult.status != 0)
                         throw IOException("Submitting script ${scriptFile} failed with ${cmdResult.status}. ${cmdResult.errOutput}")
 
