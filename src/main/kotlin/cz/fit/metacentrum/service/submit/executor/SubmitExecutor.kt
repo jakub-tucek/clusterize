@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.submit.executor
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
@@ -23,9 +24,12 @@ class SubmitExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Submitting runs/jobs to queue")
-        val scripts = metadata.jobs ?: throw IllegalStateException("No scripts to run available")
+        val allJobs = when (metadata.isRerun) {
+            false -> metadata.jobs ?: throw IllegalStateException("No scripts to run available")
+            true -> (metadata.state as ExecutionMetadataStateFailed).failedJobs.map { it.job }
+        }
 
-        val scriptsWithPid = scripts
+        val scriptsWithPid = allJobs
                 .map {
                     val scriptFile = it.jobPath.resolve(FileNames.innerScript).toAbsolutePath()
                     val cmdResult = shellService.runCommand("qsub ${scriptFile.toString()}")

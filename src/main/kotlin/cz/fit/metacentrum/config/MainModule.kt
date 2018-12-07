@@ -21,6 +21,8 @@ import cz.fit.metacentrum.service.list.*
 import cz.fit.metacentrum.service.submit.ActionResubmitFailedService
 import cz.fit.metacentrum.service.submit.ActionSubmitService
 import cz.fit.metacentrum.service.submit.executor.*
+import cz.fit.metacentrum.service.submit.executor.re.CleanFailedJobDirectoryExecutor
+import cz.fit.metacentrum.service.submit.executor.re.CleanStateExecutor
 
 
 const val matlabExecutorsToken = "MATLAB_EXECUTORS_TOKEN"
@@ -84,7 +86,9 @@ class MainModule : AbstractModule() {
                 TaskExecutor::class.java,
                 Names.named(matlabResubmitExecutorsToken)
         )
+        resubmitBinder.addBinding().to(CleanFailedJobDirectoryExecutor::class.java)
         resubmitBinder.addBinding().to(SubmitExecutor::class.java)
+        resubmitBinder.addBinding().to(CleanStateExecutor::class.java)
 
         bind(MatlabTemplateDataBuilder::class.java)
     }
