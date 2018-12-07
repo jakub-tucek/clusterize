@@ -2,7 +2,7 @@ package cz.fit.metacentrum.extension
 
 
 /**
- *
+ * Adds function that returns ResetablebleIterator
  * @author Jakub Tucek
  */
 fun <T> List<T>.resetableIterator(): ResetableIterator<T> {

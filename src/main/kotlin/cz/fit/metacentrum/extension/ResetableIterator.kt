@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.extension
 
+// Resetable list iterator that extends base ListIterator API
 interface ResetableIterator<T> : ListIterator<T> {
     // resets iterator state
     fun reset()
