@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N oneCPUjob
+#PBS -N {{general.taskName}}
 #PBS -l walltime=4:00:00
 #PBS -l select=1:ncpus=1:mem=1gb
 {{#toolboxes}}
@@ -25,9 +25,9 @@ DATADIR="{{storagePath}}" # sets up your input data directory
     export {{first}}="{{second}}"
 {{/variables}}
 
-{{#dependentVariables}}
+{{#general.dependents}}
     export {{name}}=$(({{dependentVarName}}{{modifier}}))
-{{/dependentVariables}}
+{{/general.dependents}}
 
 export MATLAB_DIR="{{sourcesPath}}"
 export IN_DIR="{{sourcesPath}}"
