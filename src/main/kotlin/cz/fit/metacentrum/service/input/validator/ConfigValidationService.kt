@@ -13,6 +13,6 @@ class ConfigValidationService {
     fun validate(configFile: ConfigFile): ValidationResult {
         return listOf(iterationConfigValidator::validate)
                 .map { it(configFile) }
-                .reduce { a1, a2 -> ValidationResult.merge(a1, a2) }
+                .reduce { a1, a2 -> a1 + a2 }
     }
 }
