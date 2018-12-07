@@ -24,7 +24,7 @@ data class ActionList(val metadataStoragePath: String? = null, val configFile: S
 
 // =====================================================================================================================
 // Resubmit action
-data class ActionResubmit(val metadata: ExecutionMetadata, val resubmitAll: Boolean) : Action()
+data class ActionResubmitFailed(val metadata: ExecutionMetadata) : Action()
 
 // =====================================================================================================================
 // displays help

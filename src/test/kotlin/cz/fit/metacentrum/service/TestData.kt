@@ -3,9 +3,7 @@ package cz.fit.metacentrum.service
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.config.*
-import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataPath
+import cz.fit.metacentrum.domain.meta.*
 
 /**
  *
@@ -80,6 +78,19 @@ internal object TestData {
             configFile = metadata.configFile.copy(
                     general = metadata.configFile.general.copy(
                             taskName = "task X"
+                    )
+            )
+    )
+
+    val failedMetadata = executedMetadata.copy(
+            isRerun = true,
+            state = ExecutionMetadataStateFailed(
+                    failedJobs = listOf(
+                            ExecutionMetadataJobFailedWrapper(
+                                    job = executedMetadata.jobs!!.first(),
+                                    status = 2,
+                                    output = "Failed"
+                            )
                     )
             )
     )

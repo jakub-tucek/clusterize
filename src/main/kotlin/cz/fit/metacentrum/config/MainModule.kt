@@ -3,12 +3,11 @@ package cz.fit.metacentrum.config
 import com.google.inject.AbstractModule
 import com.google.inject.TypeLiteral
 import com.google.inject.multibindings.Multibinder
+import com.google.inject.name.Names
 import cz.fit.metacentrum.domain.ActionList
+import cz.fit.metacentrum.domain.ActionResubmitFailed
 import cz.fit.metacentrum.domain.ActionSubmit
-import cz.fit.metacentrum.service.ConsoleReader
-import cz.fit.metacentrum.service.MainService
-import cz.fit.metacentrum.service.ShellServiceDockerProxy
-import cz.fit.metacentrum.service.ShellServiceImpl
+import cz.fit.metacentrum.service.*
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.Configurator
 import cz.fit.metacentrum.service.api.ShellService
@@ -19,9 +18,13 @@ import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
 import cz.fit.metacentrum.service.list.*
+import cz.fit.metacentrum.service.submit.ActionResubmitFailedService
 import cz.fit.metacentrum.service.submit.ActionSubmitService
 import cz.fit.metacentrum.service.submit.executor.*
 
+
+const val matlabExecutorsToken = "MATLAB_EXECUTORS_TOKEN"
+const val matlabResubmitExecutorsToken = "MATLAB_RESUBMIT_EXECUTORS_TOKEN"
 
 class MainModule : AbstractModule() {
 
@@ -39,6 +42,7 @@ class MainModule : AbstractModule() {
         // action services
         bind(object : TypeLiteral<ActionService<ActionSubmit>>() {}).to(ActionSubmitService::class.java)
         bind(object : TypeLiteral<ActionService<ActionList>>() {}).to(ActionListService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionResubmitFailed>>() {}).to(ActionResubmitFailedService::class.java)
 
         // Shell service binding
         if (ProfileConfiguration.isDev()) {
@@ -48,12 +52,13 @@ class MainModule : AbstractModule() {
             bind(ShellService::class.java).to(ShellServiceImpl::class.java)
         }
         bind(ConsoleReader::class.java)
+        bind(SubmitRunner::class.java)
 
         bindConfiguratorClasses()
         // bind action features
         bindSubmitActionClasses()
         bindListActionClasses()
-        bindReSubmitActionClasses()
+        bindResubmitActionClasses()
     }
 
     private fun bindConfiguratorClasses() {
@@ -70,8 +75,18 @@ class MainModule : AbstractModule() {
         bind(ConfiguratorRunnerService::class.java)
     }
 
-    private fun bindReSubmitActionClasses() {
+    private fun bindResubmitActionClasses() {
         bind(TaskResubmitService::class.java)
+        bind(ActionResubmitFailedService::class.java)
+
+        val resubmitBinder = Multibinder.newSetBinder(
+                binder(),
+                TaskExecutor::class.java,
+                Names.named(matlabResubmitExecutorsToken)
+        )
+        resubmitBinder.addBinding().to(SubmitExecutor::class.java)
+
+        bind(MatlabTemplateDataBuilder::class.java)
     }
 
     private fun bindListActionClasses() {
@@ -83,7 +98,11 @@ class MainModule : AbstractModule() {
 
     private fun bindSubmitActionClasses() {
         // matlab executors
-        val matlabBinder = Multibinder.newSetBinder(binder(), TaskExecutor::class.java)
+        val matlabBinder = Multibinder.newSetBinder(
+                binder(),
+                TaskExecutor::class.java,
+                Names.named(matlabExecutorsToken)
+        )
         matlabBinder.addBinding().to(ResolvePathExecutor::class.java)
         matlabBinder.addBinding().to(UsernameResolverExecutor::class.java)
         matlabBinder.addBinding().to(InitOutputPathExecutor::class.java)
@@ -93,6 +112,5 @@ class MainModule : AbstractModule() {
         matlabBinder.addBinding().to(SubmitExecutor::class.java)
 
         bind(MatlabTemplateDataBuilder::class.java)
-
     }
 }

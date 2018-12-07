@@ -1,20 +1,21 @@
 package cz.fit.metacentrum.service.submit
 
+import cz.fit.metacentrum.config.matlabExecutorsToken
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.domain.ActionSubmitConfig
 import cz.fit.metacentrum.domain.ActionSubmitPath
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.service.SubmitRunner
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.service.config.ConfiguratorRunnerService
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
-import cz.fit.metacentrum.util.ConsoleWriter
-import cz.fit.metacentrum.util.FileUtils
 import mu.KotlinLogging
 import javax.inject.Inject
+import javax.inject.Named
 
 private val logger = KotlinLogging.logger {}
 
@@ -28,9 +29,12 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     @Inject
     private lateinit var configValidationService: ConfigValidationService
     @Inject
+    @Named(matlabExecutorsToken)
     private lateinit var matlabExecutors: Set<@JvmSuppressWildcards TaskExecutor>
     @Inject
     private lateinit var configuratorRunnable: ConfiguratorRunnerService
+    @Inject
+    private lateinit var submitRunner: SubmitRunner
 
     override fun processAction(argumentAction: ActionSubmit) {
         val config = when (argumentAction) {
@@ -38,22 +42,13 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
             is ActionSubmitConfig -> argumentAction.configFile
         }
         val interactiveConfig = configuratorRunnable.configurate(config)
+        val initMetadata = ExecutionMetadata(configFile = config)
 
         when (interactiveConfig.taskType) {
-            is MatlabTaskType -> runExecutors(interactiveConfig, matlabExecutors)
+            is MatlabTaskType -> submitRunner.run(initMetadata, matlabExecutors)
         }
 
     }
-
-    private fun runExecutors(config: ConfigFile, executorSet: Set<TaskExecutor>) {
-        val initMetadata = ExecutionMetadata(configFile = config)
-        ConsoleWriter.writeDelimiter()
-        val finalMetadata = executorSet.asSequence()
-                .fold(initMetadata) { metadata, executor -> safelyExecute(metadata, executor) }
-        ConsoleWriter.writeDelimiter()
-        serializationService.persistMetadata(finalMetadata)
-    }
-
 
     private fun getConfig(configFilePath: String): ConfigFile {
         // parseConfig configuration file
@@ -66,26 +61,5 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
             System.exit(1)
         }
         return parsedConfig
-    }
-
-    private fun safelyExecute(metadata: ExecutionMetadata, executor: TaskExecutor): ExecutionMetadata {
-        try {
-            val res = executor.execute(metadata)
-            ConsoleWriter.writeStatusDone()
-            return res
-        } catch (e: Exception) {
-            logger.error("Executor in submit service failed. Cleaning up")
-            cleanup(metadata)
-            throw e
-        }
-    }
-
-    private fun cleanup(metadata: ExecutionMetadata) {
-        if (metadata.paths.storagePath != null) {
-            FileUtils.deleteFolder(metadata.paths.storagePath)
-        }
-        if (metadata.paths.metadataStoragePath != null) {
-            FileUtils.deleteFolder(metadata.paths.metadataStoragePath)
-        }
     }
 }

@@ -15,7 +15,8 @@ data class ExecutionMetadata(
         val iterationCombinations: List<Map<String, String>>? = null,
         val jobs: List<ExecutionMetadataJob>? = null,
         val submittingUsername: String? = null,
-        val state: ExecutionMetadataState? = null
+        val state: ExecutionMetadataState? = null,
+        val isRerun: Boolean = false
 )
 
 object ExecutionMetadataComparator : Comparator<ExecutionMetadata> {

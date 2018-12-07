@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.service.list
 
 import cz.fit.metacentrum.domain.ActionSubmit
-import cz.fit.metacentrum.domain.ActionSubmitConfig
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.service.ConsoleReader
@@ -29,7 +28,7 @@ class TaskResubmitService() {
 
         resubmit(metadatas, readResubmitId {
             parseValidId(it, metadatas.size)
-        });
+        })
     }
 
     private fun readResubmitId(idParser: (String?) -> Int?): Int {
@@ -54,12 +53,7 @@ class TaskResubmitService() {
     fun resubmit(metadatas: List<ExecutionMetadata>, resubmitId: Int) {
         val metadata = metadatas[resubmitId]
 
-        // Update configuration resources path so it directs on copied metadata files
-        val config = metadata.configFile.copy(general = metadata.configFile.general
-                .copy(sourcesPath = metadata.paths.sourcesPath.toString())
-        )
-
-        actionSubmitService.processAction(ActionSubmitConfig(config))
+//        actionSubmitService.processAction(ActionSubmitConfig(metadata.configFile))
     }
 
     fun resubmit(metadatas: List<ExecutionMetadata>, resubmitIdString: String) {
