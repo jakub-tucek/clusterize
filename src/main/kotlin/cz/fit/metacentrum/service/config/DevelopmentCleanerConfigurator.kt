@@ -27,7 +27,8 @@ class DevelopmentCleanerConfigurator : Configurator {
                         chunks = 1,
                         mem = "1gb",
                         ncpus = 1,
-                        walltime = "00:04:00"
+                        walltime = "00:04:00",
+                        scratchLocal = "1gb"
                 )
         ))
     }

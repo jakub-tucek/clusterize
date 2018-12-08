@@ -21,8 +21,6 @@ class CleanFailedJobDirectoryExecutor : TaskExecutor {
         val stateFailed = metadata.state as ExecutionMetadataStateFailed
         stateFailed.failedJobs.forEach { cleanStorageJobPath(it.job.jobPath) }
 
-        ConsoleWriter.writeStatusDone()
-
         return metadata
     }
 

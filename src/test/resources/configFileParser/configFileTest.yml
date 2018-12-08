@@ -45,7 +45,7 @@ taskType:
     main_batch01($MIN_TRANSL, $MAX_TRANSL, $VICINITY_TYPE, $SUB_IMG_IDX, 'useGPU', 'yes', 'layers', $ADDED_LAYERS)
 
 resources:
-  profile: 'custom'
+  profile: 'CUSTOM'
   toolboxes:
     - matlab_Neural_Network_Toolbox
   modules:
