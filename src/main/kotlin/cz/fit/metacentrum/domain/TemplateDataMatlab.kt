@@ -14,8 +14,7 @@ data class TemplateDataMatlab(
         val general: TemplateDataGeneral,
         val runPath: Path,
         val sourcesPath: Path,
-        val modules: Set<String>, // name of loaded module
-        val toolboxes: Set<String>, // name of used toolboxes
+        val resources: TemplateResources,
         val fileNames: FileNames = FileNames
 )
 

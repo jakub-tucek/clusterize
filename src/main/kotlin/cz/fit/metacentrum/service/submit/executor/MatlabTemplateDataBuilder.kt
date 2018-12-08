@@ -2,6 +2,9 @@ package cz.fit.metacentrum.service.submit.executor
 
 import cz.fit.metacentrum.domain.TemplateDataGeneral
 import cz.fit.metacentrum.domain.TemplateDataMatlab
+import cz.fit.metacentrum.domain.TemplateResources
+import cz.fit.metacentrum.domain.config.ConfigResources
+import cz.fit.metacentrum.domain.config.ConfigResourcesDetails
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import java.nio.file.Files
@@ -36,8 +39,28 @@ class MatlabTemplateDataBuilder {
                 ),
                 runPath,
                 sourcesPath,
-                metadata.configFile.resources.modules,
-                metadata.configFile.resources.toolboxes
+                buildTemplateResources(metadata.configFile.resources)
+
         )
+    }
+
+    private fun buildTemplateResources(resources: ConfigResources): TemplateResources {
+        val details = resources.details ?: throw IllegalStateException("Config is missing resources configuration")
+        return TemplateResources(
+                walltime = details.walltime,
+                formattedResources = formatResources(details),
+                ncpus = details.ncpus,
+                modules = resources.modules,
+                toolboxes = resources.toolboxes
+        )
+    }
+
+    private fun formatResources(details: ConfigResourcesDetails): String {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append("select=${details.chunks}")
+        stringBuilder.append(":ncpus=${details.ncpus}")
+        stringBuilder.append(":mem=${details.mem}")
+        stringBuilder.append(":scratch_local=${details.scratchLocal}")
+        return stringBuilder.toString()
     }
 }

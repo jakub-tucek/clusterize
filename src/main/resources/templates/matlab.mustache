@@ -1,38 +1,32 @@
 #!/bin/bash
 #PBS -N {{general.taskName}}
-#PBS -l walltime=4:00:00
-#PBS -l select=1:ncpus=1:mem=1gb
-{{#toolboxes}}
-#PBS -l {{.}}=1
-{{/toolboxes}}
+#PBS -l walltime={{resources.walltime}}
+#PBS -l {{{resources.formattedResources}}}
+{{#resources.toolboxes}}#PBS -l {{.}}=1
+{{/resources.toolboxes}}
 #PBS -o {{runPath}}/{{fileNames.stdOutLog}}
 #PBS -e {{runPath}}/{{fileNames.stdErrLog}}
-# Options for scheduling system - job will last 4 hours at maximum, 1 machine with 2 processor + 6gb memory RAM + 12gb scratch storage is requested
-# Error output and standard output will be merged (-j oe), a notification email will be sent when the job is finished (-m e)
-# You can adjust these options by your needs
 
 
+# Print JOB PID to folder
 echo "$PBS_JOBID" > {{runPath}}/{{fileNames.pidFile}}
 
-{{#modules}}
-    module add {{.}} # loads desired application
-{{/modules}}
+{{#resources.modules}}module add {{.}} # loads desired application
+{{/resources.modules}}
 
 DATADIR="{{storagePath}}" # sets up your input data directory
 
 
-{{#variables}}
-    export {{first}}="{{second}}"
+{{#variables}}export {{first}}="{{second}}"
 {{/variables}}
 
-{{#general.dependents}}
-    export {{name}}=$(({{dependentVarName}}{{modifier}}))
+{{#general.dependents}}export {{name}}=$(({{dependentVarName}}{{modifier}}))
 {{/general.dependents}}
 
 export MATLAB_DIR="{{sourcesPath}}"
 export IN_DIR="{{sourcesPath}}"
 export OUT_DIR="{{runPath}}"
-export MATLAB_THREADS=2
+export MATLAB_THREADS="{{resources.ncpus}}"
 
 # execute Matlab command
 # Parallel Computing Toolbox requires JVM !!!!!!!!
