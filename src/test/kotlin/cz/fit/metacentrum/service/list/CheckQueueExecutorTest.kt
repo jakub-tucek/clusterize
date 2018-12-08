@@ -60,7 +60,7 @@ internal class CheckQueueExecutorTest {
 
         // setup failed job
         val failWrapper = Mockito.mock(ExecutionMetadataJobFailedWrapper::class.java)
-        Mockito.`when`(failedJobFinderService.findFailedJobs(metadata.jobs!!, listOf(runningJob.pid!!))).thenReturn(listOf(failWrapper))
+        Mockito.`when`(failedJobFinderService.findFailedJobs(metadata.jobs!!, listOf(queuedJob.pid!!, runningJob.pid!!))).thenReturn(listOf(failWrapper))
 
         // setup queue records
         val queuedRecord = Mockito.mock(QueueRecord::class.java)
