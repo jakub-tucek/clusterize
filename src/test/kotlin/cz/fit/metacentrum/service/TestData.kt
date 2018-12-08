@@ -40,7 +40,16 @@ internal object TestData {
             MatlabTaskType(
                     "main_batch01(\$CONFIG_ITERATION_ARRAY, \$CONFIG_ITERATION_INT_RANGE, \$CONFIG_ITERATION_DEPENDENT, 'userGPU', 'yes')"
             ),
-            ConfigResources(profile = "custom")
+            ConfigResources(
+                    profile = ConfigResourceProfile.CUSTOM,
+                    details = ConfigResourcesDetails(
+                            1,
+                            "00:00:01",
+                            "1gb",
+                            1,
+                            scratchLocal = "1gb"
+                    )
+            )
     )
     val metadata = ExecutionMetadata(
             configFile = config,

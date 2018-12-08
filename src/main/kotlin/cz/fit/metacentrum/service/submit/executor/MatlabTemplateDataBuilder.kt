@@ -45,7 +45,7 @@ class MatlabTemplateDataBuilder {
     }
 
     private fun buildTemplateResources(resources: ConfigResources): TemplateResources {
-        val details = resources.details ?: throw IllegalStateException("Config is missing resources configuration")
+        val details = resources.details ?: throw IllegalStateException("Resource details configuration is missing")
         return TemplateResources(
                 walltime = details.walltime,
                 formattedResources = formatResources(details),
