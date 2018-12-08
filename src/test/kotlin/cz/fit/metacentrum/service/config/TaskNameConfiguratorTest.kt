@@ -33,7 +33,7 @@ internal class TaskNameConfiguratorTest {
 
     @Test
     fun testJobnameIfNotGiven() {
-        mockConsoleReaderAsForValue(null)
+        mockConsoleReaderAsForValue("")
         val res = taskNameConfigurator.configureInteractively(TestData.config)
         Assertions.assertThat(res.general.taskName).isEqualTo(MatlabTaskType::class.simpleName)
     }
