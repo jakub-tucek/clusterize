@@ -10,6 +10,7 @@ import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import mu.KotlinLogging
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 
@@ -44,12 +45,13 @@ class SerializationService {
     fun persistMetadata(metadata: ExecutionMetadata) {
         val metadataFile = metadata.paths.metadataStoragePath?.resolve(metadataFileName)
                 ?: throw IllegalStateException("Metadata storage path not set")
-        val writer = Files.newBufferedWriter(metadataFile, StandardOpenOption.CREATE, StandardOpenOption.WRITE)
+        // creates or rewrites existing file
+        val writer = Files.newBufferedWriter(metadataFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
         mapper.writeValue(writer, metadata)
     }
 
-    fun parseMetadata(metadataPath: String): ExecutionMetadata? {
-        val path = Paths.get(metadataPath).resolve(metadataFileName)
+    fun parseMetadata(metadataFolder: Path): ExecutionMetadata? {
+        val path = metadataFolder.resolve(metadataFileName)
         if (!Files.exists(path)) {
             logger.error("Metadata file path ${path} does not exists.")
             return null

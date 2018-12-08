@@ -33,7 +33,7 @@ class ActionListService() : ActionService<ActionList> {
         val metadatas = Files.list(metadataPath)
                 .filter { Files.isDirectory(it) }
                 .map {
-                    val res = serializationService.parseMetadata(it.toString())
+                    val res = serializationService.parseMetadata(it)
                     if (res == null) {
                         ConsoleWriter.writeStatus("Folder ${it.toString()} does not contain metadata file")
                     }
