@@ -30,7 +30,7 @@ class ActionListService() : ActionService<ActionList> {
             throw IllegalStateException("Path ${metadataPath} does not exists. Exiting.")
         }
 
-        val metadatas = Files.list(metadataPath)
+        val originalMetadata = Files.list(metadataPath)
                 .filter { Files.isDirectory(it) }
                 .map {
                     val res = serializationService.parseMetadata(it)
@@ -42,10 +42,16 @@ class ActionListService() : ActionService<ActionList> {
                 .sorted(ExecutionMetadataComparator::compare)
                 .toList()
                 .filterNotNull()
-                .map { checkQueueExecutor.execute(it) }
+        val listedMetadata = originalMetadata.map { checkQueueExecutor.execute(it) }
 
-        metadataInfoPrinter.printMetadataListInfo(metadatas)
-        rerunService.promptRerunIfError(metadatas)
+        // persist info
+        listedMetadata
+                // persist only changed files
+                .filter { !originalMetadata.contains(it) }
+                .forEach { serializationService.persistMetadata(it) }
+
+        metadataInfoPrinter.printMetadataListInfo(listedMetadata)
+        rerunService.promptRerunIfError(listedMetadata)
     }
 
     private fun getMetadataPath(actionList: ActionList): String {
