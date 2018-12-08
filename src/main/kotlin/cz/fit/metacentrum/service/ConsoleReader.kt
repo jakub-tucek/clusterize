@@ -31,6 +31,7 @@ class ConsoleReader {
         println(msg)
         while (true) {
             val input = readLine()
+            // If null then according to specification, EOT (such as ctrl+d) is reached
             if (input == null) {
                 println("No input given. Exiting.")
                 System.exit(0)
