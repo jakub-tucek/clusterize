@@ -41,7 +41,7 @@ internal class CheckQueueExecutorTest {
         // keep only first job
         val shortenedMetadaJobs = metadata.copy(jobs = metadata.jobs!!.subList(0, 1))
 
-        Mockito.`when`(failedJobFinderService.findFailedJobs(shortenedMetadaJobs.jobs!!)).thenReturn(emptyList())
+        Mockito.`when`(failedJobFinderService.findFailedJobs(shortenedMetadaJobs.jobs!!, emptyList())).thenReturn(emptyList())
         Mockito.`when`(queueRecordsService.retrieveQueueForUser(metadata.submittingUsername!!))
                 .thenReturn(emptyList())
 
@@ -60,7 +60,7 @@ internal class CheckQueueExecutorTest {
 
         // setup failed job
         val failWrapper = Mockito.mock(ExecutionMetadataJobFailedWrapper::class.java)
-        Mockito.`when`(failedJobFinderService.findFailedJobs(metadata.jobs!!)).thenReturn(listOf(failWrapper))
+        Mockito.`when`(failedJobFinderService.findFailedJobs(metadata.jobs!!, listOf(runningJob.pid!!))).thenReturn(listOf(failWrapper))
 
         // setup queue records
         val queuedRecord = Mockito.mock(QueueRecord::class.java)
@@ -93,37 +93,46 @@ internal class CheckQueueExecutorTest {
     inner class AllJobsWithSameStatus() {
         @Test
         fun testAllQueued() {
-            testAllJobsWithSameStatusInQueue(
-                    metadata.jobs!!.map { createQueueJob(it) },
-                    { state: ExecutionMetadataStateRunning -> state.queuedJobs },
-                    { state: ExecutionMetadataStateRunning -> state.runningJobs }
-            )
+            testAllJobsWithSameStatusInQueue(metadata.jobs!!.map { createQueueJob(it) })
+            { state: ExecutionMetadataStateRunning ->
+                Assertions.assertThat(state.runningJobs).isEmpty()
+
+                Assertions.assertThat(state.queuedJobs)
+                        .extracting<ExecutionMetadataJob> { it.job }
+                        .isEqualTo(metadata.jobs!!)
+                Assertions.assertThat(state.queuedJobs)
+                        .extracting<String> { it.runTime }
+                        .contains("00:00:00")
+            }
         }
 
         @Test
         fun testAllRunning() {
+            // setup all jobs and make them all have running state
             val allRunningMocks = metadata.jobs!!
                     .map { createQueueJob(it) }
                     .map {
                         Mockito.`when`(it.state).thenReturn(QueueRecord.State.RUNNING)
                         it
                     }
-            testAllJobsWithSameStatusInQueue(
-                    allRunningMocks,
-                    { state: ExecutionMetadataStateRunning -> state.runningJobs },
-                    { state: ExecutionMetadataStateRunning -> state.queuedJobs }
-            )
+            testAllJobsWithSameStatusInQueue(allRunningMocks)
+            { state: ExecutionMetadataStateRunning ->
+                Assertions.assertThat(state.queuedJobs).isEmpty()
+
+                Assertions.assertThat(state.runningJobs)
+                        .extracting<ExecutionMetadataJob> { it.job }
+                        .isEqualTo(metadata.jobs!!)
+            }
         }
 
         private fun testAllJobsWithSameStatusInQueue(jobs: List<QueueRecord>,
-                                                     getActiveJobs: (ExecutionMetadataStateRunning) -> List<ExecutionMetadataJobRunningWrapper>,
-                                                     getEmptyJobs: (ExecutionMetadataStateRunning) -> List<ExecutionMetadataJobRunningWrapper>
-        ) {
+                                                     checkState: (ExecutionMetadataStateRunning) -> Unit) {
 
             // return created jobs
             Mockito.`when`(queueRecordsService.retrieveQueueForUser(metadata.submittingUsername!!))
                     .thenReturn(jobs)
-            Mockito.`when`(failedJobFinderService.findFailedJobs(metadata.jobs!!)).thenReturn(emptyList())
+            val jobPids = jobs.map { it.pid }
+            Mockito.`when`(failedJobFinderService.findFailedJobs(metadata.jobs!!, jobPids)).thenReturn(emptyList())
 
             // run
             val result = checkQueueExecutor.execute(metadata)
@@ -133,25 +142,20 @@ internal class CheckQueueExecutorTest {
                     ExecutionMetadataStateRunning::class
             )
             Assertions.assertThat(state.failedJobs).isEmpty()
-            Assertions.assertThat(getEmptyJobs(state)).isEmpty()
+            // call specific assert
+            checkState(state)
+        }
 
-            Assertions.assertThat(getActiveJobs(state))
-                    .extracting<ExecutionMetadataJob> { it.job }
-                    .isEqualTo(metadata.jobs!!)
-            Assertions.assertThat(getActiveJobs(state))
-                    .extracting<String> { it.runTime }
-                    .contains("00:00:00")
 
+        private fun createQueueJob(job: ExecutionMetadataJob): QueueRecord {
+            val mock = Mockito.mock(QueueRecord::class.java)
+            Mockito.`when`(mock.pid).thenReturn(job.pid!!)
+            Mockito.`when`(mock.elapsedTime).thenReturn("00:00:00")
+            Mockito.`when`(mock.state).thenReturn(QueueRecord.State.QUEUED)
+            return mock
         }
     }
 
-    fun createQueueJob(job: ExecutionMetadataJob): QueueRecord {
-        val mock = Mockito.mock(QueueRecord::class.java)
-        Mockito.`when`(mock.pid).thenReturn(job.pid!!)
-        Mockito.`when`(mock.elapsedTime).thenReturn("00:00:00")
-        Mockito.`when`(mock.state).thenReturn(QueueRecord.State.QUEUED)
-        return mock
-    }
 
     // retrieve concrete instance of ExecutionMetadataState
     @Suppress("UNCHECKED_CAST")

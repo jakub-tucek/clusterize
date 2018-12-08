@@ -33,7 +33,8 @@ class CheckQueueExecutor : TaskExecutor {
 
         val queued = mappedRecordsByState[QueueRecord.State.QUEUED] ?: emptyList()
         val running = mappedRecordsByState[QueueRecord.State.RUNNING] ?: emptyList()
-        val failedJobs = failedJobFinderService.findFailedJobs(jobs)
+        val runningQueuedPids = (queued + running).map { it.pid }
+        val failedJobs = failedJobFinderService.findFailedJobs(jobs, runningQueuedPids)
 
         // no running jobs - so it either failed or finished successfully
         if (running.isEmpty() && queued.isEmpty()) {

@@ -15,10 +15,10 @@ private val logger = KotlinLogging.logger {}
  */
 class FailedJobFinderService {
 
-    fun findFailedJobs(jobs: List<ExecutionMetadataJob>): List<ExecutionMetadataJobFailedWrapper> {
+    fun findFailedJobs(jobs: List<ExecutionMetadataJob>, runningQueuedPids: List<String>): List<ExecutionMetadataJobFailedWrapper> {
         return jobs
-                // if status is missing it should mean that job is not finished
-                .filter { Files.exists(it.jobPath.resolve(FileNames.statusLog)) }
+                // filter out running and queued jobs
+                .filter { !runningQueuedPids.contains(it.pid) }
                 .map { checkForErrorInPath(it) }
                 .filterNotNull()
 
@@ -28,10 +28,11 @@ class FailedJobFinderService {
         val statusFile = job.jobPath.resolve(FileNames.statusLog)
         var status: Int? = null
 
-        try {
-            status = Files.readAllLines(statusFile).first().toInt()
-        } catch (e: NumberFormatException) {
-            logger.error("Status file cannot be read")
+        if (Files.exists(statusFile)) {
+            status = Files.readAllLines(statusFile).first().toIntOrNull()
+        } else {
+            // status file does not have to exist if job was killed
+            logger.info("Status file not found. Job was probably killed")
         }
 
         // finished Done, no error

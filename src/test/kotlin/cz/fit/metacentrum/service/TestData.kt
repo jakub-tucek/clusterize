@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service
 
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
+import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.domain.config.*
 import cz.fit.metacentrum.domain.meta.*
 
@@ -93,6 +94,17 @@ internal object TestData {
                             )
                     )
             )
+    )
+
+    val queueRecordRunning = QueueRecord("81", "pbsuser", "workq", "oneCPUjob",
+            "5736",
+            "1",
+            "1",
+            "1gb",
+            "04:00",
+            QueueRecord.InternalState.R,
+            "00:00",
+            QueueRecord.State.RUNNING
     )
 }
 

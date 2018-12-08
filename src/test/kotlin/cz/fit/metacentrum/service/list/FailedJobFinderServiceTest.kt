@@ -25,6 +25,7 @@ internal class FailedJobFinderServiceTest {
     private lateinit var job1Running: ExecutionMetadataJob
     private lateinit var job2Done: ExecutionMetadataJob
     private lateinit var job3Failed: ExecutionMetadataJob
+    private lateinit var job4Deleted: ExecutionMetadataJob
 
 
     @BeforeEach
@@ -36,6 +37,7 @@ internal class FailedJobFinderServiceTest {
         job1Running = initJob("1")
         job2Done = initJob("2")
         job3Failed = initJob("3")
+        job4Deleted = initJob("4")
 
         // init job2
         var status = job2Done.jobPath.resolve(FileNames.statusLog)
@@ -51,18 +53,21 @@ internal class FailedJobFinderServiceTest {
     private fun initJob(jobName: String): ExecutionMetadataJob {
         val path = rootPath.resolve(jobName)
         Files.createDirectories(path)
-        return ExecutionMetadataJob(path, pid = "123", jobId = 12)
+        return ExecutionMetadataJob(path, pid = "PID$jobName", jobId = jobName.toInt())
     }
 
     @Test
     fun testMissingStatusLog() {
-        val failedJobs = failedJobFinderService.findFailedJobs(listOf(job1Running))
-        Assertions.assertThat(failedJobs).isEmpty()
+        val failedJobs = failedJobFinderService.findFailedJobs(listOf(job4Deleted), emptyList())
+        val failedJob = failedJobs.first()
+        Assertions.assertThat(failedJob.status).isEqualTo(null)
+        Assertions.assertThat(failedJob.job).isEqualTo(job4Deleted)
+        Assertions.assertThat(failedJob.output).isBlank()
     }
 
     @Test
     fun testRunningAndSuccessfulJob() {
-        val failedJobs = failedJobFinderService.findFailedJobs(listOf(job1Running, job2Done))
+        val failedJobs = failedJobFinderService.findFailedJobs(listOf(job1Running, job2Done), listOf(job1Running.pid!!))
         Assertions.assertThat(failedJobs).isEmpty()
     }
 
@@ -72,7 +77,7 @@ internal class FailedJobFinderServiceTest {
                 job1Running,
                 job2Done,
                 job3Failed
-        ))
+        ), listOf(job1Running.pid!!))
         Assertions.assertThat(failedJobs)
                 .hasSize(1)
         val failedJob = failedJobs.first()

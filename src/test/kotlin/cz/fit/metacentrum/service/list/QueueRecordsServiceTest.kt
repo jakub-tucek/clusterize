@@ -2,7 +2,7 @@ package cz.fit.metacentrum.service.list
 
 import cz.fit.metacentrum.KotlinMockito
 import cz.fit.metacentrum.domain.CommandOutput
-import cz.fit.metacentrum.domain.QueueRecord
+import cz.fit.metacentrum.service.TestData
 import cz.fit.metacentrum.service.api.ShellService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -47,16 +47,7 @@ Job ID          username Queue    Jobname    SessID NDS TSK Memory Time  S Time
         val res = queueRecordsService.retrieveQueueForUser("pbsuser")
         Assertions.assertThat(res)
                 .hasSize(1)
-                .contains(QueueRecord("81", "pbsuser", "workq", "oneCPUjob",
-                        "5736",
-                        "1",
-                        "1",
-                        "1gb",
-                        "04:00",
-                        QueueRecord.InternalState.R,
-                        "00:00",
-                        QueueRecord.State.RUNNING
-                ))
+                .contains(TestData.queueRecordRunning)
     }
 
     @Test
