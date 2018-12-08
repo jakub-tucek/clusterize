@@ -27,11 +27,15 @@ class ConsoleReader {
      * @param msg - message for user
      * @param parseValue - parses value from string and returns its representation as type T, null if value is invalid
      */
-    fun <T> askForValue(msg: String, parseValue: (String?) -> T?): T {
+    fun <T> askForValue(msg: String, parseValue: (String) -> T?): T {
         println(msg)
         while (true) {
             val input = readLine()
-            val parsedValue = parseValue(input)
+            if (input == null) {
+                println("No input given. Exiting.")
+                System.exit(0)
+            }
+            val parsedValue = parseValue(input!!)
             if (parsedValue != null) {
                 return parsedValue
             }

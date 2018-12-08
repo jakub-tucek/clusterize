@@ -22,7 +22,7 @@ class TaskNameConfigurator : Configurator {
         val defaultName = config.taskType::class.simpleName
         val newJobName = consoleReader.askForValue(
                 "Seems like you did not specify task name. Please enter task name [${defaultName}]:"
-        ) { s -> if (s?.ifBlank { null } == null) defaultName else s }
+        ) { s -> if (s.ifBlank { null } == null) defaultName else s }
 
         return config.copy(general = config.general.copy(taskName = newJobName))
     }

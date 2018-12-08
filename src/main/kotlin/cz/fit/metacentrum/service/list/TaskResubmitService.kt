@@ -31,14 +31,14 @@ class TaskResubmitService() {
         })
     }
 
-    private fun readResubmitId(idParser: (String?) -> Int?): Int {
+    private fun readResubmitId(idParser: (String) -> Int?): Int {
         return consoleReader.askForValue(
                 "Looks like you have some failed tasks. Do you want to submit some task again? [ENTER TASK NUMBER]"
         ) { s -> idParser(s) }
     }
 
-    private fun parseValidId(idInput: String?, maxSize: Int): Int? {
-        val id = idInput?.toIntOrNull()
+    private fun parseValidId(idInput: String, maxSize: Int): Int? {
+        val id = idInput.toIntOrNull()
         if (id == null
                 || id < 0
                 || id >= maxSize) {

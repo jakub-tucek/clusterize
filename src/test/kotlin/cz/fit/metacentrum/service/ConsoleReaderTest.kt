@@ -52,7 +52,7 @@ internal class ConsoleReaderTest {
     fun testReadingInput() {
         writeToConsole("\n\n\n123")
         val res = consoleReader.askForValue("msg") { v ->
-            if (v.isNullOrBlank()) null else v.toInt()
+            if (v.isBlank()) null else v.toInt()
         }
         Assertions.assertThat(res).isEqualTo(123)
     }
