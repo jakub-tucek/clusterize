@@ -33,8 +33,9 @@ qstat
 
 Use existing container
 ```
-docker exec -it --user pbsuser pbs bash -l -c "" 
+docker exec -it --user pbsuser pbs bash -l 
 ```
+
 
 ```
 docker run -it --name pbsmnt -d -v /$PWD/dockershared:$PWD/dockershared -h pbs -e PBS_START_MOM=1 newpbs bash
