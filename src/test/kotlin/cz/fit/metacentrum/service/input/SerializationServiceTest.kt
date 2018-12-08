@@ -27,7 +27,7 @@ internal class SerializationServiceTest {
         Assertions.assertThat(res.iterations[0].name).isEqualTo("VICINITY_TYPE")
         val task = res.taskType as MatlabTaskType
         Assertions.assertThat(task.functionCall)
-                .isEqualTo("\"main_batch01(\\\$MIN_TRANSL, \\\$MAX_TRANSL, \\\$VICINITY_TYPE, \\\$SUB_IMG_IDX, 'useGPU', 'yes', 'layers', \\\$ADDED_LAYERS)\"")
+                .isEqualTo("main_batch01(\$MIN_TRANSL, \$MAX_TRANSL, \$VICINITY_TYPE, \$SUB_IMG_IDX, 'useGPU', 'yes', 'layers', \$ADDED_LAYERS)")
     }
 
     @Test
