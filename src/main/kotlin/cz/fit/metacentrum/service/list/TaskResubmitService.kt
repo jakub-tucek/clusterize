@@ -52,6 +52,11 @@ class TaskResubmitService() {
      */
     fun resubmit(metadatas: List<ExecutionMetadata>, resubmitId: Int) {
         val metadata = metadatas[resubmitId]
+        if (metadata.state !is ExecutionMetadataStateFailed) {
+            println("Given task has no failed jobs.")
+            promptRerunIfError(metadatas)
+            return
+        }
 
         actionResubmitService.processAction(ActionResubmitFailed(metadata))
     }
@@ -61,7 +66,7 @@ class TaskResubmitService() {
         if (parsedId != null) {
             resubmit(metadatas, parsedId)
         }
-        println("Given task id is invalid. Existing.")
+        println("Given task id is invalid. Exiting.")
         System.exit(1)
     }
 }
