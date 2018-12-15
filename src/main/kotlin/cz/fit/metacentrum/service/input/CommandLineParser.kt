@@ -65,8 +65,8 @@ class CommandLineParser {
                                                                  - default path is used if not specified ($defaultConfigPath)
                     help - displays help
                     list [OPTIONS] - lists tasks
-                       -p [VALUE] - define path to metadata folder
-                       -c [VALUE] - specify path to configuration file or default is used ($defaultConfigPath)
+                       -p [VALUE] - define path to metadata folder or default is used
+                       -c [VALUE] - specify path to configuration file
         """.trimIndent())
     }
 
