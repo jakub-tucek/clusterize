@@ -1,0 +1,36 @@
+To: {{to}}
+Subject: {{subject}}
+From: {{from}}
+
+===== Task information =====
+
+Task name:          {{taskName}}
+Creation time:      {{creationTime}}
+Update time:        {{updateTime}}
+Output path:        {{outputPath}}
+
+
+===== Resources =====
+Profile:            {{resources.profile}}
+modules:            {{#resources.toolboxes}}{{.}},{{/resources.toolboxes}}
+toolboxes:          {{#resources.modules}}{{.}},{{/resources.modules}}
+
+walltime:           {{resources.details.walltime}}
+chunks:             {{resources.details.chunks}}
+mem:                {{resources.details.mem}}
+ncpus:              {{resources.details.ncpus}}
+scratchLocal:       {{resources.details.scratchLocal}}
+ngpus:              {{resources.details.ngpus}}
+
+
+
+
+
+
+{{stateBody}}
+
+
+
+
+
+This is automated email. Reply is pointless.

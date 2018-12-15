@@ -1,14 +1,11 @@
 package cz.fit.metacentrum.service.action.submit.executor
 
-import com.github.mustachejava.DefaultMustacheFactory
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
+import cz.fit.metacentrum.service.TemplateService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
-import java.io.StringWriter
-import java.nio.file.Files
-import java.nio.file.StandardOpenOption
 import javax.inject.Inject
 
 
@@ -20,6 +17,8 @@ class MatlabScriptsExecutor : TaskExecutor {
 
     @Inject
     private lateinit var matlabTemplateDataBuilder: MatlabTemplateDataBuilder
+    @Inject
+    private lateinit var templateService: TemplateService
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Generating bash scripts wrapping matlab")
@@ -44,17 +43,11 @@ class MatlabScriptsExecutor : TaskExecutor {
     private fun createTemplate(metadata: ExecutionMetadata,
                                variableData: HashMap<String, String>,
                                runCounter: Int): ExecutionMetadataJob {
-        val mf = DefaultMustacheFactory()
-        val mustache = mf.compile("templates/matlab.mustache")
-        val templateStr = StringWriter()
-
         // prepare template data and use them
         val templateData = matlabTemplateDataBuilder.prepare(metadata, variableData, runCounter)
 
-        mustache.execute(templateStr, templateData).flush()
-
         val innerScriptPath = templateData.runPath.resolve(FileNames.innerScript)
-        Files.write(innerScriptPath, templateStr.buffer.lines(), StandardOpenOption.CREATE_NEW)
+        templateService.write("templates/matlab.mustache", innerScriptPath, templateData)
 
         return ExecutionMetadataJob(
                 jobPath = templateData.runPath,

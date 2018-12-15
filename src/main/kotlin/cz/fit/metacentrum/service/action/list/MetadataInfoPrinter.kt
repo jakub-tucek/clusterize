@@ -19,13 +19,12 @@ class MetadataInfoPrinter {
         ConsoleWriter.writeDelimiter()
         ConsoleWriter.writeHeader("Found tasks:")
         metadatas.forEachIndexed { index, executionMetadata ->
-            printMetadataInfo(index, executionMetadata)
+            ConsoleWriter.writeListItem(getMetadataInfo(index, executionMetadata))
         }
         println(defaultCommandDelimiter)
     }
 
-
-    private fun printMetadataInfo(index: Int, metadata: ExecutionMetadata) {
+    fun getMetadataInfo(index: Int, metadata: ExecutionMetadata): String {
         val state = metadata.state
         val jobs = metadata.jobs ?: throw IllegalStateException("Jobs not set in metadata")
 
@@ -48,9 +47,9 @@ class MetadataInfoPrinter {
             }
             else -> throw IllegalStateException("Proper state is not set in metadata. ${state}")
         }
-
-        ConsoleWriter.writeListItem(stringBuild.toString())
+        return stringBuild.toString()
     }
+
 
     private fun getRunningDescription(state: ExecutionMetadataStateRunning, totalCountJobs: Int): String {
         val desc = StringBuilder()

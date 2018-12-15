@@ -55,6 +55,7 @@ class MainModule : AbstractModule() {
         }
         bind(ConsoleReader::class.java)
         bind(SubmitRunner::class.java)
+        bind(TemplateService::class.java)
 
         bindConfiguratorClasses()
         // bind action features
