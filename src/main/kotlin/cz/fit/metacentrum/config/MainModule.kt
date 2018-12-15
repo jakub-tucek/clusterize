@@ -17,12 +17,12 @@ import cz.fit.metacentrum.service.input.CommandLineParser
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
-import cz.fit.metacentrum.service.list.*
-import cz.fit.metacentrum.service.submit.ActionResubmitFailedService
-import cz.fit.metacentrum.service.submit.ActionSubmitService
-import cz.fit.metacentrum.service.submit.executor.*
-import cz.fit.metacentrum.service.submit.executor.re.CleanFailedJobDirectoryExecutor
-import cz.fit.metacentrum.service.submit.executor.re.CleanStateExecutor
+import cz.fit.metacentrum.service.action.list.*
+import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
+import cz.fit.metacentrum.service.action.submit.ActionSubmitService
+import cz.fit.metacentrum.service.action.submit.executor.*
+import cz.fit.metacentrum.service.action.submit.executor.re.CleanFailedJobDirectoryExecutor
+import cz.fit.metacentrum.service.action.submit.executor.re.CleanStateExecutor
 
 
 const val matlabExecutorsToken = "MATLAB_EXECUTORS_TOKEN"
