@@ -56,4 +56,12 @@ internal class ConsoleReaderTest {
         }
         Assertions.assertThat(res).isEqualTo(123)
     }
+
+    @Test
+    fun testReadingValidEmail() {
+        writeToConsole("invalid\nmail@asd\nmail@correct.cz")
+        val res = consoleReader.askForEmail("msg")
+
+        Assertions.assertThat(res).isEqualTo("mail@correct.cz")
+    }
 }
