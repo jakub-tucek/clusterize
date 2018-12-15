@@ -1,12 +1,12 @@
 package cz.fit.metacentrum.service.action.submit.executor
 
-import cz.fit.metacentrum.domain.TemplateDataGeneral
-import cz.fit.metacentrum.domain.TemplateDataMatlab
-import cz.fit.metacentrum.domain.TemplateResources
 import cz.fit.metacentrum.domain.config.ConfigResources
 import cz.fit.metacentrum.domain.config.ConfigResourcesDetails
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.template.TemplateDataGeneral
+import cz.fit.metacentrum.domain.template.TemplateDataMatlab
+import cz.fit.metacentrum.domain.template.TemplateResources
 import java.nio.file.Files
 
 /**

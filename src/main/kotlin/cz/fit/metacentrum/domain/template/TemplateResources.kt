@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.domain
+package cz.fit.metacentrum.domain.template
 
 data class TemplateResources(
         val walltime: String,

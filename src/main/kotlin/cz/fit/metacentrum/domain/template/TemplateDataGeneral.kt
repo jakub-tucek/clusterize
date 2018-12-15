@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.domain
+package cz.fit.metacentrum.domain.template
 
 import cz.fit.metacentrum.domain.config.ConfigGeneralDependent
 

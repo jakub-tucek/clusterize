@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import cz.fit.metacentrum.config.FileNames.configDataFolderName
+import cz.fit.metacentrum.domain.AppConfiguration
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import mu.KotlinLogging
@@ -17,6 +19,7 @@ import java.nio.file.StandardOpenOption
 private val logger = KotlinLogging.logger {}
 
 private const val metadataFileName: String = "metadata.yml"
+private const val appConfigurationFileName: String = "app-configuration.yml"
 
 /**
  * Serializes and dematerializes yaml files
@@ -66,8 +69,32 @@ class SerializationService {
         }
     }
 
+    fun parseAppConfiguration(): AppConfiguration? {
+        val path = Paths.get(configDataFolderName).resolve(appConfigurationFileName)
+        if (!Files.exists(path)) {
+            logger.debug("Configuration file does not exists. Returning null")
+            return null
+        }
+        try {
+            return Files.newBufferedReader(path).use {
+                mapper.readValue<AppConfiguration>(it)
+            }
+        } catch (e: JsonProcessingException) {
+            logger.error("Configuration has invalid structure. Returning null, file must be reinitialized")
+            return null
+        }
+    }
+
+    fun persistAppConfiguration(appConfiguration: AppConfiguration) {
+        val outPath = Paths.get(configDataFolderName).resolve(appConfigurationFileName)
+        Files.createDirectories(outPath.parent)
+        // creates or rewrites existing file
+        val writer = Files.newBufferedWriter(outPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
+        mapper.writeValue(writer, appConfiguration)
+    }
+
     companion object {
-        var mapper = ObjectMapper(YAMLFactory()) // Enable YAML parsing
+        private var mapper: ObjectMapper = ObjectMapper(YAMLFactory()) // Enable YAML parsing
                 .registerKotlinModule()
                 .registerModule(JavaTimeModule())
     }
