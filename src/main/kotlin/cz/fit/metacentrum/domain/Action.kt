@@ -24,6 +24,13 @@ data class ActionStatus(val metadataStoragePath: String? = null, val configFile:
 // =====================================================================================================================
 // Resubmit action
 data class ActionResubmitFailed(val metadata: ExecutionMetadata) : Action()
+
+// Daemon action
+data class ActionDaemon(val actionType: Type) : Action() {
+    enum class Type {
+        START, STOP
+    }
+}
 // =====================================================================================================================
 // displays help
 object ActionHelp : Action()

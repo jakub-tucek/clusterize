@@ -2,10 +2,7 @@ package cz.fit.metacentrum.service.input
 
 import cz.fit.metacentrum.config.FileNames.defaultMetadataFolder
 import cz.fit.metacentrum.config.appName
-import cz.fit.metacentrum.domain.Action
-import cz.fit.metacentrum.domain.ActionHelp
-import cz.fit.metacentrum.domain.ActionStatus
-import cz.fit.metacentrum.domain.ActionSubmitPath
+import cz.fit.metacentrum.domain.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -36,13 +33,24 @@ class CommandLineParser {
             }
             "list" -> {
                 val type = retrieveNextValue(iterator)
-                when (type) {
-                    "-p" -> return ActionStatus(metadataStoragePath = retrieveNextValue(iterator, true))
-                    "-c" -> return ActionStatus(configFile = retrieveNextValue(iterator, true))
-                    null -> return ActionStatus(metadataStoragePath = defaultMetadataFolder)
+                return when (type) {
+                    "-p" -> ActionStatus(metadataStoragePath = retrieveNextValue(iterator, true))
+                    "-c" -> ActionStatus(configFile = retrieveNextValue(iterator, true))
+                    null -> ActionStatus(metadataStoragePath = defaultMetadataFolder)
                     else -> {
                         printHelp()
                         throw IllegalArgumentException("Unrecognized flag $type")
+                    }
+                }
+            }
+            "daemon" -> {
+                val daemonCommandType = retrieveNextValue(iterator, true)!!
+                return when (daemonCommandType) {
+                    "start" -> ActionDaemon(ActionDaemon.Type.START)
+                    "stop" -> ActionDaemon(ActionDaemon.Type.STOP)
+                    else -> {
+                        printHelp()
+                        throw IllegalArgumentException("Unrecognized option")
                     }
                 }
             }
@@ -64,6 +72,7 @@ class CommandLineParser {
                     submit [optional path to configuration file] - submits new task to cluster according to configuration structure
                                                                  - default path is used if not specified ($defaultConfigPath)
                     help - displays help
+                    daemon [start|stop] - run daemon to watch executed tasks and receive notifications
                     list [OPTIONS] - lists tasks
                        -p [VALUE] - define path to metadata folder or default is used
                        -c [VALUE] - specify path to configuration file
