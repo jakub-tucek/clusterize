@@ -54,6 +54,7 @@ class CommandLineParser {
                     }
                 }
             }
+            "daemon-start-internal" -> return ActionDaemonStartInternal
             else -> {
                 val msg = "Unrecognized parameter: $nextValue"
                 printHelp()

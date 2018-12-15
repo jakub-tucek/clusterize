@@ -31,6 +31,9 @@ data class ActionDaemon(val actionType: Type) : Action() {
         START, STOP
     }
 }
+
+// Internal action that runs daemon on background
+object ActionDaemonStartInternal : Action()
 // =====================================================================================================================
 // displays help
 object ActionHelp : Action()

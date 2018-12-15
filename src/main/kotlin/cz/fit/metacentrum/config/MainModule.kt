@@ -4,12 +4,12 @@ import com.google.inject.AbstractModule
 import com.google.inject.TypeLiteral
 import com.google.inject.multibindings.Multibinder
 import com.google.inject.name.Names
-import cz.fit.metacentrum.domain.ActionDaemon
-import cz.fit.metacentrum.domain.ActionResubmitFailed
-import cz.fit.metacentrum.domain.ActionStatus
-import cz.fit.metacentrum.domain.ActionSubmit
+import cz.fit.metacentrum.domain.*
 import cz.fit.metacentrum.service.*
 import cz.fit.metacentrum.service.action.daemon.ActionDaemonService
+import cz.fit.metacentrum.service.action.daemon.ActionDaemonStartInternalService
+import cz.fit.metacentrum.service.action.daemon.DaemonService
+import cz.fit.metacentrum.service.action.daemon.WatcherService
 import cz.fit.metacentrum.service.action.list.*
 import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
@@ -48,6 +48,7 @@ class MainModule : AbstractModule() {
         bind(object : TypeLiteral<ActionService<ActionStatus>>() {}).to(ActionStatusService::class.java)
         bind(object : TypeLiteral<ActionService<ActionResubmitFailed>>() {}).to(ActionResubmitFailedService::class.java)
         bind(object : TypeLiteral<ActionService<ActionDaemon>>() {}).to(ActionDaemonService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionDaemonStartInternal>>() {}).to(ActionDaemonStartInternalService::class.java)
 
         // Shell service binding
         if (ProfileConfiguration.isDev()) {
@@ -65,6 +66,12 @@ class MainModule : AbstractModule() {
         bindSubmitActionClasses()
         bindListActionClasses()
         bindResubmitActionClasses()
+        bindDaemonClasses()
+    }
+
+    private fun bindDaemonClasses() {
+        bind(DaemonService::class.java)
+        bind(WatcherService::class.java)
     }
 
     private fun bindConfiguratorClasses() {

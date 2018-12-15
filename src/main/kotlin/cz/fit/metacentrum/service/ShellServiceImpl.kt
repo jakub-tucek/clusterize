@@ -10,6 +10,16 @@ import java.util.concurrent.TimeUnit
  */
 class ShellServiceImpl : ShellService {
 
+
+    /**
+     * Returns asynchronously command in bash terminal and returns its pid.
+     */
+    override fun runCommandAsync(command: String): Long {
+        return ProcessBuilder("/bin/sh", "-c", command)
+                .start()
+                .pid()
+    }
+
     /**
      * Runs commands in console with 5s timeout in /bin/sh. Read text are trimmed.
      */

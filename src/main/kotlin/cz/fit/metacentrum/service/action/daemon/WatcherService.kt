@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service
+package cz.fit.metacentrum.service.action.daemon
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.config.appName
@@ -7,6 +7,9 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateDone
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.domain.template.StatusTemplateData
+import cz.fit.metacentrum.service.ConsoleReader
+import cz.fit.metacentrum.service.ShellServiceImpl
+import cz.fit.metacentrum.service.TemplateService
 import cz.fit.metacentrum.service.action.list.MetadataInfoPrinter
 import cz.fit.metacentrum.service.action.list.MetadataStatusService
 import cz.fit.metacentrum.service.input.SerializationService
@@ -22,7 +25,7 @@ private const val watcherPIDFileName = "watcher-pid"
 private val logger = KotlinLogging.logger {}
 
 /**
- *
+ * Watcher service that checks task state and notifies user if task finished.
  * @author Jakub Tucek
  */
 class WatcherService {
@@ -40,12 +43,14 @@ class WatcherService {
     @Inject
     private lateinit var metadataInfoPrinter: MetadataInfoPrinter
 
-    fun runWatcher() {
+    fun checkMetadataStatus() {
         val configPath = Paths.get(FileNames.configDataFolderName)
-        killExistingWatcher(configPath)
 
         getFinishedTasks(configPath)
-                .forEach(this::sendMail)
+                .forEach {
+                    sendMail(it)
+                    // TODO: Persist metadata only here if daemon is running
+                }
 
     }
 
@@ -112,27 +117,6 @@ class WatcherService {
         val appConfiguration = AppConfiguration(email)
         serializationService.persistAppConfiguration(appConfiguration)
         return appConfiguration
-    }
-
-    private fun killExistingWatcher(configPath: Path) {
-        val pid = retrieveWatcherPid(configPath)
-        if (pid == null) {
-            logger.debug("Pid not present")
-            return
-        }
-        logger.debug("Killing existing watcher with pid $pid")
-        shellServiceImpl.runCommand("kill -9 $pid")
-    }
-
-    /**
-     * Returns watcher pid from configuration path. If not present, null is returned.
-     */
-    private fun retrieveWatcherPid(configPath: Path): String? {
-        val watcherPID = configPath.resolve(watcherPIDFileName)
-        if (Files.notExists(watcherPID)) return null
-
-        val pid = Files.readAllLines(watcherPID).firstOrNull()?.ifBlank { null }
-        return pid
     }
 
 

@@ -17,6 +17,8 @@ class MainService() {
     private lateinit var actionStatusService: ActionService<ActionStatus>
     @Inject
     private lateinit var actionDaemonService: ActionService<ActionDaemon>
+    @Inject
+    private lateinit var actionDaemonInternalService: ActionService<ActionDaemonStartInternal>
 
 
     fun execute(args: Array<String>) {
@@ -28,6 +30,7 @@ class MainService() {
             is ActionSubmit -> actionSubmitService.processAction(argumentAction)
             is ActionStatus -> actionStatusService.processAction(argumentAction)
             is ActionDaemon -> actionDaemonService.processAction(argumentAction)
+            is ActionDaemonStartInternal -> actionDaemonInternalService.processAction(argumentAction)
             is ActionResubmitFailed -> TODO()
             is ActionHelp -> {
                 // dont do anything
