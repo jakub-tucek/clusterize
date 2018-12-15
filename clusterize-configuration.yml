@@ -30,7 +30,7 @@ iterations:
     stepOperation: PLUS
 
 general:
-  metadataStoragePath: 'dockershared/metadataStorage'
+  #  metadataStoragePath: 'dockershared/metadataStorage'
   storagePath: 'dockershared/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
   variables:

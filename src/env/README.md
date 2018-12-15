@@ -40,5 +40,8 @@ docker exec -it --user pbsuser pbs bash -l
 
 
 ```
-docker run -it --name pbsmnt -d -v /$PWD/dockershared:$PWD/dockershared -h pbs -e PBS_START_MOM=1 newpbs bash
+docker run -it --name pbsmnt -d -v /$PWD/dockershared:$PWD/dockershared -v $PWD/.clusterize:$PWD/.clusterize -h pbs -e PBS_START_MOM=1 newpbs bash
+```
+```
+ln -s ~/.clusterize $PWD/clusterize-home  
 ```

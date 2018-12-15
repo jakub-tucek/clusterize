@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.service
 
-import cz.fit.metacentrum.config.appName
-import cz.fit.metacentrum.util.FileUtils
+import cz.fit.metacentrum.config.FileNames.configDataFolderName
 import mu.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Path
@@ -23,7 +22,7 @@ class WatcherService {
     private lateinit var shellServiceImpl: ShellServiceImpl
 
     fun runWatcher() {
-        val configPath = Paths.get(FileUtils.relativizePath("~/.${appName}"))
+        val configPath = Paths.get(configDataFolderName)
         killExistingWatcher(configPath)
 
     }

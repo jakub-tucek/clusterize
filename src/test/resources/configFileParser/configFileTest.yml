@@ -30,7 +30,7 @@ iterations:
 
 general:
   taskName: 'matlab-dip'
-  metadataStoragePath: './out/metadataStorage'
+  #  metadataStoragePath: './out/metadataStorage'
   storagePath: './out/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
   variables:

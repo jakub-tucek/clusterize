@@ -10,6 +10,7 @@ const val appName = "clusterize"
 const val userDateFormat = "dd/MM/YYYY hh:mm"
 
 
+
 object FileNames {
     val statusLog = "status.log"
     val pidFile = "pid.log"
@@ -19,6 +20,9 @@ object FileNames {
     val innerScript = "inner_script.sh"
 
     val sourcesFolder = "sources"
+
+    val configDataFolderName = "${System.getProperty("user.home")}/.$appName"
+    val defaultMetadataFolder = "/$configDataFolderName/metadataStorage"
 
     val storageTaskFolderPrefix = "task-"
     val storageTaskFolderRegex = """^task-([0-9]+).*$""".toRegex()

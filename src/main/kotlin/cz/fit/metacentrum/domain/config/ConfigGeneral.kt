@@ -1,10 +1,12 @@
 package cz.fit.metacentrum.domain.config
 
+import cz.fit.metacentrum.config.FileNames.defaultMetadataFolder
+
 /**
  * Represents general configuration.
  */
 data class ConfigGeneral(
-        val metadataStoragePath: String,
+        val metadataStoragePath: String = defaultMetadataFolder,
         val storagePath: String,
         val sourcesPath: String,
         val variables: Map<String, String>? = emptyMap(),

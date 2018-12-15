@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.service.input
 
+import cz.fit.metacentrum.config.FileNames.defaultMetadataFolder
 import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.Action
 import cz.fit.metacentrum.domain.ActionHelp
@@ -38,7 +39,7 @@ class CommandLineParser {
                 when (type) {
                     "-p" -> return ActionStatus(metadataStoragePath = retrieveNextValue(iterator, true))
                     "-c" -> return ActionStatus(configFile = retrieveNextValue(iterator, true))
-                    null -> return ActionStatus(configFile = defaultConfigPath)
+                    null -> return ActionStatus(metadataStoragePath = defaultMetadataFolder)
                     else -> {
                         printHelp()
                         throw IllegalArgumentException("Unrecognized flag $type")
