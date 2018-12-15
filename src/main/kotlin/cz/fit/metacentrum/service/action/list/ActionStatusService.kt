@@ -27,14 +27,13 @@ class ActionStatusService() : ActionService<ActionStatus> {
         }
 
         val originalMetadata = metadataStatusService.retrieveMetadata(metadataPath)
-        val listedMetadata = metadataStatusService.updateMetadataState(originalMetadata)
-        val changedMetadata = metadataStatusService.retrieveChangedStateMetadataState(originalMetadata, listedMetadata)
 
-        // persist info
-        changedMetadata
-                .forEach { serializationService.persistMetadata(it) }
-
-        metadataInfoPrinter.printMetadataListInfo(listedMetadata)
+        originalMetadata
+                .map(metadataStatusService::updateMetadataState)
+                .filter { metadataStatusService.isUpdatedMetadata(originalMetadata, it) }
+                .forEach {
+                    serializationService.persistMetadata(it)
+                }
     }
 
     private fun getMetadataPath(actionStatus: ActionStatus): String {

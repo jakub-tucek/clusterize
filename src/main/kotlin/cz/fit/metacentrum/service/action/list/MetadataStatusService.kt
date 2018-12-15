@@ -35,15 +35,14 @@ class MetadataStatusService {
     }
 
     /**
-     * Checks given metadata status by calling check queue executor.
+     * Checks given metadata status by calling check queue executor. Returns only changed metadata objects.
      */
-    fun updateMetadataState(originalMetadata: List<ExecutionMetadata>): List<ExecutionMetadata> {
-        return originalMetadata
-                .map { checkQueueExecutor.execute(it) }
+    fun updateMetadataState(originalMetadata: ExecutionMetadata): ExecutionMetadata {
+        return checkQueueExecutor.execute(originalMetadata)
     }
 
-    fun retrieveChangedStateMetadataState(originalMetadata: List<ExecutionMetadata>,
-                                          listedMetadata: List<ExecutionMetadata>): List<ExecutionMetadata> {
-        return listedMetadata.filter { !originalMetadata.contains(it) }
+    fun isUpdatedMetadata(originalMetadataList: List<ExecutionMetadata>,
+                          updatedMetadata: ExecutionMetadata): Boolean {
+        return originalMetadataList.contains(updatedMetadata)
     }
 }
