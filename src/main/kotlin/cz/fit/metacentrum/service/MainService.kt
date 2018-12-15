@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.service
 
-import cz.fit.metacentrum.domain.ActionList
+import cz.fit.metacentrum.domain.ActionStatus
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.input.CommandLineParser
@@ -15,7 +15,7 @@ class MainService() {
     @Inject
     private lateinit var actionSubmitService: ActionService<ActionSubmit>
     @Inject
-    private lateinit var actionListService: ActionService<ActionList>
+    private lateinit var actionStatusService: ActionService<ActionStatus>
 
 
     fun execute(args: Array<String>) {
@@ -25,7 +25,7 @@ class MainService() {
 
         when (argumentAction) {
             is ActionSubmit -> actionSubmitService.processAction(argumentAction)
-            is ActionList -> actionListService.processAction(argumentAction)
+            is ActionStatus -> actionStatusService.processAction(argumentAction)
             else -> throw IllegalArgumentException("Unknown action")
         }
     }

@@ -4,10 +4,19 @@ import com.google.inject.AbstractModule
 import com.google.inject.TypeLiteral
 import com.google.inject.multibindings.Multibinder
 import com.google.inject.name.Names
-import cz.fit.metacentrum.domain.ActionList
 import cz.fit.metacentrum.domain.ActionResubmitFailed
+import cz.fit.metacentrum.domain.ActionStatus
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.service.*
+import cz.fit.metacentrum.service.action.list.ActionStatusService
+import cz.fit.metacentrum.service.action.list.CheckQueueExecutor
+import cz.fit.metacentrum.service.action.list.FailedJobFinderService
+import cz.fit.metacentrum.service.action.list.MetadataInfoPrinter
+import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
+import cz.fit.metacentrum.service.action.submit.ActionSubmitService
+import cz.fit.metacentrum.service.action.submit.executor.*
+import cz.fit.metacentrum.service.action.submit.executor.re.CleanFailedJobDirectoryExecutor
+import cz.fit.metacentrum.service.action.submit.executor.re.CleanStateExecutor
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.Configurator
 import cz.fit.metacentrum.service.api.ShellService
@@ -17,12 +26,6 @@ import cz.fit.metacentrum.service.input.CommandLineParser
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
-import cz.fit.metacentrum.service.action.list.*
-import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
-import cz.fit.metacentrum.service.action.submit.ActionSubmitService
-import cz.fit.metacentrum.service.action.submit.executor.*
-import cz.fit.metacentrum.service.action.submit.executor.re.CleanFailedJobDirectoryExecutor
-import cz.fit.metacentrum.service.action.submit.executor.re.CleanStateExecutor
 
 
 const val matlabExecutorsToken = "MATLAB_EXECUTORS_TOKEN"
@@ -43,7 +46,7 @@ class MainModule : AbstractModule() {
 
         // action services
         bind(object : TypeLiteral<ActionService<ActionSubmit>>() {}).to(ActionSubmitService::class.java)
-        bind(object : TypeLiteral<ActionService<ActionList>>() {}).to(ActionListService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionStatus>>() {}).to(ActionStatusService::class.java)
         bind(object : TypeLiteral<ActionService<ActionResubmitFailed>>() {}).to(ActionResubmitFailedService::class.java)
 
         // Shell service binding

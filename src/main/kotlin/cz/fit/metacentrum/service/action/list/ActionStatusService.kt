@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.service.action.list
 
-import cz.fit.metacentrum.domain.ActionList
+import cz.fit.metacentrum.domain.ActionStatus
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataComparator
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.input.SerializationService
@@ -14,17 +14,15 @@ import kotlin.streams.toList
  *
  * @author Jakub Tucek
  */
-class ActionListService() : ActionService<ActionList> {
+class ActionStatusService() : ActionService<ActionStatus> {
     @Inject
     private lateinit var serializationService: SerializationService
     @Inject
     private lateinit var checkQueueExecutor: CheckQueueExecutor
     @Inject
     private lateinit var metadataInfoPrinter: MetadataInfoPrinter
-    @Inject
-    private lateinit var rerunService: TaskResubmitService
 
-    override fun processAction(argumentAction: ActionList) {
+    override fun processAction(argumentAction: ActionStatus) {
         val metadataPath = Paths.get(getMetadataPath(argumentAction))
         if (!Files.exists(metadataPath)) {
             throw IllegalStateException("Path ${metadataPath} does not exists. Exiting.")
@@ -51,11 +49,10 @@ class ActionListService() : ActionService<ActionList> {
                 .forEach { serializationService.persistMetadata(it) }
 
         metadataInfoPrinter.printMetadataListInfo(listedMetadata)
-        rerunService.promptRerunIfError(listedMetadata)
     }
 
-    private fun getMetadataPath(actionList: ActionList): String {
-        val (metadataStoragePath, configFile) = actionList
+    private fun getMetadataPath(actionStatus: ActionStatus): String {
+        val (metadataStoragePath, configFile) = actionStatus
         if (metadataStoragePath != null) {
             return metadataStoragePath
         }

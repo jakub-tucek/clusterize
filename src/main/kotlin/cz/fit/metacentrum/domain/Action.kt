@@ -19,13 +19,11 @@ data class ActionSubmitConfig(val configFile: ConfigFile) : ActionSubmit()
 
 
 // =====================================================================================================================
-// lists all tasks and its status based on executed jobs
-data class ActionList(val metadataStoragePath: String? = null, val configFile: String? = null) : Action()
-
+// lists status of all executed tasks
+data class ActionStatus(val metadataStoragePath: String? = null, val configFile: String? = null) : Action()
 // =====================================================================================================================
 // Resubmit action
 data class ActionResubmitFailed(val metadata: ExecutionMetadata) : Action()
-
 // =====================================================================================================================
 // displays help
 object ActionHelp : Action()

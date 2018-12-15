@@ -3,7 +3,7 @@ package cz.fit.metacentrum.service.input
 import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.Action
 import cz.fit.metacentrum.domain.ActionHelp
-import cz.fit.metacentrum.domain.ActionList
+import cz.fit.metacentrum.domain.ActionStatus
 import cz.fit.metacentrum.domain.ActionSubmitPath
 import mu.KotlinLogging
 
@@ -36,9 +36,9 @@ class CommandLineParser {
             "list" -> {
                 val type = retrieveNextValue(iterator)
                 when (type) {
-                    "-p" -> return ActionList(metadataStoragePath = retrieveNextValue(iterator, true))
-                    "-c" -> return ActionList(configFile = retrieveNextValue(iterator, true))
-                    null -> return ActionList(configFile = defaultConfigPath)
+                    "-p" -> return ActionStatus(metadataStoragePath = retrieveNextValue(iterator, true))
+                    "-c" -> return ActionStatus(configFile = retrieveNextValue(iterator, true))
+                    null -> return ActionStatus(configFile = defaultConfigPath)
                     else -> {
                         printHelp()
                         throw IllegalArgumentException("Unrecognized flag $type")

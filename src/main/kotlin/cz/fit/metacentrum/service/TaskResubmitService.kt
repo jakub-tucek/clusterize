@@ -1,9 +1,8 @@
-package cz.fit.metacentrum.service.action.list
+package cz.fit.metacentrum.service
 
 import cz.fit.metacentrum.domain.ActionResubmitFailed
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
-import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.api.ActionService
 import javax.inject.Inject
 
