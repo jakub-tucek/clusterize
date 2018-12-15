@@ -17,6 +17,7 @@ Note that you are logged into a default non-root user account. Before we can sub
 qmgr -c "create node pbs"
 qmgr -c "set  node pbs queue=workq"
 qmgr -c "create resource scratch_local type=float,flag=h"
+nano /var/spool/pbs/sched_priv/sched_config -> add resource scratch_local and others
 ```
 to create a node named pbs and add a queue to it. Then switch back to the default user account and move to its home directory:
 

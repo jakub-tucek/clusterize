@@ -59,13 +59,4 @@ class TaskResubmitService() {
 
         actionResubmitService.processAction(ActionResubmitFailed(metadata))
     }
-
-    fun resubmit(metadatas: List<ExecutionMetadata>, resubmitIdString: String) {
-        val parsedId = parseValidId(resubmitIdString, metadatas.size)
-        if (parsedId != null) {
-            resubmit(metadatas, parsedId)
-        }
-        println("Given task id is invalid. Exiting.")
-        System.exit(1)
-    }
 }
