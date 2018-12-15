@@ -8,10 +8,7 @@ import cz.fit.metacentrum.domain.ActionResubmitFailed
 import cz.fit.metacentrum.domain.ActionStatus
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.service.*
-import cz.fit.metacentrum.service.action.list.ActionStatusService
-import cz.fit.metacentrum.service.action.list.CheckQueueExecutor
-import cz.fit.metacentrum.service.action.list.FailedJobFinderService
-import cz.fit.metacentrum.service.action.list.MetadataInfoPrinter
+import cz.fit.metacentrum.service.action.list.*
 import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
 import cz.fit.metacentrum.service.action.submit.executor.*
@@ -99,8 +96,9 @@ class MainModule : AbstractModule() {
     private fun bindListActionClasses() {
         bind(FailedJobFinderService::class.java)
         bind(MetadataInfoPrinter::class.java)
-
         bind(CheckQueueExecutor::class.java)
+
+        bind(MetadataStatusService::class.java)
     }
 
     private fun bindSubmitActionClasses() {

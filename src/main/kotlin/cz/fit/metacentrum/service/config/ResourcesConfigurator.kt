@@ -19,7 +19,7 @@ class ResourcesConfigurator : Configurator {
     override fun configureInteractively(config: ConfigFile): ConfigFile {
         if (config.resources.details == null
                 && config.resources.profile == ConfigResourceProfile.CUSTOM) {
-            val walltime = consoleReader.askForValue("Please enter wall time [00:04:00]:") { it.ifBlank { "00:04:00" } }
+            val walltime = consoleReader.askForValue("Please enter wall time [01:00:00]:") { it.ifBlank { "00:04:00" } }
             val chunks = consoleReader.askForValue("Please chunks [1]:") { it.toIntOrNull() ?: 1 }
             val mem = consoleReader.askForValue("Please enter memory [5gb]:") { it.ifBlank { "5gb" } }
             val ncpus = consoleReader.askForValue("Please enter number of cpus [8]:") { it.toIntOrNull() ?: 8 }

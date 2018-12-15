@@ -1,24 +1,22 @@
 package cz.fit.metacentrum.service.action.list
 
 import cz.fit.metacentrum.domain.ActionStatus
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataComparator
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.input.SerializationService
-import cz.fit.metacentrum.util.ConsoleWriter
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.inject.Inject
-import kotlin.streams.toList
 
 /**
  *
  * @author Jakub Tucek
  */
 class ActionStatusService() : ActionService<ActionStatus> {
+
     @Inject
     private lateinit var serializationService: SerializationService
     @Inject
-    private lateinit var checkQueueExecutor: CheckQueueExecutor
+    private lateinit var metadataStatusService: MetadataStatusService
     @Inject
     private lateinit var metadataInfoPrinter: MetadataInfoPrinter
 
@@ -28,24 +26,12 @@ class ActionStatusService() : ActionService<ActionStatus> {
             throw IllegalStateException("Path ${metadataPath} does not exists. Exiting.")
         }
 
-        val originalMetadata = Files.list(metadataPath)
-                .filter { Files.isDirectory(it) }
-                .map {
-                    val res = serializationService.parseMetadata(it)
-                    if (res == null) {
-                        ConsoleWriter.writeStatus("Folder ${it.toString()} does not contain metadata file")
-                    }
-                    res
-                }
-                .sorted(ExecutionMetadataComparator::compare)
-                .toList()
-                .filterNotNull()
-        val listedMetadata = originalMetadata.map { checkQueueExecutor.execute(it) }
+        val originalMetadata = metadataStatusService.retrieveMetadata(metadataPath)
+        val listedMetadata = metadataStatusService.updateMetadataState(originalMetadata)
+        val changedMetadata = metadataStatusService.retrieveChangedStateMetadataState(originalMetadata, listedMetadata)
 
         // persist info
-        listedMetadata
-                // persist only changed files
-                .filter { !originalMetadata.contains(it) }
+        changedMetadata
                 .forEach { serializationService.persistMetadata(it) }
 
         metadataInfoPrinter.printMetadataListInfo(listedMetadata)
