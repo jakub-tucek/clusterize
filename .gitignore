@@ -9,4 +9,4 @@ out
 .gradle
 target
 dockershared/*
-clusterize-home/*
+clusterize-home
