@@ -45,7 +45,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
-    compile(group = "org.slf4j", name = "slf4j-simple", version = "1.7.25")
+    compile(group = "org.slf4j", name = "slf4j-api", version = "1.7.25")
+    compile(group = "org.apache.logging.log4j", name = "log4j-slf4j-impl", version = "2.11.1")
+    compile(group = "org.apache.logging.log4j", name = "log4j-api", version = "2.11.1")
+    compile(group = "org.apache.logging.log4j", name = "log4j-core", version = "2.11.1")
+    
     compile("io.github.microutils:kotlin-logging:1.6.10")
 
     compile(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = jacksonVersion)

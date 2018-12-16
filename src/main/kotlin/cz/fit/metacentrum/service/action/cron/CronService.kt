@@ -20,8 +20,12 @@ class CronService {
 
     @Inject
     private lateinit var shellServiceImpl: ShellServiceImpl
+    @Inject
+    private lateinit var watcherService: WatcherService
 
     fun registerJob() {
+        watcherService.prepareAppConfiguration()
+
         val cronConfig = readCronJobConfiguration()
         // find if job is already set
         val job = cronConfig.lines()
@@ -34,9 +38,10 @@ class CronService {
 
         // pass profile to cron job
         val envVarConfig = if (ProfileConfiguration.isDev())
-            "${ProfileConfiguration.envVariableName}=${ProfileConfiguration.activeProfile.name} &&" else ""
+            "export ${ProfileConfiguration.envVariableName}=${ProfileConfiguration.activeProfile.name} &&" else ""
         // append cron registration
-        val newOutput = """$cronConfig * * * * * /bin/sh -c "$envVarConfig $appName cron-start-internal >> ${FileNames.cronLogFile} 2>&1"
+        val newOutput = """$cronConfig
+            |*/10 * * * * /bin/sh -c "$envVarConfig $appName cron-start-internal >> ${FileNames.cronLogFile} 2>&1"
             |""".trimMargin()
         updateCronTab(newOutput)
 
@@ -46,12 +51,12 @@ class CronService {
     fun unregisterJob() {
         val cronConfig = readCronJobConfiguration()
         val newOutput = cronConfig.lines()
-                .filter { !it.contains(" $appName") }
+                .filter { !it.contains(" $appName ") }
                 .joinToString("\n")
-                .ifBlank {
-                    println("Cron job cannot be removed because it is not registered")
-                    return
-                }
+        if (newOutput == cronConfig) {
+            println("Cron job cannot be removed because it is not registered")
+            return
+        }
         updateCronTab(newOutput)
 
         println("Cron job was removed")

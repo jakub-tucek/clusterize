@@ -43,13 +43,17 @@ class WatcherService {
     @Inject
     private lateinit var metadataInfoPrinter: MetadataInfoPrinter
 
+    fun prepareAppConfiguration() {
+        serializationService.parseAppConfiguration() ?: initializeAppConfiguration()
+    }
+
     fun checkMetadataStatus() {
         val configPath = Paths.get(FileNames.configDataFolderName)
 
         getFinishedTasks(configPath)
                 .forEach {
                     sendMail(it)
-                    // TODO: Persist metadata only here if cron is running
+                    serializationService.persistMetadata(it)
                 }
 
     }
