@@ -50,7 +50,9 @@ class WatcherService {
     fun checkMetadataStatus() {
         val configPath = Paths.get(FileNames.configDataFolderName)
 
-        getFinishedTasks(configPath)
+        val finishedTasks = getFinishedTasks(configPath)
+        metadataInfoPrinter.printMetadataListInfo(finishedTasks)
+        finishedTasks
                 .forEach {
                     sendMail(it)
                     serializationService.persistMetadata(it)
@@ -87,7 +89,7 @@ class WatcherService {
 
             // verbose + read data (like from/to from file)
             val output = shellServiceImpl.runCommand("sendmail -tv < ${tempFile.toAbsolutePath().toString()}")
-            logger.info("Sendmail command result: ${output}")
+            logger.info("Mail send for ${templateData.subject} with status ${output.status}")
         } catch (e: Exception) {
             logger.error("Error occurred while sending email", e)
             throw e

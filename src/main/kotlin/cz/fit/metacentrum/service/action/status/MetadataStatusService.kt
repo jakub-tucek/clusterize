@@ -43,6 +43,6 @@ class MetadataStatusService {
 
     fun isUpdatedMetadata(originalMetadataList: List<ExecutionMetadata>,
                           updatedMetadata: ExecutionMetadata): Boolean {
-        return originalMetadataList.contains(updatedMetadata)
+        return !originalMetadataList.contains(updatedMetadata)
     }
 }

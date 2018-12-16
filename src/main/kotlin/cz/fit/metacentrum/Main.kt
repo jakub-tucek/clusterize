@@ -20,7 +20,7 @@ fun main(args: Array<String>) {
         val injector = Guice.createInjector(MainModule())
         injector.getInstance(MainService::class.java).execute(args)
 
-        logger.info("App finished without unexpected error")
+        logger.info("App finished")
     } catch (e: Throwable) {
         logger.error("Running app failed", e)
         System.err.println(e.message)

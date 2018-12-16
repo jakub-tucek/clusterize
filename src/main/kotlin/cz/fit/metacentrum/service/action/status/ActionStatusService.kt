@@ -30,13 +30,13 @@ class ActionStatusService() : ActionService<ActionStatus> {
 
         val updatedMetadata = originalMetadata
                 .map(metadataStatusService::updateMetadataState)
+        metadataInfoPrinter.printMetadataListInfo(updatedMetadata)
 
         updatedMetadata
                 .filter { metadataStatusService.isUpdatedMetadata(originalMetadata, it) }
                 .forEach {
-                    serializationService.persistMetadata(it)
+                    //                    serializationService.persistMetadata(it)
                 }
-        metadataInfoPrinter.printMetadataListInfo(updatedMetadata)
     }
 
     private fun getMetadataPath(actionStatus: ActionStatus): String {
