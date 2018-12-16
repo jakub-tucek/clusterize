@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.action.list
+package cz.fit.metacentrum.service.action.status
 
 import cz.fit.metacentrum.KotlinMockito
 import cz.fit.metacentrum.domain.CommandOutput

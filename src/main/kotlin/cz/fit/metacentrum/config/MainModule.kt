@@ -10,7 +10,7 @@ import cz.fit.metacentrum.service.action.cron.ActionCronService
 import cz.fit.metacentrum.service.action.cron.ActionCronStartInternalService
 import cz.fit.metacentrum.service.action.cron.CronService
 import cz.fit.metacentrum.service.action.cron.WatcherService
-import cz.fit.metacentrum.service.action.list.*
+import cz.fit.metacentrum.service.action.status.*
 import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
 import cz.fit.metacentrum.service.action.submit.executor.*

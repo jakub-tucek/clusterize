@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.action.list
+package cz.fit.metacentrum.service.action.status
 
 import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.config.FileNames

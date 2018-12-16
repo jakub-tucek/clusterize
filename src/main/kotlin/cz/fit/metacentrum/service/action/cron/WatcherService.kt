@@ -10,8 +10,8 @@ import cz.fit.metacentrum.domain.template.StatusTemplateData
 import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.ShellServiceImpl
 import cz.fit.metacentrum.service.TemplateService
-import cz.fit.metacentrum.service.action.list.MetadataInfoPrinter
-import cz.fit.metacentrum.service.action.list.MetadataStatusService
+import cz.fit.metacentrum.service.action.status.MetadataInfoPrinter
+import cz.fit.metacentrum.service.action.status.MetadataStatusService
 import cz.fit.metacentrum.service.input.SerializationService
 import mu.KotlinLogging
 import java.nio.file.Files

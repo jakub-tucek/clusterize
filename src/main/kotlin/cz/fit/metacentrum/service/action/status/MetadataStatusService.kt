@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.action.list
+package cz.fit.metacentrum.service.action.status
 
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataComparator

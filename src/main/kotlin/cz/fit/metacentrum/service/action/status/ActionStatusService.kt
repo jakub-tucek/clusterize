@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.action.list
+package cz.fit.metacentrum.service.action.status
 
 import cz.fit.metacentrum.domain.ActionStatus
 import cz.fit.metacentrum.service.api.ActionService
@@ -28,12 +28,15 @@ class ActionStatusService() : ActionService<ActionStatus> {
 
         val originalMetadata = metadataStatusService.retrieveMetadata(metadataPath)
 
-        originalMetadata
+        val updatedMetadata = originalMetadata
                 .map(metadataStatusService::updateMetadataState)
+
+        updatedMetadata
                 .filter { metadataStatusService.isUpdatedMetadata(originalMetadata, it) }
                 .forEach {
                     serializationService.persistMetadata(it)
                 }
+        metadataInfoPrinter.printMetadataListInfo(updatedMetadata)
     }
 
     private fun getMetadataPath(actionStatus: ActionStatus): String {
