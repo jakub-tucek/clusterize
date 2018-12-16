@@ -1,18 +1,19 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="submitTestDefaultPath" type="JetRunConfigurationType" factoryName="Kotlin">
+  <configuration default="false" name="cron start" type="JetRunConfigurationType" factoryName="Kotlin">
     <module name="metacentrum-cli_main" />
     <option name="VM_PARAMETERS" value="" />
-    <option name="PROGRAM_PARAMETERS" value="submit" />
+    <option name="PROGRAM_PARAMETERS" value="daemon start" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <option name="PASS_PARENT_ENVS" value="true" />
     <option name="MAIN_CLASS_NAME" value="cz.fit.metacentrum.MainKt" />
     <option name="WORKING_DIRECTORY" value="" />
     <envs>
-      <env name="CLUSTERIZE_PROFILE" value="DEV" />
+      <env name="CLUSTERIZE_PROFILE" value="dev" />
     </envs>
     <method v="2">
       <option name="Make" enabled="true" />
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="installDist" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
     </method>
   </configuration>
 </component>
