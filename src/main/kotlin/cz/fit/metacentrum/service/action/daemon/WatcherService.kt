@@ -83,7 +83,7 @@ class WatcherService {
 
             // verbose + read data (like from/to from file)
             val output = shellServiceImpl.runCommand("sendmail -tv < ${tempFile.toAbsolutePath().toString()}")
-            logger.debug("Result of sending email: ${output}")
+            logger.info("Sendmail command result: ${output}")
         } catch (e: Exception) {
             logger.error("Error occurred while sending email", e)
             throw e

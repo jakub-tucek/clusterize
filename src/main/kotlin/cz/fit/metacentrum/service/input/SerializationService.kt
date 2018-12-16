@@ -72,7 +72,7 @@ class SerializationService {
     fun parseAppConfiguration(): AppConfiguration? {
         val path = Paths.get(configDataFolderName).resolve(appConfigurationFileName)
         if (!Files.exists(path)) {
-            logger.debug("Configuration file does not exists. Returning null")
+            logger.info("Configuration file does not exists. Returning null")
             return null
         }
         try {

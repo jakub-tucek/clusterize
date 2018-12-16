@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service.action.daemon
 
 import cz.fit.metacentrum.config.FileNames
+import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.service.ShellServiceImpl
 import mu.KotlinLogging
 import java.nio.file.Files
@@ -25,16 +26,16 @@ class DaemonService {
     fun killDaemon() {
         val pid = retrieveWatcherPid()
         if (pid == null) {
-            logger.debug("Pid not present")
+            logger.info("Pid not present")
             return
         }
-        logger.debug("Killing existing watcher with pid $pid")
+        logger.info("Killing existing watcher with pid $pid")
         try {
             shellServiceImpl.runCommand("kill -2 $pid")
             println("Daemon was successfully stopped")
         } catch (e: InterruptedException) {
             logger.info("Killing with code -2 (SIGINT) timeouted", e)
-            logger.debug("Killing with Using SIGTERM")
+            logger.info("Killing with Using SIGTERM")
             shellServiceImpl.runCommand("kill -9 $pid")
             println("Daemon was successfully stopped by force")
         }
@@ -45,13 +46,10 @@ class DaemonService {
             println("Daemon is already running.")
             System.exit(1)
         }
-        logger.debug("Executing daemon on background")
-
-        val jarPath = Paths.get(this::class.java.protectionDomain.codeSource.location.toURI().path).toAbsolutePath()
-        logger.debug("Jar file used for nohup execution of daemon is in $jarPath")
+        logger.info("Executing daemon on background")
 
         val pid = shellServiceImpl.runCommandAsync(
-                "nohup java -jar ${jarPath.toAbsolutePath()} daemon-start-internal > ${FileNames.daemonLogFile} 2>&1"
+                "nohup $appName daemon-start-internal > ${FileNames.daemonLogFile} 2>&1"
         )
         println("Daemon was executed under PID $pid")
 
