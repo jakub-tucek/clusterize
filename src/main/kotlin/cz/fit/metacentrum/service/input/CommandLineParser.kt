@@ -48,6 +48,7 @@ class CommandLineParser {
                 return when (cronCommandType) {
                     "start" -> ActionCron(ActionCron.Type.START)
                     "stop" -> ActionCron(ActionCron.Type.STOP)
+                    "restart" -> ActionCron(ActionCron.Type.RESTART)
                     else -> {
                         printHelp()
                         throw IllegalArgumentException("Unrecognized option")

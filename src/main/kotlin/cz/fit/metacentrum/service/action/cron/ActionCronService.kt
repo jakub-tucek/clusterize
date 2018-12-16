@@ -20,6 +20,10 @@ class ActionCronService : ActionService<ActionCron> {
         when (argumentAction.actionType) {
             ActionCron.Type.START -> handleStartCron()
             ActionCron.Type.STOP -> handleStopCron()
+            ActionCron.Type.RESTART -> {
+                handleStopCron()
+                handleStartCron()
+            }
         }
     }
 

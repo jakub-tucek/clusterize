@@ -28,7 +28,7 @@ data class ActionResubmitFailed(val metadata: ExecutionMetadata) : Action()
 // Cron action
 data class ActionCron(val actionType: Type) : Action() {
     enum class Type {
-        START, STOP
+        START, STOP, RESTART
     }
 }
 

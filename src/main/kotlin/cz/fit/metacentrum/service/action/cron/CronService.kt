@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service.action.cron
 
 import cz.fit.metacentrum.config.FileNames
+import cz.fit.metacentrum.config.ProfileConfiguration
 import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.service.ShellServiceImpl
 import mu.KotlinLogging
@@ -31,9 +32,15 @@ class CronService {
             System.exit(1)
         }
 
+        // pass profile to cron job
+        val envVarConfig = if (ProfileConfiguration.isDev())
+            "${ProfileConfiguration.envVariableName}=${ProfileConfiguration.activeProfile.name} &&" else ""
         // append cron registration
-        val newOutput = cronConfig + "\n * * * * * $appName cron-start-internal >> ${FileNames.cronLogFile} 2>&1\n"
+        val newOutput = """$cronConfig * * * * * /bin/sh -c "$envVarConfig $appName cron-start-internal >> ${FileNames.cronLogFile} 2>&1"
+            |""".trimMargin()
         updateCronTab(newOutput)
+
+        println("Cron job was registered successfully")
     }
 
     fun unregisterJob() {
@@ -41,6 +48,10 @@ class CronService {
         val newOutput = cronConfig.lines()
                 .filter { !it.contains(" $appName") }
                 .joinToString("\n")
+                .ifBlank {
+                    println("Cron job cannot be removed because it is not registered")
+                    return
+                }
         updateCronTab(newOutput)
 
         println("Cron job was removed")
@@ -50,7 +61,6 @@ class CronService {
         val cronJobs = shellServiceImpl.runCommand("crontab -l")
 
         var output = cronJobs.output
-        println(output)
         // clean output if crontab is not existing for user
         if (cronJobs.mergedOut().contains("no crontab")) {
             output = ""

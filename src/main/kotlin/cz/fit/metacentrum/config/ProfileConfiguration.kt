@@ -8,9 +8,10 @@ import cz.fit.metacentrum.domain.Profile
  */
 object ProfileConfiguration {
 
+    val envVariableName = "${appName.toUpperCase()}_PROFILE"
 
     val activeProfile: Profile by lazy {
-        val profile = System.getenv("${appName.toUpperCase()}_PROFILE")?.toLowerCase()
+        val profile = System.getenv(envVariableName)?.toLowerCase()
         when (profile) {
             "dev" -> Profile.DEV
             else -> Profile.PROD
