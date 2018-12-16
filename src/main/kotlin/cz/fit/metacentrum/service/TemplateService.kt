@@ -15,11 +15,13 @@ class TemplateService {
     fun write(templateName: String, outPath: Path, data: Any) {
         val mustache = factory.compile(templateName)
 
-        Files.createFile(outPath)
-        val writer = FileWriter(outPath.toFile())
-        mustache.execute(writer, data).flush()
-    }
+        if (Files.notExists(outPath)) Files.createFile(outPath)
 
+
+        FileWriter(outPath.toFile()).use {
+            mustache.execute(it, data).flush()
+        }
+    }
 
     companion object {
         private val factory = DefaultMustacheFactory()
