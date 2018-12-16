@@ -18,6 +18,7 @@ private const val watcherPIDFileName = "watcher-pid"
  *
  * @author Jakub Tucek
  */
+@Deprecated("Service for running daemon, deprecated")
 class DaemonService {
 
     @Inject

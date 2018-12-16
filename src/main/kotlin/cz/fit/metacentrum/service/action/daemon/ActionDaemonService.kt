@@ -14,7 +14,7 @@ class ActionDaemonService : ActionService<ActionDaemon> {
     @Inject
     private lateinit var shellServiceImpl: ShellServiceImpl
     @Inject
-    private lateinit var daemonService: DaemonService
+    private lateinit var cronService: CronService
 
     override fun processAction(argumentAction: ActionDaemon) {
         when (argumentAction.actionType) {
@@ -24,10 +24,10 @@ class ActionDaemonService : ActionService<ActionDaemon> {
     }
 
     private fun handleStopDaemon() {
-        daemonService.killDaemon()
+        cronService.unregisterJob()
     }
 
     private fun handleStartDaemon() {
-        daemonService.execDaemon()
+        cronService.registerJob()
     }
 }

@@ -6,10 +6,7 @@ import com.google.inject.multibindings.Multibinder
 import com.google.inject.name.Names
 import cz.fit.metacentrum.domain.*
 import cz.fit.metacentrum.service.*
-import cz.fit.metacentrum.service.action.daemon.ActionDaemonService
-import cz.fit.metacentrum.service.action.daemon.ActionDaemonStartInternalService
-import cz.fit.metacentrum.service.action.daemon.DaemonService
-import cz.fit.metacentrum.service.action.daemon.WatcherService
+import cz.fit.metacentrum.service.action.daemon.*
 import cz.fit.metacentrum.service.action.list.*
 import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
@@ -71,6 +68,7 @@ class MainModule : AbstractModule() {
 
     private fun bindDaemonClasses() {
         bind(DaemonService::class.java)
+        bind(CronService::class.java)
         bind(WatcherService::class.java)
     }
 
