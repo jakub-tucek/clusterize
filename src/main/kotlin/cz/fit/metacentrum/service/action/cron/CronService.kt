@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.action.daemon
+package cz.fit.metacentrum.service.action.cron
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.config.appName
@@ -32,7 +32,7 @@ class CronService {
         }
 
         // append cron registration
-        val newOutput = cronConfig + "\n * * * * * $appName daemon-start-internal >> ${FileNames.daemonLogFile} 2>&1\n"
+        val newOutput = cronConfig + "\n * * * * * $appName cron-start-internal >> ${FileNames.cronLogFile} 2>&1\n"
         updateCronTab(newOutput)
     }
 

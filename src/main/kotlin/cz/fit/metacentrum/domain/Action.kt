@@ -25,15 +25,15 @@ data class ActionStatus(val metadataStoragePath: String? = null, val configFile:
 // Resubmit action
 data class ActionResubmitFailed(val metadata: ExecutionMetadata) : Action()
 
-// Daemon action
-data class ActionDaemon(val actionType: Type) : Action() {
+// Cron action
+data class ActionCron(val actionType: Type) : Action() {
     enum class Type {
         START, STOP
     }
 }
 
-// Internal action that runs daemon on background
-object ActionDaemonStartInternal : Action()
+// Internal action that runs cron on background
+object ActionCronStartInternal : Action()
 // =====================================================================================================================
 // displays help
 object ActionHelp : Action()

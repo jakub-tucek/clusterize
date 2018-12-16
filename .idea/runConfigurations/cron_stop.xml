@@ -2,7 +2,7 @@
   <configuration default="false" name="cron stop" type="JetRunConfigurationType" factoryName="Kotlin">
     <module name="metacentrum-cli_main" />
     <option name="VM_PARAMETERS" value="" />
-    <option name="PROGRAM_PARAMETERS" value="daemon stop" />
+    <option name="PROGRAM_PARAMETERS" value="cron stop" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <option name="PASS_PARENT_ENVS" value="true" />

@@ -6,10 +6,10 @@ import com.google.inject.multibindings.Multibinder
 import com.google.inject.name.Names
 import cz.fit.metacentrum.domain.*
 import cz.fit.metacentrum.service.*
-import cz.fit.metacentrum.service.action.daemon.ActionDaemonService
-import cz.fit.metacentrum.service.action.daemon.ActionDaemonStartInternalService
-import cz.fit.metacentrum.service.action.daemon.CronService
-import cz.fit.metacentrum.service.action.daemon.WatcherService
+import cz.fit.metacentrum.service.action.cron.ActionCronService
+import cz.fit.metacentrum.service.action.cron.ActionCronStartInternalService
+import cz.fit.metacentrum.service.action.cron.CronService
+import cz.fit.metacentrum.service.action.cron.WatcherService
 import cz.fit.metacentrum.service.action.list.*
 import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
@@ -47,8 +47,8 @@ class MainModule : AbstractModule() {
         bind(object : TypeLiteral<ActionService<ActionSubmit>>() {}).to(ActionSubmitService::class.java)
         bind(object : TypeLiteral<ActionService<ActionStatus>>() {}).to(ActionStatusService::class.java)
         bind(object : TypeLiteral<ActionService<ActionResubmitFailed>>() {}).to(ActionResubmitFailedService::class.java)
-        bind(object : TypeLiteral<ActionService<ActionDaemon>>() {}).to(ActionDaemonService::class.java)
-        bind(object : TypeLiteral<ActionService<ActionDaemonStartInternal>>() {}).to(ActionDaemonStartInternalService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionCron>>() {}).to(ActionCronService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionCronStartInternal>>() {}).to(ActionCronStartInternalService::class.java)
 
         // Shell service binding
         if (ProfileConfiguration.isDev()) {
@@ -66,10 +66,10 @@ class MainModule : AbstractModule() {
         bindSubmitActionClasses()
         bindListActionClasses()
         bindResubmitActionClasses()
-        bindDaemonClasses()
+        bindCronClasses()
     }
 
-    private fun bindDaemonClasses() {
+    private fun bindCronClasses() {
         bind(CronService::class.java)
         bind(WatcherService::class.java)
     }

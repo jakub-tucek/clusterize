@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.action.daemon
+package cz.fit.metacentrum.service.action.cron
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.config.appName
@@ -49,7 +49,7 @@ class WatcherService {
         getFinishedTasks(configPath)
                 .forEach {
                     sendMail(it)
-                    // TODO: Persist metadata only here if daemon is running
+                    // TODO: Persist metadata only here if cron is running
                 }
 
     }

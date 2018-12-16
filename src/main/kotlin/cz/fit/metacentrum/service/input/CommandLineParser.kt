@@ -43,18 +43,18 @@ class CommandLineParser {
                     }
                 }
             }
-            "daemon" -> {
-                val daemonCommandType = retrieveNextValue(iterator, true)!!
-                return when (daemonCommandType) {
-                    "start" -> ActionDaemon(ActionDaemon.Type.START)
-                    "stop" -> ActionDaemon(ActionDaemon.Type.STOP)
+            "cron" -> {
+                val cronCommandType = retrieveNextValue(iterator, true)!!
+                return when (cronCommandType) {
+                    "start" -> ActionCron(ActionCron.Type.START)
+                    "stop" -> ActionCron(ActionCron.Type.STOP)
                     else -> {
                         printHelp()
                         throw IllegalArgumentException("Unrecognized option")
                     }
                 }
             }
-            "daemon-start-internal" -> return ActionDaemonStartInternal
+            "cron-start-internal" -> return ActionCronStartInternal
             else -> {
                 val msg = "Unrecognized parameter: $nextValue"
                 printHelp()
@@ -73,7 +73,7 @@ class CommandLineParser {
                     submit [optional path to configuration file] - submits new task to cluster according to configuration structure
                                                                  - default path is used if not specified ($defaultConfigPath)
                     help - displays help
-                    daemon [start|stop] - run daemon to watch executed tasks and receive notifications
+                    cron [start|stop] - run cron to watch executed tasks and receive notifications
                     list [OPTIONS] - lists tasks
                        -p [VALUE] - define path to metadata folder or default is used
                        -c [VALUE] - specify path to configuration file

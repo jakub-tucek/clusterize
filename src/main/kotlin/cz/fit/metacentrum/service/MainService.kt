@@ -16,9 +16,9 @@ class MainService() {
     @Inject
     private lateinit var actionStatusService: ActionService<ActionStatus>
     @Inject
-    private lateinit var actionDaemonService: ActionService<ActionDaemon>
+    private lateinit var actionCronService: ActionService<ActionCron>
     @Inject
-    private lateinit var actionDaemonInternalService: ActionService<ActionDaemonStartInternal>
+    private lateinit var actionCronInternalService: ActionService<ActionCronStartInternal>
 
 
     fun execute(args: Array<String>) {
@@ -29,8 +29,8 @@ class MainService() {
         when (argumentAction) {
             is ActionSubmit -> actionSubmitService.processAction(argumentAction)
             is ActionStatus -> actionStatusService.processAction(argumentAction)
-            is ActionDaemon -> actionDaemonService.processAction(argumentAction)
-            is ActionDaemonStartInternal -> actionDaemonInternalService.processAction(argumentAction)
+            is ActionCron -> actionCronService.processAction(argumentAction)
+            is ActionCronStartInternal -> actionCronInternalService.processAction(argumentAction)
             is ActionResubmitFailed -> TODO()
             is ActionHelp -> {
                 // dont do anything

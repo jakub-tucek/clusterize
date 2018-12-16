@@ -23,7 +23,7 @@ object FileNames {
 
     val configDataFolderName = "${System.getProperty("user.home")}/.$appName"
     val defaultMetadataFolder = "/$configDataFolderName/metadataStorage"
-    val daemonLogFile = "$configDataFolderName/daemon.log"
+    val cronLogFile = "$configDataFolderName/cron.log"
 
     val storageTaskFolderPrefix = "task-"
     val storageTaskFolderRegex = """^task-([0-9]+).*$""".toRegex()
