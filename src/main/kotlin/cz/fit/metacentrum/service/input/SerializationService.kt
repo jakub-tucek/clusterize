@@ -15,6 +15,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
+import java.time.LocalDateTime
 
 private val logger = KotlinLogging.logger {}
 
@@ -46,11 +47,12 @@ class SerializationService {
     }
 
     fun persistMetadata(metadata: ExecutionMetadata) {
-        val metadataFile = metadata.paths.metadataStoragePath?.resolve(metadataFileName)
+        val timestampMetadata = metadata.copy(updateTime = LocalDateTime.now())
+        val metadataFile = timestampMetadata.paths.metadataStoragePath?.resolve(metadataFileName)
                 ?: throw IllegalStateException("Metadata storage path not set")
         // creates or rewrites existing file
         val writer = Files.newBufferedWriter(metadataFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
-        mapper.writeValue(writer, metadata)
+        mapper.writeValue(writer, timestampMetadata)
     }
 
     fun parseMetadata(metadataFolder: Path): ExecutionMetadata? {
