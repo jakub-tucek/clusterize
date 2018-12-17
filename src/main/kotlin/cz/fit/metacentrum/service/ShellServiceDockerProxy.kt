@@ -12,9 +12,9 @@ private const val commandPrefix = "docker exec -u \"pbsuser\" pbsmnt bash -c -l"
  * @author Jakub Tucek
  */
 class ShellServiceDockerProxy(val shellService: ShellService) : ShellService {
-    override fun runCommandAsync(command: String): Long {
+    override fun runCommandAsync(command: String) {
         logger.info("ShellServiceDockerProxy run command asynchronously wrapper")
-        return shellService.runCommandAsync(
+        shellService.runCommandAsync(
                 """$commandPrefix "$command""""
         )
     }

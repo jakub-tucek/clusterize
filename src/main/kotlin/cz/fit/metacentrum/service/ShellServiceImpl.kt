@@ -14,10 +14,9 @@ class ShellServiceImpl : ShellService {
     /**
      * Returns asynchronously command in bash terminal and returns its pid.
      */
-    override fun runCommandAsync(command: String): Long {
-        return ProcessBuilder("/bin/sh", "-c", command)
+    override fun runCommandAsync(command: String) {
+        ProcessBuilder("/bin/sh", "-c", command)
                 .start()
-                .pid()
     }
 
     /**

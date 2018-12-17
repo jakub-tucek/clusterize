@@ -8,5 +8,5 @@ import cz.fit.metacentrum.domain.CommandOutput
  */
 interface ShellService {
     fun runCommand(command: String): CommandOutput
-    fun runCommandAsync(command: String): Long
+    fun runCommandAsync(command: String)
 }
