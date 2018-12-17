@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service.action.status
 
 import cz.fit.metacentrum.domain.ActionStatus
+import cz.fit.metacentrum.service.action.cron.CronService
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.input.SerializationService
 import java.nio.file.Files
@@ -19,6 +20,8 @@ class ActionStatusService() : ActionService<ActionStatus> {
     private lateinit var metadataStatusService: MetadataStatusService
     @Inject
     private lateinit var metadataInfoPrinter: MetadataInfoPrinter
+    @Inject
+    private lateinit var cronService: CronService
 
     override fun processAction(argumentAction: ActionStatus) {
         val metadataPath = Paths.get(getMetadataPath(argumentAction))
@@ -35,7 +38,10 @@ class ActionStatusService() : ActionService<ActionStatus> {
         updatedMetadata
                 .filter { metadataStatusService.isUpdatedMetadata(originalMetadata, it) }
                 .forEach {
-                    //                    serializationService.persistMetadata(it)
+                    // save file if cron is not registered to avoid race condition when saving files
+                    if (!cronService.isRegistered()) {
+                        serializationService.persistMetadata(it)
+                    }
                 }
     }
 

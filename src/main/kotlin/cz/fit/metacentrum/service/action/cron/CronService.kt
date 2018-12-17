@@ -12,24 +12,22 @@ import javax.inject.Inject
 private val logging = KotlinLogging.logger {}
 
 /**
- *
+ * Service that handles cron configuration.
  * @author Jakub Tucek
  */
 class CronService {
-
 
     @Inject
     private lateinit var shellServiceImpl: ShellServiceImpl
     @Inject
     private lateinit var watcherService: WatcherService
 
-    fun registerJob() {
+    fun register() {
         watcherService.prepareAppConfiguration()
 
         val cronConfig = readCronJobConfiguration()
         // find if job is already set
-        val job = cronConfig.lines()
-                .find { it.contentEquals(" $appName ") }
+        val job = retrieveRegisteredJob(cronConfig)
         // job found so we cant register is again
         if (job != null) {
             println("Cron job is already registered as $job")
@@ -39,7 +37,7 @@ class CronService {
         // pass profile to cron job
         val envVarConfig = if (ProfileConfiguration.isDev())
             "export ${ProfileConfiguration.envVariableName}=${ProfileConfiguration.activeProfile.name} &&" else ""
-        // append cron registration
+        // append cron registration for every 10 minutes
         val newOutput = """$cronConfig
             |*/10 * * * * /bin/sh -c "$envVarConfig $appName cron-start-internal >> ${FileNames.cronLogFile} 2>&1"
             |""".trimMargin()
@@ -48,7 +46,7 @@ class CronService {
         println("Cron job was registered successfully")
     }
 
-    fun unregisterJob() {
+    fun unregister() {
         val cronConfig = readCronJobConfiguration()
         val newOutput = cronConfig.lines()
                 .filter { !it.contains(" $appName ") }
@@ -60,6 +58,12 @@ class CronService {
         updateCronTab(newOutput)
 
         println("Cron job was removed")
+    }
+
+
+    fun isRegistered(): Boolean {
+        val config = readCronJobConfiguration()
+        return retrieveRegisteredJob(config) != null
     }
 
     private fun readCronJobConfiguration(): String {
@@ -92,6 +96,11 @@ class CronService {
         } finally {
             Files.delete(tempFile)
         }
+    }
+
+    private fun retrieveRegisteredJob(cronConfig: String): String? {
+        return cronConfig.lines()
+                .find { it.contentEquals(" $appName ") }
     }
 
 }

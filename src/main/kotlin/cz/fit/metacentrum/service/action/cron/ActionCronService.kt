@@ -28,10 +28,10 @@ class ActionCronService : ActionService<ActionCron> {
     }
 
     private fun handleStopCron() {
-        cronService.unregisterJob()
+        cronService.unregister()
     }
 
     private fun handleStartCron() {
-        cronService.registerJob()
+        cronService.register()
     }
 }
