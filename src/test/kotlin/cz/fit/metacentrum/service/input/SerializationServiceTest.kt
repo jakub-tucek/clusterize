@@ -46,15 +46,17 @@ internal class SerializationServiceTest {
         Files.createDirectories(data.paths.metadataStoragePath)
         // persist metadata
         serializationService.persistMetadata(data)
-        val readMetadata = serializationService.parseMetadata(data.paths.metadataStoragePath!!)
+        val readMetadata = serializationService.parseMetadata(data.paths.metadataStoragePath!!)!!
         // check that read data are same
-        Assertions.assertThat(readMetadata).isEqualTo(data)
+        Assertions.assertThat(readMetadata).isNotEqualTo(data)
+        Assertions.assertThat(readMetadata).isEqualTo(data.copy(updateTime = readMetadata.updateTime))
 
         // update metadata and persist them
         val newData = data.copy(updateTime = LocalDateTime.now().plusDays(5))
         serializationService.persistMetadata(newData)
-        val readNewData = serializationService.parseMetadata(newData.paths.metadataStoragePath!!)
+        val readNewData = serializationService.parseMetadata(newData.paths.metadataStoragePath!!)!!
         // check that reading data was succesful
-        Assertions.assertThat(readNewData).isEqualTo(newData)
+        Assertions.assertThat(readNewData).isNotEqualTo(newData)
+        Assertions.assertThat(readNewData).isEqualTo(newData.copy(updateTime = readNewData.updateTime))
     }
 }
