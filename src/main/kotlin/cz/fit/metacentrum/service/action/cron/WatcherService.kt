@@ -73,7 +73,7 @@ class WatcherService {
                 // filter out those who were not updated in watcher
                 .filter { metadataStatusService.isUpdatedMetadata(originalMetadata, it) }
                 // continue only with done of finished metadata tasks
-                .filter { it.state is ExecutionMetadataStateDone || it.state is ExecutionMetadataStateFailed }
+                .filter { it.isFinished() }
     }
 
     private fun sendMail(it: ExecutionMetadata) {

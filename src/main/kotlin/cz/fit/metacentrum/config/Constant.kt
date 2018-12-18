@@ -12,7 +12,6 @@ const val userDateFormat = "dd/MM/YYYY hh:mm"
 
 
 object FileNames {
-    const val statusLog = "status.log"
     // job info
     const val jobInfo = "job.info"
     // outs

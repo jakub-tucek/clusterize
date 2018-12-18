@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.domain.meta
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import cz.fit.metacentrum.domain.config.ConfigFile
 import java.time.LocalDateTime
 
@@ -17,7 +18,13 @@ data class ExecutionMetadata(
         val submittingUsername: String? = null,
         val state: ExecutionMetadataState? = null,
         val rerun: Boolean = false
-)
+) {
+    // ignore is or json deserializer thinks this is setter to field
+    @JsonIgnore
+    fun isFinished(): Boolean {
+        return state != null && (state is ExecutionMetadataStateDone || state is ExecutionMetadataStateFailed)
+    }
+}
 
 object ExecutionMetadataComparator : Comparator<ExecutionMetadata> {
     override fun compare(o1: ExecutionMetadata?, o2: ExecutionMetadata?): Int {

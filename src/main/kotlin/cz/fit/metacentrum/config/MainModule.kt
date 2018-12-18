@@ -29,6 +29,7 @@ import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
 
 const val matlabExecutorsToken = "MATLAB_EXECUTORS_TOKEN"
 const val matlabResubmitExecutorsToken = "MATLAB_RESUBMIT_EXECUTORS_TOKEN"
+const val actionStatusExecutorsToken = "ACTION_STATUS_EXECUTORS_TOKEN"
 
 class MainModule : AbstractModule() {
 
@@ -64,7 +65,7 @@ class MainModule : AbstractModule() {
         bindConfiguratorClasses()
         // bind action features
         bindSubmitActionClasses()
-        bindListActionClasses()
+        bindStatusActionClasses()
         bindResubmitActionClasses()
         bindCronClasses()
     }
@@ -104,10 +105,18 @@ class MainModule : AbstractModule() {
         bind(MatlabTemplateDataBuilder::class.java)
     }
 
-    private fun bindListActionClasses() {
+    private fun bindStatusActionClasses() {
         bind(FailedJobFinderService::class.java)
         bind(MetadataInfoPrinter::class.java)
-        bind(CheckQueueExecutor::class.java)
+
+        val executors = Multibinder.newSetBinder(
+                binder(),
+                TaskExecutor::class.java,
+                Names.named(actionStatusExecutorsToken)
+        )
+        executors.addBinding().to(CheckQueueExecutor::class.java)
+        executors.addBinding().to(ReadJobInfoFileExecutor::class.java)
+
 
         bind(MetadataStatusService::class.java)
     }

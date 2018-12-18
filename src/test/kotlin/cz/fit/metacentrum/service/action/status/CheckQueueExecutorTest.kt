@@ -60,16 +60,18 @@ internal class CheckQueueExecutorTest {
 
         // setup failed job
         val failWrapper = Mockito.mock(ExecutionMetadataJobFailedWrapper::class.java)
-        Mockito.`when`(failedJobFinderService.findFailedJobs(metadata.jobs!!, listOf(queuedJob.pid!!, runningJob.pid!!))).thenReturn(listOf(failWrapper))
+        Mockito.`when`(failedJobFinderService
+                .findFailedJobs(metadata.jobs!!, listOf(queuedJob.jobInfo.pid!!, runningJob.jobInfo.pid!!))
+        ).thenReturn(listOf(failWrapper))
 
         // setup queue records
         val queuedRecord = Mockito.mock(QueueRecord::class.java)
-        Mockito.`when`(queuedRecord.pid).thenReturn(queuedJob.pid!!)
+        Mockito.`when`(queuedRecord.pid).thenReturn(queuedJob.jobInfo.pid!!)
         Mockito.`when`(queuedRecord.state).thenReturn(QueueRecord.State.QUEUED)
         Mockito.`when`(queuedRecord.elapsedTime).thenReturn("")
 
         val runningRecord = Mockito.mock(QueueRecord::class.java)
-        Mockito.`when`(runningRecord.pid).thenReturn(runningJob.pid!!)
+        Mockito.`when`(runningRecord.pid).thenReturn(runningJob.jobInfo.pid!!)
         Mockito.`when`(runningRecord.state).thenReturn(QueueRecord.State.RUNNING)
         Mockito.`when`(runningRecord.elapsedTime).thenReturn("")
 
@@ -149,7 +151,7 @@ internal class CheckQueueExecutorTest {
 
         private fun createQueueJob(job: ExecutionMetadataJob): QueueRecord {
             val mock = Mockito.mock(QueueRecord::class.java)
-            Mockito.`when`(mock.pid).thenReturn(job.pid!!)
+            Mockito.`when`(mock.pid).thenReturn(job.jobInfo.pid!!)
             Mockito.`when`(mock.elapsedTime).thenReturn("00:00:00")
             Mockito.`when`(mock.state).thenReturn(QueueRecord.State.QUEUED)
             return mock

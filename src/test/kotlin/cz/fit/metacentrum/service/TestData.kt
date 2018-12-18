@@ -72,17 +72,17 @@ internal object TestData {
                     ExecutionMetadataJob(
                             jobPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job1"),
                             jobId = 1,
-                            pid = "1.pid"
+                            jobInfo = createJobInfo("1.pid")
                     ),
                     ExecutionMetadataJob(
                             jobPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job2"),
                             jobId = 2,
-                            pid = "2.pid"
+                            jobInfo = createJobInfo("2.pid")
                     ),
                     ExecutionMetadataJob(
                             jobPath = Jimfs.newFileSystem(Configuration.unix()).getPath("/storage/job3"),
                             jobId = 3,
-                            pid = "3.pid"
+                            jobInfo = createJobInfo("3.pid")
                     )
             ),
             configFile = metadata.configFile.copy(
@@ -115,5 +115,7 @@ internal object TestData {
             "00:00",
             QueueRecord.State.RUNNING
     )
+
+    fun createJobInfo(pid: String) = JobInfo(null, null, pid, 0)
 }
 

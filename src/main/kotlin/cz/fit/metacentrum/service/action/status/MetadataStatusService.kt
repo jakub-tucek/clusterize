@@ -1,7 +1,10 @@
 package cz.fit.metacentrum.service.action.status
 
+import com.google.inject.name.Named
+import cz.fit.metacentrum.config.actionStatusExecutorsToken
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataComparator
+import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.util.ConsoleWriter
 import java.nio.file.Files
@@ -17,7 +20,8 @@ class MetadataStatusService {
     @Inject
     private lateinit var serializationService: SerializationService
     @Inject
-    private lateinit var checkQueueExecutor: CheckQueueExecutor
+    @Named(actionStatusExecutorsToken)
+    private lateinit var executors: Set<@JvmSuppressWildcards TaskExecutor>
 
     fun retrieveMetadata(metadataPath: Path): List<ExecutionMetadata> {
         return Files.list(metadataPath)
@@ -35,10 +39,12 @@ class MetadataStatusService {
     }
 
     /**
-     * Checks given metadata status by calling check queue executor. Returns only changed metadata objects.
+     * Checks given metadata status by calling executors. Returns changed metadata objects.
      */
     fun updateMetadataState(originalMetadata: ExecutionMetadata): ExecutionMetadata {
-        return checkQueueExecutor.execute(originalMetadata)
+        return executors.fold(originalMetadata) { metadata, executor ->
+            executor.execute(metadata)
+        }
     }
 
     fun isUpdatedMetadata(originalMetadataList: List<ExecutionMetadata>,
