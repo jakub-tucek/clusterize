@@ -21,9 +21,8 @@ class ReadJobInfoFileExecutor : TaskExecutor {
         if (metadata.isFinished()) {
             return metadata
         }
-        val storagePath = metadata.paths.storagePath ?: throw IllegalStateException("Storage path not set")
         val readJobInfo = metadata.jobs?.map {
-            val jobInfo = serializationService.parseJobInfoFile(storagePath.resolve(FileNames.jobInfo))
+            val jobInfo = serializationService.parseJobInfoFile(it.jobPath.resolve(FileNames.jobInfo))
             if (jobInfo == null) {
                 it
             } else {
