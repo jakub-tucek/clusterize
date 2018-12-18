@@ -5,7 +5,8 @@ import cz.fit.metacentrum.domain.config.ConfigFile
 import java.time.LocalDateTime
 
 /**
- *
+ * ExecutionMetadata of run task. Contains configuration that can be used for resubmitting with identical
+ * configuration and status of run.
  * @author Jakub Tucek
  */
 data class ExecutionMetadata(

@@ -4,10 +4,10 @@ import cz.fit.metacentrum.domain.config.ConfigResources
 import java.nio.file.Path
 
 /**
- *
+ * Represents data for template used in mail when notifying user about status change.
  * @author Jakub Tucek
  */
-data class StatusTemplateData(
+data class StatusMailTemplateData(
         // mail
         val from: String,
         val to: String,

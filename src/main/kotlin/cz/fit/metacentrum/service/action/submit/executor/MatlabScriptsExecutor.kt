@@ -3,6 +3,7 @@ package cz.fit.metacentrum.service.action.submit.executor
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
+import cz.fit.metacentrum.domain.meta.JobInfo
 import cz.fit.metacentrum.service.TemplateService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
@@ -51,7 +52,8 @@ class MatlabScriptsExecutor : TaskExecutor {
 
         return ExecutionMetadataJob(
                 jobPath = templateData.runPath,
-                jobId = runCounter
+                jobId = runCounter,
+                jobInfo = JobInfo.empty()
         )
     }
 

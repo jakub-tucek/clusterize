@@ -27,9 +27,9 @@ import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
 
 
-const val matlabExecutorsToken = "MATLAB_EXECUTORS_TOKEN"
-const val matlabResubmitExecutorsToken = "MATLAB_RESUBMIT_EXECUTORS_TOKEN"
-const val actionStatusExecutorsToken = "ACTION_STATUS_EXECUTORS_TOKEN"
+const val actionSubmitMatlabExecutorsToken = "ACTION_SUBMIT_MATLAB_EXECUTORS"
+const val actionResubmitMatlabExecutorsTokens = "ACTION_RESUBMIT_MATLAB_EXECUTORS"
+const val actionStatusExecutorsToken = "ACTION_STATUS_EXECUTORS"
 
 class MainModule : AbstractModule() {
 
@@ -83,6 +83,7 @@ class MainModule : AbstractModule() {
         binder.addBinding().to(ToolboxConfigurator::class.java)
         binder.addBinding().to(ResourcesConfigurator::class.java)
 
+        // add resource cleaner for develop profile
         if (ProfileConfiguration.isDev()) {
             binder.addBinding().to(DevelopmentCleanerConfigurator::class.java)
         }
@@ -96,7 +97,7 @@ class MainModule : AbstractModule() {
         val resubmitBinder = Multibinder.newSetBinder(
                 binder(),
                 TaskExecutor::class.java,
-                Names.named(matlabResubmitExecutorsToken)
+                Names.named(actionResubmitMatlabExecutorsTokens)
         )
         resubmitBinder.addBinding().to(CleanFailedJobDirectoryExecutor::class.java)
         resubmitBinder.addBinding().to(SubmitExecutor::class.java)
@@ -126,7 +127,7 @@ class MainModule : AbstractModule() {
         val matlabBinder = Multibinder.newSetBinder(
                 binder(),
                 TaskExecutor::class.java,
-                Names.named(matlabExecutorsToken)
+                Names.named(actionSubmitMatlabExecutorsToken)
         )
         matlabBinder.addBinding().to(ResolvePathExecutor::class.java)
         matlabBinder.addBinding().to(UsernameResolverExecutor::class.java)

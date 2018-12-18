@@ -7,7 +7,7 @@ import cz.fit.metacentrum.service.api.Configurator
 import javax.inject.Inject
 
 /**
- *
+ * Configurator for resources - modules
  * @author Jakub Tucek
  */
 class ModulesConfigurator : Configurator {

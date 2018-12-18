@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.domain
 
 /**
- * Representation of 1 queue record of job.
+ * Representation of 1 queue record of job from qstat -u xxxx
  * @author Jakub Tucek
  */
 data class QueueRecord(

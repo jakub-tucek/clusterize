@@ -7,7 +7,7 @@ import cz.fit.metacentrum.service.api.Configurator
 import javax.inject.Inject
 
 /**
- *
+ * Configurator for toolboxes
  * @author Jakub Tucek
  */
 class ToolboxConfigurator : Configurator {

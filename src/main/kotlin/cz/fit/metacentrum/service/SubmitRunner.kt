@@ -11,7 +11,8 @@ import javax.inject.Inject
 private val logger = KotlinLogging.logger {}
 
 /**
- *
+ * Provides option to safely run executors for task that is supposed to submitted. Deletes files if some executors
+ * failed.
  * @author Jakub Tucek
  */
 class SubmitRunner {

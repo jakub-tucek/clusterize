@@ -1,9 +1,6 @@
 package cz.fit.metacentrum.service
 
-/**
- *
- * @author Jakub Tucek
- */
+
 class ConsoleReader {
 
     fun askForConfirmation(msg: String, defaultYes: Boolean): Boolean {

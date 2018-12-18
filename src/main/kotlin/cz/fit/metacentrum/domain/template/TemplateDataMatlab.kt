@@ -6,16 +6,16 @@ import cz.fit.metacentrum.domain.meta.JobInfoFilePropNames
 import java.nio.file.Path
 
 /**
- *
+ * Matlab specific template data
  * @author Jakub Tucek
  */
 data class TemplateDataMatlab(
         val taskType: MatlabTaskType,
         val variables: List<Pair<String, String>>,
-        val general: TemplateDataGeneral,
+        val general: GeneralTemplateData,
         val runPath: Path,
         val sourcesPath: Path,
-        val resources: TemplateResources,
+        val resources: ResourcesTemplateData,
         val fileNames: FileNames = FileNames,
         val jobInfoProps: JobInfoFilePropNames = JobInfoFilePropNames
 )

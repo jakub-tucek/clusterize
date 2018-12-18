@@ -12,7 +12,7 @@ import javax.inject.Inject
 private val logging = KotlinLogging.logger {}
 
 /**
- * Service that handles cron configuration.
+ * Service that provides API for changing cron state or possibility to ask if cron is active.
  * @author Jakub Tucek
  */
 class CronService {

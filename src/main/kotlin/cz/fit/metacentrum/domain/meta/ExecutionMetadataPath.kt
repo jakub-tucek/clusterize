@@ -3,7 +3,7 @@ package cz.fit.metacentrum.domain.meta
 import java.nio.file.Path
 
 /**
- *
+ * Contains paths used for execution
  * @author Jakub Tucek
  */
 data class ExecutionMetadataPath(

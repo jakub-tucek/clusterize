@@ -3,7 +3,7 @@ package cz.fit.metacentrum.domain
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 
-
+// Represents type of action that user wants to do. Usually specified via command line argument
 sealed class Action
 
 // =====================================================================================================================
@@ -19,8 +19,9 @@ data class ActionSubmitConfig(val configFile: ConfigFile) : ActionSubmit()
 
 
 // =====================================================================================================================
-// lists status of all executed tasks
+// lists status of all executed tasks and prints them to console
 data class ActionStatus(val metadataStoragePath: String? = null, val configFile: String? = null) : Action()
+
 // =====================================================================================================================
 // Resubmit action
 data class ActionResubmitFailed(val metadata: ExecutionMetadata) : Action()
@@ -32,8 +33,9 @@ data class ActionCron(val actionType: Type) : Action() {
     }
 }
 
-// Internal action that runs cron on background
+// Internal action that is executed by cron. Checks status and sends email if needed
 object ActionCronStartInternal : Action()
+
 // =====================================================================================================================
 // displays help
 object ActionHelp : Action()

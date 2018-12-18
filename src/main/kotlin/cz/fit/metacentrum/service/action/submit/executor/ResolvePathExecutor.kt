@@ -12,7 +12,6 @@ import cz.fit.metacentrum.util.FileUtils
  */
 class ResolvePathExecutor : TaskExecutor {
 
-    @Suppress("REDUNDANT_ELSE_IN_WHEN")
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Processing and resolving given paths")
         val config = metadata.configFile

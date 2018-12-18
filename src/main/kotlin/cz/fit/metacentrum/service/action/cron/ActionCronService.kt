@@ -6,7 +6,7 @@ import cz.fit.metacentrum.service.api.ActionService
 import javax.inject.Inject
 
 /**
- * Action cron service that works with background cron
+ * Action cron service is service that handles cron registration
  * @author Jakub Tucek
  */
 class ActionCronService : ActionService<ActionCron> {

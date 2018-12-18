@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.domain.template
 
-data class TemplateResources(
+// Resources where script is executed
+data class ResourcesTemplateData(
         val walltime: String,
         val formattedResources: String, // formatted resources
         val ncpus: Int,

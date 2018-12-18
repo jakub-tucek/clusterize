@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.action.submit
 
 import com.google.inject.name.Named
-import cz.fit.metacentrum.config.matlabExecutorsToken
+import cz.fit.metacentrum.config.actionSubmitMatlabExecutorsToken
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.domain.ActionSubmitConfig
 import cz.fit.metacentrum.domain.ActionSubmitPath
@@ -29,7 +29,7 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     @Inject
     private lateinit var configValidationService: ConfigValidationService
     @Inject
-    @Named(matlabExecutorsToken)
+    @Named(actionSubmitMatlabExecutorsToken)
     private lateinit var matlabExecutors: Set<@JvmSuppressWildcards TaskExecutor>
     @Inject
     private lateinit var configuratorRunner: ConfiguratorRunner

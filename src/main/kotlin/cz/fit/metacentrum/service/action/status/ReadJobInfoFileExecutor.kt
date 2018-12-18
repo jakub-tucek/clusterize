@@ -7,7 +7,7 @@ import cz.fit.metacentrum.service.input.SerializationService
 import javax.inject.Inject
 
 /**
- *
+ * Reads jobInfo file for each metadata's job and saves it to metadata.
  * @author Jakub Tucek
  */
 class ReadJobInfoFileExecutor : TaskExecutor {

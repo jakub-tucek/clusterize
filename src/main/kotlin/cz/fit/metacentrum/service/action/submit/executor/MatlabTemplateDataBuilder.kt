@@ -4,9 +4,9 @@ import cz.fit.metacentrum.domain.config.ConfigResources
 import cz.fit.metacentrum.domain.config.ConfigResourcesDetails
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.template.TemplateDataGeneral
+import cz.fit.metacentrum.domain.template.GeneralTemplateData
+import cz.fit.metacentrum.domain.template.ResourcesTemplateData
 import cz.fit.metacentrum.domain.template.TemplateDataMatlab
-import cz.fit.metacentrum.domain.template.TemplateResources
 import java.nio.file.Files
 
 /**
@@ -33,7 +33,7 @@ class MatlabTemplateDataBuilder {
         return TemplateDataMatlab(
                 taskType,
                 variableData.toSortedMap().toList(),
-                TemplateDataGeneral(
+                GeneralTemplateData(
                         dependents = metadata.configFile.general.dependents,
                         taskName = metadata.configFile.general.taskName
                 ),
@@ -44,9 +44,9 @@ class MatlabTemplateDataBuilder {
         )
     }
 
-    private fun buildTemplateResources(resources: ConfigResources): TemplateResources {
+    private fun buildTemplateResources(resources: ConfigResources): ResourcesTemplateData {
         val details = resources.details ?: throw IllegalStateException("Resource details configuration is missing")
-        return TemplateResources(
+        return ResourcesTemplateData(
                 walltime = details.walltime,
                 formattedResources = formatResources(details),
                 ncpus = details.ncpus,

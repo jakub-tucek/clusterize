@@ -6,7 +6,7 @@ import cz.fit.metacentrum.domain.AppConfiguration
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateDone
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
-import cz.fit.metacentrum.domain.template.StatusTemplateData
+import cz.fit.metacentrum.domain.template.StatusMailTemplateData
 import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.ShellServiceImpl
 import cz.fit.metacentrum.service.TemplateService
@@ -98,14 +98,14 @@ class WatcherService {
         }
     }
 
-    private fun buildTemplateData(metadata: ExecutionMetadata, userEmail: String): StatusTemplateData {
+    private fun buildTemplateData(metadata: ExecutionMetadata, userEmail: String): StatusMailTemplateData {
         val state = when (metadata.state) {
             is ExecutionMetadataStateDone -> "COMPLETED"
             is ExecutionMetadataStateFailed -> "FAILED"
             else -> throw IllegalStateException("Unexpected execution state")
         }
         val body = metadataInfoPrinter.getMetadataInfo(1, metadata)
-        return StatusTemplateData(
+        return StatusMailTemplateData(
                 from = "no-reply@clusterize.io",
                 to = userEmail,
                 subject = "Task with name ${metadata.configFile.general.taskName}/${metadata.creationTime} $state",

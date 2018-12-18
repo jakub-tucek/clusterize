@@ -11,7 +11,7 @@ import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 
 /**
- *
+ * Cleans failed jobs directories and prepares task for rerun of only failed jobs.
  * @author Jakub Tucek
  */
 class CleanFailedJobDirectoryExecutor : TaskExecutor {

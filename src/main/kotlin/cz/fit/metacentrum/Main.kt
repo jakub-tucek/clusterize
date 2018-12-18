@@ -12,9 +12,7 @@ private val logger = KotlinLogging.logger {}
 fun main(args: Array<String>) {
     try {
         logger.info {
-            """Starting app.
-                    Profile: ${ProfileConfiguration.activeProfile}
-                    Arguments: ${args.joinToString(" ")}""".trimMargin()
+            "Starting app. Profile: ${ProfileConfiguration.activeProfile} Arguments: ${args.joinToString(" ")}"
         }
 
         val injector = Guice.createInjector(MainModule())

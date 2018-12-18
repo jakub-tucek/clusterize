@@ -9,7 +9,7 @@ import java.nio.file.Paths
 import javax.inject.Inject
 
 /**
- *
+ * ActionStatusService for status action.
  * @author Jakub Tucek
  */
 class ActionStatusService() : ActionService<ActionStatus> {

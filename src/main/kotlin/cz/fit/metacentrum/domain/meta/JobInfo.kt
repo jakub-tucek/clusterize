@@ -3,7 +3,9 @@ package cz.fit.metacentrum.domain.meta
 import java.time.LocalDateTime
 
 /**
- * Represent file where script outputs information such as when it was executed, when it ended etc.
+ * Represent additional info about job run.
+ * Can be created artificially with partial info (such as pid when job is submitted) or parsed
+ * from file where all data are stored as job is progressing its state (from queued, to running, to finish).
  * @author Jakub Tucek
  */
 data class JobInfo(

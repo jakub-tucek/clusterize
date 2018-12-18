@@ -6,7 +6,7 @@ import cz.fit.metacentrum.service.api.Configurator
 import javax.inject.Inject
 
 /**
- *
+ * Configurator for task name
  * @author Jakub Tucek
  */
 class TaskNameConfigurator : Configurator {
