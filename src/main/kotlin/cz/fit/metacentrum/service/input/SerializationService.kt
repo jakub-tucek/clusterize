@@ -83,7 +83,7 @@ class SerializationService {
                 mapper.readValue<AppConfiguration>(it)
             }
         } catch (e: JsonProcessingException) {
-            logger.error("Configuration has invalid structure. Returning null, file must be reinitialized")
+            logger.error("Configuration has invalid structure. Returning null, file must be reinitialized", e)
             null
         }
     }
@@ -106,13 +106,14 @@ class SerializationService {
                 mapper.readValue<JobInfo>(it)
             }
         } catch (e: JsonProcessingException) {
-            logger.error("Unable to read job status info file")
+            logger.error("Unable to read job status info file", e)
             null
         }
     }
 
     companion object {
         private var mapper: ObjectMapper = ObjectMapper(YAMLFactory()) // Enable YAML parsing
+                .findAndRegisterModules()
                 .registerKotlinModule()
                 .registerModule(JavaTimeModule())
     }
