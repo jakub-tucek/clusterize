@@ -49,6 +49,6 @@ class FailedJobFinderService {
                 .toList()
                 .joinToString("\n")
 
-        return ExecutionMetadataJobFailedWrapper(job = job, status = status, output = output)
+        return ExecutionMetadataJobFailedWrapper(job = job, output = output)
     }
 }
