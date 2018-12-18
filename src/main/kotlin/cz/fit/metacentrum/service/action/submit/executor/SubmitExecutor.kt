@@ -37,7 +37,7 @@ class SubmitExecutor : TaskExecutor {
                         throw IOException("Submitting script ${scriptFile} failed with ${cmdResult.status}. ${cmdResult.errOutput}")
 
                     ConsoleWriter.writeStatusDetail("Run ${it.jobId} submitted under ${cmdResult.output}")
-                    it.copy(pid = QueueUtils.extractPid(cmdResult.output))
+                    it.copy(jobInfo = it.jobInfo.copy(pid = QueueUtils.extractPid(cmdResult.output)))
                 }
 
         return metadata.copy(jobs = scriptsWithPid)

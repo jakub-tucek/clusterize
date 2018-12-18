@@ -10,6 +10,7 @@ import cz.fit.metacentrum.config.FileNames.configDataFolderName
 import cz.fit.metacentrum.domain.AppConfiguration
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.JobInfo
 import mu.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Path
@@ -77,13 +78,13 @@ class SerializationService {
             logger.info("Configuration file does not exists. Returning null")
             return null
         }
-        try {
-            return Files.newBufferedReader(path).use {
+        return try {
+            Files.newBufferedReader(path).use {
                 mapper.readValue<AppConfiguration>(it)
             }
         } catch (e: JsonProcessingException) {
             logger.error("Configuration has invalid structure. Returning null, file must be reinitialized")
-            return null
+            null
         }
     }
 
@@ -93,6 +94,17 @@ class SerializationService {
         // creates or rewrites existing file
         val writer = Files.newBufferedWriter(outPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
         mapper.writeValue(writer, appConfiguration)
+    }
+
+    fun parseJobInfoFile(location: Path): JobInfo? {
+        return try {
+            Files.newBufferedReader(location).use {
+                mapper.readValue<JobInfo>(it)
+            }
+        } catch (e: JsonProcessingException) {
+            logger.error("Unable to read job status info file")
+            null
+        }
     }
 
     companion object {

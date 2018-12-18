@@ -3,6 +3,7 @@ package cz.fit.metacentrum.service.action.status
 import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.domain.meta.*
 import cz.fit.metacentrum.service.api.TaskExecutor
+import cz.fit.metacentrum.service.input.SerializationService
 import javax.inject.Inject
 
 
@@ -16,6 +17,8 @@ class CheckQueueExecutor : TaskExecutor {
     private lateinit var queueRecordsService: QueueRecordsService
     @Inject
     private lateinit var failedJobFinderService: FailedJobFinderService
+    @Inject
+    private lateinit var serializationService: SerializationService
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         if (checkIfFinishedQueueWasProcessed(metadata)) {
@@ -26,7 +29,7 @@ class CheckQueueExecutor : TaskExecutor {
 
         // mapped job by pid so queue records can be mapped to jobs easily
         val mappedJobsByPid = jobs
-                .map { (it.pid ?: throw IllegalStateException("Missing pid on task ${it}")) to it }
+                .map { (it.jobInfo.pid ?: throw IllegalStateException("Missing pid on task ${it}")) to it }
                 .toMap()
         // read queue job records mapped by its state
         val mappedRecordsByState = retrieveQueuedJobs(metadata, mappedJobsByPid)

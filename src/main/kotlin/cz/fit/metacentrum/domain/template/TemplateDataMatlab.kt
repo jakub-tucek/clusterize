@@ -2,6 +2,7 @@ package cz.fit.metacentrum.domain.template
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.config.MatlabTaskType
+import cz.fit.metacentrum.domain.meta.JobInfoFilePropNames
 import java.nio.file.Path
 
 /**
@@ -15,6 +16,7 @@ data class TemplateDataMatlab(
         val runPath: Path,
         val sourcesPath: Path,
         val resources: TemplateResources,
-        val fileNames: FileNames = FileNames
+        val fileNames: FileNames = FileNames,
+        val jobInfoProps: JobInfoFilePropNames = JobInfoFilePropNames
 )
 
