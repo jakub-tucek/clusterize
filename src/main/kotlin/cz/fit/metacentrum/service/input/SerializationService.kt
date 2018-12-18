@@ -97,6 +97,10 @@ class SerializationService {
     }
 
     fun parseJobInfoFile(location: Path): JobInfo? {
+        if (Files.notExists(location)) {
+            logger.debug { "Job info file does not exists" }
+            return null
+        }
         return try {
             Files.newBufferedReader(location).use {
                 mapper.readValue<JobInfo>(it)

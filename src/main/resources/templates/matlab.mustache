@@ -8,9 +8,9 @@
 #PBS -e {{runPath}}/{{fileNames.stdErrLog}}
 
 # Print start time
-echo "{{jobInfoProps.start}}: "`date --iso-8601=seconds` > {{fileNames.jobInfo}}
+echo "{{jobInfoProps.start}}: "`date --iso-8601=seconds` > {{runPath}}/{{fileNames.jobInfo}}
 # Print JOB PID to folder
-echo "{{jobInfoProps.pid}}: $PBS_JOBID" >> {{fileNames.jobInfo}}
+echo "{{jobInfoProps.pid}}: $PBS_JOBID" >> {{runPath}}/{{fileNames.jobInfo}}
 
 {{#resources.modules}}module add {{.}} # loads desired application
 {{/resources.modules}}
@@ -44,6 +44,6 @@ matlab -nodesktop -nosplash -nodisplay -r            \
 &> "{{runPath}}/{{fileNames.stdJobLog}}"
 
 # Print finish date
-echo "{{jobInfoProps.end}}: "`date --iso-8601=seconds` >> {{fileNames.jobInfo}}
+echo "{{jobInfoProps.end}}: "`date --iso-8601=seconds` >> {{runPath}}/{{fileNames.jobInfo}}
 # Print status
-echo "{{jobInfoProps.pid}}: "$? >> {{fileNames.jobInfo}}
+echo "{{jobInfoProps.pid}}: "$? >> {{runPath}}/{{fileNames.jobInfo}}
