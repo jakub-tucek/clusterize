@@ -34,7 +34,11 @@ internal class CleanFailedJobDirectoryExecutorTest {
                 .allMatch { t -> Files.readAllBytes(t.jobPath.resolve(FileNames.innerScript))!!.contentEquals("inner script content ${t.jobId}".toByteArray()) }
 
         val state = result.state as ExecutionMetadataStateFailed
-        Assertions.assertThat(result.jobs!!.subtract(state.failedJobs.map { it.job }))
+        Assertions.assertThat(
+                result.jobs!!.filter { job ->
+                    state.failedJobs.find { it.job.jobId == job.jobId } == null
+                }
+        )
                 .hasSize(2)
                 .allMatch { t -> Files.exists(t.jobPath.resolve("someFile")) }
                 .allMatch { t -> Files.readAllBytes(t.jobPath.resolve("someFile"))!!.contentEquals("some file content".toByteArray()) }

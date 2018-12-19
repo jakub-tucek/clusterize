@@ -97,8 +97,9 @@ internal object TestData {
             state = ExecutionMetadataStateFailed(
                     failedJobs = listOf(
                             ExecutionMetadataJobFailedWrapper(
-                                    job = executedMetadata.jobs!!.first(),
-                                    status = 2,
+                                    job = executedMetadata.jobs?.first()!!.copy(
+                                            jobInfo = createJobInfo("1.pid", 2)
+                                    ),
                                     output = "Failed"
                             )
                     )
@@ -116,6 +117,6 @@ internal object TestData {
             QueueRecord.State.RUNNING
     )
 
-    fun createJobInfo(pid: String) = JobInfo(null, null, pid, 0)
+    fun createJobInfo(pid: String, status: Int = 0) = JobInfo(null, null, pid, status)
 }
 

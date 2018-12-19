@@ -53,10 +53,10 @@ internal class FailedJobFinderServiceTest {
     }
 
     @Test
-    fun testMissingStatusLog() {
+    fun testMissingStatus() {
         val failedJobs = failedJobFinderService.findFailedJobs(listOf(job4Deleted), emptyList())
         val failedJob = failedJobs.first()
-        Assertions.assertThat(failedJob.status).isEqualTo(null)
+        Assertions.assertThat(failedJob.job.jobInfo.status).isEqualTo(null)
         Assertions.assertThat(failedJob.job).isEqualTo(job4Deleted)
         Assertions.assertThat(failedJob.output).isBlank()
     }
@@ -77,7 +77,7 @@ internal class FailedJobFinderServiceTest {
         Assertions.assertThat(failedJobs)
                 .hasSize(1)
         val failedJob = failedJobs.first()
-        Assertions.assertThat(failedJob.status).isEqualTo(1)
+        Assertions.assertThat(failedJob.job.jobInfo.status).isEqualTo(1)
         Assertions.assertThat(failedJob.job).isEqualTo(job3Failed)
         Assertions.assertThat(failedJob.output).contains(
                 "STD SCRIPT ERROR",

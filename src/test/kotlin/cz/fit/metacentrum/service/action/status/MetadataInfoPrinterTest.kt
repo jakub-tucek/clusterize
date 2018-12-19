@@ -27,8 +27,9 @@ internal class MetadataInfoPrinterTest {
 
     @BeforeEach
     fun init() {
+        val job = TestData.executedMetadata.jobs!!.first()
         val firstJobFailedWrappers = listOf(
-                ExecutionMetadataJobFailedWrapper(TestData.executedMetadata.jobs!!.first(), 1, "err"))
+                ExecutionMetadataJobFailedWrapper(job.copy(jobInfo = job.jobInfo.copy(status = 1)), "err"))
         val runningJobWrappers = listOf(
                 ExecutionMetadataJobRunningWrapper(
                         TestData.executedMetadata.jobs!!.first(),
