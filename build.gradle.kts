@@ -1,6 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
+val appName = "clusterize"
+
 repositories {
     mavenCentral()
 }
@@ -79,7 +81,14 @@ dependencies {
 
 application {
     mainClassName = "cz.fit.metacentrum.MainKt"
+    applicationName = appName
 }
+distributions {
+    main {
+        baseName = appName
+    }
+}
+
 
 val compileKotlin by tasks.getting(KotlinCompile::class) {
     // Customise the "compileKotlin" task.
