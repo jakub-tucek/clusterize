@@ -11,7 +11,7 @@ import cz.fit.metacentrum.service.action.cron.ActionCronStartInternalService
 import cz.fit.metacentrum.service.action.cron.CronService
 import cz.fit.metacentrum.service.action.cron.WatcherService
 import cz.fit.metacentrum.service.action.status.*
-import cz.fit.metacentrum.service.action.submit.ActionResubmitFailedService
+import cz.fit.metacentrum.service.action.submit.ActionResubmitService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
 import cz.fit.metacentrum.service.action.submit.executor.*
 import cz.fit.metacentrum.service.action.submit.executor.re.CleanFailedJobDirectoryExecutor
@@ -47,7 +47,7 @@ class MainModule : AbstractModule() {
         // action services
         bind(object : TypeLiteral<ActionService<ActionSubmit>>() {}).to(ActionSubmitService::class.java)
         bind(object : TypeLiteral<ActionService<ActionStatus>>() {}).to(ActionStatusService::class.java)
-        bind(object : TypeLiteral<ActionService<ActionResubmitFailed>>() {}).to(ActionResubmitFailedService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionResubmit>>() {}).to(ActionResubmitService::class.java)
         bind(object : TypeLiteral<ActionService<ActionCron>>() {}).to(ActionCronService::class.java)
         bind(object : TypeLiteral<ActionService<ActionCronStartInternal>>() {}).to(ActionCronStartInternalService::class.java)
 
@@ -92,7 +92,7 @@ class MainModule : AbstractModule() {
 
     private fun bindResubmitActionClasses() {
         bind(TaskResubmitService::class.java)
-        bind(ActionResubmitFailedService::class.java)
+        bind(ActionResubmitService::class.java)
 
         val resubmitBinder = Multibinder.newSetBinder(
                 binder(),

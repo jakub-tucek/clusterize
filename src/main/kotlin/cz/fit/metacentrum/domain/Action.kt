@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.domain
 
 import cz.fit.metacentrum.domain.config.ConfigFile
-import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 
 // Represents type of action that user wants to do. Usually specified via command line argument
 sealed class Action
@@ -24,7 +23,7 @@ data class ActionStatus(val metadataStoragePath: String? = null, val configFile:
 
 // =====================================================================================================================
 // Resubmit action
-data class ActionResubmitFailed(val metadata: ExecutionMetadata) : Action()
+data class ActionResubmit(val taskId: String, val metadataStoragePath: String) : Action()
 
 // Cron action
 data class ActionCron(val actionType: Type) : Action() {

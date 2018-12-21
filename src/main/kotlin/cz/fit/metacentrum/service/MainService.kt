@@ -31,7 +31,7 @@ class MainService() {
             is ActionStatus -> actionStatusService.processAction(argumentAction)
             is ActionCron -> actionCronService.processAction(argumentAction)
             is ActionCronStartInternal -> actionCronInternalService.processAction(argumentAction)
-            is ActionResubmitFailed -> TODO()
+            is ActionResubmit -> TODO()
             is ActionHelp -> {
                 // dont do anything
             }

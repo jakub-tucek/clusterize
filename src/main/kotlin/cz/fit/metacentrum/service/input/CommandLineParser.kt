@@ -43,6 +43,10 @@ class CommandLineParser {
                     }
                 }
             }
+            "resubmit" -> {
+                val taskId = retrieveNextValue(iterator, true)!!
+                return ActionResubmit(taskId = taskId, metadataStoragePath = defaultMetadataFolder)
+            }
             "cron" -> {
                 val cronCommandType = retrieveNextValue(iterator, true)!!
                 return when (cronCommandType) {

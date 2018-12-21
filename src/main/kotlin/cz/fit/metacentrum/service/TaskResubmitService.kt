@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.service
 
-import cz.fit.metacentrum.domain.ActionResubmitFailed
+import cz.fit.metacentrum.domain.ActionResubmit
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.service.api.ActionService
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class TaskResubmitService() {
 
     @Inject
-    private lateinit var actionResubmitService: ActionService<ActionResubmitFailed>
+    private lateinit var actionResubmitService: ActionService<ActionResubmit>
     @Inject
     private lateinit var consoleReader: ConsoleReader
 
@@ -57,6 +57,6 @@ class TaskResubmitService() {
             return
         }
 
-        actionResubmitService.processAction(ActionResubmitFailed(metadata))
+//        actionResubmitService.processAction(ActionResubmit(metadata))
     }
 }
