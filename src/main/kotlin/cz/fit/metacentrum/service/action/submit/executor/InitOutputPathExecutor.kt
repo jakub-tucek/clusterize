@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.streams.toList
 
 /**
- * Initializes output paths.
+ * Initializes output paths and initializes metadata id.
  *
  * @author Jakub Tucek
  */
@@ -21,26 +21,29 @@ class InitOutputPathExecutor : TaskExecutor {
         val formattedTimestamp = metadata.creationTime.format(
                 DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")
         )
-        val newName = getNewName(metadata.configFile.general, formattedTimestamp)
+        val (folderNumber, folderName) = getNewName(metadata.configFile.general, formattedTimestamp)
 
         ConsoleWriter.writeStatus("Initializing output directories under name $formattedTimestamp")
 
-        val storagePath = initPath(newName, metadata.paths.storagePath, metadata.configFile.general.storagePath)
-        val metadataStoragePath = initPath(newName, metadata.paths.metadataStoragePath, metadata.configFile.general.metadataStoragePath)
+        val storagePath = initPath(folderName, metadata.paths.storagePath, metadata.configFile.general.storagePath)
+        val metadataStoragePath = initPath(folderName, metadata.paths.metadataStoragePath, metadata.configFile.general.metadataStoragePath)
 
-        return metadata.copy(paths = metadata.paths.copy(storagePath = storagePath, metadataStoragePath = metadataStoragePath))
+        return metadata.copy(
+                paths = metadata.paths.copy(storagePath = storagePath, metadataStoragePath = metadataStoragePath),
+                metadataId = folderNumber
+        )
     }
 
     /**
      * Checks storage path and finds last task folder name. Parses order from folder name, add 1 and uses it as new name.
      */
-    private fun getNewName(general: ConfigGeneral, formattedTimestamp: String): String {
-        val storagePath = Paths.get(general.storagePath)
+    private fun getNewName(general: ConfigGeneral, formattedTimestamp: String): NewName {
+        val storagePath = Paths.get(general.metadataStoragePath)
 
         val taskFolderPrefix = FileNames.storageTaskFolderPrefix
         val taskFolderRegex = FileNames.storageTaskFolderRegex
         // default new name
-        var newName = "${taskFolderPrefix}1"
+        var folderNumber = 1
         if (Files.exists(storagePath)) {
             val highestFolderNumber: Int? = Files.list(storagePath)
                     .filter { Files.isDirectory(it) && it.fileName.toString().matches(taskFolderRegex) }
@@ -53,11 +56,11 @@ class InitOutputPathExecutor : TaskExecutor {
                     .sortedDescending()
                     .firstOrNull()
             if (highestFolderNumber != null) {
-                newName = "${taskFolderPrefix}${highestFolderNumber + 1}"
+                folderNumber = highestFolderNumber + 1
             }
         }
 
-        return "${newName}__$formattedTimestamp"
+        return NewName(folderNumber, "${taskFolderPrefix}${folderNumber}__$formattedTimestamp")
     }
 
     private fun initPath(folderName: String, pathFromMetadata: Path?, configPath: String): Path {
@@ -74,5 +77,11 @@ class InitOutputPathExecutor : TaskExecutor {
 
         return outputPath
     }
+
+
+    private data class NewName(
+            val folderNumber: Int,
+            val folderName: String
+    )
 
 }

@@ -24,7 +24,7 @@ class MetadataStatusService {
     private lateinit var executors: Set<@JvmSuppressWildcards TaskExecutor>
 
     fun retrieveMetadata(metadataPath: Path): List<ExecutionMetadata> {
-        return Files.list(metadataPath)
+        val updatedMetadata = Files.list(metadataPath)
                 .filter { Files.isDirectory(it) }
                 .map {
                     val res = serializationService.parseMetadata(it)
@@ -36,6 +36,8 @@ class MetadataStatusService {
                 .sorted(ExecutionMetadataComparator::compare)
                 .toList()
                 .filterNotNull()
+
+        return updatedMetadata
     }
 
     /**

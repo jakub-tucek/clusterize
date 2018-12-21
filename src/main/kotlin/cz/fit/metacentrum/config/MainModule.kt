@@ -134,6 +134,7 @@ class MainModule : AbstractModule() {
         matlabBinder.addBinding().to(InitOutputPathExecutor::class.java)
         matlabBinder.addBinding().to(CopySourcesFilesExecutor::class.java)
         matlabBinder.addBinding().to(IterationExecutor::class.java)
+        matlabBinder.addBinding().to(SaveMetadataIdPathMappingExecutor::class.java)
         matlabBinder.addBinding().to(MatlabScriptsExecutor::class.java)
         matlabBinder.addBinding().to(SubmitExecutor::class.java)
 

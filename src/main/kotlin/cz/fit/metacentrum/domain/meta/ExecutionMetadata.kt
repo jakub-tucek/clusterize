@@ -18,7 +18,8 @@ data class ExecutionMetadata(
         val jobs: List<ExecutionMetadataJob>? = null,
         val submittingUsername: String? = null,
         val state: ExecutionMetadataState? = null,
-        val rerun: Boolean = false
+        val rerun: Boolean = false,
+        val metadataId: Int? = null
 ) {
     // ignore is or json deserializer thinks this is setter to field
     @JsonIgnore
