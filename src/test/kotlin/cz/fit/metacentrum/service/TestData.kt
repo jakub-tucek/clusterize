@@ -4,7 +4,10 @@ import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.domain.config.*
-import cz.fit.metacentrum.domain.meta.*
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataPath
+import cz.fit.metacentrum.domain.meta.JobInfo
 
 /**
  *
@@ -92,20 +95,6 @@ internal object TestData {
             )
     )
 
-    val failedMetadata = executedMetadata.copy(
-            rerun = true,
-            state = ExecutionMetadataStateFailed(
-                    failedJobs = listOf(
-                            ExecutionMetadataJobFailedWrapper(
-                                    job = executedMetadata.jobs?.first()!!.copy(
-                                            jobInfo = createJobInfo("1.pid", 2)
-                                    ),
-                                    output = "Failed"
-                            )
-                    )
-            )
-    )
-
     val queueRecordRunning = QueueRecord("81", "pbsuser", "workq", "oneCPUjob",
             "5736",
             "1",
@@ -117,6 +106,6 @@ internal object TestData {
             QueueRecord.State.RUNNING
     )
 
-    fun createJobInfo(pid: String, status: Int = 0) = JobInfo(null, null, pid, status)
+    fun createJobInfo(pid: String, status: Int = 0) = JobInfo(null, null, pid, status, null, null)
 }
 

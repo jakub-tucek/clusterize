@@ -4,8 +4,7 @@ import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.AppConfiguration
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateDone
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.domain.template.StatusMailTemplateData
 import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.ShellServiceImpl
@@ -99,9 +98,9 @@ class WatcherService {
     }
 
     private fun buildTemplateData(metadata: ExecutionMetadata, userEmail: String): StatusMailTemplateData {
-        val state = when (metadata.state) {
-            is ExecutionMetadataStateDone -> "COMPLETED"
-            is ExecutionMetadataStateFailed -> "FAILED"
+        val state = when (metadata.getState()) {
+            ExecutionMetadataState.DONE -> "COMPLETED"
+            ExecutionMetadataState.FAILED -> "FAILED"
             else -> throw IllegalStateException("Unexpected execution state")
         }
         val body = metadataInfoPrinter.getMetadataInfo(1, metadata)

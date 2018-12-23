@@ -12,11 +12,14 @@ data class JobInfo(
         val start: LocalDateTime?,
         val end: LocalDateTime?,
         val pid: String?,
-        val status: Int?
+        val status: Int?,
+        val output: String?,
+        val runningTime: String?,
+        val state: ExecutionMetadataState = ExecutionMetadataState.QUEUED
 ) {
     companion object {
         fun empty(): JobInfo {
-            return JobInfo(null, null, null, null)
+            return JobInfo(null, null, null, null, null, null)
         }
     }
 }

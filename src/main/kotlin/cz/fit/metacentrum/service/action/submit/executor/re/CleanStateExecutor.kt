@@ -9,8 +9,7 @@ import cz.fit.metacentrum.service.api.TaskExecutor
  */
 class CleanStateExecutor : TaskExecutor {
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        return metadata.copy(
-                state = null
-        )
+        // TODO: Clean state
+        return metadata
     }
 }

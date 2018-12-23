@@ -1,7 +1,8 @@
 package cz.fit.metacentrum.service.action.status
 
 import cz.fit.metacentrum.config.userDateFormat
-import cz.fit.metacentrum.domain.meta.*
+import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
@@ -18,32 +19,44 @@ import java.time.format.DateTimeFormatter
 internal class MetadataInfoPrinterTest {
 
 
-    private lateinit var doneJob: ExecutionMetadata
-    private lateinit var failJob: ExecutionMetadata
-    private lateinit var runningJob: ExecutionMetadata
+    private lateinit var doneMetadata: ExecutionMetadata
+    private lateinit var failedMetadata: ExecutionMetadata
+    private lateinit var runningMetadata: ExecutionMetadata
 
     private val systemOut = System.out
     private var testOut: ByteArrayOutputStream? = null
 
     @BeforeEach
     fun init() {
-        val job = TestData.executedMetadata.jobs!!.first()
-        val firstJobFailedWrappers = listOf(
-                ExecutionMetadataJobFailedWrapper(job.copy(jobInfo = job.jobInfo.copy(status = 1)), "err"))
-        val runningJobWrappers = listOf(
-                ExecutionMetadataJobRunningWrapper(
-                        TestData.executedMetadata.jobs!!.first(),
-                        "00:00:00"
+        val (job1, job2, job3) = TestData.executedMetadata.jobs!!
+        val failedJob = job1.copy(
+                jobInfo = job1.jobInfo.copy(
+                        status = 1,
+                        state = ExecutionMetadataState.FAILED,
+                        output = "err"
                 )
         )
+        val runningJob = job2.copy(
+                jobInfo = job2.jobInfo.copy(
+                        state = ExecutionMetadataState.RUNNING,
+                        runningTime = "00:00:00"
+                )
+        )
+        val doneJob = job3.copy(
+                jobInfo = job3.jobInfo.copy(
+                        state = ExecutionMetadataState.DONE
+                )
+        )
+        doneMetadata = TestData.executedMetadata.copy(
+                jobs = listOf(doneJob)
+        )
+        failedMetadata = TestData.executedMetadata.copy(
+                jobs = listOf(doneJob, failedJob)
+        )
+        runningMetadata = TestData.executedMetadata.copy(
+                jobs = listOf(runningJob, failedJob, doneJob)
+        )
 
-        doneJob = TestData.executedMetadata.copy(state = ExecutionMetadataStateDone)
-        failJob = TestData.executedMetadata.copy(state = ExecutionMetadataStateFailed(firstJobFailedWrappers))
-        runningJob = TestData.executedMetadata.copy(state = ExecutionMetadataStateRunning(
-                failedJobs = firstJobFailedWrappers,
-                runningJobs = runningJobWrappers,
-                queuedJobs = runningJobWrappers
-        ))
 
         testOut = ByteArrayOutputStream()
         System.setOut(PrintStream(testOut))
@@ -56,7 +69,7 @@ internal class MetadataInfoPrinterTest {
 
     @Test
     fun testPrintingMetadataInfo() {
-        MetadataInfoPrinter().printMetadataListInfo(listOf(doneJob, failJob, runningJob))
+        MetadataInfoPrinter().printMetadataListInfo(listOf(doneMetadata, failedMetadata, runningMetadata))
 
 
         System.setOut(systemOut)
@@ -65,12 +78,12 @@ internal class MetadataInfoPrinterTest {
         val time = TestData.executedMetadata.creationTime.format(DateTimeFormatter.ofPattern(userDateFormat))
         Assertions.assertThat(out).contains(
                 "* 0 - task X - $time - DONE",
-                "* 1 - task X - $time - 1/3 FAILED",
+                "* 1 - task X - $time - 1/2 FAILED",
                 "* 2 - task X - $time - RUNNING",
                 "1/3 FAILED",
-                "1/3 QUEUED",
+                "0/3 QUEUED",
                 "1/3 RUNNING",
-                "1.pid: 00:00:00"
+                "2.pid: 00:00:00"
         )
     }
 

@@ -17,14 +17,32 @@ data class ExecutionMetadata(
         val iterationCombinations: List<Map<String, String>>? = null,
         val jobs: List<ExecutionMetadataJob>? = null,
         val submittingUsername: String? = null,
-        val state: ExecutionMetadataState? = null,
-        val rerun: Boolean = false,
         val metadataId: Int? = null
 ) {
     // ignore is or json deserializer thinks this is setter to field
     @JsonIgnore
     fun isFinished(): Boolean {
-        return state != null && (state is ExecutionMetadataStateDone || state is ExecutionMetadataStateFailed)
+        val st = getState()
+        return st == ExecutionMetadataState.DONE || st == ExecutionMetadataState.FAILED
+    }
+
+    @JsonIgnore
+    fun getState(): ExecutionMetadataState {
+        if (jobs!!.any { it.jobInfo.state == ExecutionMetadataState.QUEUED }) {
+            return ExecutionMetadataState.QUEUED
+        }
+        if (jobs.any { it.jobInfo.state == ExecutionMetadataState.RUNNING }) {
+            return ExecutionMetadataState.RUNNING
+        }
+        if (jobs.any { it.jobInfo.state == ExecutionMetadataState.FAILED }) {
+            return ExecutionMetadataState.FAILED
+        }
+        return ExecutionMetadataState.DONE
+    }
+
+    @JsonIgnore
+    fun getJobsByState(state: ExecutionMetadataState): List<ExecutionMetadataJob> {
+        return jobs!!.filter { it.jobInfo.state == state }
     }
 }
 

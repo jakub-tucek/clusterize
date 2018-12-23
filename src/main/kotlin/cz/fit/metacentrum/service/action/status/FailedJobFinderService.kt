@@ -1,7 +1,8 @@
 package cz.fit.metacentrum.service.action.status
 
+import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataJobFailedWrapper
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.service.input.SerializationService
 import mu.KotlinLogging
 import java.nio.file.Files
@@ -20,23 +21,30 @@ class FailedJobFinderService {
     @Inject
     private lateinit var serializationService: SerializationService
 
-    fun findFailedJobs(jobs: List<ExecutionMetadataJob>, runningQueuedPids: List<String>): List<ExecutionMetadataJobFailedWrapper> {
+    fun updateJobState(jobs: List<ExecutionMetadataJob>, pidMap: Map<String, List<QueueRecord>>): List<ExecutionMetadataJob> {
         return jobs
-                // filter out running and queued jobs
-                .filter { !runningQueuedPids.contains(it.jobInfo.pid) }
-                .map { checkForErrorInPath(it) }
-                .filterNotNull()
+                .map {
+                    val record = pidMap.get(it.jobInfo.pid)?.first()
+                    if (record != null) {
+                        when (record.state) {
+                            QueueRecord.State.QUEUED -> return@map it
+                            QueueRecord.State.RUNNING -> return@map it
+                        }
+                    }
 
+                    val jobState = checkForErrorInPath(it)
+                    return@map jobState
+                }
     }
 
-    private fun checkForErrorInPath(job: ExecutionMetadataJob): ExecutionMetadataJobFailedWrapper? {
+    private fun checkForErrorInPath(job: ExecutionMetadataJob): ExecutionMetadataJob {
         val status: Int? = job.jobInfo.status
 
         if (status == null) {
             logger.info("Status file not found. Job was probably killed")
         }
         // finished Done, no error
-        if (status == 0) return null
+        if (status == 0) return job
         val output = Files.list(job.jobPath)
                 .filter { it.toString().endsWith(".log") }
                 .map {
@@ -49,6 +57,6 @@ class FailedJobFinderService {
                 .toList()
                 .joinToString("\n")
 
-        return ExecutionMetadataJobFailedWrapper(job = job, output = output)
+        return job.copy(jobInfo = job.jobInfo.copy(state = ExecutionMetadataState.FAILED, output = output))
     }
 }

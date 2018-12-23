@@ -2,9 +2,8 @@ package cz.fit.metacentrum.service.action.status
 
 import cz.fit.metacentrum.config.userDateFormat
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateDone
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateRunning
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.defaultCommandDelimiter
 import java.time.format.DateTimeFormatter
@@ -25,23 +24,23 @@ class MetadataInfoPrinter {
     }
 
     fun getMetadataInfo(index: Int, metadata: ExecutionMetadata): String {
-        val state = metadata.state
+        val state = metadata.getState()
         val jobs = metadata.jobs ?: throw IllegalStateException("Jobs not set in metadata")
 
         val formattedDate = metadata.creationTime.format(DateTimeFormatter.ofPattern(userDateFormat))
 
         val stringBuild = StringBuilder("$index - ${metadata.configFile.general.taskName} - ${formattedDate}")
 
+        val failedJobs = metadata.getJobsByState(ExecutionMetadataState.FAILED)
         when (state) {
-            is ExecutionMetadataStateDone -> {
+            ExecutionMetadataState.DONE -> {
                 stringBuild.append(" - DONE")
             }
-            is ExecutionMetadataStateFailed -> {
-                val failedStateFailed = state
-                stringBuild.append(" - ${failedStateFailed.failedJobs.count()}/${jobs.count()} FAILED")
+            ExecutionMetadataState.FAILED -> {
+                stringBuild.append(" - ${failedJobs.count()}/${jobs.count()} FAILED")
             }
-            is ExecutionMetadataStateRunning -> {
-                val runningDescription = getRunningDescription(state, jobs.count())
+            ExecutionMetadataState.RUNNING -> {
+                val runningDescription = getRunningDescription(metadata, failedJobs)
                 stringBuild.append(" - RUNNING\n")
                 stringBuild.append(runningDescription)
             }
@@ -51,16 +50,21 @@ class MetadataInfoPrinter {
     }
 
 
-    private fun getRunningDescription(state: ExecutionMetadataStateRunning, totalCountJobs: Int): String {
+    private fun getRunningDescription(metadata: ExecutionMetadata, failedJobs: List<ExecutionMetadataJob>): String {
+        val totalCountJobs = metadata.jobs!!.count()
+        val runningJobs = metadata.getJobsByState(ExecutionMetadataState.RUNNING)
         val desc = StringBuilder()
-        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.failedJobs.count()}/${totalCountJobs} FAILED"))
+        desc.append(ConsoleWriter.getStatusDetailLine(
+                "- ${failedJobs.count()}/${totalCountJobs} FAILED"))
         desc.append("\n")
-        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.queuedJobs.count()}/${totalCountJobs} QUEUED"))
+        desc.append(ConsoleWriter.getStatusDetailLine(
+                "- ${metadata.getJobsByState(ExecutionMetadataState.QUEUED).count()}/${totalCountJobs} QUEUED"))
         desc.append("\n")
-        desc.append(ConsoleWriter.getStatusDetailLine("- ${state.runningJobs.count()}/${totalCountJobs} RUNNING"))
+        desc.append(ConsoleWriter.getStatusDetailLine(
+                "- ${metadata.getJobsByState(ExecutionMetadataState.RUNNING).count()}/${totalCountJobs} RUNNING"))
         desc.append("\n")
-        val runningJobsDetail = state.runningJobs
-                .map { "${it.job.jobInfo.pid}: ${it.runTime}" }
+        val runningJobsDetail = runningJobs
+                .map { "${it.jobInfo.pid}: ${it.jobInfo.runningTime}" }
                 .map { ConsoleWriter.getStatusDetailLine("   $it") }
                 .joinToString("\n")
         desc.append(runningJobsDetail)

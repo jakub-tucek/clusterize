@@ -2,7 +2,6 @@ package cz.fit.metacentrum.service.action.submit.executor.re
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataStateFailed
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.FileUtils
@@ -16,10 +15,11 @@ import java.nio.file.StandardOpenOption
  */
 class CleanFailedJobDirectoryExecutor : TaskExecutor {
 
+    // TODO: Add cleanup
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         ConsoleWriter.writeStatus("Cleaning up storage paths of failed jobs.")
-        val stateFailed = metadata.state as ExecutionMetadataStateFailed
-        stateFailed.failedJobs.forEach { cleanStorageJobPath(it.job.jobPath) }
+//        val stateFailed = metadata.state as ExecutionMetadataStateFailed
+//        stateFailed.failedJobs.forEach { cleanStorageJobPath(it.job.jobPath) }
 
         return metadata
     }
