@@ -44,7 +44,9 @@ class MetadataInfoPrinter {
                 stringBuild.append(" - RUNNING\n")
                 stringBuild.append(runningDescription)
             }
-            else -> throw IllegalStateException("Proper state is not set in metadata. ${state}")
+            ExecutionMetadataState.QUEUED -> {
+                stringBuild.append(" - QUEUED")
+            }
         }
         return stringBuild.toString()
     }
