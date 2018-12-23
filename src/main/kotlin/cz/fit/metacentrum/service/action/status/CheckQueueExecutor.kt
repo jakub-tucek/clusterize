@@ -22,7 +22,6 @@ class CheckQueueExecutor : TaskExecutor {
     private lateinit var serializationService: SerializationService
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        // TODO: Add cache
         val jobs = metadata.jobs ?: throw IllegalStateException("Jobs are missing from metadata object")
 
         // mapped job by pid so queue records can be mapped to jobs easily
