@@ -17,27 +17,33 @@ data class ExecutionMetadata(
         val iterationCombinations: List<Map<String, String>>? = null,
         val jobs: List<ExecutionMetadataJob>? = null,
         val submittingUsername: String? = null,
-        val metadataId: Int? = null
+        val metadataId: Int? = null,
+        private var currentState: ExecutionMetadataState? = null
 ) {
     // ignore is or json deserializer thinks this is setter to field
     @JsonIgnore
     fun isFinished(): Boolean {
-        val st = getState()
-        return st == ExecutionMetadataState.DONE || st == ExecutionMetadataState.FAILED
+        return currentState == ExecutionMetadataState.DONE || currentState == ExecutionMetadataState.FAILED
     }
 
     @JsonIgnore
     fun getState(): ExecutionMetadataState {
+        if (currentState != null && isFinished()) {
+            return currentState!!
+        }
         if (jobs!!.any { it.jobInfo.state == ExecutionMetadataState.QUEUED }) {
-            return ExecutionMetadataState.QUEUED
+            currentState = ExecutionMetadataState.QUEUED
+        } else if (jobs.any { it.jobInfo.state == ExecutionMetadataState.RUNNING }) {
+            currentState = ExecutionMetadataState.RUNNING
+        } else if (jobs.any { it.jobInfo.state == ExecutionMetadataState.FAILED }) {
+            currentState = ExecutionMetadataState.FAILED
         }
-        if (jobs.any { it.jobInfo.state == ExecutionMetadataState.RUNNING }) {
-            return ExecutionMetadataState.RUNNING
-        }
-        if (jobs.any { it.jobInfo.state == ExecutionMetadataState.FAILED }) {
-            return ExecutionMetadataState.FAILED
-        }
-        return ExecutionMetadataState.DONE
+        return currentState!!
+    }
+
+    @JsonIgnore
+    fun resetState() {
+        currentState = null
     }
 
     @JsonIgnore
