@@ -40,7 +40,9 @@ class SubmitRunner {
     }
 
     private fun cleanup(metadata: ExecutionMetadata) {
-        // TODO: Dont cleanup on rerun
+        if (metadata.jobsHistory.isNotEmpty()) {
+            return
+        }
         if (metadata.paths.storagePath != null) {
             FileUtils.deleteFolder(metadata.paths.storagePath)
         }

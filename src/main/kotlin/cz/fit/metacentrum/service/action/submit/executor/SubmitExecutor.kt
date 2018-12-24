@@ -31,7 +31,7 @@ class SubmitExecutor : TaskExecutor {
                     val scriptFile = it.jobPath.resolve(FileNames.innerScript).toAbsolutePath()
                     val cmdResult = shellService.runCommand("qsub ${scriptFile.toString()}")
                     if (cmdResult.status != 0)
-                        throw IOException("Submitting script ${scriptFile} failed with ${cmdResult.status}. ${cmdResult.errOutput}")
+                        throw IOException("Submitting script $scriptFile failed with ${cmdResult.status}. ${cmdResult.errOutput}")
 
                     ConsoleWriter.writeStatusDetail("Run ${it.jobId} submitted under ${cmdResult.output}")
                     it.copy(jobInfo = it.jobInfo.copy(pid = QueueUtils.extractPid(cmdResult.output), state = ExecutionMetadataState.QUEUED))
