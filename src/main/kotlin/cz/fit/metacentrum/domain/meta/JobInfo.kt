@@ -15,7 +15,7 @@ data class JobInfo(
         val status: Int?,
         val output: String?,
         val runningTime: String?,
-        val state: ExecutionMetadataState = ExecutionMetadataState.QUEUED
+        val state: ExecutionMetadataState = ExecutionMetadataState.INITIAL
 ) {
     companion object {
         fun empty(): JobInfo {

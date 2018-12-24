@@ -23,7 +23,10 @@ data class ActionStatus(val metadataStoragePath: String? = null, val configFile:
 
 // =====================================================================================================================
 // Resubmit action
-data class ActionResubmit(val taskId: String, val metadataStoragePath: String) : Action()
+data class ActionResubmit(val taskId: String,
+                          val metadataStoragePath: String,
+                          val onlyFailed: Boolean = true,
+                          val jobIds: List<String> = emptyList()) : Action()
 
 // Cron action
 data class ActionCron(val actionType: Type) : Action() {

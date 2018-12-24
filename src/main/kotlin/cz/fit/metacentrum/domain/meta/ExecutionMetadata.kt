@@ -16,6 +16,7 @@ data class ExecutionMetadata(
         val paths: ExecutionMetadataPath = ExecutionMetadataPath(),
         val iterationCombinations: List<Map<String, String>>? = null,
         val jobs: List<ExecutionMetadataJob>? = null,
+        val jobsHistory: List<ExecutionMetadataHistory> = emptyList(),
         val submittingUsername: String? = null,
         val metadataId: Int? = null,
         private var currentState: ExecutionMetadataState? = null
@@ -31,12 +32,28 @@ data class ExecutionMetadata(
         if (currentState != null && isFinished()) {
             return currentState!!
         }
-        if (jobs!!.any { it.jobInfo.state == ExecutionMetadataState.QUEUED }) {
-            currentState = ExecutionMetadataState.QUEUED
-        } else if (jobs.any { it.jobInfo.state == ExecutionMetadataState.RUNNING }) {
+
+        var hasFailed = false
+        var hasRunning = false
+        jobs!!.forEach {
+            val state = it.jobInfo.state
+            when (state) {
+                ExecutionMetadataState.RUNNING -> hasRunning = true
+                ExecutionMetadataState.INITIAL -> {
+                    currentState = ExecutionMetadataState.INITIAL
+                    return currentState!!
+                }
+                ExecutionMetadataState.FAILED -> hasFailed = true
+                else -> {
+                }
+            }
+        }
+        if (hasRunning) {
             currentState = ExecutionMetadataState.RUNNING
-        } else if (jobs.any { it.jobInfo.state == ExecutionMetadataState.FAILED }) {
+        } else if (hasFailed) {
             currentState = ExecutionMetadataState.FAILED
+        } else {
+            currentState = ExecutionMetadataState.QUEUED
         }
         return currentState!!
     }

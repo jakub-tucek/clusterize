@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.action.submit.executor
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
@@ -33,7 +34,7 @@ class SubmitExecutor : TaskExecutor {
                         throw IOException("Submitting script ${scriptFile} failed with ${cmdResult.status}. ${cmdResult.errOutput}")
 
                     ConsoleWriter.writeStatusDetail("Run ${it.jobId} submitted under ${cmdResult.output}")
-                    it.copy(jobInfo = it.jobInfo.copy(pid = QueueUtils.extractPid(cmdResult.output)))
+                    it.copy(jobInfo = it.jobInfo.copy(pid = QueueUtils.extractPid(cmdResult.output), state = ExecutionMetadataState.QUEUED))
                 }
 
         return metadata.copy(jobs = scriptsWithPid)

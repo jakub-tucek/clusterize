@@ -47,6 +47,7 @@ class MetadataInfoPrinter {
             ExecutionMetadataState.QUEUED -> {
                 stringBuild.append(" - QUEUED")
             }
+            else -> throw AssertionError("Unexpected state detected. ${state}")
         }
         return stringBuild.toString()
     }
@@ -60,7 +61,7 @@ class MetadataInfoPrinter {
                 "- ${failedJobs.count()}/${totalCountJobs} FAILED"))
         desc.append("\n")
         desc.append(ConsoleWriter.getStatusDetailLine(
-                "- ${metadata.getJobsByState(ExecutionMetadataState.QUEUED).count()}/${totalCountJobs} QUEUED"))
+                "- ${metadata.getJobsByState(ExecutionMetadataState.INITIAL).count()}/${totalCountJobs} QUEUED"))
         desc.append("\n")
         desc.append(ConsoleWriter.getStatusDetailLine(
                 "- ${metadata.getJobsByState(ExecutionMetadataState.RUNNING).count()}/${totalCountJobs} RUNNING"))

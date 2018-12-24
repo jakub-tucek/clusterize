@@ -14,8 +14,7 @@ import cz.fit.metacentrum.service.action.status.*
 import cz.fit.metacentrum.service.action.submit.ActionResubmitService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
 import cz.fit.metacentrum.service.action.submit.executor.*
-import cz.fit.metacentrum.service.action.submit.executor.re.CleanFailedJobDirectoryExecutor
-import cz.fit.metacentrum.service.action.submit.executor.re.CleanStateExecutor
+import cz.fit.metacentrum.service.action.submit.executor.re.CleanEmptyStateFoldersExecutor
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.Configurator
 import cz.fit.metacentrum.service.api.ShellService
@@ -99,9 +98,8 @@ class MainModule : AbstractModule() {
                 TaskExecutor::class.java,
                 Names.named(actionResubmitMatlabExecutorsTokens)
         )
-        resubmitBinder.addBinding().to(CleanFailedJobDirectoryExecutor::class.java)
+        resubmitBinder.addBinding().to(CleanEmptyStateFoldersExecutor::class.java)
         resubmitBinder.addBinding().to(SubmitExecutor::class.java)
-        resubmitBinder.addBinding().to(CleanStateExecutor::class.java)
 
         bind(MatlabTemplateDataBuilder::class.java)
     }

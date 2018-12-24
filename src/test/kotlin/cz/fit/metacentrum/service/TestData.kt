@@ -4,10 +4,7 @@ import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.domain.config.*
-import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataPath
-import cz.fit.metacentrum.domain.meta.JobInfo
+import cz.fit.metacentrum.domain.meta.*
 
 /**
  *
@@ -95,6 +92,13 @@ internal object TestData {
             )
     )
 
+    val toRerunMetadata = executedMetadata.copy(
+            jobs = executedMetadata.jobs!!.map {
+                it.copy(jobInfo = it.jobInfo.copy(state = ExecutionMetadataState.INITIAL))
+            },
+            jobsHistory = listOf(ExecutionMetadataHistory(TestData.executedMetadata.jobs!!))
+    )
+
     val queueRecordRunning = QueueRecord("81", "pbsuser", "workq", "oneCPUjob",
             "5736",
             "1",
@@ -106,6 +110,6 @@ internal object TestData {
             QueueRecord.State.RUNNING
     )
 
-    fun createJobInfo(pid: String, status: Int = 0) = JobInfo(null, null, pid, status, null, null)
+    fun createJobInfo(pid: String, status: Int = 0) = JobInfo(null, null, pid, status, null, null, ExecutionMetadataState.QUEUED)
 }
 

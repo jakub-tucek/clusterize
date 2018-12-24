@@ -3,7 +3,11 @@ package cz.fit.metacentrum.service.action.submit
 import com.google.inject.name.Named
 import cz.fit.metacentrum.config.actionResubmitMatlabExecutorsTokens
 import cz.fit.metacentrum.domain.ActionResubmit
+import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataHistory
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.service.SubmitRunner
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.TaskExecutor
@@ -29,12 +33,33 @@ class ActionResubmitService : ActionService<ActionResubmit> {
     override fun processAction(argumentAction: ActionResubmit) {
         val metadata = readTaskMetadata(argumentAction)
 
+        val preparedMetadata = when {
+            argumentAction.onlyFailed -> resubmitFailed(metadata)
+            else -> TODO("Resubmitting not failed tasks is not supported")
+        }
+        when (preparedMetadata.configFile.taskType) {
+            is MatlabTaskType -> submitRunner.run(preparedMetadata, matlabResubmitExecutors)
+        }
+    }
 
-
-//        val resubmitMetadata = argumentAction.metadata.copy(rerun = true)
-//        when (resubmitMetadata.configFile.taskType) {
-//            is MatlabTaskType -> submitRunner.run(resubmitMetadata, matlabResubmitExecutors)
-//        }
+    /**
+     * Updates metadata so when executed, it will rerun only failed jobs. This is done by copying failed jobs
+     * to history and setting job state to INITIAL.
+     */
+    private fun resubmitFailed(metadata: ExecutionMetadata): ExecutionMetadata {
+        val pastJobs: MutableList<ExecutionMetadataJob> = mutableListOf()
+        val jobs = metadata.jobs!!.map {
+            if (it.jobInfo.state == ExecutionMetadataState.FAILED) {
+                pastJobs.add(it)
+                it.copy(jobInfo = it.jobInfo.copy(state = ExecutionMetadataState.INITIAL))
+            } else {
+                it
+            }
+        }
+        return metadata.copy(
+                jobs = jobs,
+                jobsHistory = metadata.jobsHistory + ExecutionMetadataHistory(pastJobs = pastJobs)
+        )
     }
 
 
