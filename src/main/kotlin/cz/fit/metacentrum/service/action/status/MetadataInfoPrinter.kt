@@ -61,7 +61,7 @@ class MetadataInfoPrinter {
                 "- ${failedJobs.count()}/${totalCountJobs} FAILED"))
         desc.append("\n")
         desc.append(ConsoleWriter.getStatusDetailLine(
-                "- ${metadata.getJobsByState(ExecutionMetadataState.INITIAL).count()}/${totalCountJobs} QUEUED"))
+                "- ${metadata.getJobsByState(ExecutionMetadataState.QUEUED).count()}/${totalCountJobs} QUEUED"))
         desc.append("\n")
         desc.append(ConsoleWriter.getStatusDetailLine(
                 "- ${metadata.getJobsByState(ExecutionMetadataState.RUNNING).count()}/${totalCountJobs} RUNNING"))
