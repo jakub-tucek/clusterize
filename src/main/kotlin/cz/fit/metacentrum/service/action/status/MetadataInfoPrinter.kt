@@ -47,7 +47,7 @@ class MetadataInfoPrinter {
             ExecutionMetadataState.QUEUED -> {
                 stringBuild.append(" - QUEUED")
             }
-            ExecutionMetadataState.INITIAL -> stringBuild.append(" - INITIAL")
+            else -> throw AssertionError("Unexpected metadata state.")
         }
         return stringBuild.toString()
     }

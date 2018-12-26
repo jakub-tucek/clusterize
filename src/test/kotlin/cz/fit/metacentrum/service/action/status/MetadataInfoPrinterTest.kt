@@ -48,13 +48,16 @@ internal class MetadataInfoPrinterTest {
                 )
         )
         doneMetadata = TestData.executedMetadata.copy(
-                jobs = listOf(doneJob)
+                jobs = listOf(doneJob),
+                currentState = ExecutionMetadataState.DONE
         )
         failedMetadata = TestData.executedMetadata.copy(
-                jobs = listOf(doneJob, failedJob)
+                jobs = listOf(doneJob, failedJob),
+                currentState = ExecutionMetadataState.FAILED
         )
         runningMetadata = TestData.executedMetadata.copy(
-                jobs = listOf(runningJob, failedJob, doneJob)
+                jobs = listOf(runningJob, failedJob, doneJob),
+                currentState = ExecutionMetadataState.RUNNING
         )
 
 

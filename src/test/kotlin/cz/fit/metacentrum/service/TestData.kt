@@ -89,7 +89,8 @@ internal object TestData {
                     general = metadata.configFile.general.copy(
                             taskName = "task X"
                     )
-            )
+            ),
+            currentState = ExecutionMetadataState.RUNNING
     )
 
     val toRerunMetadata = executedMetadata.copy(
