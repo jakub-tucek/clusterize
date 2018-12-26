@@ -72,7 +72,7 @@ class WatcherService {
                 // filter out those who were not updated in watcher
                 .filter { metadataStatusService.isUpdatedMetadata(originalMetadata, it) }
                 // continue only with done of finished metadata tasks
-                .filter { it.isFinished() }
+                .filter { it.currentState.isFinishing() }
     }
 
     private fun sendMail(it: ExecutionMetadata) {
@@ -98,7 +98,7 @@ class WatcherService {
     }
 
     private fun buildTemplateData(metadata: ExecutionMetadata, userEmail: String): StatusMailTemplateData {
-        val state = when (metadata.getState()) {
+        val state = when (metadata.currentState) {
             ExecutionMetadataState.DONE -> "COMPLETED"
             ExecutionMetadataState.FAILED -> "FAILED"
             else -> throw IllegalStateException("Unexpected execution state")

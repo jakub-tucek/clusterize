@@ -24,6 +24,13 @@ data class JobInfo(
     }
 }
 
+data class JobInfoFile(
+        val start: LocalDateTime?,
+        val end: LocalDateTime?,
+        val pid: String?,
+        val status: Int?
+)
+
 object JobInfoFilePropNames {
     const val start = "start"
     const val end = "end"

@@ -24,7 +24,7 @@ class MetadataInfoPrinter {
     }
 
     fun getMetadataInfo(index: Int, metadata: ExecutionMetadata): String {
-        val state = metadata.getState()
+        val state = metadata.currentState
         val jobs = metadata.jobs ?: throw IllegalStateException("Jobs not set in metadata")
 
         val formattedDate = metadata.creationTime.format(DateTimeFormatter.ofPattern(userDateFormat))

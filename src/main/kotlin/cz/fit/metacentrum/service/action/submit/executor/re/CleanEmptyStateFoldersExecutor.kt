@@ -22,7 +22,7 @@ class CleanEmptyStateFoldersExecutor : TaskExecutor {
                 cleanDir(it, metadata.jobsHistory.size)
             }
         }
-        return metadata.copy(jobs = updatedJobs, currentState = null)
+        return metadata.copy(jobs = updatedJobs, currentState = ExecutionMetadataState.INITIAL)
     }
 
     private fun cleanDir(job: ExecutionMetadataJob, rerunId: Int): ExecutionMetadataJob {

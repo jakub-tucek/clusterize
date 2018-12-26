@@ -10,7 +10,13 @@ import cz.fit.metacentrum.service.action.cron.ActionCronService
 import cz.fit.metacentrum.service.action.cron.ActionCronStartInternalService
 import cz.fit.metacentrum.service.action.cron.CronService
 import cz.fit.metacentrum.service.action.cron.WatcherService
-import cz.fit.metacentrum.service.action.status.*
+import cz.fit.metacentrum.service.action.status.ActionStatusService
+import cz.fit.metacentrum.service.action.status.MetadataInfoPrinter
+import cz.fit.metacentrum.service.action.status.MetadataStatusService
+import cz.fit.metacentrum.service.action.status.ex.CheckQueueExecutor
+import cz.fit.metacentrum.service.action.status.ex.JobStatusCheckExecutor
+import cz.fit.metacentrum.service.action.status.ex.ReadJobInfoFileExecutor
+import cz.fit.metacentrum.service.action.status.ex.UpdateMetadataStateExecutor
 import cz.fit.metacentrum.service.action.submit.ActionResubmitService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
 import cz.fit.metacentrum.service.action.submit.executor.*
@@ -105,7 +111,6 @@ class MainModule : AbstractModule() {
     }
 
     private fun bindStatusActionClasses() {
-        bind(FailedJobFinderService::class.java)
         bind(MetadataInfoPrinter::class.java)
 
         val executors = Multibinder.newSetBinder(
@@ -113,8 +118,10 @@ class MainModule : AbstractModule() {
                 TaskExecutor::class.java,
                 Names.named(actionStatusExecutorsToken)
         )
-        executors.addBinding().to(CheckQueueExecutor::class.java)
         executors.addBinding().to(ReadJobInfoFileExecutor::class.java)
+        executors.addBinding().to(JobStatusCheckExecutor::class.java)
+        executors.addBinding().to(CheckQueueExecutor::class.java)
+        executors.addBinding().to(UpdateMetadataStateExecutor::class.java)
 
 
         bind(MetadataStatusService::class.java)
@@ -135,6 +142,7 @@ class MainModule : AbstractModule() {
         matlabBinder.addBinding().to(SaveMetadataIdPathMappingExecutor::class.java)
         matlabBinder.addBinding().to(MatlabScriptsExecutor::class.java)
         matlabBinder.addBinding().to(SubmitExecutor::class.java)
+        matlabBinder.addBinding().to(UpdateMetadataStateExecutor::class.java)
 
         bind(MatlabTemplateDataBuilder::class.java)
     }

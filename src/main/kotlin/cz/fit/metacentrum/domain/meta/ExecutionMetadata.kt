@@ -19,47 +19,9 @@ data class ExecutionMetadata(
         val jobsHistory: List<ExecutionMetadataHistory> = emptyList(),
         val submittingUsername: String? = null,
         val metadataId: Int? = null,
-        private var currentState: ExecutionMetadataState? = null
+        val currentState: ExecutionMetadataState = ExecutionMetadataState.INITIAL
 ) {
-    // ignore is or json deserializer thinks this is setter to field
-    @JsonIgnore
-    fun isFinished(): Boolean {
-        return currentState == ExecutionMetadataState.DONE || currentState == ExecutionMetadataState.FAILED
-    }
 
-    @JsonIgnore
-    fun getState(): ExecutionMetadataState {
-        if (currentState != null && isFinished()) {
-            return currentState!!
-        }
-
-        var hasFailed = false
-        var hasRunning = false
-        jobs!!.forEach {
-            val state = it.jobInfo.state
-            when (state) {
-                ExecutionMetadataState.RUNNING -> hasRunning = true
-                ExecutionMetadataState.INITIAL -> {
-                    currentState = ExecutionMetadataState.INITIAL
-                    return currentState!!
-                }
-                ExecutionMetadataState.FAILED -> hasFailed = true
-                else -> {
-                }
-            }
-        }
-        currentState = when {
-            hasRunning -> ExecutionMetadataState.RUNNING
-            hasFailed -> ExecutionMetadataState.FAILED
-            else -> ExecutionMetadataState.QUEUED
-        }
-        return currentState!!
-    }
-
-    @JsonIgnore
-    fun resetState() {
-        currentState = null
-    }
 
     @JsonIgnore
     fun getJobsByState(state: ExecutionMetadataState): List<ExecutionMetadataJob> {

@@ -11,7 +11,7 @@ import cz.fit.metacentrum.config.FileNames.configDataFolderName
 import cz.fit.metacentrum.domain.AppConfiguration
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.meta.JobInfo
+import cz.fit.metacentrum.domain.meta.JobInfoFile
 import cz.fit.metacentrum.domain.meta.MetadataIdPathMapping
 import mu.KotlinLogging
 import java.nio.file.Files
@@ -99,14 +99,14 @@ class SerializationService {
                 .use { mapper.writeValue(it, appConfiguration) }
     }
 
-    fun parseJobInfoFile(location: Path): JobInfo? {
+    fun parseJobInfoFile(location: Path): JobInfoFile? {
         if (Files.notExists(location)) {
             logger.debug { "Job info file does not exists" }
             return null
         }
         return try {
             Files.newBufferedReader(location).use {
-                mapper.readValue<JobInfo>(it)
+                mapper.readValue<JobInfoFile>(it)
             }
         } catch (e: JsonProcessingException) {
             logger.error("Unable to read job status info file", e)
