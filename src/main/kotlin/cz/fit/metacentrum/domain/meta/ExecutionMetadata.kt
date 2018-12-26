@@ -48,12 +48,10 @@ data class ExecutionMetadata(
                 }
             }
         }
-        if (hasRunning) {
-            currentState = ExecutionMetadataState.RUNNING
-        } else if (hasFailed) {
-            currentState = ExecutionMetadataState.FAILED
-        } else {
-            currentState = ExecutionMetadataState.QUEUED
+        currentState = when {
+            hasRunning -> ExecutionMetadataState.RUNNING
+            hasFailed -> ExecutionMetadataState.FAILED
+            else -> ExecutionMetadataState.QUEUED
         }
         return currentState!!
     }
