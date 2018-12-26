@@ -2,7 +2,7 @@ package cz.fit.metacentrum.service.action.status
 
 import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
+import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.service.TestData
 import cz.fit.metacentrum.service.action.status.ex.CheckQueueExecutor
 import org.assertj.core.api.Assertions
@@ -13,6 +13,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
+import java.nio.file.Files
 
 /**
  * @author Jakub Tucek
@@ -25,6 +26,8 @@ internal class CheckQueueExecutorTest {
 
     @Mock
     private lateinit var queueRecordsService: QueueRecordsService
+    @Mock
+    private lateinit var queueRecord: QueueRecord
 
     private lateinit var metadata: ExecutionMetadata
 
@@ -33,26 +36,34 @@ internal class CheckQueueExecutorTest {
     @BeforeEach
     fun init() {
         metadata = TestData.executedMetadata
-        val (done, queuedJob, runningJob) = metadata.jobs!!
-        queueRecordMap = mapOf<String, List<QueueRecord>>(
-                done.jobInfo.pid!! to listOf(Mockito.mock(QueueRecord::class.java)),
-                queuedJob.jobInfo.pid!! to listOf(Mockito.mock(QueueRecord::class.java)),
-                runningJob.jobInfo.pid!! to listOf(Mockito.mock(QueueRecord::class.java))
-        )
+
+        // keep only first job
+        val job = metadata.jobs!!.first()
+
+        Files.createDirectories(job.jobPath)
+        metadata = metadata.copy(jobs = listOf(job))
     }
 
 
     @Test
-    fun testAllOk() {
-        // keep only first job
-        val doneJob = metadata.jobs!!.subList(0, 1)
-        val shortenedMetadaJobs = metadata.copy(jobs = doneJob)
-
+    fun testKilledBecauseItHasNoRecord() {
         Mockito.`when`(queueRecordsService.retrieveQueueForUser(metadata.submittingUsername!!))
                 .thenReturn(emptyList())
 
-        val result = checkQueueExecutor.execute(shortenedMetadaJobs)
+        val result = checkQueueExecutor.execute(metadata)
 
-        Assertions.assertThat(result.jobs).isEqualTo(emptyList<ExecutionMetadataJob>())
+        Assertions.assertThat(result.jobs!!.first().jobInfo.state).isEqualTo(ExecutionMetadataState.FAILED)
+    }
+
+    @Test
+    fun testRunningBecauseQueueServiceSaysSo() {
+        Mockito.`when`(queueRecordsService.retrieveQueueForUser(metadata.submittingUsername!!))
+                .thenReturn(listOf(queueRecord))
+        Mockito.`when`(queueRecord.pid).thenReturn(metadata.jobs!!.first().jobInfo.pid)
+        Mockito.`when`(queueRecord.state).thenReturn(QueueRecord.State.RUNNING)
+
+        val result = checkQueueExecutor.execute(metadata)
+
+        Assertions.assertThat(result.jobs!!.first().jobInfo.state).isEqualTo(ExecutionMetadataState.RUNNING)
     }
 }
