@@ -42,8 +42,8 @@ matlab -nodesktop -nosplash -nodisplay -r            \
 "end,                                               "\
 "exit(0)"                                            \
 &> "{{runPath}}/{{fileNames.stdJobLog}}"
-
-# Print finish date
-echo "{{jobInfoProps.end}}: "`date --utc +%FT%T` >> {{runPath}}/{{fileNames.jobInfo}}
 # Print status
 echo "{{jobInfoProps.status}}: "$? >> {{runPath}}/{{fileNames.jobInfo}}
+# Print finish date
+echo "{{jobInfoProps.end}}: "`date --utc +%FT%T` >> {{runPath}}/{{fileNames.jobInfo}}
+
