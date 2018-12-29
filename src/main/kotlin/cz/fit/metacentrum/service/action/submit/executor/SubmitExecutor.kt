@@ -27,8 +27,10 @@ class SubmitExecutor : TaskExecutor {
         val jobs = metadata.jobs ?: throw IllegalStateException("No scripts to run available")
 
         val scriptsWithPid = jobs
-                .filter { it.jobInfo.state == ExecutionMetadataState.INITIAL }
                 .map {
+                    if (it.jobInfo.state != ExecutionMetadataState.INITIAL) {
+                        return@map it
+                    }
                     val scriptFile = it.jobPath.resolve(FileNames.innerScript).toAbsolutePath()
                     val cmdResult = shellService.runCommand("qsub ${scriptFile.toString()}")
                     if (cmdResult.status != 0)
