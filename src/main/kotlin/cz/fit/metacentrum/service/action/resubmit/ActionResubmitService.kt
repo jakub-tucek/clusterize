@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.action.submit
+package cz.fit.metacentrum.service.action.resubmit
 
 import com.google.inject.name.Named
 import cz.fit.metacentrum.config.actionResubmitMatlabExecutorsTokens
@@ -81,6 +81,10 @@ class ActionResubmitService : ActionService<ActionResubmit> {
         val taskMetadata = serializationService.parseMetadata(Paths.get(taskPath))
         if (taskMetadata == null) {
             println("Path $taskPath does not contain valid metadata file.")
+            System.exit(1)
+        }
+        if (argumentAction.onlyFailed && taskMetadata!!.currentState == ExecutionMetadataState.FAILED) {
+            println("Given task does not have failed status and it's state is: ${taskMetadata.currentState}")
             System.exit(1)
         }
 

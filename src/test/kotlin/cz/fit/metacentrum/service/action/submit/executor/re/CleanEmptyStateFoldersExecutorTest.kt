@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.action.submit.executor.re
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.service.TestData
+import cz.fit.metacentrum.service.action.resubmit.CleanEmptyStateFoldersExecutor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import java.nio.file.Files

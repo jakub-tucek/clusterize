@@ -1,4 +1,4 @@
-package cz.fit.metacentrum.service.action.submit.executor.re
+package cz.fit.metacentrum.service.action.resubmit
 
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
@@ -14,7 +14,7 @@ import java.nio.file.Files
 class CleanEmptyStateFoldersExecutor : TaskExecutor {
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        val jobs = metadata.jobs ?: throw IllegalStateException("Jobs are missing in metedata")
+        val jobs = metadata.jobs ?: throw IllegalStateException("Jobs are missing in metadata")
         val updatedJobs = jobs.map {
             if (it.jobInfo.state != ExecutionMetadataState.INITIAL) {
                 it

@@ -10,6 +10,8 @@ import cz.fit.metacentrum.service.action.cron.ActionCronService
 import cz.fit.metacentrum.service.action.cron.ActionCronStartInternalService
 import cz.fit.metacentrum.service.action.cron.CronService
 import cz.fit.metacentrum.service.action.cron.WatcherService
+import cz.fit.metacentrum.service.action.resubmit.ActionResubmitService
+import cz.fit.metacentrum.service.action.resubmit.CleanEmptyStateFoldersExecutor
 import cz.fit.metacentrum.service.action.status.ActionStatusService
 import cz.fit.metacentrum.service.action.status.MetadataInfoPrinter
 import cz.fit.metacentrum.service.action.status.MetadataStatusService
@@ -17,10 +19,8 @@ import cz.fit.metacentrum.service.action.status.ex.CheckQueueExecutor
 import cz.fit.metacentrum.service.action.status.ex.JobStatusCheckExecutor
 import cz.fit.metacentrum.service.action.status.ex.ReadJobInfoFileExecutor
 import cz.fit.metacentrum.service.action.status.ex.UpdateMetadataStateExecutor
-import cz.fit.metacentrum.service.action.submit.ActionResubmitService
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
 import cz.fit.metacentrum.service.action.submit.executor.*
-import cz.fit.metacentrum.service.action.submit.executor.re.CleanEmptyStateFoldersExecutor
 import cz.fit.metacentrum.service.api.ActionService
 import cz.fit.metacentrum.service.api.Configurator
 import cz.fit.metacentrum.service.api.ShellService
