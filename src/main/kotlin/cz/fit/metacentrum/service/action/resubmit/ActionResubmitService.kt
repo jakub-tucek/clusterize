@@ -83,7 +83,7 @@ class ActionResubmitService : ActionService<ActionResubmit> {
             println("Path $taskPath does not contain valid metadata file.")
             System.exit(1)
         }
-        if (argumentAction.onlyFailed && taskMetadata!!.currentState == ExecutionMetadataState.FAILED) {
+        if (argumentAction.onlyFailed && taskMetadata!!.currentState != ExecutionMetadataState.FAILED) {
             println("Given task does not have failed status and it's state is: ${taskMetadata.currentState}")
             System.exit(1)
         }

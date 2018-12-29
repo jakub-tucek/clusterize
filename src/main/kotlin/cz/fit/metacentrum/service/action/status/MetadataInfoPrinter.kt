@@ -18,7 +18,7 @@ class MetadataInfoPrinter {
         ConsoleWriter.writeDelimiter()
         ConsoleWriter.writeHeader("Found tasks:")
         metadatas.forEachIndexed { index, executionMetadata ->
-            ConsoleWriter.writeListItem(getMetadataInfo(index, executionMetadata))
+            ConsoleWriter.writeListItem(getMetadataInfo(index + 1, executionMetadata))
         }
         println(defaultCommandDelimiter)
     }
@@ -57,6 +57,9 @@ class MetadataInfoPrinter {
         val totalCountJobs = metadata.jobs!!.count()
         val runningJobs = metadata.getJobsByState(ExecutionMetadataState.RUNNING)
         val desc = StringBuilder()
+        desc.append(ConsoleWriter.getStatusDetailLine(
+                "- ${metadata.getJobsByState(ExecutionMetadataState.DONE).count()}/${totalCountJobs} DONE"))
+        desc.append("\n")
         desc.append(ConsoleWriter.getStatusDetailLine(
                 "- ${failedJobs.count()}/${totalCountJobs} FAILED"))
         desc.append("\n")
