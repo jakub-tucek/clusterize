@@ -77,11 +77,12 @@ class CommandLineParser {
 
                     submit [optional path to configuration file] - submits new task to cluster according to configuration structure
                                                                  - default path is used if not specified ($defaultConfigPath)
-                    help - displays help
-                    cron [start|stop] - run cron to watch executed tasks and receive notifications
+                    resubmit [task id] - resubmits failed jobs of given task
                     list [OPTIONS] - lists tasks
                        -p [VALUE] - define path to metadata folder or default is used
                        -c [VALUE] - specify path to configuration file
+                    cron [start|stop] - run cron to watch executed tasks and receive notifications
+                    help - displays help
         """.trimIndent())
     }
 

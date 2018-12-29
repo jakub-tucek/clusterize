@@ -19,6 +19,8 @@ class MainService() {
     private lateinit var actionCronService: ActionService<ActionCron>
     @Inject
     private lateinit var actionCronInternalService: ActionService<ActionCronStartInternal>
+    @Inject
+    private lateinit var actionResubmitService: ActionService<ActionResubmit>
 
 
     fun execute(args: Array<String>) {
@@ -31,7 +33,7 @@ class MainService() {
             is ActionStatus -> actionStatusService.processAction(argumentAction)
             is ActionCron -> actionCronService.processAction(argumentAction)
             is ActionCronStartInternal -> actionCronInternalService.processAction(argumentAction)
-            is ActionResubmit -> TODO()
+            is ActionResubmit -> actionResubmitService.processAction(argumentAction)
             is ActionHelp -> {
                 // dont do anything
             }
