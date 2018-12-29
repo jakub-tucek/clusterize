@@ -23,19 +23,20 @@ class ReadJobInfoFileExecutor : TaskExecutor {
         if (metadata.currentState.isFinishing()) {
             return metadata
         }
-        val readJobInfo = metadata.jobs?.map {
-            val jobInfoFile = serializationService.parseJobInfoFile(it.jobPath.resolve(FileNames.jobInfo))
-            if (jobInfoFile == null) {
-                it
-            } else {
-                val mergedJobInfo = mergeJobInfo(it.jobInfo, jobInfoFile)
-                if (mergedJobInfo == it.jobInfo) {
-                    it.copy(jobInfo = mergedJobInfo)
-                } else {
-                    it
+        val readJobInfo = (metadata.jobs ?: throw IllegalStateException("Missing jobs"))
+                .map {
+                    val jobInfoFile = serializationService.parseJobInfoFile(it.jobPath.resolve(FileNames.jobInfo))
+                    if (jobInfoFile == null) {
+                        it
+                    } else {
+                        val mergedJobInfo = mergeJobInfo(it.jobInfo, jobInfoFile)
+                        if (mergedJobInfo != it.jobInfo) {
+                            it.copy(jobInfo = mergedJobInfo)
+                        } else {
+                            it
+                        }
+                    }
                 }
-            }
-        }
         return metadata.copy(jobs = readJobInfo)
     }
 
