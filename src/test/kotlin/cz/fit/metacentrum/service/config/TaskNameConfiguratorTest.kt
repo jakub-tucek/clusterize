@@ -1,9 +1,9 @@
 package cz.fit.metacentrum.service.config
 
 import cz.fit.metacentrum.KotlinMockito
+import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.service.ConsoleReader
-import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

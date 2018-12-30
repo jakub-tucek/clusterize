@@ -1,9 +1,9 @@
 package cz.fit.metacentrum.service.action.status
 
+import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
-import cz.fit.metacentrum.service.TestData
 import cz.fit.metacentrum.service.action.status.ex.CheckQueueExecutor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach

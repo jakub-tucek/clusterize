@@ -1,10 +1,10 @@
 package cz.fit.metacentrum.service.action.submit.executor
 
 import cz.fit.metacentrum.KotlinMockito
+import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.template.TemplateDataMatlab
 import cz.fit.metacentrum.service.TemplateService
-import cz.fit.metacentrum.service.TestData
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks

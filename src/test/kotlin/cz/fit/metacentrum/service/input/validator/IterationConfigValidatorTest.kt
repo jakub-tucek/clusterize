@@ -1,11 +1,11 @@
 package cz.fit.metacentrum.service.input.validator
 
 
+import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.config.ConfigIterationArray
 import cz.fit.metacentrum.domain.config.ConfigIterationIntRange
 import cz.fit.metacentrum.domain.config.StepOperation
-import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

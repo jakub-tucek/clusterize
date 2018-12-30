@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.input
 
+import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.domain.config.MatlabTaskType
-import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

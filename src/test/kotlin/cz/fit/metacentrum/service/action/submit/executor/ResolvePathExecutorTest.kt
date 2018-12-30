@@ -1,6 +1,6 @@
 package cz.fit.metacentrum.service.action.submit.executor
 
-import cz.fit.metacentrum.service.TestData
+import cz.fit.metacentrum.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test

@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.action.submit.executor
 
+import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.service.TestData
 import cz.fit.metacentrum.util.FileUtils
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach

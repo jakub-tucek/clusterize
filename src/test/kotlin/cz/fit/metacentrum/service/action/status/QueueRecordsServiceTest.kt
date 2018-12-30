@@ -1,8 +1,8 @@
 package cz.fit.metacentrum.service.action.status
 
 import cz.fit.metacentrum.KotlinMockito
+import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.domain.CommandOutput
-import cz.fit.metacentrum.service.TestData
 import cz.fit.metacentrum.service.api.ShellService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach

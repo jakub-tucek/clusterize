@@ -2,9 +2,9 @@ package cz.fit.metacentrum.service.action.submit.executor
 
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
+import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataPath
-import cz.fit.metacentrum.service.TestData
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
