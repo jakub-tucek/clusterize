@@ -9,6 +9,7 @@ import cz.fit.metacentrum.domain.template.StatusMailTemplateData
 import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.ShellServiceImpl
 import cz.fit.metacentrum.service.TemplateService
+import cz.fit.metacentrum.service.action.resubmit.ResubmitService
 import cz.fit.metacentrum.service.action.status.MetadataInfoPrinter
 import cz.fit.metacentrum.service.action.status.MetadataStatusService
 import cz.fit.metacentrum.service.input.SerializationService
@@ -41,6 +42,8 @@ class WatcherService {
     private lateinit var templateService: TemplateService
     @Inject
     private lateinit var metadataInfoPrinter: MetadataInfoPrinter
+    @Inject
+    private lateinit var resubmitService: ResubmitService
 
     fun prepareAppConfiguration() {
         serializationService.parseAppConfiguration() ?: initializeAppConfiguration()
@@ -49,17 +52,19 @@ class WatcherService {
     fun checkMetadataStatus() {
         val configPath = Paths.get(FileNames.configDataFolderName)
 
-        val finishedTasks = getFinishedTasks(configPath)
-        metadataInfoPrinter.printMetadataListInfo(finishedTasks)
-        finishedTasks
-                .forEach {
-                    sendMail(it)
-                    serializationService.persistMetadata(it)
-                }
-
+        val updatedTasks = getUpdatedTasks(configPath)
+        updatedTasks.forEachIndexed { index, metadata ->
+            if (metadata.currentState.isFinishing()) {
+                metadataInfoPrinter.printMetadataInfo(index, metadata)
+                sendMail(metadata)
+                serializationService.persistMetadata(metadata)
+            } else {
+                resubmitService.checkJobsForResubmit(metadata)
+            }
+        }
     }
 
-    private fun getFinishedTasks(configPath: Path): List<ExecutionMetadata> {
+    private fun getUpdatedTasks(configPath: Path): List<ExecutionMetadata> {
         val metadataPath = configPath.resolve(FileNames.defaultMetadataFolder)
 
 
@@ -67,12 +72,10 @@ class WatcherService {
         val originalMetadata = metadataStatusService.retrieveMetadata(metadataPath)
 
         return originalMetadata
-                // check state for metadatas
+                // check state of metadatas
                 .map(metadataStatusService::updateMetadataState)
                 // filter out those who were not updated in watcher
                 .filter { metadataStatusService.isUpdatedMetadata(originalMetadata, it) }
-                // continue only with done of finished metadata tasks
-                .filter { it.currentState.isFinishing() }
     }
 
     private fun sendMail(it: ExecutionMetadata) {

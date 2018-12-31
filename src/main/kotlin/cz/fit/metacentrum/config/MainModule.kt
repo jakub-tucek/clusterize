@@ -12,6 +12,7 @@ import cz.fit.metacentrum.service.action.cron.CronService
 import cz.fit.metacentrum.service.action.cron.WatcherService
 import cz.fit.metacentrum.service.action.resubmit.ActionResubmitService
 import cz.fit.metacentrum.service.action.resubmit.CleanEmptyStateFoldersExecutor
+import cz.fit.metacentrum.service.action.resubmit.ResubmitService
 import cz.fit.metacentrum.service.action.status.ActionStatusService
 import cz.fit.metacentrum.service.action.status.MetadataInfoPrinter
 import cz.fit.metacentrum.service.action.status.MetadataStatusService
@@ -96,8 +97,8 @@ class MainModule : AbstractModule() {
     }
 
     private fun bindResubmitActionClasses() {
-        bind(TaskResubmitService::class.java)
         bind(ActionResubmitService::class.java)
+        bind(ResubmitService::class.java)
 
         val resubmitBinder = Multibinder.newSetBinder(
                 binder(),

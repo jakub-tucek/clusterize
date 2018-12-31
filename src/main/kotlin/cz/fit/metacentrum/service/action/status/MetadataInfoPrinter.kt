@@ -17,10 +17,12 @@ class MetadataInfoPrinter {
     fun printMetadataListInfo(metadatas: List<ExecutionMetadata>) {
         ConsoleWriter.writeDelimiter()
         ConsoleWriter.writeHeader("Found tasks:")
-        metadatas.forEachIndexed { index, executionMetadata ->
-            ConsoleWriter.writeListItem(getMetadataInfo(index + 1, executionMetadata))
-        }
+        metadatas.forEachIndexed(this::printMetadataInfo)
         println(defaultCommandDelimiter)
+    }
+
+    fun printMetadataInfo(index: Int, metadata: ExecutionMetadata) {
+        ConsoleWriter.writeListItem(getMetadataInfo(index + 1, metadata))
     }
 
     fun getMetadataInfo(index: Int, metadata: ExecutionMetadata): String {
