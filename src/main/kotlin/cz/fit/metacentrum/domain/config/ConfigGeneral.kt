@@ -9,6 +9,7 @@ data class ConfigGeneral(
         val metadataStoragePath: String = defaultMetadataFolder,
         val storagePath: String,
         val sourcesPath: String,
+        val maxResubmits: Int = 0,
         val variables: Map<String, String>? = emptyMap(),
         val taskName: String? = null,
         val dependents: List<ConfigGeneralDependent>

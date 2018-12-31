@@ -51,7 +51,7 @@ class ActionResubmitService : ActionService<ActionResubmit> {
         val jobs = metadata.jobs!!.map {
             if (it.jobInfo.state == ExecutionMetadataState.FAILED) {
                 pastJobs.add(it)
-                it.copy(jobInfo = it.jobInfo.copy(state = ExecutionMetadataState.INITIAL))
+                it.copy(jobInfo = it.jobInfo.copy(state = ExecutionMetadataState.INITIAL), resubmitCounter = it.resubmitCounter + 1)
             } else {
                 it
             }

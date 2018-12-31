@@ -33,6 +33,7 @@ general:
   #  metadataStoragePath: 'dockershared/metadataStorage'
   storagePath: 'dockershared/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
+  maxResubmits: 3
   variables:
   dependents:
     - name: MAX_TRANSL
