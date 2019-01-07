@@ -26,8 +26,9 @@ class ResubmitService {
 
     /**
      * Checks jobs if they are ready for resubmit. If yes - performs resubmit.
+     * @return true if some jobs were resubmitted
      */
-    fun checkJobsForResubmit(metadata: ExecutionMetadata) {
+    fun checkJobsForResubmit(metadata: ExecutionMetadata): Boolean {
         val previousHistorySize = metadata.jobsHistory.size
         // prepare jobs for resubmit -> only failed jobs and if max resubmit quota is not exceeded
         val preparedMetadata = prepareForResubmit(metadata) {
@@ -36,10 +37,10 @@ class ResubmitService {
         }
         // history not changed, no jobs to resubmit
         if (previousHistorySize == preparedMetadata.jobsHistory.size) {
-            return
+            return false
         }
         executeResubmit(preparedMetadata)
-
+        return true
     }
 
     /**

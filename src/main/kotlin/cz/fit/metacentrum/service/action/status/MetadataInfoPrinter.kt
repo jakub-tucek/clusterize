@@ -80,4 +80,22 @@ class MetadataInfoPrinter {
         return desc.toString()
     }
 
+    fun printMetadataHistory(metadata: ExecutionMetadata): String {
+        if (metadata.jobsHistory.isEmpty()) return ""
+
+        val res = StringBuilder()
+
+        res.append("\n ==== RERUNS ==== \n")
+        metadata.jobsHistory.forEachIndexed { index, history ->
+            res.append("\n")
+            res.append(index)
+            res.append(") \n")
+            history.pastJobs.forEach {
+                res.append(" - ${it.jobPath} / ${it.jobInfo} / ${it.jobInfo}\n")
+            }
+            res.append("\n")
+        }
+        return res.toString()
+    }
+
 }

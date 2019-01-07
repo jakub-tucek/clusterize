@@ -106,7 +106,8 @@ class WatcherService {
             ExecutionMetadataState.FAILED -> "FAILED"
             else -> throw IllegalStateException("Unexpected execution state")
         }
-        val body = metadataInfoPrinter.getMetadataInfo(1, metadata)
+        val body = metadataInfoPrinter.getMetadataInfo(1, metadata) + metadataInfoPrinter.printMetadataHistory(metadata)
+
         return StatusMailTemplateData(
                 from = "no-reply@clusterize.io",
                 to = userEmail,
