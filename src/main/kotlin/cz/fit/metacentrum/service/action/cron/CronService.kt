@@ -31,6 +31,7 @@ class CronService {
         // job found so we cant register is again
         if (job != null) {
             println("Cron job is already registered as $job")
+            println("\nPlease first stop job before registering it again. Or run `cron restart` command.")
             System.exit(1)
         }
 
@@ -52,7 +53,7 @@ class CronService {
                 .filter { !it.contains(" $appName ") }
                 .joinToString("\n")
         if (newOutput == cronConfig) {
-            println("Cron job cannot be removed because it is not registered")
+            println("Cron job cannot be removed because it is not registered.")
             return
         }
         updateCronTab(newOutput)
@@ -100,7 +101,7 @@ class CronService {
 
     private fun retrieveRegisteredJob(cronConfig: String): String? {
         return cronConfig.lines()
-                .find { it.contentEquals(" $appName ") }
+                .find { it.contains(".* $appName .*".toRegex()) }
     }
 
 }
