@@ -54,12 +54,11 @@ class WatcherService {
 
         val updatedTasks = getUpdatedTasks(configPath)
         updatedTasks.forEachIndexed { index, metadata ->
-            if (metadata.currentState.isFinishing()) {
+
+            if (!resubmitService.checkJobsForResubmit(metadata)) {
                 metadataInfoPrinter.printMetadataInfo(index, metadata)
                 sendMail(metadata)
                 serializationService.persistMetadata(metadata)
-            } else {
-                resubmitService.checkJobsForResubmit(metadata)
             }
         }
     }
