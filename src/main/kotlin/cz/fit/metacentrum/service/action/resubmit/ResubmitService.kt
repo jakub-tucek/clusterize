@@ -40,9 +40,11 @@ class ResubmitService {
         }
         // history not changed, no jobs to resubmit
         if (previousHistorySize == preparedMetadata.jobsHistory.size) {
+            logger.debug { "No jobs were considered for resubmit for metadata ${metadata.paths.metadataStoragePath}" }
             return false
         }
         try {
+            logger.debug { "Resubmitting jobs for metadata ${metadata.paths.metadataStoragePath}" }
             executeResubmit(preparedMetadata)
             return true
         } catch (ex: Exception) {
