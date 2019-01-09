@@ -81,11 +81,11 @@ class MetadataInfoPrinter {
     }
 
     fun printMetadataHistory(metadata: ExecutionMetadata): String {
-        if (metadata.jobsHistory.isEmpty()) return ""
+        if (metadata.jobsHistory.isEmpty()) return "- Job history is empty"
 
         val res = StringBuilder()
 
-        res.append("\n ==== RERUNS ==== \n")
+        res.append("\n===== RERUNS =====\n")
         metadata.jobsHistory.forEachIndexed { index, history ->
             res.append("\n")
             res.append(index)
