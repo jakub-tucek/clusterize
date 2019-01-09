@@ -9,7 +9,10 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.service.SubmitRunner
 import cz.fit.metacentrum.service.api.TaskExecutor
+import mu.KotlinLogging
 import javax.inject.Inject
+
+private val logger = KotlinLogging.logger {}
 
 /**
  * Resubmit service that provides methods for execution and preparation metadata for resubmit.
@@ -39,8 +42,13 @@ class ResubmitService {
         if (previousHistorySize == preparedMetadata.jobsHistory.size) {
             return false
         }
-        executeResubmit(preparedMetadata)
-        return true
+        try {
+            executeResubmit(preparedMetadata)
+            return true
+        } catch (ex: Exception) {
+            logger.error { ex }
+            return false
+        }
     }
 
     /**
