@@ -76,9 +76,14 @@ class ResubmitService {
                 it
             }
         }
+        if (pastJobs.isNotEmpty()) {
+
+        }
         return metadata.copy(
                 jobs = jobs,
-                jobsHistory = metadata.jobsHistory + ExecutionMetadataHistory(pastJobs = pastJobs)
+                jobsHistory =
+                if (pastJobs.isNotEmpty()) metadata.jobsHistory + ExecutionMetadataHistory(pastJobs = pastJobs)
+                else metadata.jobsHistory
         )
     }
 }
