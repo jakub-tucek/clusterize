@@ -2,11 +2,11 @@
 iterations:
   - type: ARRAY # will iterate over values given in array
     name: VICINITY_TYPE
-    values: [10, 20]
+    values: [10]
 
   - type: INT_RANGE # will iterate over given integer range
     name: MIN_TRANSL
-    from: 0
+    from: 1
     to: 1
     step: 1
     stepOperation: PLUS
@@ -33,7 +33,7 @@ general:
   #  metadataStoragePath: 'dockershared/metadataStorage'
   storagePath: 'dockershared/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
-  maxResubmits: 3
+  maxResubmits: 1
   variables:
   dependents:
     - name: MAX_TRANSL

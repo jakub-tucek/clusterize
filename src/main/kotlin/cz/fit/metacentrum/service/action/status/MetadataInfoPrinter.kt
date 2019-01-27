@@ -91,7 +91,7 @@ class MetadataInfoPrinter {
             res.append(index)
             res.append(") \n")
             history.pastJobs.forEach {
-                res.append(" - ${it.jobPath} / ${it.jobInfo} / ${it.jobInfo}\n")
+                res.append(" - ${it.jobPath} / ${it.jobInfo.state} / ${it.jobInfo.start}- ${it.jobInfo.end}\n")
             }
             res.append("\n")
         }

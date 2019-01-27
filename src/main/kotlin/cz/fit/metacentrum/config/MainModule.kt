@@ -6,10 +6,7 @@ import com.google.inject.multibindings.Multibinder
 import com.google.inject.name.Names
 import cz.fit.metacentrum.domain.*
 import cz.fit.metacentrum.service.*
-import cz.fit.metacentrum.service.action.cron.ActionCronService
-import cz.fit.metacentrum.service.action.cron.ActionCronStartInternalService
-import cz.fit.metacentrum.service.action.cron.CronService
-import cz.fit.metacentrum.service.action.cron.WatcherService
+import cz.fit.metacentrum.service.action.cron.*
 import cz.fit.metacentrum.service.action.resubmit.ActionResubmitService
 import cz.fit.metacentrum.service.action.resubmit.CleanEmptyStateFoldersExecutor
 import cz.fit.metacentrum.service.action.resubmit.ResubmitService
@@ -79,6 +76,7 @@ class MainModule : AbstractModule() {
     private fun bindCronClasses() {
         bind(CronService::class.java)
         bind(WatcherService::class.java)
+        bind(CronMailService::class.java)
     }
 
     private fun bindConfiguratorClasses() {

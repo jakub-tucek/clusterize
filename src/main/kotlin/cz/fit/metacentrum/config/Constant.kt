@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.config
 
 /**
- *
  * @author Jakub Tucek
  */
 const val appName = "clusterize"
@@ -29,4 +28,9 @@ object FileNames {
 
     const val storageTaskFolderPrefix = "task-"
     val storageTaskFolderRegex = """^task-([0-9]+).*$""".toRegex()
+}
+
+object Configuration {
+    const val cronInterval = "*/1 * * * *"
+    const val maxCronLogSizeInMB: Long = 1L
 }
