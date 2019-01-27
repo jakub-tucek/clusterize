@@ -33,14 +33,14 @@ class SubmitRunner {
             ConsoleWriter.writeStatusDone()
             return res
         } catch (e: Exception) {
-            logger.error("Executor in submit service failed. Cleaning up")
+            logger.error("Executor in submit service failed. Cleaning up", e)
             cleanup(metadata)
             throw e
         }
     }
 
     private fun cleanup(metadata: ExecutionMetadata) {
-        if (metadata.jobsHistory.isNotEmpty()) {
+        if (metadata.totalResubmits > 0) {
             return
         }
         if (metadata.paths.storagePath != null) {

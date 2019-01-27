@@ -7,5 +7,6 @@ import java.nio.file.Path
 data class ExecutionMetadataJob(val jobPath: Path, // run path where output is saved
                                 val jobId: Int, // identical to iteration combination index
                                 val jobInfo: JobInfo, // Additional info about job
-                                val resubmitCounter: Int = 0
+                                val resubmitCounter: Int = 0,
+                                val jobParent: ExecutionMetadataJob? = null
 )

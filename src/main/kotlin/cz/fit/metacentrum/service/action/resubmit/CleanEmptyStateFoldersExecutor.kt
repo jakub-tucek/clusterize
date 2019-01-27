@@ -22,18 +22,19 @@ class CleanEmptyStateFoldersExecutor : TaskExecutor {
             if (it.jobInfo.state != ExecutionMetadataState.INITIAL) {
                 it
             } else {
-                cleanDir(it, metadata.jobsHistory.size)
+                ConsoleWriter.writeStatusDetail("Preparing directory for job ${it.jobId}")
+                cleanDir(it)
             }
         }
         return metadata.copy(jobs = updatedJobs, currentState = ExecutionMetadataState.INITIAL)
     }
 
-    private fun cleanDir(job: ExecutionMetadataJob, rerunId: Int): ExecutionMetadataJob {
+    private fun cleanDir(job: ExecutionMetadataJob): ExecutionMetadataJob {
         // get job folder name without rerun postfix
         val baseFolderName = job.jobPath.fileName.toString()
                 .replace("""_RERUN_[0-9]+""".toRegex(), "")
         // create new job folder path by getting parent of job and current name appended with RERUN_{ID}
-        val newJobPath = job.jobPath.parent.resolve("${baseFolderName}_RERUN_$rerunId")
+        val newJobPath = job.jobPath.parent.resolve("${baseFolderName}_RERUN_${job.resubmitCounter}")
 
         Files.createDirectories(newJobPath)
         Files.copy(job.jobPath.resolve(FileNames.innerScript), newJobPath.resolve(FileNames.innerScript))

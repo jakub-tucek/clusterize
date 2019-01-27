@@ -16,9 +16,9 @@ data class ExecutionMetadata(
         val paths: ExecutionMetadataPath = ExecutionMetadataPath(),
         val iterationCombinations: List<Map<String, String>>? = null,
         val jobs: List<ExecutionMetadataJob>? = null,
-        val jobsHistory: List<ExecutionMetadataHistory> = emptyList(),
         val submittingUsername: String? = null,
         val metadataId: Int? = null,
+        val totalResubmits: Int = 0,
         val currentState: ExecutionMetadataState = ExecutionMetadataState.INITIAL
 ) {
 

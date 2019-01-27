@@ -10,6 +10,7 @@ import cz.fit.metacentrum.service.action.cron.*
 import cz.fit.metacentrum.service.action.resubmit.ActionResubmitService
 import cz.fit.metacentrum.service.action.resubmit.CleanEmptyStateFoldersExecutor
 import cz.fit.metacentrum.service.action.resubmit.ResubmitService
+import cz.fit.metacentrum.service.action.resubmit.UpdateScriptFile
 import cz.fit.metacentrum.service.action.status.ActionStatusService
 import cz.fit.metacentrum.service.action.status.MetadataInfoPrinter
 import cz.fit.metacentrum.service.action.status.MetadataStatusService
@@ -104,6 +105,7 @@ class MainModule : AbstractModule() {
                 Names.named(actionResubmitMatlabExecutorsTokens)
         )
         resubmitBinder.addBinding().to(CleanEmptyStateFoldersExecutor::class.java)
+        resubmitBinder.addBinding().to(UpdateScriptFile::class.java)
         resubmitBinder.addBinding().to(SubmitExecutor::class.java)
 
         bind(MatlabTemplateDataBuilder::class.java)

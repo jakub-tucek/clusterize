@@ -4,7 +4,6 @@ import com.google.inject.name.Named
 import cz.fit.metacentrum.config.actionResubmitMatlabExecutorsTokens
 import cz.fit.metacentrum.domain.config.MatlabTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataHistory
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.service.SubmitRunner
@@ -29,28 +28,22 @@ class ResubmitService {
 
     /**
      * Checks jobs if they are ready for resubmit. If yes - performs resubmit.
-     * @return true if some jobs were resubmitted
+     * @return new metadata if some jobs were resubmitted or null
      */
-    fun checkJobsForResubmit(metadata: ExecutionMetadata): Boolean {
-        val previousHistorySize = metadata.jobsHistory.size
+    fun checkJobsForResubmit(metadata: ExecutionMetadata): ExecutionMetadata? {
         // prepare jobs for resubmit -> only failed jobs and if max resubmit quota is not exceeded
         val preparedMetadata = prepareForResubmit(metadata) {
             it.jobInfo.state == ExecutionMetadataState.FAILED
                     && it.resubmitCounter < metadata.configFile.general.maxResubmits
         }
         // history not changed, no jobs to resubmit
-        if (previousHistorySize == preparedMetadata.jobsHistory.size) {
+        if (preparedMetadata.currentState == metadata.currentState) {
             logger.debug { "No jobs were considered for resubmit for metadata ${metadata.paths.metadataStoragePath}" }
-            return false
+            return null
         }
-        try {
-            logger.debug { "Resubmitting jobs for metadata ${metadata.paths.metadataStoragePath}" }
-            executeResubmit(preparedMetadata)
-            return true
-        } catch (ex: Exception) {
-            logger.error { ex }
-            return false
-        }
+        logger.debug { "Resubmitting jobs for metadata ${metadata.paths.metadataStoragePath}" }
+        executeResubmit(preparedMetadata)
+        return preparedMetadata
     }
 
     /**
@@ -67,23 +60,23 @@ class ResubmitService {
      * to history and setting job state to INITIAL.
      */
     fun prepareForResubmit(metadata: ExecutionMetadata, shouldResubmitPredicate: (ExecutionMetadataJob) -> Boolean): ExecutionMetadata {
-        val pastJobs: MutableList<ExecutionMetadataJob> = mutableListOf()
+        var jobChanged = false
         val jobs = metadata.jobs!!.map {
             if (shouldResubmitPredicate(it)) {
-                pastJobs.add(it)
-                it.copy(jobInfo = it.jobInfo.copy(state = ExecutionMetadataState.INITIAL), resubmitCounter = it.resubmitCounter + 1)
+                jobChanged = true
+                it.copy(jobInfo = it.jobInfo.copy(
+                        state = ExecutionMetadataState.INITIAL),
+                        resubmitCounter = it.resubmitCounter + 1,
+                        jobParent = it
+                )
             } else {
                 it
             }
         }
-        if (pastJobs.isNotEmpty()) {
-
-        }
         return metadata.copy(
                 jobs = jobs,
-                jobsHistory =
-                if (pastJobs.isNotEmpty()) metadata.jobsHistory + ExecutionMetadataHistory(pastJobs = pastJobs)
-                else metadata.jobsHistory
+                currentState = if (jobChanged) ExecutionMetadataState.INITIAL else metadata.currentState,
+                totalResubmits = if (jobChanged) metadata.totalResubmits + 1 else metadata.totalResubmits
         )
     }
 }

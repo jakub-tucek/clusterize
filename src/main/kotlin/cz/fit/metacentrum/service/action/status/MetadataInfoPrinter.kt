@@ -49,7 +49,7 @@ class MetadataInfoPrinter {
             ExecutionMetadataState.QUEUED -> {
                 stringBuild.append(" - QUEUED")
             }
-            else -> throw AssertionError("Unexpected metadata state.")
+            else -> throw AssertionError("Unexpected metadata state. $state")
         }
         return stringBuild.toString()
     }
@@ -81,18 +81,18 @@ class MetadataInfoPrinter {
     }
 
     fun printMetadataHistory(metadata: ExecutionMetadata): String {
-        if (metadata.jobsHistory.isEmpty()) return "- Job history is empty"
-
         val res = StringBuilder()
 
-        res.append("\n===== RERUNS =====\n")
-        metadata.jobsHistory.forEachIndexed { index, history ->
+        res.append("\n===== Job history =====\n")
+        res.append("\n Total resubmits count: ${metadata.totalResubmits}\n\n")
+        metadata.jobs!!.forEachIndexed { index, job ->
             res.append("\n")
             res.append(index)
             res.append(") \n")
-            history.pastJobs.forEach {
-                res.append(" - ${it.jobPath} / ${it.jobInfo.state} / ${it.jobInfo.start}- ${it.jobInfo.end}\n")
-            }
+            res.append(" - ${job.jobPath.subpath(job.jobPath.nameCount - 2, job.jobPath.nameCount)}")
+            res.append("    - ${job.jobInfo.state} - ${job.jobInfo.start}/${job.jobInfo.end}\n")
+            res.append("    - ${job.jobInfo.start}/${job.jobInfo.end}\n")
+            res.append("    - ${job.resubmitCounter}\n")
             res.append("\n")
         }
         return res.toString()

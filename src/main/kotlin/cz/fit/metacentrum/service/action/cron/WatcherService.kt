@@ -8,12 +8,14 @@ import cz.fit.metacentrum.service.action.resubmit.ResubmitService
 import cz.fit.metacentrum.service.action.status.MetadataInfoPrinter
 import cz.fit.metacentrum.service.action.status.MetadataStatusService
 import cz.fit.metacentrum.service.input.SerializationService
+import mu.KotlinLogging
 import java.nio.file.Path
 import java.nio.file.Paths
 import javax.inject.Inject
 
 
 private const val watcherPIDFileName = "watcher-pid"
+private val logger = KotlinLogging.logger {}
 
 /**
  * Watcher service that checks task state and notifies user if task finished.
@@ -43,11 +45,19 @@ class WatcherService {
 
         val updatedTasks = getUpdatedTasks(configPath)
         updatedTasks.forEachIndexed { index, metadata ->
-
-            if (!resubmitService.checkJobsForResubmit(metadata)) {
-                metadataInfoPrinter.printMetadataInfo(index, metadata)
-                cronMailService.sendMail(metadata)
-                serializationService.persistMetadata(metadata)
+            try {
+                val newMetadata = resubmitService.checkJobsForResubmit(metadata)
+                if (newMetadata != null) {
+                    serializationService.persistMetadata(newMetadata)
+                } else {
+                    if (metadata.currentState.isFinishing()) {
+                        cronMailService.sendMail(metadata)
+                    }
+                    metadataInfoPrinter.printMetadataInfo(index, metadata)
+                    serializationService.persistMetadata(metadata)
+                }
+            } catch (ex: Exception) {
+                logger.error { ex }
             }
         }
     }

@@ -6,6 +6,7 @@ import cz.fit.metacentrum.domain.ActionCronStartInternal
 import cz.fit.metacentrum.service.api.ActionService
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 import javax.inject.Inject
 
 
@@ -24,7 +25,8 @@ class ActionCronStartInternalService : ActionService<ActionCronStartInternal> {
         if (Files.exists(p)) {
             val size = Files.size(Paths.get(cronLogFile))
             if (size / 1_000_000 > Configuration.maxCronLogSizeInMB) {
-                Files.write(p, "".toByteArray())
+                Files.delete(p)
+                Files.write(p, "".toByteArray(), StandardOpenOption.CREATE_NEW)
             }
         }
     }
