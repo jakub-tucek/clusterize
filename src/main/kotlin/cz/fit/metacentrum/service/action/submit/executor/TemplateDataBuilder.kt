@@ -2,24 +2,26 @@ package cz.fit.metacentrum.service.action.submit.executor
 
 import cz.fit.metacentrum.domain.config.ConfigResources
 import cz.fit.metacentrum.domain.config.ConfigResourcesDetails
-import cz.fit.metacentrum.domain.config.MatlabTaskType
+import cz.fit.metacentrum.domain.config.TaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.template.GeneralTemplateData
 import cz.fit.metacentrum.domain.template.ResourcesTemplateData
-import cz.fit.metacentrum.domain.template.TemplateDataMatlab
+import cz.fit.metacentrum.domain.template.TemplateData
 import java.nio.file.Files
 
 /**
  * Builder for template parameters.
  * @author Jakub Tucek
  */
-class MatlabTemplateDataBuilder {
+class TemplateDataBuilder {
 
 
-    fun prepare(metadata: ExecutionMetadata,
-                variableData: HashMap<String, String>,
-                runCounter: Int): TemplateDataMatlab {
-        val taskType = metadata.configFile.taskType as MatlabTaskType
+    fun <T : TaskType> prepare(metadata: ExecutionMetadata,
+                               variableData: HashMap<String, String>,
+                               runCounter: Int): TemplateData<T> {
+        @Suppress("UNCHECKED_CAST")
+        val taskType = metadata.configFile.taskType as? T
+                ?: throw IllegalStateException("Task type cannot be cased to given type")
         val sourcesPath = metadata.paths.sourcesPath?.toAbsolutePath()
                 ?: throw IllegalStateException("Sources path not set")
 
@@ -30,7 +32,7 @@ class MatlabTemplateDataBuilder {
                 ?: throw IllegalStateException("Couldn't create run path")
         Files.createDirectories(runPath)
 
-        return TemplateDataMatlab(
+        return TemplateData<T>(
                 taskType,
                 variableData.toSortedMap().toList(),
                 GeneralTemplateData(

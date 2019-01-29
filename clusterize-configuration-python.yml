@@ -41,13 +41,11 @@ general:
       modifier: '+1'
 
 taskType:
-  type: MATLAB # type of runner
-  functionCall: |
+  type: PYTHON # type of runner
+  command: |
     from batch_test_original import main; main('.', $IN_DIR)
 
 resources:
   profile: 'CUSTOM'
-  toolboxes:
-    - matlab_Neural_Network_Toolbox
   modules:
-    - jdk-8
+    - tensorflow-1.7.1-cpu-python3

@@ -19,7 +19,7 @@ class ModulesConfigurator : Configurator {
     override fun configureInteractively(config: ConfigFile): ConfigFile {
         val taskSpecificModule = when (config.taskType) {
             is MatlabTaskType -> "matlab"
-            is PythonTaskType -> "python"
+            is PythonTaskType -> "python-3.4.1-gcc"
         }
         val containsSpecificModule = config.resources.modules.contains(taskSpecificModule)
         if (!containsSpecificModule) {

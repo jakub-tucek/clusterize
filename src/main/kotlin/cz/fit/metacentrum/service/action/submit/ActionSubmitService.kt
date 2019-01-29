@@ -1,12 +1,13 @@
 package cz.fit.metacentrum.service.action.submit
 
 import com.google.inject.name.Named
-import cz.fit.metacentrum.config.actionSubmitMatlabExecutorsToken
+import cz.fit.metacentrum.config.actionSubmitExecutors
 import cz.fit.metacentrum.domain.ActionSubmit
 import cz.fit.metacentrum.domain.ActionSubmitConfig
 import cz.fit.metacentrum.domain.ActionSubmitPath
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.config.MatlabTaskType
+import cz.fit.metacentrum.domain.config.PythonTaskType
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.service.SubmitRunner
 import cz.fit.metacentrum.service.api.ActionService
@@ -29,8 +30,8 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
     @Inject
     private lateinit var configValidationService: ConfigValidationService
     @Inject
-    @Named(actionSubmitMatlabExecutorsToken)
-    private lateinit var matlabExecutors: Set<@JvmSuppressWildcards TaskExecutor>
+    @Named(actionSubmitExecutors)
+    private lateinit var submitExecutors: Set<@JvmSuppressWildcards TaskExecutor>
     @Inject
     private lateinit var configuratorRunner: ConfiguratorRunner
     @Inject
@@ -45,7 +46,9 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
         val initMetadata = ExecutionMetadata(configFile = interactiveConfig)
 
         when (interactiveConfig.taskType) {
-            is MatlabTaskType -> submitRunner.run(initMetadata, matlabExecutors)
+            is MatlabTaskType -> submitRunner.run(initMetadata, submitExecutors)
+            is PythonTaskType -> submitRunner.run(initMetadata, submitExecutors)
+            else -> throw IllegalStateException("Unknown task type")
         }
 
     }

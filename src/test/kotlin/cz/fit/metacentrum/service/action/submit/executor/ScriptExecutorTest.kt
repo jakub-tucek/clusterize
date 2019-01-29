@@ -3,7 +3,7 @@ package cz.fit.metacentrum.service.action.submit.executor
 import cz.fit.metacentrum.KotlinMockito
 import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.config.FileNames
-import cz.fit.metacentrum.domain.template.TemplateDataMatlab
+import cz.fit.metacentrum.domain.template.TemplateData
 import cz.fit.metacentrum.service.TemplateService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -17,14 +17,14 @@ import org.mockito.junit.jupiter.MockitoExtension
  * @author Jakub Tucek
  */
 @ExtendWith(MockitoExtension::class)
-internal class MatlabScriptsExecutorTest {
+internal class ScriptExecutorTest {
 
     @InjectMocks
-    private lateinit var ex: MatlabScriptsExecutor
+    private lateinit var ex: ScriptExecutor
     @Mock
     private lateinit var templateService: TemplateService
     @Spy
-    private var templateDataBuilder = MatlabTemplateDataBuilder()
+    private var templateDataBuilder = TemplateDataBuilder()
 
     @Test
     fun testMatlabScriptGeneratedFile() {
@@ -34,7 +34,7 @@ internal class MatlabScriptsExecutorTest {
                 .write(
                         KotlinMockito.eq("templates/matlab.mustache"),
                         KotlinMockito.eq(TestData.metadata.paths.storagePath!!.resolve("0/${FileNames.innerScript}")),
-                        KotlinMockito.isA(TemplateDataMatlab::class.java)
+                        KotlinMockito.isA(TemplateData::class.java)
                 )
     }
 }

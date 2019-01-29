@@ -1,8 +1,7 @@
 package cz.fit.metacentrum.service.action.resubmit
 
 import com.google.inject.name.Named
-import cz.fit.metacentrum.config.actionResubmitMatlabExecutorsTokens
-import cz.fit.metacentrum.domain.config.MatlabTaskType
+import cz.fit.metacentrum.config.actionResubmitToken
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
@@ -20,8 +19,8 @@ private val logger = KotlinLogging.logger {}
 class ResubmitService {
 
     @Inject
-    @Named(actionResubmitMatlabExecutorsTokens)
-    private lateinit var matlabResubmitExecutors: Set<@JvmSuppressWildcards TaskExecutor>
+    @Named(actionResubmitToken)
+    private lateinit var resubmitExecutors: Set<@JvmSuppressWildcards TaskExecutor>
 
     @Inject
     private lateinit var submitRunner: SubmitRunner
@@ -50,9 +49,8 @@ class ResubmitService {
      * Runs executors for given metadata based on matlab task type
      */
     fun executeResubmit(preparedMetadata: ExecutionMetadata) {
-        when (preparedMetadata.configFile.taskType) {
-            is MatlabTaskType -> submitRunner.run(preparedMetadata, matlabResubmitExecutors)
-        }
+        // resubmit is same of all types so just - RUN IT
+        submitRunner.run(preparedMetadata, resubmitExecutors)
     }
 
     /**

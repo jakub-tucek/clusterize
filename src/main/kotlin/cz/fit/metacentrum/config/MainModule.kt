@@ -31,8 +31,8 @@ import cz.fit.metacentrum.service.input.validator.ConfigValidationService
 import cz.fit.metacentrum.service.input.validator.IterationConfigValidator
 
 
-const val actionSubmitMatlabExecutorsToken = "ACTION_SUBMIT_MATLAB_EXECUTORS"
-const val actionResubmitMatlabExecutorsTokens = "ACTION_RESUBMIT_MATLAB_EXECUTORS"
+const val actionSubmitExecutors = "ACTION_SUBMIT_EXECUTORS"
+const val actionResubmitToken = "ACTION_RESUBMIT_EXECUTORS"
 const val actionStatusExecutorsToken = "ACTION_STATUS_EXECUTORS"
 
 class MainModule : AbstractModule() {
@@ -102,13 +102,13 @@ class MainModule : AbstractModule() {
         val resubmitBinder = Multibinder.newSetBinder(
                 binder(),
                 TaskExecutor::class.java,
-                Names.named(actionResubmitMatlabExecutorsTokens)
+                Names.named(actionResubmitToken)
         )
         resubmitBinder.addBinding().to(CleanEmptyStateFoldersExecutor::class.java)
         resubmitBinder.addBinding().to(UpdateScriptFile::class.java)
         resubmitBinder.addBinding().to(SubmitExecutor::class.java)
 
-        bind(MatlabTemplateDataBuilder::class.java)
+        bind(TemplateDataBuilder::class.java)
     }
 
     private fun bindStatusActionClasses() {
@@ -130,21 +130,28 @@ class MainModule : AbstractModule() {
 
     private fun bindSubmitActionClasses() {
         // matlab executors
-        val matlabBinder = Multibinder.newSetBinder(
+        addSubmitExecutors()
+
+        bind(TemplateDataBuilder::class.java)
+    }
+
+    private fun addSubmitExecutors() {
+        val binder = Multibinder.newSetBinder(
                 binder(),
                 TaskExecutor::class.java,
-                Names.named(actionSubmitMatlabExecutorsToken)
+                Names.named(actionSubmitExecutors)
         )
-        matlabBinder.addBinding().to(ResolvePathExecutor::class.java)
-        matlabBinder.addBinding().to(UsernameResolverExecutor::class.java)
-        matlabBinder.addBinding().to(InitOutputPathExecutor::class.java)
-        matlabBinder.addBinding().to(CopySourcesFilesExecutor::class.java)
-        matlabBinder.addBinding().to(IterationExecutor::class.java)
-        matlabBinder.addBinding().to(SaveMetadataIdPathMappingExecutor::class.java)
-        matlabBinder.addBinding().to(MatlabScriptsExecutor::class.java)
-        matlabBinder.addBinding().to(SubmitExecutor::class.java)
-        matlabBinder.addBinding().to(UpdateMetadataStateExecutor::class.java)
+        binder.addBinding().to(ResolvePathExecutor::class.java)
+        binder.addBinding().to(UsernameResolverExecutor::class.java)
+        binder.addBinding().to(InitOutputPathExecutor::class.java)
+        binder.addBinding().to(CopySourcesFilesExecutor::class.java)
+        binder.addBinding().to(IterationExecutor::class.java)
+        binder.addBinding().to(SaveMetadataIdPathMappingExecutor::class.java)
 
-        bind(MatlabTemplateDataBuilder::class.java)
+        binder.addBinding().to(ScriptExecutor::class.java)
+
+        binder.addBinding().to(SubmitExecutor::class.java)
+
+        binder.addBinding().to(UpdateMetadataStateExecutor::class.java)
     }
 }

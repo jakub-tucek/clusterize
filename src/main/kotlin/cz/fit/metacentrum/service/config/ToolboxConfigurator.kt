@@ -19,10 +19,10 @@ class ToolboxConfigurator : Configurator {
     override fun configureInteractively(config: ConfigFile): ConfigFile {
         val taskSpecificToolbox = when (config.taskType) {
             is MatlabTaskType -> "matlab"
-            is PythonTaskType -> "python"
+            is PythonTaskType -> ""
         }
         val containsSpecificToolbox = config.resources.toolboxes.contains(taskSpecificToolbox)
-        if (!containsSpecificToolbox) {
+        if (!containsSpecificToolbox && !taskSpecificToolbox.isBlank()) {
             return config.copy(resources = config.resources.copy(
                     toolboxes = config.resources.toolboxes + taskSpecificToolbox
             ))

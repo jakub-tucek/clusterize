@@ -14,7 +14,8 @@ const val taskTypePython = "PYTHON"
         property = "type"
 )
 @JsonSubTypes(
-        JsonSubTypes.Type(value = MatlabTaskType::class, name = taskTypeMatlab)
+        JsonSubTypes.Type(value = MatlabTaskType::class, name = taskTypeMatlab),
+        JsonSubTypes.Type(value = PythonTaskType::class, name = taskTypePython)
 )
 sealed class TaskType()
 
