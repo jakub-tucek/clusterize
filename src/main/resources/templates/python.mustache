@@ -1,0 +1,6 @@
+{{>header}}
+
+python -c "from batch_test_original import main; main('.', './results')" \
+&> "{{runPath}}/{{fileNames.stdJobLog}}"
+
+{{>footer}}

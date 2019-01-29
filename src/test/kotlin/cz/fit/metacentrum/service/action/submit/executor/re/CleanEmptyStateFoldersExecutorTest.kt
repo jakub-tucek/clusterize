@@ -3,7 +3,6 @@ package cz.fit.metacentrum.service.action.submit.executor.re
 import cz.fit.metacentrum.FileSystemExtension
 import cz.fit.metacentrum.TestData
 import cz.fit.metacentrum.config.FileNames
-import cz.fit.metacentrum.domain.meta.ExecutionMetadataHistory
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import cz.fit.metacentrum.service.action.resubmit.CleanEmptyStateFoldersExecutor
 import org.assertj.core.api.Assertions
@@ -30,28 +29,28 @@ internal class CleanEmptyStateFoldersExecutorTest {
 
         val firstJobPath = newMetadata.jobs!!.first().jobPath
         Assertions.assertThat(firstJobPath.toString())
-                .isEqualTo("/storage/job1_RERUN_1")
+                .isEqualTo("/storage/job1_RERUN_0")
         Files.exists(firstJobPath.resolve(FileNames.innerScript))
     }
 
     @Test
     fun testRerunOfRerunHasNiceFolderName() {
-        val historyMock = Mockito.mock(ExecutionMetadataHistory::class.java)
+        val historyMock = Mockito.mock(ExecutionMetadataJob::class.java)
 
         val rerunJobs = TestData.toRerunMetadata.jobs!!.map {
             val newJobPath = TestData.fileSystem
                     .getPath("/storage")
                     .resolve(it.jobPath.fileName.toString() + "_RERUN_1")
-            it.copy(jobPath = newJobPath)
+            it.copy(jobPath = newJobPath, jobParent = historyMock)
         }
-        val rerunMetadata = TestData.toRerunMetadata.copy(jobs = rerunJobs, jobsHistory = listOf(historyMock, historyMock))
+        val rerunMetadata = TestData.toRerunMetadata.copy(jobs = rerunJobs)
         initJobsFolder(rerunMetadata.jobs!!)
 
         val newMetadata = executor.execute(rerunMetadata)
 
         val firstJobPath = newMetadata.jobs!!.first().jobPath
         Assertions.assertThat(firstJobPath.toString())
-                .isEqualTo("/storage/job1_RERUN_2")
+                .isEqualTo("/storage/job1_RERUN_0")
     }
 
     private fun initJobsFolder(jobs: List<ExecutionMetadataJob>) {

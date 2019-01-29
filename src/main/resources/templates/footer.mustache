@@ -1,0 +1,5 @@
+# Print status
+echo "{{jobInfoProps.status}}: "$? >> {{runPath}}/{{fileNames.jobInfo}}
+# Print finish date
+echo "{{jobInfoProps.end}}: "`date --utc +%FT%T` >> {{runPath}}/{{fileNames.jobInfo}}
+

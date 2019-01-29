@@ -2,6 +2,7 @@ package cz.fit.metacentrum.service.config
 
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.config.MatlabTaskType
+import cz.fit.metacentrum.domain.config.PythonTaskType
 import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.api.Configurator
 import javax.inject.Inject
@@ -18,6 +19,7 @@ class ToolboxConfigurator : Configurator {
     override fun configureInteractively(config: ConfigFile): ConfigFile {
         val taskSpecificToolbox = when (config.taskType) {
             is MatlabTaskType -> "matlab"
+            is PythonTaskType -> "python"
         }
         val containsSpecificToolbox = config.resources.toolboxes.contains(taskSpecificToolbox)
         if (!containsSpecificToolbox) {

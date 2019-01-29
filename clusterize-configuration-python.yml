@@ -43,7 +43,7 @@ general:
 taskType:
   type: MATLAB # type of runner
   functionCall: |
-    main_batch01($MIN_TRANSL, $MAX_TRANSL, $VICINITY_TYPE, $SUB_IMG_IDX, 'useGPU', 'yes', 'layers', $ADDED_LAYERS)
+    from batch_test_original import main; main('.', $IN_DIR)
 
 resources:
   profile: 'CUSTOM'

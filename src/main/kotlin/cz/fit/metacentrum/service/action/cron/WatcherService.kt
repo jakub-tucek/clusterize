@@ -47,14 +47,13 @@ class WatcherService {
         updatedTasks.forEachIndexed { index, metadata ->
             try {
                 val newMetadata = resubmitService.checkJobsForResubmit(metadata)
-                if (newMetadata != null) {
-                    serializationService.persistMetadata(newMetadata)
-                } else {
+                if (newMetadata == null) {
+                    // no resubmit, we must save metadata as is
+                    serializationService.persistMetadata(metadata)
                     if (metadata.currentState.isFinishing()) {
                         cronMailService.sendMail(metadata)
                     }
                     metadataInfoPrinter.printMetadataInfo(index, metadata)
-                    serializationService.persistMetadata(metadata)
                 }
             } catch (ex: Exception) {
                 logger.error { ex }

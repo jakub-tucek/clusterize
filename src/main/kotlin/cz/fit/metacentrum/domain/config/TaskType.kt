@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 
 
-const val taskTypeMatlabType = "MATLAB"
+const val taskTypeMatlab = "MATLAB"
+const val taskTypePython = "PYTHON"
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -13,11 +14,16 @@ const val taskTypeMatlabType = "MATLAB"
         property = "type"
 )
 @JsonSubTypes(
-        JsonSubTypes.Type(value = MatlabTaskType::class, name = taskTypeMatlabType)
+        JsonSubTypes.Type(value = MatlabTaskType::class, name = taskTypeMatlab)
 )
 sealed class TaskType()
 
-@JsonTypeName(taskTypeMatlabType)
+@JsonTypeName(taskTypeMatlab)
 data class MatlabTaskType(
         val functionCall: String
+) : TaskType()
+
+@JsonTypeName(taskTypeMatlab)
+data class PythonTaskType(
+        val command: String
 ) : TaskType()

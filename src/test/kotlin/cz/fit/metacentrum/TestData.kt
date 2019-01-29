@@ -110,10 +110,10 @@ internal object TestData {
         )
 
         toRerunMetadata = executedMetadata.copy(
-                jobs = executedMetadata.jobs!!.map {
-                    it.copy(jobInfo = it.jobInfo.copy(state = ExecutionMetadataState.INITIAL))
-                },
-                jobsHistory = listOf(ExecutionMetadataHistory(executedMetadata.jobs!!))
+                jobs = executedMetadata.jobs!!.map { job ->
+                    job.copy(jobInfo = job.jobInfo.copy(state = ExecutionMetadataState.INITIAL),
+                            jobParent = job)
+                }
         )
 
         queueRecordRunning = QueueRecord("81", "pbsuser", "workq", "oneCPUjob",

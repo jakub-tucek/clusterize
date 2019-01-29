@@ -1,0 +1,30 @@
+#!/bin/bash
+#PBS -N {{general.taskName}}
+#PBS -l walltime={{resources.walltime}}
+#PBS -l {{{resources.formattedResources}}}
+{{#resources.toolboxes}}#PBS -l {{.}}=1
+{{/resources.toolboxes}}
+#PBS -o {{runPath}}/{{fileNames.stdOutLog}}
+#PBS -e {{runPath}}/{{fileNames.stdErrLog}}
+
+# Print start time
+echo "{{jobInfoProps.start}}: "`date --utc +%FT%T` > {{runPath}}/{{fileNames.jobInfo}}
+# Print JOB PID to folder
+echo "{{jobInfoProps.pid}}: $PBS_JOBID" >> {{runPath}}/{{fileNames.jobInfo}}
+
+{{#resources.modules}}module add {{.}} # loads desired application
+{{/resources.modules}}
+
+DATADIR="{{storagePath}}" # sets up your input data directory
+
+
+{{#variables}}export {{first}}="{{second}}"
+{{/variables}}
+
+{{#general.dependents}}export {{name}}=$(({{dependentVarName}}{{modifier}}))
+{{/general.dependents}}
+
+export IN_DIR="{{sourcesPath}}"
+export OUT_DIR="{{runPath}}"
+
+
