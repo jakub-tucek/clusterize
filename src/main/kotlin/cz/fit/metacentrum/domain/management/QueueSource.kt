@@ -21,7 +21,7 @@ data class QueueInformation(
         val minWallTime: String,
         val maxWallTime: String,
         val jobStateInformation: QueueJobsInformation,
-        val maxCPUsPerUser: Int
+        val maxCPUsPerUser: Int?
 )
 
 data class QueueJobsInformation(

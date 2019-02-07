@@ -1,6 +1,6 @@
 clusterName: metacentrum
 sourceUrl: https://metavo.metacentrum.cz/pbsmon2/queues/list
-parserClass: cz.fit.metacentrum.ext.MetacentrumParser
+parserClass: cz.fit.metacentrum.ext.MetacentrumDataSourceProvider
 queues:
   - ./queues-cpu.yml
   - ./queues-gpu.yml

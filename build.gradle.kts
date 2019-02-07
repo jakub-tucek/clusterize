@@ -51,7 +51,7 @@ dependencies {
     compile(group = "org.apache.logging.log4j", name = "log4j-slf4j-impl", version = "2.11.1")
     compile(group = "org.apache.logging.log4j", name = "log4j-api", version = "2.11.1")
     compile(group = "org.apache.logging.log4j", name = "log4j-core", version = "2.11.1")
-    
+
     compile("io.github.microutils:kotlin-logging:1.6.10")
 
     compile(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = jacksonVersion)
@@ -62,6 +62,8 @@ dependencies {
     compile(group = "com.google.inject", name = "guice", version = guiceVersion)
     compile(group = "com.google.inject.extensions", name = "guice-multibindings", version = guiceVersion)
     compile(group = "com.github.spullara.mustache.java", name = "compiler", version = "0.9.5")
+
+    compile(group = "org.jsoup", name = "jsoup", version = "1.11.3")
 
     testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testCompile("org.junit.jupiter:junit-jupiter-params:$junitVersion")
