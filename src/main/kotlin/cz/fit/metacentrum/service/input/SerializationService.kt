@@ -10,6 +10,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import cz.fit.metacentrum.config.FileNames.configDataFolderName
 import cz.fit.metacentrum.domain.AppConfiguration
 import cz.fit.metacentrum.domain.config.ConfigFile
+import cz.fit.metacentrum.domain.management.QueueDataSource
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.JobInfoFile
 import cz.fit.metacentrum.domain.meta.MetadataIdPathMapping
@@ -34,20 +35,8 @@ class SerializationService {
 
     fun parseConfig(filePath: String): ConfigFile {
         val path = Paths.get(filePath)
-        if (Files.notExists(path)) {
-            throw IllegalArgumentException("Path ${path.toAbsolutePath()} of configuration file does not exists!")
-        }
-
-        try {
-            val configurationFile = Files.newBufferedReader(path).use {
-                mapper.readValue<ConfigFile>(it)
-            }
-
-            return configurationFile
-        } catch (e: JsonProcessingException) {
-            logger.error("Parsing yml failed", e)
-            throw IllegalArgumentException("ConfigFile file probably does not exist in path ${path} or has invalid format", e)
-        }
+        return readFile<ConfigFile>(path)
+                ?: throw IllegalArgumentException("ConfigFile file probably does not exist in path ${path} or has invalid format")
     }
 
     fun persistMetadata(metadata: ExecutionMetadata) {
@@ -61,34 +50,12 @@ class SerializationService {
 
     fun parseMetadata(metadataFolder: Path): ExecutionMetadata? {
         val path = metadataFolder.resolve(metadataFileName)
-        if (!Files.exists(path)) {
-            logger.error("Metadata file path ${path} does not exists.")
-            return null
-        }
-        try {
-            return Files.newBufferedReader(path).use {
-                mapper.readValue<ExecutionMetadata>(it)
-            }
-        } catch (e: JsonProcessingException) {
-            logger.error("Parsing metadata yml failed", e)
-            throw IllegalArgumentException("Metadata file in path ${path} has probably invalid format")
-        }
+        return readFile<ExecutionMetadata>(path)
     }
 
     fun parseAppConfiguration(): AppConfiguration? {
         val path = Paths.get(configDataFolderName).resolve(appConfigurationFileName)
-        if (!Files.exists(path)) {
-            logger.info("Configuration file does not exists. Returning null")
-            return null
-        }
-        return try {
-            Files.newBufferedReader(path).use {
-                mapper.readValue<AppConfiguration>(it)
-            }
-        } catch (e: JsonProcessingException) {
-            logger.error("Configuration has invalid structure. Returning null, file must be reinitialized", e)
-            null
-        }
+        return readFile<AppConfiguration>(path)
     }
 
     fun persistAppConfiguration(appConfiguration: AppConfiguration) {
@@ -100,32 +67,11 @@ class SerializationService {
     }
 
     fun parseJobInfoFile(location: Path): JobInfoFile? {
-        if (Files.notExists(location)) {
-            logger.debug { "Job info file does not exists" }
-            return null
-        }
-        return try {
-            Files.newBufferedReader(location).use {
-                mapper.readValue<JobInfoFile>(it)
-            }
-        } catch (e: JsonProcessingException) {
-            logger.error("Unable to read job status info file", e)
-            null
-        }
+        return readFile<JobInfoFile>(location)
     }
 
     fun parseMetadataIdPathMapping(location: Path): MetadataIdPathMapping? {
-        val path = location.resolve(idPathMappingFileName)
-        if (!Files.exists(path)) {
-            logger.info { "Configuration path does not exist" }
-            return null
-        }
-        return try {
-            Files.newBufferedReader(path).use { mapper.readValue<MetadataIdPathMapping>(it) }
-        } catch (e: JsonProcessingException) {
-            logger.error("Parsing metadata id idToPathMap failed", e)
-            throw IllegalStateException("Unable to parse metadata id idToPathMap")
-        }
+        return readFile<MetadataIdPathMapping>(location.resolve(idPathMappingFileName))
     }
 
     fun persistMetadataIdPathMapping(location: Path, mapping: MetadataIdPathMapping) {
@@ -133,6 +79,23 @@ class SerializationService {
 
         Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
                 .use { mapper.writeValue(it, mapping) }
+    }
+
+    fun parseDataSource(location: Path): QueueDataSource {
+        return readFile<QueueDataSource>(location) ?: throw IllegalStateException("Unable to parse file in $location")
+    }
+
+    private inline fun <reified T> readFile(path: Path): T? {
+        if (!Files.exists(path)) {
+            logger.info { "Path $path does not exist" }
+            return null
+        }
+        return try {
+            Files.newBufferedReader(path).use { SerializationService.mapper.readValue<T>(it) }
+        } catch (e: JsonProcessingException) {
+            logger.error("Parsing file in $path failed.", e)
+            return null
+        }
     }
 
     companion object {
