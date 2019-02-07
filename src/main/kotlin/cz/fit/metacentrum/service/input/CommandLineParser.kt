@@ -1,6 +1,7 @@
 package cz.fit.metacentrum.service.input
 
 import cz.fit.metacentrum.config.FileNames.defaultMetadataFolder
+import cz.fit.metacentrum.config.FileNames.defaultSourceFile
 import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.*
 import mu.KotlinLogging
@@ -60,6 +61,10 @@ class CommandLineParser {
                 }
             }
             "cron-start-internal" -> return ActionCronStartInternal
+            "analyze" -> {
+                val sourceFilePath = retrieveNextValue(iterator, false) ?: defaultSourceFile
+                return ActionAnalyze(sourceFilePath)
+            }
             else -> {
                 val msg = "Unrecognized parameter: $nextValue"
                 printHelp()
@@ -82,6 +87,7 @@ class CommandLineParser {
                        -p [VALUE] - define path to metadata folder or default is used
                        -c [VALUE] - specify path to configuration file
                     cron [start|stop] - run cron to watch executed tasks and receive notifications
+                    analyze [start|stop] - analyzes cluster
                     help - displays help
         """.trimIndent())
     }

@@ -1,0 +1,10 @@
+name: GPU
+queues:
+  - gpu
+  - gpu_long
+details:
+  gpuCaps:
+    - cuda20
+    - cuda35
+    - cuda61
+    - cuda70

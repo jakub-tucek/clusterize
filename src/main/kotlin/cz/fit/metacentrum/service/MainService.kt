@@ -21,7 +21,8 @@ class MainService() {
     private lateinit var actionCronInternalService: ActionService<ActionCronStartInternal>
     @Inject
     private lateinit var actionResubmitService: ActionService<ActionResubmit>
-
+    @Inject
+    private lateinit var actionAnalyzeService: ActionService<ActionAnalyze>
 
     fun execute(args: Array<String>) {
         // parseConfig arguments
@@ -34,6 +35,7 @@ class MainService() {
             is ActionCron -> actionCronService.processAction(argumentAction)
             is ActionCronStartInternal -> actionCronInternalService.processAction(argumentAction)
             is ActionResubmit -> actionResubmitService.processAction(argumentAction)
+            is ActionAnalyze -> actionAnalyzeService.processAction(argumentAction)
             is ActionHelp -> {
                 // dont do anything
             }

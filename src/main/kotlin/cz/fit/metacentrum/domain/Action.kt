@@ -38,6 +38,8 @@ data class ActionCron(val actionType: Type) : Action() {
 // Internal action that is executed by cron. Checks status and sends email if needed
 object ActionCronStartInternal : Action()
 
+data class ActionAnalyze(val dataSourceFile: String) : Action()
+
 // =====================================================================================================================
 // displays help
 object ActionHelp : Action()

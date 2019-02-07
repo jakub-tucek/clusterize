@@ -1,0 +1,16 @@
+queueType: CPU
+queues:
+  - q_1w
+  - q_4d
+  - q_2w
+  - q_2h
+  - q_2d
+  - q_4h
+  - q_2w_plus
+details:
+  gpuCaps:
+    - cuda20
+    - cuda35
+    - cuda61
+    - cuda70
+  maxWalltime: 24:00:00

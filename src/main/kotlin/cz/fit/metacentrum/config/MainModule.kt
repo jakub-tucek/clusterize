@@ -6,6 +6,7 @@ import com.google.inject.multibindings.Multibinder
 import com.google.inject.name.Names
 import cz.fit.metacentrum.domain.*
 import cz.fit.metacentrum.service.*
+import cz.fit.metacentrum.service.action.analyze.ActionAnalyzeService
 import cz.fit.metacentrum.service.action.cron.*
 import cz.fit.metacentrum.service.action.resubmit.ActionResubmitService
 import cz.fit.metacentrum.service.action.resubmit.CleanEmptyStateFoldersExecutor
@@ -54,6 +55,7 @@ class MainModule : AbstractModule() {
         bind(object : TypeLiteral<ActionService<ActionResubmit>>() {}).to(ActionResubmitService::class.java)
         bind(object : TypeLiteral<ActionService<ActionCron>>() {}).to(ActionCronService::class.java)
         bind(object : TypeLiteral<ActionService<ActionCronStartInternal>>() {}).to(ActionCronStartInternalService::class.java)
+        bind(object : TypeLiteral<ActionService<ActionAnalyze>>() {}).to(ActionAnalyzeService::class.java)
 
         // Shell service binding
         if (ProfileConfiguration.isDev()) {
