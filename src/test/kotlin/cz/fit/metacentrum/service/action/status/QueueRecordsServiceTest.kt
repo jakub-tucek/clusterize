@@ -30,14 +30,12 @@ internal class QueueRecordsServiceTest {
     fun setUp() {
         Mockito.`when`(shellService.runCommand(KotlinMockito.any())).thenReturn(
                 CommandOutput(
-                        """
+                        """pbs:
                                                             Req'd  Req'd   Elap
-Job ID          username Queue    Jobname    SessID NDS TSK Memory Time  S Time
+Job ID          Username Queue    Jobname    SessID NDS TSK Memory Time  S Time
 --------------- -------- -------- ---------- ------ --- --- ------ ----- - -----
 81.pbs          pbsuser  workq    oneCPUjob    5736   1   1    1gb 04:00 R 00:00
-82.pbs          pbsuser2  workq    oneCPUjob    5778   1   1    1gb 04:00 R 00:00
-
-                        """.trimIndent(), 0, ""
+962.pbs         pbsuser  workq    MatlabTask   3580   1   1    1gb 01:00 R 00:00""".trimIndent(), 0, ""
                 )
         )
     }
@@ -46,7 +44,7 @@ Job ID          username Queue    Jobname    SessID NDS TSK Memory Time  S Time
     fun testResultIsProperlyMapped() {
         val res = queueRecordsService.retrieveQueueForUser("pbsuser")
         Assertions.assertThat(res)
-                .hasSize(1)
+                .hasSize(2)
                 .contains(TestData.queueRecordRunning)
     }
 
@@ -62,13 +60,9 @@ Job ID          username Queue    Jobname    SessID NDS TSK Memory Time  S Time
     @Test
     fun testTharResultIsOkForDifferentUser() {
         val res = queueRecordsService.retrieveQueueForUser("pbsuser")
-        val res2 = queueRecordsService.retrieveQueueForUser("pbsuser2")
 
         Assertions.assertThat(res)
                 .extracting<String> { it.username }
                 .contains("pbsuser")
-        Assertions.assertThat(res2)
-                .extracting<String> { it.username }
-                .contains("pbsuser2")
     }
 }
