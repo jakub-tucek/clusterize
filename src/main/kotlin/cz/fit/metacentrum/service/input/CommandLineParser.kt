@@ -20,8 +20,7 @@ class CommandLineParser {
     fun parseArguments(args: Array<String>): Action {
         val iterator = args.iterator()
 
-        val nextValue = retrieveNextValue(iterator, true)
-
+        val nextValue = retrieveNextValue(iterator, false)
 
         when (nextValue) {
             "submit" -> {
