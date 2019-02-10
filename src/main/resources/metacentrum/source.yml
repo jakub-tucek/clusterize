@@ -7,27 +7,27 @@ queueTypes:
         maxWallTime: 02:00:00
 
       - name: q_4h
-        minWallTime: 02:01
+        minWallTime: 02:00:01
         maxWallTime: 04:00:00
 
       - name: q_1d
-        minWallTime: 04:01
+        minWallTime: 04:00:01
         maxWallTime: 24:00:00
 
       - name: q_2d
-        minWallTime: 24:01
+        minWallTime: 24:00:01
         maxWallTime: 48:00:00
 
       - name: q_4d
-        minWallTime: 48:01
+        minWallTime: 48:00:01
         maxWallTime: 96:00:00
 
       - name: q_1w
-        minWallTime: 96:01
+        minWallTime: 96:00:01
         maxWallTime: 168:00:00
 
       - name: q_2w
-        minWallTime: 168:01
+        minWallTime: 168:00:01
         maxWallTime: 336:00:00
 
       - name: q_2w_plus
@@ -36,11 +36,11 @@ queueTypes:
   - type: GPU
     queues:
       - name: gpu
-        minWallTime: 02:01
+        minWallTime: 02:00:01
         maxWallTime: 04:00:00
 
       - name: gpu_long
-        minWallTime: 02:01
+        minWallTime: 02:00:01
         maxWallTime: 04:00:00
 
     details:
