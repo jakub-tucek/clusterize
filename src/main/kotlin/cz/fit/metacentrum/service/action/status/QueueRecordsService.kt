@@ -19,6 +19,13 @@ class QueueRecordsService {
     // cache of records for username
     private var cache: MutableMap<String, List<QueueRecord>> = mutableMapOf()
 
+
+    fun retrieveQueueRecords(): List<QueueRecord> {
+        val (output, status, errOutput) = shellService.runCommand("qstat -i")
+        if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
+        return convertOutputToRecords(output)
+    }
+
     fun retrieveQueueForUser(username: String): List<QueueRecord> {
         val cachedResult = cache.get(username)
         if (cachedResult != null) {
@@ -30,14 +37,18 @@ class QueueRecordsService {
         val (output, status, errOutput) = shellService.runCommand("qstat -u $username")
         if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
 
-        val queueRecords = output.lines()
-                .map { it.replace("""\s+""".toRegex(), " ").trim() }
-                .filter { it.isNotBlank() }
-                .filter { it.matches(""".* ${username} .*""".toRegex(RegexOption.IGNORE_CASE)) }
-                .map { parseQueueLine(it) }
+        val queueRecords = convertOutputToRecords(output)
         cache[username] = queueRecords
 
         return queueRecords
+    }
+
+    private fun convertOutputToRecords(output: String): List<QueueRecord> {
+        return output.lines()
+                .drop(4)
+                .map { it.replace("""\s+""".toRegex(), " ").trim() }
+                .filter { it.isNotBlank() }
+                .map { parseQueueLine(it) }
     }
 
     private fun parseQueueLine(line: String): QueueRecord {

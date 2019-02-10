@@ -5,12 +5,12 @@ package cz.fit.metacentrum.domain.management
  * @author Jakub Tucek
  */
 data class QueueSource(
-        val dataSource: QueueDataSource,
+        val dataSource: ClusterDetails,
         val queueTypeMapping: Map<String, QueueSourceType>
 )
 
 data class QueueSourceType(
-        val queueDescription: QueueDescription,
+        val clusterQueueType: ClusterQueueType,
         val queueNameMapping: Map<String, QueueInformation>
 )
 

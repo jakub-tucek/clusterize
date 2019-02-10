@@ -1,6 +1,51 @@
 clusterName: metacentrum
-sourceUrl: https://metavo.metacentrum.cz/pbsmon2/queues/list
-parserClass: cz.fit.metacentrum.ext.MetacentrumDataSourceProvider
-queues:
-  - ./queues-cpu.yml
-  - ./queues-gpu.yml
+queueTypes:
+  - type: CPU
+    queues:
+      - name: q_2h
+        minWallTime: 0
+        maxWallTime: 00:02:00
+
+      - name: q_4h
+        minWallTime: 00:02:01
+        maxWallTime: 00:04:00
+
+      - name: q_1d
+        minWallTime: 00:04:01
+        maxWallTime: 00:24:00
+
+      - name: q_2d
+        minWallTime: 00:24:01
+        maxWallTime: 00:48:00
+
+      - name: q_4d
+        minWallTime: 00:48:01
+        maxWallTime: 00:96:00
+
+      - name: q_1w
+        minWallTime: 00:96:01
+        maxWallTime: 00:168:00
+
+      - name: q_2w
+        minWallTime: 00:168:01
+        maxWallTime: 00:336:00
+
+      - name: q_2w_plus
+        minWallTime: 00:336:00
+        maxWallTime: 00:720:00
+  - type: GPU
+    queues:
+      - name: gpu
+        minWallTime: 00:02:01
+        maxWallTime: 00:04:00
+
+      - name: gpu_long
+        minWallTime: 00:02:01
+        maxWallTime: 00:04:00
+
+    details:
+      gpuCaps:
+        - cuda20
+        - cuda35
+        - cuda61
+        - cuda70

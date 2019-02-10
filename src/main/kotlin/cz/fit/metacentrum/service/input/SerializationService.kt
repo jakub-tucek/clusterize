@@ -10,7 +10,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import cz.fit.metacentrum.config.FileNames.configDataFolderName
 import cz.fit.metacentrum.domain.AppConfiguration
 import cz.fit.metacentrum.domain.config.ConfigFile
-import cz.fit.metacentrum.domain.management.QueueDataSource
+import cz.fit.metacentrum.domain.management.ClusterDetails
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.JobInfoFile
 import cz.fit.metacentrum.domain.meta.MetadataIdPathMapping
@@ -81,8 +81,8 @@ class SerializationService {
                 .use { mapper.writeValue(it, mapping) }
     }
 
-    fun parseDataSource(location: Path): QueueDataSource {
-        return readFile<QueueDataSource>(location) ?: throw IllegalStateException("Unable to parse file in $location")
+    fun parseClusterDetails(location: Path): ClusterDetails {
+        return readFile<ClusterDetails>(location) ?: throw IllegalStateException("Unable to parse file in $location")
     }
 
     private inline fun <reified T> readFile(path: Path): T? {
