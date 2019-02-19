@@ -82,7 +82,7 @@ main() {
     echo "Error: Unable create init script (2)\n"
     exit 1
   }
-  echo "export PBSPRO_IGNORE_KERBEROS=yes" >> "$SOURCE_DIR/clusterize" {
+  echo "export PBSPRO_IGNORE_KERBEROS=yes" >> "$SOURCE_DIR/clusterize" || {
     echo "Error: Unable create init script (3)\n"
     exit 1
   }
