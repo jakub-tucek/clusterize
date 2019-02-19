@@ -25,12 +25,12 @@ main() {
   set -e
 
   if [ ! -n "$JAVA_HOME" ]; then
-    printf "JAVA_HOME is not set before running. Please set JAVA first."
+    printf "JAVA_HOME is not set before running. Please set JAVA first.\n"
     exit
   fi
 
   if [ ! -n "$1" ]; then
-    printf "Version not set. Please set version first."
+    printf "Version not set. Please set version first.\n"
     exit
   fi
 
@@ -38,7 +38,7 @@ main() {
   printf "${BLUE}Downloading Clusterize...${NORMAL}\n"
 
   if ! command -v curl > /dev/null 2>&1; then
-    printf "Error: Curl not installed."
+    printf "Error: Curl not installed.\n"
     exit
   fi
 
@@ -47,7 +47,7 @@ main() {
 
 
   curl -fsSL https://github.com/jakub-tucek/metacentrum-cli/releases/download/$1/clusterize.tar --output $BASE_DIR/clusterize-bin.tar || {
-    echo "Error: Unable to download version $1"
+    echo "Error: Unable to download version $1\n"
     exit 1
   }
 
@@ -56,17 +56,17 @@ main() {
 
 
   mkdir -p $BASE_DIR > /dev/null 2>&1 || {
-    echo "Error: Unable to create install folder"
+    echo "Error: Unable to create install folder\n"
     exit 1
   }
 
   rm -Rf $SOURCE_DIR || {
-    echo "Error: Unable to delete existing installation"
+    echo "Error: Unable to delete existing installation\n"
     exit 1
   }
 
   tar -xf $BASE_DIR/clusterize-bin.tar -C $BASE_DIR || {
-    echo "Error: Unable to untar"
+    echo "Error: Unable to untar\n"
     exit 1
   }
 
@@ -74,23 +74,23 @@ main() {
 
 
   echo '#/bin/bash' > "$SOURCE_DIR/clusterize" || {
-    echo "Error: Unable create init script (1)"
+    echo "Error: Unable create init script (1)\n"
     exit 1
   }
   echo "export JAVA_HOME=$JAVA_HOME" >> "$SOURCE_DIR/clusterize" || {
-    echo "Error: Unable create init script (2)"
+    echo "Error: Unable create init script (2)\n"
     exit 1
   }
   echo './bin/clusterize' >> "$SOURCE_DIR/clusterize" || {
-    echo "Error: Unable create init script (3)"
+    echo "Error: Unable create init script (3)\n"
     exit 1
   }
   chmod 777 $SOURCE_DIR/clusterize || {
-    echo "Error: Unable create init script (4)"
+    echo "Error: Unable create init script (4)\n"
     exit 1
   }
   chmod +x $SOURCE_DIR/clusterize || {
-    echo "Error: Unable create init script (5)"
+    echo "Error: Unable create init script (5)\n"
     exit 1
   }
 
@@ -107,7 +107,7 @@ main() {
   echo '    \_____|______\____/|_____/   |_|  |______|_|  \_\_____/_____|______| '
   echo '                                                    ....is now installed!'
   echo ''
-  printf "${NORMAL}"
+  printf "${NORMAL}\n"
 
   printf "Add following line to your .bashrc to use clusterize from command line:\n\n"
   printf "export PATH=\$PATH:$SOURCE_DIR\n\n"
