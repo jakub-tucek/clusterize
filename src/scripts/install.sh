@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 main() {
   # Use colors, but only if connected to a terminal, and that terminal
   # supports them.
@@ -81,7 +82,7 @@ main() {
     echo "Error: Unable create init script (2)\n"
     exit 1
   }
-  echo './bin/clusterize' >> "$SOURCE_DIR/clusterize" || {
+  echo "$SOURCE_DIR/clusterize/bin/clusterize" >> "$SOURCE_DIR/clusterize" || {
     echo "Error: Unable create init script (3)\n"
     exit 1
   }
