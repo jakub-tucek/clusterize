@@ -10,7 +10,7 @@ You can install this via the command-line with either curl or wget.
 
 via curl
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" v0.01
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/jakub-tucek/metacentrum-cli/master/src/scripts/install.sh) v0.01"
 ```
 
 

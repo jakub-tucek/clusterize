@@ -42,52 +42,61 @@ main() {
     exit
   fi
 
-  BASE_DIR="~/.clusterize/clusterize"
+  BASE_DIR="$HOME/.clusterize"
+  SOURCE_DIR="$HOME/.clusterize/clusterize"
 
 
-  command -v curl -fsSL https://github.com/jakub-tucek/metacentrum-cli/archive/$1.tar.gz --output ~/.clusterize/clusterize.tar || {
+  curl -fsSL https://github.com/jakub-tucek/metacentrum-cli/releases/download/$1/clusterize.tar --output $BASE_DIR/clusterize-bin.tar || {
     echo "Error: Unable to download version $1"
     exit 1
   }
 
-  command -v mkdir -p ~/.clusterize > /dev/null 2>&1 || {
+
+  printf "${BLUE}Preparing folder...${NORMAL}\n"
+
+
+  mkdir -p $BASE_DIR > /dev/null 2>&1 || {
     echo "Error: Unable to create install folder"
     exit 1
   }
 
-  command -v rm -Rf $BASE_DIR >/dev/null 2>&1 || {
+  rm -Rf $SOURCE_DIR || {
     echo "Error: Unable to delete existing installation"
     exit 1
   }
 
-  command -v tar -xf ~/.clusterize/clusterize.tar >/dev/null 2>&1 || {
+  tar -xf $BASE_DIR/clusterize-bin.tar -C $BASE_DIR || {
     echo "Error: Unable to untar"
-    exit 1
-  }
-
-  command -v echo '#/bin/bash' > $BASE_DIR/clusterize || {
-    echo "Error: Unable create init script (1)"
-    exit 1
-  }
-  command -v echo "export JAVA_HOME=$JAVA_HOME" >> $BASE_DIR/clusterize >/dev/null 2>&1 || {
-    echo "Error: Unable create init script (2)"
-    exit 1
-  }
-  command -v echo './bin/clusterize' >> $BASE_DIR/clusterize >/dev/null 2>&1 || {
-    echo "Error: Unable create init script (3)"
-    exit 1
-  }
-  command -v chmod 777 $BASE_DIR/clusterize >/dev/null 2>&1 || {
-    echo "Error: Unable create init script (4)"
-    exit 1
-  }
-  command -v chmod +x $BASE_DIR/clusterize >/dev/null 2>&1 || {
-    echo "Error: Unable create init script (5)"
     exit 1
   }
 
   printf "${BLUE}Installing ...${NORMAL}\n"
 
+
+  echo '#/bin/bash' > "$SOURCE_DIR/clusterize" || {
+    echo "Error: Unable create init script (1)"
+    exit 1
+  }
+  echo "export JAVA_HOME=$JAVA_HOME" >> "$SOURCE_DIR/clusterize" || {
+    echo "Error: Unable create init script (2)"
+    exit 1
+  }
+  echo './bin/clusterize' >> "$SOURCE_DIR/clusterize" || {
+    echo "Error: Unable create init script (3)"
+    exit 1
+  }
+  chmod 777 $SOURCE_DIR/clusterize || {
+    echo "Error: Unable create init script (4)"
+    exit 1
+  }
+  chmod +x $SOURCE_DIR/clusterize || {
+    echo "Error: Unable create init script (5)"
+    exit 1
+  }
+
+  printf "${BLUE}Cleaning up ...${NORMAL}\n"
+
+  rm -Rf $BASE_DIR/clusterize-bin.tar
 
   printf "${GREEN}"
   echo '       _____ _     _    _  _____ _______ ______ _____  _____ ____________'
@@ -100,9 +109,8 @@ main() {
   echo ''
   printf "${NORMAL}"
 
-  printf "Add following line to your .bashrc to use clusterize from command line:"
-  printf "export clusterize=~/.clusterize/clusterize"
-  env zsh -l
+  printf "Add following line to your .bashrc to use clusterize from command line:\n\n"
+  printf "export PATH=\$PATH:$SOURCE_DIR\n\n"
 }
 
 main $1
