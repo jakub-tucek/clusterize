@@ -82,16 +82,21 @@ main() {
     echo "Error: Unable create init script (2)\n"
     exit 1
   }
-  echo "$SOURCE_DIR/bin/clusterize \$\@" >> "$SOURCE_DIR/clusterize" || {
+  echo "export PBSPRO_IGNORE_KERBEROS=yes" >> "$SOURCE_DIR/clusterize" {
     echo "Error: Unable create init script (3)\n"
     exit 1
   }
-  chmod 777 $SOURCE_DIR/clusterize || {
+
+  echo "$SOURCE_DIR/bin/clusterize \$\@" >> "$SOURCE_DIR/clusterize" || {
     echo "Error: Unable create init script (4)\n"
     exit 1
   }
-  chmod +x $SOURCE_DIR/clusterize || {
+  chmod 777 $SOURCE_DIR/clusterize || {
     echo "Error: Unable create init script (5)\n"
+    exit 1
+  }
+  chmod +x $SOURCE_DIR/clusterize || {
+    echo "Error: Unable create init script (6)\n"
     exit 1
   }
 
