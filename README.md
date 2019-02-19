@@ -3,6 +3,17 @@
 
 [![Build Status](https://travis-ci.com/jakub-tucek/metacentrum-cli.svg?token=NqFVge8N1yh3apxFedae&branch=master)](https://travis-ci.com/jakub-tucek/metacentrum-cli)
 
+## Install
+
+Basic Installation is installed by running one of the following commands in your terminal. 
+You can install this via the command-line with either curl or wget.
+
+via curl
+```
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" v0.01
+```
+
+
 
 ## Dictionary
 

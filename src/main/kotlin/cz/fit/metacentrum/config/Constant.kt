@@ -8,7 +8,7 @@ const val appName = "clusterize"
 
 const val userDateFormat = "dd/MM/YYYY hh:mm"
 
-
+const val cronJobPath = ".$appName/$appName/clusterize"
 
 object FileNames {
     // job info

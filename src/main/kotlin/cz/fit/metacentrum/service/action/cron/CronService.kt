@@ -1,9 +1,6 @@
 package cz.fit.metacentrum.service.action.cron
 
-import cz.fit.metacentrum.config.Configuration
-import cz.fit.metacentrum.config.FileNames
-import cz.fit.metacentrum.config.ProfileConfiguration
-import cz.fit.metacentrum.config.appName
+import cz.fit.metacentrum.config.*
 import cz.fit.metacentrum.service.ShellServiceImpl
 import mu.KotlinLogging
 import java.nio.file.Files
@@ -41,7 +38,7 @@ class CronService {
             "export ${ProfileConfiguration.envVariableName}=${ProfileConfiguration.activeProfile.name} &&" else ""
         // append cron registration for every 10 minutes
         val newOutput = """$cronConfig
-            |${Configuration.cronInterval} /bin/sh -c "$envVarConfig $appName cron-start-internal >> ${FileNames.cronLogFile} 2>&1"
+            |${Configuration.cronInterval} /bin/sh -c "$envVarConfig $cronJobPath cron-start-internal >> ${FileNames.cronLogFile} 2>&1"
             |""".trimMargin()
         updateCronTab(newOutput)
 

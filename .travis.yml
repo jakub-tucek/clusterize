@@ -4,11 +4,11 @@ jdk:
 install: true
 script:
 - chmod u+x gradlew
-- "./gradlew test build"
+- "./gradlew test build distTar"
 deploy:
   provider: releases
   api_key:
     secure: OlY4s7ylv5fnSn7rQHm7piDInWxqVu+1j4smN4WxOqpI9xbrt1xniqDgYzdFbp7QcXD9n2vGLYJBk+eMdc/y9HfSCN6AumncDv3r3LbX0qkLULUip9DUjpHNQAGHMHAFuoQKMKzPPrWIaBjnjOIL9gQrF5rxqSecAFe9GxDjxsTw3Td+nE4VAOZZXQ9Et1aSiufTqSRa7zPSpryrlJmS6ngPNPLFHObpYDkYCHBoNOSzxbROInOOY7CL22CHIlssIKhYO3fXDhrnAt5VUKYT3Bv1EHTgXTGblzsttz8EiWUcpKIw3XqmHI062u64BE2GdhqrEiwXb2c9djYCK8JOYYqJrYuaNbFglxPX9kJ7GRE/nEOE4PDtqZ66JYnzRbx37RMoSlVUTf9EoF5dqI3qqT1YIFRF7lKx8V8kmoKLtO9WBpdvkA2GO3VzH46WqWbITJNHVECE+FgkAmJp3gIKfUMulaH1rFZ71k0QQLVZ0IruF+DJai8vUoU8ATGxUw4ZMEXItGmag37psMZSoGzq97anb7G3//V3MbgkX+sjzPV6iORARmY/20gj95mGAHXUSPWN3L6OMxACxS3/0+nrYnIgITahiMOPc+18H7zjCv/+UqWebSAyqvXJ46Gt5uPAWSFsdNQzQ4J1xgwVmbtKTRJFXHVBGSjU0+WVkGqBVCI=
-  file: build/distributions/metacentrum-cli.tar
+  file: build/distributions/clusterize.tar
   on:
     tags: true
