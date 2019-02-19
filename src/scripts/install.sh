@@ -82,7 +82,7 @@ main() {
     echo "Error: Unable create init script (2)\n"
     exit 1
   }
-  echo "$SOURCE_DIR/clusterize/bin/clusterize" >> "$SOURCE_DIR/clusterize" || {
+  echo "$SOURCE_DIR/bin/clusterize" >> "$SOURCE_DIR/clusterize" || {
     echo "Error: Unable create init script (3)\n"
     exit 1
   }
