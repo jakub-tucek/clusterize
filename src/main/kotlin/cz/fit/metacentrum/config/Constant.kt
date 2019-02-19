@@ -32,6 +32,6 @@ object FileNames {
 }
 
 object Configuration {
-    const val cronInterval = "*/1 * * * *"
+    const val cronInterval = "*/30 * * * *"
     const val maxCronLogSizeInMB: Long = 1L
 }
