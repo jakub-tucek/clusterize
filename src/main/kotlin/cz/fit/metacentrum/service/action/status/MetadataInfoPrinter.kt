@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter
 class MetadataInfoPrinter {
 
     fun printMetadataListInfo(metadatas: List<ExecutionMetadata>) {
+        if (metadatas.isEmpty()) return
         ConsoleWriter.writeDelimiter()
         ConsoleWriter.writeHeader("Found tasks:")
         metadatas.forEachIndexed(this::printMetadataInfo)

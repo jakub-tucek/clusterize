@@ -24,6 +24,8 @@ class MetadataStatusService {
     private lateinit var executors: Set<@JvmSuppressWildcards TaskExecutor>
 
     fun retrieveMetadata(metadataPath: Path): List<ExecutionMetadata> {
+        if (Files.notExists(metadataPath)) return emptyList()
+
         val updatedMetadata = Files.list(metadataPath)
                 .filter { Files.isDirectory(it) }
                 .map {
