@@ -43,7 +43,7 @@ class CronMailService {
             templateService.write("templates/status-mail.mustache", tempFile, templateData)
 
             // verbose + read data (like from/to from file)
-            val output = shellServiceImpl.runCommand("sendmail -tv < ${tempFile.toAbsolutePath().toString()}")
+            val output = shellServiceImpl.runCommand("/usr/sbin/sendmail -tv < ${tempFile.toAbsolutePath().toString()}")
             logger.info("Mail send for ${templateData.subject} with status ${output.status}")
         } catch (e: Exception) {
             logger.error("Error occurred while sending email", e)
