@@ -32,9 +32,8 @@ class QueueRecordsService {
             return cachedResult
         }
 
-
-        // run qstat command and ship useless lines
-        val (output, status, errOutput) = shellService.runCommand("qstat -u $username")
+        // run qstat command
+        val (output, status, errOutput) = shellService.runCommand("PBSPRO_IGNORE_KERBEROS=yes && qstat -u $username")
         if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
 
         val queueRecords = convertOutputToRecords(output)
