@@ -87,7 +87,7 @@ main() {
     exit 1
   }
 
-  echo "$SOURCE_DIR/bin/clusterize \$\@" >> "$SOURCE_DIR/clusterize" || {
+  echo "$SOURCE_DIR/bin/clusterize \"\$@\"" >> "$SOURCE_DIR/clusterize" || {
     echo "Error: Unable create init script (4)\n"
     exit 1
   }
