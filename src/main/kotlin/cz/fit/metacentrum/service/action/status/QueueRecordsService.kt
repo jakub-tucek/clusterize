@@ -49,7 +49,7 @@ class QueueRecordsService {
 
     private fun convertOutputToRecords(output: String): List<QueueRecord> {
         return output.lines()
-                .drop(4)
+                .filter { it.matches("""^[0-9]+.*$""".toRegex()) }
                 .map { it.replace("""\s+""".toRegex(), " ").trim() }
                 .filter { it.isNotBlank() }
                 .map { parseQueueLine(it) }
