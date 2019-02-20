@@ -6,7 +6,6 @@ import cz.fit.metacentrum.config.ProfileConfiguration
 import cz.fit.metacentrum.service.MainService
 import mu.KotlinLogging
 
-
 private val logger = KotlinLogging.logger {}
 
 fun main(args: Array<String>) {
