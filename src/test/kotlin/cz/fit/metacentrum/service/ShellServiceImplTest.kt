@@ -24,7 +24,7 @@ internal class ShellServiceImplTest {
     fun testRunFailed() {
         val (output, status, errOutput) = shell.runCommand("ls -2")
 
-        Assertions.assertThat(status).isEqualTo(2)
+        Assertions.assertThat(status).isNotEqualTo(0)
         Assertions.assertThat(errOutput).contains("ls --help")
         Assertions.assertThat(output).isEmpty()
     }
