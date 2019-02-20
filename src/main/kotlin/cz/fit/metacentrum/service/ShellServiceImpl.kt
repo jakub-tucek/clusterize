@@ -6,6 +6,7 @@ import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
 
 private val logger = KotlinLogging.logger { }
+
 /**
  * Shell wrapper service for running commands.
  * @author Jakub Tucek
@@ -28,12 +29,14 @@ class ShellServiceImpl : ShellService {
         val process = ProcessBuilder("/bin/sh", "-c", command)
                 .start()
 
-        process.waitFor(30, TimeUnit.SECONDS)
+        process.waitFor(60, TimeUnit.SECONDS)
         if (process.isAlive) {
             logger.debug { "Process is still alive. Will hang." }
+            process.destroy()
             System.exit(1)
         }
 
+        logger.debug { "Process is finished, reading output." }
 
         val errInput = process.errorStream.bufferedReader().use { it.readText() }.trim()
         val input = process.inputStream.bufferedReader().use { it.readText() }.trim()
