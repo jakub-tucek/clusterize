@@ -25,6 +25,8 @@ object FileNames {
     val configDataFolderName = "${System.getProperty("user.home")}/.$appName"
     val defaultMetadataFolder = "/$configDataFolderName/metadataStorage"
     val cronLogFile = "$configDataFolderName/cron.log"
+    val analysisFile = "$configDataFolderName/analysis.csv"
+    val specificAnalysisFile = "$configDataFolderName/specific-analysis.csv"
     const val defaultSourceFile = "src/main/resources/metacentrum/source.yml"
 
     const val storageTaskFolderPrefix = "task-"

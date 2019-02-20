@@ -23,7 +23,7 @@ class ActionCronStartInternalService : ActionService<ActionCronStartInternal> {
     private fun checkLogSize() {
         val p = Paths.get(cronLogFile)
         if (Files.exists(p)) {
-            val size = Files.size(Paths.get(cronLogFile))
+            val size = Files.size(p)
             if (size / 1_000_000 > Configuration.maxCronLogSizeInMB) {
                 Files.delete(p)
                 Files.write(p, "".toByteArray(), StandardOpenOption.CREATE_NEW)
