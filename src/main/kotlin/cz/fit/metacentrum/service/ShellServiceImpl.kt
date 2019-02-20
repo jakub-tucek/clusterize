@@ -2,8 +2,10 @@ package cz.fit.metacentrum.service
 
 import cz.fit.metacentrum.domain.CommandOutput
 import cz.fit.metacentrum.service.api.ShellService
+import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
 
+private val logger = KotlinLogging.logger { }
 /**
  * Shell wrapper service for running commands.
  * @author Jakub Tucek
@@ -27,6 +29,10 @@ class ShellServiceImpl : ShellService {
                 .start()
 
         process.waitFor(5, TimeUnit.SECONDS)
+        if (process.isAlive) {
+            logger.debug { "Process is still alive. Will hang." }
+            System.exit(1)
+        }
 
 
         val errInput = process.errorStream.bufferedReader().use { it.readText() }.trim()
