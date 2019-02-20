@@ -57,7 +57,6 @@ class QueueRecordsService {
     private fun parseQueueLine(line: String): QueueRecord {
         val lineColumns = line
                 .split(" ")
-        logger.debug { "Parsing line: $lineColumns" }
         if (lineColumns.count() != 11)
             throw IllegalArgumentException("Parsed line has invalid count of columns (${lineColumns.count()}). \"${line}\"")
 
