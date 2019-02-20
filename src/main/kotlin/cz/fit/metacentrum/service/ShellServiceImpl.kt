@@ -28,7 +28,7 @@ class ShellServiceImpl : ShellService {
         val process = ProcessBuilder("/bin/sh", "-c", command)
                 .start()
 
-        process.waitFor(5, TimeUnit.SECONDS)
+        process.waitFor(30, TimeUnit.SECONDS)
         if (process.isAlive) {
             logger.debug { "Process is still alive. Will hang." }
             System.exit(1)
