@@ -25,7 +25,7 @@ internal class ShellServiceImplTest {
         val (output, status, errOutput) = shell.runCommand("ls -2")
 
         Assertions.assertThat(status).isNotEqualTo(0)
-        Assertions.assertThat(errOutput).contains("ls: invalid option --")
+        Assertions.assertThat(errOutput).contains("ls:")
         Assertions.assertThat(output).isEmpty()
     }
 
