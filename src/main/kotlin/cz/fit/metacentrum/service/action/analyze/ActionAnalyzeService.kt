@@ -17,8 +17,7 @@ import javax.inject.Inject
 
 private val logger = KotlinLogging.logger { }
 
-/**
- */
+
 class ActionAnalyzeService : ActionService<ActionAnalyze> {
 
     @Inject

@@ -86,7 +86,7 @@ class CommandLineParser {
                        -p [VALUE] - define path to metadata folder or default is used
                        -c [VALUE] - specify path to configuration file
                     cron [start|stop] - run cron to watch executed tasks and receive notifications
-                    analyze [start|stop] - analyzes cluster
+                    analyze [optional clusterInfoFile] - analyzes cluster
                     help - displays help
         """.trimIndent())
     }
