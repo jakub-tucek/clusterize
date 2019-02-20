@@ -30,10 +30,13 @@ class ActionAnalyzeService : ActionService<ActionAnalyze> {
         val clusterDetails = serializationService.parseClusterDetails(Paths.get(argumentAction.cluterDetailsFile))
 
         logger.info { "Retrieving queue records " }
-        val data = queueRecordsService.retrieveQueueRecords()
-                .groupBy { it.queueName }
+        val records = queueRecordsService.retrieveQueueRecords()
+        logger.info { "Preparing data" }
+        val data = records.groupBy { it.queueName }
                 .mapValues { it.value.size }
                 .toSortedMap(String.CASE_INSENSITIVE_ORDER)
+
+        logger.info { "Initializating files " }
 
         val analysisFile = Paths.get(FileNames.analysisFile)
         val specificAnalysisFile = Paths.get(FileNames.specificAnalysisFile)
@@ -41,7 +44,7 @@ class ActionAnalyzeService : ActionService<ActionAnalyze> {
         initFile(specificAnalysisFile)
         val now = LocalDateTime.now()
 
-        logger.info { "Writing to file" }
+        logger.info { "Writing to files" }
         try {
             writeFile(analysisFile, data, now)
         } catch (ex: IOException) {
