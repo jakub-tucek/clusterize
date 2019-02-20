@@ -15,7 +15,7 @@ object QueueUtils {
      */
     fun extractPid(fullPid: String): String {
         if (!fullPid.matches(pidRegex)) {
-            throw IllegalArgumentException("Given pid does not start with numbers")
+            throw IllegalArgumentException("Given pid does not start with numbers: $fullPid")
         }
         val (actualPid) = pidRegex.find(fullPid)!!.destructured
         return actualPid
