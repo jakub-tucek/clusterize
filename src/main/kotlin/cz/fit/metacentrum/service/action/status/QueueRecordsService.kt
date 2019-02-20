@@ -49,15 +49,15 @@ class QueueRecordsService {
 
     private fun convertOutputToRecords(output: String): List<QueueRecord> {
         return output.lines()
-                .filter { it.matches("""^[0-9]+.*$""".toRegex()) }
                 .map { it.replace("""\s+""".toRegex(), " ").trim() }
-                .filter { it.isNotBlank() }
+                .filter { it.matches("""^[0-9]+.*$""".toRegex()) }
                 .map { parseQueueLine(it) }
     }
 
     private fun parseQueueLine(line: String): QueueRecord {
         val lineColumns = line
                 .split(" ")
+        logger.debug { "Parsing line: $lineColumns" }
         if (lineColumns.count() != 11)
             throw IllegalArgumentException("Parsed line has invalid count of columns (${lineColumns.count()}). \"${line}\"")
 
