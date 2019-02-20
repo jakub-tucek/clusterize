@@ -3,7 +3,11 @@ package cz.fit.metacentrum.service.action.status
 import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.util.QueueUtils
+import mu.KotlinLogging
 import javax.inject.Inject
+
+
+private val logger = KotlinLogging.logger { }
 
 /**
  * Service responsible for retrieving queue. Due to nature of application (command line interface) that
@@ -21,8 +25,9 @@ class QueueRecordsService {
 
 
     fun retrieveQueueRecords(): List<QueueRecord> {
-        val (output, status, errOutput) = shellService.runCommand("qstat -i")
+        val (output, status, errOutput) = shellService.runCommand("export PBSPRO_IGNORE_KERBEROS=yes && qstat -i")
         if (status != 0) throw IllegalStateException("Running qstat command failed with status $status. $errOutput")
+        logger.debug { "Converting records to objects" }
         return convertOutputToRecords(output)
     }
 
