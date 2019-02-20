@@ -47,9 +47,9 @@ class ShellServiceImpl : ShellService {
         }
 
         val commandOutput = CommandOutput(
-                Files.readAllBytes(out).toString(),
+                Files.readAllLines(out).joinToString("\n"),
                 process.exitValue(),
-                Files.readAllBytes(outErr).toString()
+                Files.readAllLines(outErr).joinToString("\n")
         )
         Files.delete(out)
         Files.delete(outErr)
