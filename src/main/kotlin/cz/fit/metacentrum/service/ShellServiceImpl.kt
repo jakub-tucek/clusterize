@@ -43,7 +43,7 @@ class ShellServiceImpl : ShellService {
         process.waitFor(60, TimeUnit.SECONDS)
         if (process.isAlive) {
             logger.debug { "Process did not end. Finishing" }
-            return CommandOutput("", 146, "")
+            process.destroy()
         }
 
         val commandOutput = CommandOutput(
