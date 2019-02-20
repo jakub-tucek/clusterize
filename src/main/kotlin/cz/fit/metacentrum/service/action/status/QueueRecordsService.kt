@@ -62,7 +62,10 @@ class QueueRecordsService {
             throw IllegalArgumentException("Parsed line has invalid count of columns (${lineColumns.count()}). \"${line}\"")
 
         // retrieve internal state value
-        val internalState = QueueRecord.InternalState.valueOf(lineColumns[9])
+        val internalState = when {
+            lineColumns[9] != "-" -> QueueRecord.InternalState.valueOf(lineColumns[9])
+            else -> QueueRecord.InternalState.U
+        }
         // map internal state representation to state
         val state = when (internalState) {
             QueueRecord.InternalState.Q -> QueueRecord.State.QUEUED

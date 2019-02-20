@@ -27,6 +27,7 @@ data class QueueRecord(
         T, //job is	being moved to new location.
         W, //job is	waiting	for its	execution time
         S, //(Unicos only) job is suspend.
+        U // unknown
     }
 
     enum class State() {
