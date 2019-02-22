@@ -11,6 +11,7 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
@@ -71,7 +72,7 @@ class ActionAnalyzeService : ActionService<ActionAnalyze> {
 
     private fun writeFile(analysisFile: Path, data: SortedMap<String, Int>, now: LocalDateTime) {
         val formattedData = data.map { "${it.key} - ${it.value}" }.joinToString(";")
-        Files.write(analysisFile, "$now ; $formattedData\n".toByteArray())
+        Files.write(analysisFile, "$now ; $formattedData\n".toByteArray(), StandardOpenOption.APPEND)
     }
 
     private fun initFile(analysisFile: Path) {
