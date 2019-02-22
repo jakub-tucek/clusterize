@@ -71,7 +71,7 @@ class ActionAnalyzeService : ActionService<ActionAnalyze> {
 
     private fun writeFile(analysisFile: Path, data: SortedMap<String, Int>, now: LocalDateTime) {
         val formattedData = data.map { "${it.key} - ${it.value}" }.joinToString(";")
-        Files.write(analysisFile, "$now ; $formattedData".toByteArray())
+        Files.write(analysisFile, "$now ; $formattedData\n".toByteArray())
     }
 
     private fun initFile(analysisFile: Path) {
