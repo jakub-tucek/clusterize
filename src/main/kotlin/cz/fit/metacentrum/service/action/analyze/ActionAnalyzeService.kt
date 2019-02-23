@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.action.analyze
 
-import cz.fit.metacentrum.config.FileNames
 import cz.fit.metacentrum.domain.ActionAnalyze
+import cz.fit.metacentrum.domain.QueueRecord
 import cz.fit.metacentrum.domain.management.ClusterDetails
 import cz.fit.metacentrum.service.action.status.QueueRecordsService
 import cz.fit.metacentrum.service.api.ActionService
@@ -13,11 +13,12 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 import java.time.LocalDateTime
-import java.util.*
 import javax.inject.Inject
 
 private val logger = KotlinLogging.logger { }
 
+
+private const val SEPARATOR = " ; "
 
 class ActionAnalyzeService : ActionService<ActionAnalyze> {
 
@@ -25,6 +26,8 @@ class ActionAnalyzeService : ActionService<ActionAnalyze> {
     private lateinit var serializationService: SerializationService
     @Inject
     private lateinit var queueRecordsService: QueueRecordsService
+    @Inject
+    private lateinit var actionAnalyzePathProvider: ActionAnalyzePathProvider
 
     override fun processAction(argumentAction: ActionAnalyze) {
         logger.info { "Parsing cluster details" }
@@ -33,46 +36,55 @@ class ActionAnalyzeService : ActionService<ActionAnalyze> {
         logger.info { "Retrieving queue records " }
         val records = queueRecordsService.retrieveQueueRecords()
         logger.info { "Preparing data" }
+        val now = LocalDateTime.now()
+        writeAllData(records, now)
+
+        writeWatchedQueues(records, clusterDetails, now)
+    }
+
+    private fun writeWatchedQueues(records: List<QueueRecord>, clusterDetails: ClusterDetails, now: LocalDateTime) {
+        val watchedQueueNames = clusterDetails.queueTypes
+                .flatMap { it.queues }
+                .map { it.name }
+                .sortedWith(String.CASE_INSENSITIVE_ORDER)
+        val watchedQueues = watchedQueueNames
+                .map { it to 0 }
+                .toMap()
+                .toSortedMap(String.CASE_INSENSITIVE_ORDER)
+        records.forEach {
+            val value = watchedQueues.get(it.queueName)
+            if (value != null) {
+                watchedQueues[it.queueName] = value + 1
+            }
+        }
+
+        val file = actionAnalyzePathProvider.retrieveSpecificAnalysisPath()
+        if (Files.notExists(file)) {
+            val queueNamesHeader = watchedQueueNames.joinToString(SEPARATOR)
+            Files.write(file, "timestamp$SEPARATOR$queueNamesHeader\n".toByteArray(), StandardOpenOption.CREATE_NEW)
+        }
+        val data = watchedQueues.values.joinToString(SEPARATOR)
+        appendDataToFile(file, data, now)
+    }
+
+    private fun writeAllData(records: List<QueueRecord>, now: LocalDateTime) {
         val data = records.groupBy { it.queueName }
                 .mapValues { it.value.size }
                 .toSortedMap(String.CASE_INSENSITIVE_ORDER)
 
-        logger.info { "Initializating files " }
-
-        val analysisFile = Paths.get(FileNames.analysisFile)
-        val specificAnalysisFile = Paths.get(FileNames.specificAnalysisFile)
+        val analysisFile = actionAnalyzePathProvider.retrieveAnalysisPath()
         initFile(analysisFile)
-        initFile(specificAnalysisFile)
-        val now = LocalDateTime.now()
 
-        logger.info { "Writing to files" }
         try {
-            writeFile(analysisFile, data, now)
+            val formattedData = data.map { "${it.key} - ${it.value}" }.joinToString(SEPARATOR)
+            appendDataToFile(analysisFile, formattedData, now)
         } catch (ex: IOException) {
             logger.error(ex) { "Unable to write analysis file" }
         }
-        try {
-            val filteredData = filterData(data, clusterDetails)
-            writeFile(analysisFile, filteredData, now)
-        } catch (ex: IOException) {
-            logger.error(ex) { "Unable to write specific analysis file" }
-        }
-        logger.info { "Analysis finished " }
-
     }
 
-    private fun filterData(data: SortedMap<String, Int>, clusterDetails: ClusterDetails): SortedMap<String, Int> {
-        val watchedQueues = clusterDetails.queueTypes
-                .flatMap { it.queues }
-                .map { it.name.toLowerCase() to null }
-                .toMap()
-        return data.filter { watchedQueues.containsKey(it.key.toLowerCase()) }
-                .toSortedMap(String.CASE_INSENSITIVE_ORDER)
-    }
-
-    private fun writeFile(analysisFile: Path, data: SortedMap<String, Int>, now: LocalDateTime) {
-        val formattedData = data.map { "${it.key} - ${it.value}" }.joinToString(";")
-        Files.write(analysisFile, "$now ; $formattedData\n".toByteArray(), StandardOpenOption.APPEND)
+    private fun appendDataToFile(analysisFile: Path, formattedData: String, now: LocalDateTime) {
+        Files.write(analysisFile, "$now$SEPARATOR$formattedData\n".toByteArray(), StandardOpenOption.APPEND)
     }
 
     private fun initFile(analysisFile: Path) {
