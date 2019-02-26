@@ -53,12 +53,14 @@ internal class ActionAnalyzeServiceTest {
                                                 ClusterQueue(
                                                         "q1",
                                                         "",
-                                                        ""
+                                                        "",
+                                                        maxCPU = "10"
                                                 ),
                                                 ClusterQueue(
                                                         "q2",
                                                         "",
-                                                        ""
+                                                        "",
+                                                        maxCPU = "10"
                                                 )
                                         )
                                 )
