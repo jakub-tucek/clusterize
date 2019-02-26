@@ -21,7 +21,7 @@ general:
 taskType:
   type: PYTHON # type of runner
   command: |-
-    from python_fibonacci import main; main('.', $IN_DIR)
+    from python_fibonacci import main; main('.', $INT_RANGE)
 
 resources:
   profile: 'AUTO'

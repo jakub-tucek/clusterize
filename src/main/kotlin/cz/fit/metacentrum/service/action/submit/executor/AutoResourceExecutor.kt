@@ -23,7 +23,7 @@ class AutoResourceExecutor(private val clusterDetailsPath: Path = Paths.get(File
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         val config = metadata.configFile.resources
-        if (config.profile != ConfigResourceProfile.AUTOMATIC) return metadata
+        if (config.profile != ConfigResourceProfile.AUTO) return metadata
 
         val clusterDetails = serializationService.parseClusterDetails(clusterDetailsPath)
 

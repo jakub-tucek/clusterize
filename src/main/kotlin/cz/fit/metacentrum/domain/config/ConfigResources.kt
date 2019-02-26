@@ -21,5 +21,5 @@ data class ConfigResourcesDetails(
 
 enum class ConfigResourceProfile {
     CUSTOM,
-    AUTOMATIC
+    AUTO
 }
