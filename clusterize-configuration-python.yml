@@ -10,7 +10,7 @@ iterations:
 general:
   #  metadataStoragePath: 'dockershared/metadataStorage'
   storagePath: 'dockershared/storage' #usually storage
-  sourcesPath: './src/test/resources/sources'
+  sourcesPath: 'dockershared/sources'
   maxResubmits: 3
   variables:
   dependents:
@@ -21,7 +21,7 @@ general:
 taskType:
   type: PYTHON # type of runner
   command: |-
-    from python_fibonacci import main; main('.', $INT_RANGE)
+    from python_fibonacci import main; main(1, $FIB_TO)
 
 resources:
   profile: 'AUTO'
