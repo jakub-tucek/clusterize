@@ -32,7 +32,7 @@ iterations:
 general:
   #  metadataStoragePath: 'dockershared/metadataStorage'
   storagePath: 'dockershared/storage' #usually storage
-  sourcesPath: './src/test/resources/sources'
+  sourcesPath: 'dockershared/sources'
   maxResubmits: 3
   variables:
   dependents:
