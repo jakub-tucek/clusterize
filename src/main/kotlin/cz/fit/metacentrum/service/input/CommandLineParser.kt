@@ -1,7 +1,7 @@
 package cz.fit.metacentrum.service.input
 
+import cz.fit.metacentrum.config.FileNames.defaultClusterDetailsFile
 import cz.fit.metacentrum.config.FileNames.defaultMetadataFolder
-import cz.fit.metacentrum.config.FileNames.defaultSourceFile
 import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.*
 import mu.KotlinLogging
@@ -61,7 +61,7 @@ class CommandLineParser {
             }
             "cron-start-internal" -> return ActionCronStartInternal
             "analyze" -> {
-                val sourceFilePath = retrieveNextValue(iterator, false) ?: defaultSourceFile
+                val sourceFilePath = retrieveNextValue(iterator, false) ?: defaultClusterDetailsFile
                 return ActionAnalyze(sourceFilePath)
             }
             else -> {

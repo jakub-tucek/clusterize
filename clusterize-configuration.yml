@@ -47,6 +47,7 @@ taskType:
 
 resources:
   profile: 'CUSTOM'
+  resourceType: 'CPU'
   toolboxes:
     - matlab_Neural_Network_Toolbox
   modules:

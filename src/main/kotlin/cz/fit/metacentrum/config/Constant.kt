@@ -27,7 +27,7 @@ object FileNames {
     val cronLogFile = "$configDataFolderName/cron.log"
     val analysisFile = "$configDataFolderName/analysis.csv"
     val specificAnalysisFile = "$configDataFolderName/specific-analysis.csv"
-    const val defaultSourceFile = "src/main/resources/metacentrum/source.yml"
+    const val defaultClusterDetailsFile = "src/main/resources/metacentrum/source.yml"
 
     const val storageTaskFolderPrefix = "task-"
     val storageTaskFolderRegex = """^task-([0-9]+).*$""".toRegex()

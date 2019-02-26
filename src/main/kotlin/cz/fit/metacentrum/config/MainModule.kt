@@ -150,7 +150,7 @@ class MainModule : AbstractModule() {
         binder.addBinding().to(IterationExecutor::class.java)
         binder.addBinding().to(SaveMetadataIdPathMappingExecutor::class.java)
 
-        binder.addBinding().to(ScriptExecutor::class.java)
+        binder.addBinding().to(ScriptBuilderExecutor::class.java)
 
         binder.addBinding().to(SubmitExecutor::class.java)
 

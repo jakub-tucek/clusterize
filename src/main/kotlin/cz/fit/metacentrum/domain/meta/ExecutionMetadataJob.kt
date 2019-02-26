@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.domain.meta
 
+import cz.fit.metacentrum.domain.config.ConfigResourcesDetails
 import java.nio.file.Path
 import java.time.LocalDateTime
 
@@ -10,5 +11,6 @@ data class ExecutionMetadataJob(val jobPath: Path, // run path where output is s
                                 val jobInfo: JobInfo, // Additional info about job
                                 val resubmitCounter: Int = 0,
                                 val creationTime: LocalDateTime = LocalDateTime.now(),
+                                val usedResources: ConfigResourcesDetails? = null,
                                 val jobParent: ExecutionMetadataJob? = null // prev run,
 )

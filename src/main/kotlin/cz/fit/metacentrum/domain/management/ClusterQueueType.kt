@@ -11,5 +11,6 @@ data class ClusterQueueType(
 data class ClusterQueue(
         val name: String,
         val minWallTime: String,
-        val maxWallTime: String
+        val maxWallTime: String,
+        val maxCPU: String
 )

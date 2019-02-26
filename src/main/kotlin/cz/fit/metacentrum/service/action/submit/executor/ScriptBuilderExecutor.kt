@@ -15,10 +15,10 @@ import javax.inject.Inject
 
 
 /**
- * Executes matlab script.
+ * Executes script.
  * @author Jakub Tucek
  */
-class ScriptExecutor : TaskExecutor {
+class ScriptBuilderExecutor : TaskExecutor {
 
     @Inject
     private lateinit var templateDataBuilder: TemplateDataBuilder

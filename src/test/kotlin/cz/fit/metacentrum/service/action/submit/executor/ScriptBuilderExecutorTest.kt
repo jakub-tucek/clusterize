@@ -17,10 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension
  * @author Jakub Tucek
  */
 @ExtendWith(MockitoExtension::class)
-internal class ScriptExecutorTest {
+internal class ScriptBuilderExecutorTest {
 
     @InjectMocks
-    private lateinit var ex: ScriptExecutor
+    private lateinit var ex: ScriptBuilderExecutor
     @Mock
     private lateinit var templateService: TemplateService
     @Spy
