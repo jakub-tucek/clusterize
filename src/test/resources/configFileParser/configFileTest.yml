@@ -34,7 +34,7 @@ general:
   storagePath: './out/storage' #usually storage
   sourcesPath: './src/test/resources/sources'
   variables:
-  dependents:
+  dependentVariables:
     - name: MAX_TRANSL
       dependentVarName: VICINITY_TYPE
       modifier: '+1'

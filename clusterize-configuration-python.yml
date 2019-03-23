@@ -13,7 +13,7 @@ general:
   sourcesPath: 'dockershared/sources'
   maxResubmits: 3
   variables:
-  dependents:
+  dependentVariables:
     - name: MAX_TRANSL
       dependentVarName: VICINITY_TYPE
       modifier: '+1'

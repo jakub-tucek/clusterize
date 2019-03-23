@@ -21,8 +21,8 @@ DATADIR="{{storagePath}}" # sets up your input data directory
 {{#variables}}export {{first}}="{{second}}"
 {{/variables}}
 
-{{#general.dependents}}export {{name}}=$(({{dependentVarName}}{{modifier}}))
-{{/general.dependents}}
+{{#general.dependentVariables}}export {{name}}=$(({{dependentVarName}}{{modifier}}))
+{{/general.dependentVariables}}
 
 export IN_DIR="{{sourcesPath}}"
 export OUT_DIR="{{runPath}}"

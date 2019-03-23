@@ -47,7 +47,7 @@ internal object TestData {
                         storagePath = "./out/storage/",
                         sourcesPath = "./src/test/resources/sources",
                         variables = mapOf(),
-                        dependents = listOf(ConfigGeneralDependent(
+                        dependentVariables = listOf(ConfigGeneralDependent(
                                 name = "CONFIG_ITERATION_DEPENDENT",
                                 dependentVarName = "CONFIG_ITERATION_INT_RANGE",
                                 modifier = "+1"
