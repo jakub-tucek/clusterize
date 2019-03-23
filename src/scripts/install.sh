@@ -36,7 +36,6 @@ main() {
   fi
 
 
-  printf "${BLUE}Downloading Clusterize...${NORMAL}\n"
 
   if ! command -v curl > /dev/null 2>&1; then
     printf "Error: Curl not installed.\n"
@@ -46,6 +45,14 @@ main() {
   BASE_DIR="$HOME/.clusterize"
   SOURCE_DIR="$HOME/.clusterize/clusterize"
 
+  printf "${BLUE}Preparing folder...${NORMAL}\n"
+
+  mkdir -p $BASE_DIR > /dev/null 2>&1 || {
+    echo "Error: Unable to create install folder\n"
+    exit 1
+  }
+
+  printf "${BLUE}Downloading Clusterize...${NORMAL}\n"
 
   curl -fsSL https://github.com/jakub-tucek/metacentrum-cli/releases/download/$1/clusterize.tar --output $BASE_DIR/clusterize-bin.tar || {
     echo "Error: Unable to download version $1\n"
@@ -53,13 +60,7 @@ main() {
   }
 
 
-  printf "${BLUE}Preparing folder...${NORMAL}\n"
-
-
-  mkdir -p $BASE_DIR > /dev/null 2>&1 || {
-    echo "Error: Unable to create install folder\n"
-    exit 1
-  }
+  printf "${BLUE}Preparing installation...${NORMAL}\n"
 
   rm -Rf $SOURCE_DIR || {
     echo "Error: Unable to delete existing installation\n"
