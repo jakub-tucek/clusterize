@@ -39,7 +39,7 @@ class ScriptBuilderExecutor : TaskExecutor {
         // helper variables for printing status
         val totalSize = iterationCombinations.size
         var lastMessage = ""
-        val step = totalSize / 10
+        val step = Math.ceil(totalSize / 10.0).toInt()
 
         val submittedJobs = iterationCombinations.mapIndexed { index, iterationCombination ->
             variableData.putAll(iterationCombination)
