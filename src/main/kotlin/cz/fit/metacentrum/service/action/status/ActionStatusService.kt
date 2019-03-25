@@ -12,7 +12,7 @@ import javax.inject.Inject
  * ActionStatusService for status action.
  * @author Jakub Tucek
  */
-class ActionStatusService() : ActionService<ActionStatus> {
+class ActionStatusService : ActionService<ActionStatus> {
 
     @Inject
     private lateinit var serializationService: SerializationService

@@ -32,7 +32,7 @@ class TemplateDataBuilder {
                 ?: throw IllegalStateException("Couldn't create run path")
         Files.createDirectories(runPath)
 
-        return TemplateData<T>(
+        return TemplateData(
                 taskType,
                 variableData.toSortedMap().toList(),
                 GeneralTemplateData(

@@ -10,9 +10,9 @@ import java.nio.file.Files
  */
 internal class TemplateServiceTest {
 
-    val templateService: TemplateService = TemplateService()
+    private val templateService: TemplateService = TemplateService()
 
-    val outFile = Files.createTempFile("TemplateServiceTest", "template")
+    val outFile = Files.createTempFile("TemplateServiceTest", "template")!!
 
     @Test
     fun testTemplateCreation() {

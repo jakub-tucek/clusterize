@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Spy
 import org.mockito.junit.jupiter.MockitoExtension
 
 /**
@@ -23,8 +22,8 @@ internal class ScriptBuilderExecutorTest {
     private lateinit var ex: ScriptBuilderExecutor
     @Mock
     private lateinit var templateService: TemplateService
-    @Spy
-    private var templateDataBuilder = TemplateDataBuilder()
+    @Mock
+    private lateinit var templateDataBuilder: TemplateDataBuilder
 
     @Test
     fun testMatlabScriptGeneratedFile() {

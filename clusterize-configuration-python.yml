@@ -1,28 +1,65 @@
 # defines iterations in given order
 iterations:
   - type: INT_RANGE
-    name: FIB_TO
-    from: 1
-    to: 41
+    name: X
+    from: -20
+    to: +20
     step: 1
     stepOperation: PLUS
+  - type: INT_RANGE
+    name: Y
+    from: -20
+    to: +20
+    step: 1
+    stepOperation: PLUS
+  - type: ARRAY
+    name: CONFIG_FILE
+    values:
+      - ./input/config-0bands.yaml
+      - ./input/config-vis2vis-1band.yaml
+      - ./input/config-vis2vis-2bands.yaml
+      - ./input/config-vis2vis-4bands.yaml
+      - ./input/config-vis2vis-6bands.yaml
+      - ./input/config-vis2vis-8bands.yaml
+      - ./input/config-vis2vis-10bands.yaml
+      - ./input/config-vis2vis-12bands.yaml
+      - ./input/config-vis2vis-14bands.yaml
+      - ./input/config-nir2nir-1band.yaml
+      - ./input/config-nir2nir-2bands.yaml
+      - ./input/config-nir2nir-4bands.yaml
+      - ./input/config-nir2nir-6bands.yaml
+      - ./input/config-nir2nir-8bands.yaml
+      - ./input/config-nir2nir-10bands.yaml
+      - ./input/config-nir2nir-12bands.yaml
+      - ./input/config-nir2nir-14bands.yaml
+      - ./input/config-vis2nir-2bands.yaml
+      - ./input/config-vis2nir-4bands.yaml
+      - ./input/config-vis2nir-6bands.yaml
+      - ./input/config-vis2nir-8bands.yaml
+      - ./input/config-vis2nir-10bands.yaml
+      - ./input/config-vis2nir-12bands.yaml
+      - ./input/config-vis2nir-14bands.yaml
+      - ./input/config-vis2nir-16bands.yaml
+      - ./input/config-vis2nir-18bands.yaml
+      - ./input/config-vis2nir-20bands.yaml
+      - ./input/config-vis2nir-22bands.yaml
+      - ./input/config-vis2nir-24bands.yaml
+      - ./input/config-vis2nir-26bands.yaml
+      - ./input/config-vis2nir-28bands.yaml
 
 general:
   #  metadataStoragePath: 'dockershared/metadataStorage'
   storagePath: 'dockershared/storage' #usually storage
   sourcesPath: 'dockershared/sources'
   maxResubmits: 3
-  variables:
   dependentVariables:
     - name: MAX_TRANSL
-      dependentVarName: VICINITY_TYPE
-      modifier: '+1'
-
+      dependentVarName: Y
+      modifier: '?+1'
 taskType:
   type: PYTHON # type of runner
-  command: |-
+  functionCall: |-
     from python_fibonacci import main; main(1, $FIB_TO)
-
 resources:
   profile: 'AUTO'
   resourceType: 'CPU'

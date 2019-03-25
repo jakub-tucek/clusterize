@@ -11,7 +11,7 @@ private const val commandPrefix = "docker exec -u \"pbsuser\" pbsmnt bash -c -l"
  * Proxy class for shell service actual implementation. Prepends command with docker execution.
  * @author Jakub Tucek
  */
-class ShellServiceDockerProxy(val shellService: ShellService) : ShellService {
+class ShellServiceDockerProxy(private val shellService: ShellService) : ShellService {
     override fun runCommandAsync(command: String) {
         logger.info("ShellServiceDockerProxy run command asynchronously wrapper")
         shellService.runCommandAsync(

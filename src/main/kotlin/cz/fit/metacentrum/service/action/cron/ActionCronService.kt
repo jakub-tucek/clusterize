@@ -1,7 +1,6 @@
 package cz.fit.metacentrum.service.action.cron
 
 import cz.fit.metacentrum.domain.ActionCron
-import cz.fit.metacentrum.service.ShellServiceImpl
 import cz.fit.metacentrum.service.api.ActionService
 import javax.inject.Inject
 
@@ -11,8 +10,6 @@ import javax.inject.Inject
  */
 class ActionCronService : ActionService<ActionCron> {
 
-    @Inject
-    private lateinit var shellServiceImpl: ShellServiceImpl
     @Inject
     private lateinit var cronService: CronService
 

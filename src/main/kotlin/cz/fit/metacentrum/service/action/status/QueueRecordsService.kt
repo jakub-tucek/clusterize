@@ -32,7 +32,7 @@ class QueueRecordsService {
     }
 
     fun retrieveQueueForUser(username: String): List<QueueRecord> {
-        val cachedResult = cache.get(username)
+        val cachedResult = cache[username]
         if (cachedResult != null) {
             return cachedResult
         }

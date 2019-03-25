@@ -41,7 +41,7 @@ internal class IterationExecutorTest {
         val result = executor.execute(defaultData)
 
         Assertions.assertThat(result.iterationCombinations)
-                .isNotNull()
+                .isNotNull
                 .hasSize(8)
     }
 

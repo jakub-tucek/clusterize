@@ -27,7 +27,7 @@ object FileUtils {
     }
 }
 
-class CopyDir(val sourceDir: Path, val targetDir: Path) : SimpleFileVisitor<Path>() {
+class CopyDir(private val sourceDir: Path, val targetDir: Path) : SimpleFileVisitor<Path>() {
 
     override fun visitFile(file: Path?, attrs: BasicFileAttributes?): FileVisitResult {
         val targetFile = targetDir.resolve(sourceDir.relativize(file))

@@ -15,16 +15,13 @@ import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.service.config.ConfiguratorRunner
 import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.service.input.validator.ConfigValidationService
-import mu.KotlinLogging
 import javax.inject.Inject
-
-private val logger = KotlinLogging.logger {}
 
 /**
  * Action Submit service implementation.
  * @author Jakub Tucek
  */
-class ActionSubmitService() : ActionService<ActionSubmit> {
+class ActionSubmitService : ActionService<ActionSubmit> {
     @Inject
     private lateinit var serializationService: SerializationService
     @Inject
@@ -45,6 +42,7 @@ class ActionSubmitService() : ActionService<ActionSubmit> {
         val interactiveConfig = configuratorRunner.configure(config)
         val initMetadata = ExecutionMetadata(configFile = interactiveConfig)
 
+        @Suppress("REDUNDANT_ELSE_IN_WHEN")
         when (interactiveConfig.taskType) {
             is MatlabTaskType -> submitRunner.run(initMetadata, submitExecutors)
             is PythonTaskType -> submitRunner.run(initMetadata, submitExecutors)

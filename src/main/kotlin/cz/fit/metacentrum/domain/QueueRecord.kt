@@ -19,7 +19,7 @@ data class QueueRecord(
         val state: State
 ) {
     // state of job - should be Q(queued) or R(running). E is for errored job.
-    enum class InternalState() {
+    enum class InternalState {
         E, //Job is	exiting	after having run.
         H, //Job is	held.
         Q, //job is	queued,	eligable to run	or routed.

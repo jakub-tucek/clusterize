@@ -23,7 +23,7 @@ class SaveMetadataIdPathMappingExecutor : TaskExecutor {
         val mapping = serializationService.parseMetadataIdPathMapping(metadataRootPath)
                 ?: MetadataIdPathMapping(emptyMap())
 
-        val res = mapping.idToPathMap + Pair<Int, String>(
+        val res = mapping.idToPathMap + Pair(
                 metadata.metadataId!!,
                 metadata.paths.metadataStoragePath!!.toAbsolutePath().toString()
         )

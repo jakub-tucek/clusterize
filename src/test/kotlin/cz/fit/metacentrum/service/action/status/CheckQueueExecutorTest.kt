@@ -31,8 +31,6 @@ internal class CheckQueueExecutorTest {
 
     private lateinit var metadata: ExecutionMetadata
 
-    private lateinit var queueRecordMap: Map<String, List<QueueRecord>>
-
     @BeforeEach
     fun init() {
         metadata = TestData.executedMetadata

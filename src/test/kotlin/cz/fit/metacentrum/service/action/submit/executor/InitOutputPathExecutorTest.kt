@@ -16,8 +16,8 @@ import java.nio.file.Files
  */
 internal class InitOutputPathExecutorTest {
 
-    val executor = InitOutputPathExecutor()
-    val fs = Jimfs.newFileSystem(Configuration.unix())
+    private val executor = InitOutputPathExecutor()
+    private val fs = Jimfs.newFileSystem(Configuration.unix())
 
 
     @Test

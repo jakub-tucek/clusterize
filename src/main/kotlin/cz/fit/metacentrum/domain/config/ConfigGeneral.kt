@@ -1,5 +1,6 @@
 package cz.fit.metacentrum.domain.config
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import cz.fit.metacentrum.config.FileNames.defaultMetadataFolder
 
 /**
@@ -10,9 +11,11 @@ data class ConfigGeneral(
         val storagePath: String,
         val sourcesPath: String,
         val maxResubmits: Int = 0,
-        val variables: Map<String, String>? = emptyMap(),
+        @JsonIgnore
+        val variables: Map<String, String> = emptyMap(),
         val taskName: String? = null,
-        val dependentVariables: List<ConfigGeneralDependent>
+        @JsonIgnore
+        val dependentVariables: List<ConfigGeneralDependent> = emptyList()
 )
 
 data class ConfigGeneralDependent(

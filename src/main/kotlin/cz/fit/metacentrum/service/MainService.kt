@@ -8,7 +8,7 @@ import javax.inject.Inject
 /**
  * Main service that processes user arguments and executors correct action.
  */
-class MainService() {
+class MainService {
     @Inject
     private lateinit var commandLineParser: CommandLineParser
     @Inject

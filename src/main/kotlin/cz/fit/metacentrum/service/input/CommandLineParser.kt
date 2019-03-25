@@ -4,9 +4,6 @@ import cz.fit.metacentrum.config.FileNames.defaultClusterDetailsFile
 import cz.fit.metacentrum.config.FileNames.defaultMetadataFolder
 import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.*
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 
 const val genericErrorMessage = "Parsing arguments failed, value after argument expected but none was found"

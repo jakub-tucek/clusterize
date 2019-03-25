@@ -6,7 +6,6 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadataJob
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.service.action.status.QueueRecordsService
 import cz.fit.metacentrum.service.api.TaskExecutor
-import cz.fit.metacentrum.service.input.SerializationService
 import cz.fit.metacentrum.util.JobUtils
 import javax.inject.Inject
 
@@ -19,8 +18,6 @@ class CheckQueueExecutor : TaskExecutor {
 
     @Inject
     private lateinit var queueRecordsService: QueueRecordsService
-    @Inject
-    private lateinit var serializationService: SerializationService
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
         if (metadata.currentState.isFinishing()) {
@@ -48,7 +45,7 @@ class CheckQueueExecutor : TaskExecutor {
     }
 
     private fun updateJobState(job: ExecutionMetadataJob, pidMap: Map<String, List<QueueRecord>>): ExecutionMetadataJob {
-        val record = pidMap.get(job.jobInfo.pid)?.first()
+        val record = pidMap[job.jobInfo.pid]?.first()
 
         if (record != null) {
             return when (record.state) {

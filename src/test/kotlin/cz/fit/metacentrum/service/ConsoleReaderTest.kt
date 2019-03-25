@@ -25,7 +25,7 @@ internal class ConsoleReaderTest {
 
     }
 
-    fun writeToConsole(msg: String) {
+    private fun writeToConsole(msg: String) {
         testIn = ByteArrayInputStream(msg.toByteArray())
         System.setIn(testIn)
     }

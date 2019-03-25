@@ -100,7 +100,7 @@ internal class ActionAnalyzeServiceTest {
         val res = Files.readAllLines(specificAnalysisPath)
         Assertions.assertThat(res).hasSize(2)
         Assertions.assertThat(res)
-                .contains("timestamp ; q1 ; q2");
+                .contains("timestamp ; q1 ; q2")
         Assertions.assertThat(res.joinToString("\n")).contains("4 ; 0")
     }
 

@@ -7,11 +7,8 @@ import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.QueueUtils
-import mu.KotlinLogging
 import java.io.IOException
 import javax.inject.Inject
-
-private val logger = KotlinLogging.logger {}
 
 /**
  * Submits created job to queue and persists pid.
@@ -32,7 +29,7 @@ class SubmitExecutor : TaskExecutor {
                         return@map it
                     }
                     val scriptFile = it.jobPath.resolve(FileNames.innerScript).toAbsolutePath()
-                    val cmdResult = shellService.runCommand("qsub ${scriptFile.toString()}")
+                    val cmdResult = shellService.runCommand("qsub $scriptFile")
                     if (cmdResult.status != 0)
                         throw IOException("Submitting script $scriptFile failed with ${cmdResult.status}. ${cmdResult.errOutput}")
 

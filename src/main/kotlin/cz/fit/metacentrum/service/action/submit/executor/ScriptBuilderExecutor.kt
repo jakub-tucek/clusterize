@@ -34,7 +34,7 @@ class ScriptBuilderExecutor : TaskExecutor {
         }
 
         val variableData = HashMap<String, String>()
-        variableData.putAll(metadata.configFile.general.variables ?: emptyMap())
+        variableData.putAll(metadata.configFile.general.variables)
 
         val submittedJobs = iterationCombinations.mapIndexed { index, iterationCombination ->
             variableData.putAll(iterationCombination)
@@ -48,7 +48,7 @@ class ScriptBuilderExecutor : TaskExecutor {
     private fun createTemplate(metadata: ExecutionMetadata,
                                variableData: HashMap<String, String>,
                                runCounter: Int): ExecutionMetadataJob {
-        val templateData = when (metadata.configFile.taskType) {
+        @Suppress("REDUNDANT_ELSE_IN_WHEN") val templateData = when (metadata.configFile.taskType) {
             is MatlabTaskType -> {
                 val templateData = templateDataBuilder
                         .prepare<MatlabTaskType>(metadata, variableData, runCounter)

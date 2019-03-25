@@ -26,20 +26,18 @@ class MetadataStatusService {
     fun retrieveMetadata(metadataPath: Path): List<ExecutionMetadata> {
         if (Files.notExists(metadataPath)) return emptyList()
 
-        val updatedMetadata = Files.list(metadataPath)
+        return Files.list(metadataPath)
                 .filter { Files.isDirectory(it) }
                 .map {
                     val res = serializationService.parseMetadata(it)
                     if (res == null) {
-                        ConsoleWriter.writeStatus("Folder ${it.toString()} does not contain metadata file")
+                        ConsoleWriter.writeStatus("Folder $it does not contain metadata file")
                     }
                     res
                 }
                 .sorted(ExecutionMetadataComparator::compare)
                 .toList()
                 .filterNotNull()
-
-        return updatedMetadata
     }
 
     /**
