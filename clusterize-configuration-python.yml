@@ -8,8 +8,8 @@ iterations:
     stepOperation: PLUS
   - type: INT_RANGE
     name: Y
-    from: -20
-    to: +20
+    from: -10
+    to: +10
     step: 1
     stepOperation: PLUS
   - type: ARRAY
@@ -55,11 +55,11 @@ general:
   dependentVariables:
     - name: MAX_TRANSL
       dependentVarName: Y
-      modifier: '?+1'
+      modifier: '+15'
 taskType:
   type: PYTHON # type of runner
-  functionCall: |-
-    from python_fibonacci import main; main(1, $FIB_TO)
+  command: |-
+    python -x $X -y $Y -o outputs/out_$X-$Y.yaml -c "from python_fibonacci import main; main(1, $MAX_TRANSL)"
 resources:
   profile: 'AUTO'
   resourceType: 'CPU'

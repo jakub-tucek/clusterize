@@ -21,8 +21,17 @@ object ConsoleWriter {
         println("   * $msg")
     }
 
-    fun writeStatusDetail(msg: String) {
-        println(getStatusDetailLine(msg))
+    fun writeStatusDetail(msg: String, newline: Boolean = true) {
+        if (newline) {
+            println(getStatusDetailLine(msg))
+        } else {
+            print(getStatusDetailLine(msg))
+        }
+    }
+
+    fun deleteStatusDetail(lastMsg: String) {
+        val deleteStr = "\u0008".repeat(getStatusDetailLine(lastMsg).length)
+        print(deleteStr)
     }
 
     fun getStatusDetailLine(msg: String): String {

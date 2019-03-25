@@ -82,7 +82,14 @@ clustize <command> [...additional parameters for command]
     * displays help and usage examples   
 
     
-### 
+### Env variables
+
+
+| Name | description |
+| ---- | ----------- |
+| CLUSTERIZE__PROFILE | enables develop mode if set to **dev** |
+| CLUSTERIZE_DISABLE_CLEANUP | disables cleanup if set to **true** |
+
 
 ## Configuration file
 

@@ -1,5 +1,5 @@
 {{>header}}
 
-python -c "{{{taskType.command}}}" &> "{{runPath}}/{{fileNames.stdJobLog}}"
+{{{taskType.command}}} &> "{{runPath}}/{{fileNames.stdJobLog}}"
 
 {{>footer}}

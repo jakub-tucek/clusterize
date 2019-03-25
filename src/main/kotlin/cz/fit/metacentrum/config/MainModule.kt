@@ -1,3 +1,4 @@
+
 package cz.fit.metacentrum.config
 
 import com.google.inject.AbstractModule

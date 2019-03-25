@@ -26,7 +26,7 @@ class ScriptBuilderExecutor : TaskExecutor {
     private lateinit var templateService: TemplateService
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        ConsoleWriter.writeStatus("Generating bash scripts wrapping matlab")
+        ConsoleWriter.writeStatus("Generating bash scripts")
         val iterationCombinations = when {
             metadata.iterationCombinations == null -> throw IllegalStateException("Iteration combination is not initialized")
             metadata.iterationCombinations.isEmpty() -> listOf(emptyMap())
@@ -36,10 +36,25 @@ class ScriptBuilderExecutor : TaskExecutor {
         val variableData = HashMap<String, String>()
         variableData.putAll(metadata.configFile.general.variables)
 
+        // helper variables for printing status
+        val totalSize = iterationCombinations.size
+        var lastMessage = ""
+        val step = totalSize / 10
+
         val submittedJobs = iterationCombinations.mapIndexed { index, iterationCombination ->
             variableData.putAll(iterationCombination)
-            createTemplate(metadata, variableData, index)
+            val template = createTemplate(metadata, variableData, index)
+
+            if (index % step == 0) {
+                ConsoleWriter.deleteStatusDetail(lastMessage)
+                lastMessage = "Generated $index/$totalSize"
+                ConsoleWriter.writeStatusDetail(lastMessage, newline = false)
+            }
+
+            template
         }
+        println()
+        ConsoleWriter.writeStatusDetail("Generated $totalSize/$totalSize. All script generated")
 
 
         return metadata.copy(jobs = submittedJobs)

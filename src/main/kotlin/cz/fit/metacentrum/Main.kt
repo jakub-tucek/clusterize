@@ -11,7 +11,7 @@ private val logger = KotlinLogging.logger {}
 fun main(args: Array<String>) {
     try {
         logger.info {
-            "Starting app. Profile: ${ProfileConfiguration.activeProfile} Arguments: ${args.joinToString(" ")}"
+            "Starting app. Profile: ${ProfileConfiguration.activeProfile}. Cleanup disabled: ${ProfileConfiguration.envCleanupDisabled} Arguments: ${args.joinToString(" ")}"
         }
 
         val injector = Guice.createInjector(MainModule())
