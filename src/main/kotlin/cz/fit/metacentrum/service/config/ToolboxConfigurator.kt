@@ -16,7 +16,7 @@ class ToolboxConfigurator : Configurator {
             is MatlabTaskType -> "matlab"
             is PythonTaskType -> ""
         }
-        val containsSpecificToolbox = config.resources.toolboxes.contains(taskSpecificToolbox)
+        val containsSpecificToolbox = config.resources.toolboxes!!.contains(taskSpecificToolbox)
         if (!containsSpecificToolbox && !taskSpecificToolbox.isBlank()) {
             return config.copy(resources = config.resources.copy(
                     toolboxes = config.resources.toolboxes + taskSpecificToolbox

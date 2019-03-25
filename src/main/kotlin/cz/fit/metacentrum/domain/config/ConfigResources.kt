@@ -1,17 +1,13 @@
 package cz.fit.metacentrum.domain.config
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-
 
 // defines config resources
 data class ConfigResources(
         val profile: ConfigResourceProfile,
         val resourceType: String? = null, // must be filled only for auto mode
         val details: ConfigResourcesDetails? = null,
-        @JsonIgnore
-        val modules: Set<String> = emptySet(),
-        @JsonIgnore
-        val toolboxes: Set<String> = emptySet()
+        val modules: Set<String>? = emptySet(),
+        val toolboxes: Set<String>? = emptySet()
 )
 
 data class ConfigResourcesDetails(

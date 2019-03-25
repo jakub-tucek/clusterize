@@ -16,7 +16,7 @@ class ModulesConfigurator : Configurator {
             is MatlabTaskType -> "matlab"
             is PythonTaskType -> "python-3.4.1-gcc"
         }
-        val containsSpecificModule = config.resources.modules.contains(taskSpecificModule)
+        val containsSpecificModule = config.resources.modules!!.contains(taskSpecificModule)
         if (!containsSpecificModule) {
             return config.copy(resources = config.resources.copy(
                     modules = config.resources.modules + taskSpecificModule

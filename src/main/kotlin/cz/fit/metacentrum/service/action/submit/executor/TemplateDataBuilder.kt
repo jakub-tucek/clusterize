@@ -36,7 +36,7 @@ class TemplateDataBuilder {
                 taskType,
                 variableData.toSortedMap().toList(),
                 GeneralTemplateData(
-                        dependentVariables = metadata.configFile.general.dependentVariables,
+                        dependentVariables = metadata.configFile.general.dependentVariables!!,
                         taskName = metadata.configFile.general.taskName
                 ),
                 runPath,
@@ -52,8 +52,8 @@ class TemplateDataBuilder {
                 walltime = details.walltime,
                 formattedResources = formatResources(details),
                 ncpus = details.ncpus,
-                modules = resources.modules,
-                toolboxes = resources.toolboxes
+                modules = resources.modules!!,
+                toolboxes = resources.toolboxes!!
         )
     }
 
