@@ -16,7 +16,7 @@ class ResourcesConfigurator : Configurator {
     @Inject
     private lateinit var consoleReader: ConsoleReader
 
-    override fun configureInteractively(config: ConfigFile): ConfigFile {
+    override fun configure(config: ConfigFile): ConfigFile {
         if (config.resources.details == null
                 && config.resources.profile == ConfigResourceProfile.CUSTOM) {
             val walltime = consoleReader.askForValue("Please enter wall time [01:00:00]:") { it.ifBlank { "00:04:00" } }

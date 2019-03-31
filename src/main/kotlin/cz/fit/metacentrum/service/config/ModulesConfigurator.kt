@@ -11,7 +11,7 @@ import cz.fit.metacentrum.service.api.Configurator
  */
 class ModulesConfigurator : Configurator {
 
-    override fun configureInteractively(config: ConfigFile): ConfigFile {
+    override fun configure(config: ConfigFile): ConfigFile {
         val taskSpecificModule = when (config.taskType) {
             is MatlabTaskType -> "matlab"
             is PythonTaskType -> "python-3.4.1-gcc"

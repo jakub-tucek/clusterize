@@ -8,6 +8,6 @@ import cz.fit.metacentrum.domain.config.ConfigFile
  */
 interface Configurator {
 
-    fun configureInteractively(config: ConfigFile): ConfigFile
+    fun configure(config: ConfigFile): ConfigFile
 
 }

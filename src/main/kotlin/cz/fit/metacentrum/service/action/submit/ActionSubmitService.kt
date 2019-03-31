@@ -39,7 +39,7 @@ class ActionSubmitService : ActionService<ActionSubmit> {
             is ActionSubmitPath -> getConfig(argumentAction.configFilePath)
             is ActionSubmitConfig -> argumentAction.configFile
         }
-        val interactiveConfig = configuratorRunner.configure(config)
+        val interactiveConfig = configuratorRunner.runConfiguration(config)
         val initMetadata = ExecutionMetadata(configFile = interactiveConfig)
 
         @Suppress("REDUNDANT_ELSE_IN_WHEN")

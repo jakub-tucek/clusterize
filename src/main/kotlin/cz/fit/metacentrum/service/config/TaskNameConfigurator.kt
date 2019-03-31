@@ -15,7 +15,7 @@ class TaskNameConfigurator : Configurator {
     @Inject
     private lateinit var consoleReader: ConsoleReader
 
-    override fun configureInteractively(config: ConfigFile): ConfigFile {
+    override fun configure(config: ConfigFile): ConfigFile {
         val jobName = config.general.taskName
         if (jobName != null) return config
 

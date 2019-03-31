@@ -11,7 +11,7 @@ import cz.fit.metacentrum.service.api.Configurator
  */
 class ToolboxConfigurator : Configurator {
 
-    override fun configureInteractively(config: ConfigFile): ConfigFile {
+    override fun configure(config: ConfigFile): ConfigFile {
         val taskSpecificToolbox = when (config.taskType) {
             is MatlabTaskType -> "matlab"
             is PythonTaskType -> ""
