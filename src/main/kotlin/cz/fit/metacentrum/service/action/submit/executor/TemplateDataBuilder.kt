@@ -63,6 +63,9 @@ class TemplateDataBuilder {
         stringBuilder.append(":ncpus=${details.ncpus}")
         stringBuilder.append(":mem=${details.mem}")
         stringBuilder.append(":scratch_local=${details.scratchLocal}")
+        if (details.ngpus != null) {
+            stringBuilder.append(":ngpus=${details.ngpus}")
+        }
         return stringBuilder.toString()
     }
 }

@@ -31,9 +31,10 @@ class ResourcesConfigurator : Configurator {
         val scratchLocal = config.resources.details?.scratchLocal
                 ?: consoleReader.askForValue("Please enter scratch local space [1gb]:") { it.ifBlank { "1gb" } }
 
-        val ngpus: Int? = config.resources.details?.ngpus
-                ?: consoleReader.askForValue("Please enter number of gpus if needed [none]:") { it.toIntOrNull() }
-
+        val ngpus: Int? = if (consoleReader.askForConfirmation("Do you need to specify number of gpu?", true)) {
+            config.resources.details?.ngpus
+                    ?: consoleReader.askForValue("Please enter number of gpus if needed [2]:") { it.toIntOrNull() ?: 2 }
+        } else null
         return config.copy(resources = config.resources.copy(
                 details = ConfigResourcesDetails(
                         chunks = chunks,

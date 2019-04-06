@@ -14,7 +14,7 @@ class ToolboxConfigurator : Configurator {
     override fun configure(config: ConfigFile): ConfigFile {
         val taskSpecificToolbox = when (config.taskType) {
             is MatlabTaskType -> "matlab"
-            is PythonTaskType -> ""
+            is PythonTaskType -> "python-3.6.2-gcc"
         }
         val containsSpecificToolbox = config.resources.toolboxes!!.contains(taskSpecificToolbox)
         if (!containsSpecificToolbox && !taskSpecificToolbox.isBlank()) {
