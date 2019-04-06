@@ -19,14 +19,16 @@ class ResourcesConfigurator : Configurator {
         val walltime = config.resources.details?.walltime
                 ?: consoleReader.askForValue("Please enter wall time [01:00:00]:") { it.ifBlank { "00:04:00" } }
 
-        val chunks = config.resources.details?.chunks
-                ?: consoleReader.askForValue("Please chunks [1]:") { it.toIntOrNull() ?: 1 }
+        val chunks = if (config.resources.details?.chunks == null || config.resources.details.chunks < 1)
+            consoleReader.askForValue("Please chunks [1]:") { it.toIntOrNull() ?: 1 }
+        else config.resources.details.chunks
 
         val mem = config.resources.details?.mem
                 ?: consoleReader.askForValue("Please enter memory [5gb]:") { it.ifBlank { "5gb" } }
 
-        val ncpus = config.resources.details?.ncpus
-                ?: consoleReader.askForValue("Please enter number of cpus [8]:") { it.toIntOrNull() ?: 8 }
+        val ncpus = if (config.resources.details?.ncpus == null || config.resources.details.ncpus < 1)
+            consoleReader.askForValue("Please enter number of cpus [8]:") { it.toIntOrNull() ?: 8 }
+        else config.resources.details.ncpus
 
         val scratchLocal = config.resources.details?.scratchLocal
                 ?: consoleReader.askForValue("Please enter scratch local space [1gb]:") { it.ifBlank { "1gb" } }

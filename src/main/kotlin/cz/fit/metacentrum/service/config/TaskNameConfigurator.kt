@@ -9,7 +9,8 @@ import javax.inject.Inject
  * Configurator for task name
  * @author Jakub Tucek
  */
-class TaskNameConfigurator : Configurator {
+class
+TaskNameConfigurator : Configurator {
 
 
     @Inject
