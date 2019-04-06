@@ -14,16 +14,21 @@ class ModulesConfigurator : Configurator {
     override fun configure(config: ConfigFile): ConfigFile {
         val taskSpecificModule = when (config.taskType) {
             is MatlabTaskType -> "matlab"
-            is PythonTaskType -> "python-3.4.1-gcc"
+            is PythonTaskType -> "python-3.6.2-gcc"
         }
-        val containsSpecificModule = config.resources.modules!!.contains(taskSpecificModule)
-        if (!containsSpecificModule) {
-            return config.copy(resources = config.resources.copy(
-                    modules = config.resources.modules + taskSpecificModule
-            ))
+        val taskSpecificPattern = when (config.taskType) {
+            is MatlabTaskType -> "^matlab-[0-9]+.[0-9]+$".toRegex()
+            is PythonTaskType -> "^python-[0-9]+.[0-9]+.[0-9]+-gcc$".toRegex()
         }
 
-        return config
+        val anyMatches = config.resources.modules!!.find { it.matches(taskSpecificPattern) }
+
+        if (anyMatches != null) return config;
+
+        return config.copy(resources = config.resources.copy(
+                modules = config.resources.modules + taskSpecificModule
+        ))
+
     }
 
 }
