@@ -24,7 +24,7 @@ class SubmitExecutor : TaskExecutor {
         val jobs = metadata.jobs ?: throw IllegalStateException("No scripts to run available")
 
         var messageBuffer = StringBuilder()
-        val step = 20;
+        val step = 5;
 
         val scriptsWithPid = jobs
                 .mapIndexed { index, it ->
