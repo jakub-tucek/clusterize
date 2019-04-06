@@ -2,7 +2,6 @@ package cz.fit.metacentrum.service.config
 
 import cz.fit.metacentrum.domain.config.ConfigFile
 import cz.fit.metacentrum.domain.config.MatlabTaskType
-import cz.fit.metacentrum.domain.config.PythonTaskType
 import cz.fit.metacentrum.service.api.Configurator
 
 /**
@@ -14,7 +13,7 @@ class ToolboxConfigurator : Configurator {
     override fun configure(config: ConfigFile): ConfigFile {
         val taskSpecificToolbox = when (config.taskType) {
             is MatlabTaskType -> "matlab"
-            is PythonTaskType -> "python-3.6.2-gcc"
+            else -> return config
         }
         val containsSpecificToolbox = config.resources.toolboxes!!.contains(taskSpecificToolbox)
         if (!containsSpecificToolbox && !taskSpecificToolbox.isBlank()) {
