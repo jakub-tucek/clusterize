@@ -23,7 +23,7 @@ class ModulesConfigurator : Configurator {
 
         val anyMatches = config.resources.modules!!.find { it.matches(taskSpecificPattern) }
 
-        if (anyMatches != null) return config;
+        if (anyMatches != null) return config
 
         return config.copy(resources = config.resources.copy(
                 modules = config.resources.modules + taskSpecificModule
