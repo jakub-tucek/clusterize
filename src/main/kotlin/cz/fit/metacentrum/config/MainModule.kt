@@ -22,10 +22,7 @@ import cz.fit.metacentrum.service.action.status.ex.ReadJobInfoFileExecutor
 import cz.fit.metacentrum.service.action.status.ex.UpdateMetadataStateExecutor
 import cz.fit.metacentrum.service.action.submit.ActionSubmitService
 import cz.fit.metacentrum.service.action.submit.executor.*
-import cz.fit.metacentrum.service.api.ActionService
-import cz.fit.metacentrum.service.api.Configurator
-import cz.fit.metacentrum.service.api.ShellService
-import cz.fit.metacentrum.service.api.TaskExecutor
+import cz.fit.metacentrum.service.api.*
 import cz.fit.metacentrum.service.config.*
 import cz.fit.metacentrum.service.input.CommandLineParser
 import cz.fit.metacentrum.service.input.SerializationService
@@ -48,7 +45,7 @@ class MainModule : AbstractModule() {
 
         // validator
         bind(ConfigValidationService::class.java)
-        bind(IterationConfigValidator::class.java)
+
 
         // action services
         bind(object : TypeLiteral<ActionService<ActionSubmit>>() {}).to(ActionSubmitService::class.java)
@@ -69,12 +66,18 @@ class MainModule : AbstractModule() {
         bind(SubmitRunner::class.java)
         bind(TemplateService::class.java)
 
+        bindValidatorClasses()
         bindConfiguratorClasses()
         // bind action features
         bindSubmitActionClasses()
         bindStatusActionClasses()
         bindResubmitActionClasses()
         bindCronClasses()
+    }
+
+    private fun bindValidatorClasses() {
+        val binder = Multibinder.newSetBinder(binder(), ConfigValidator::class.java)
+        binder.addBinding().to(IterationConfigValidator::class.java)
     }
 
     private fun bindCronClasses() {
