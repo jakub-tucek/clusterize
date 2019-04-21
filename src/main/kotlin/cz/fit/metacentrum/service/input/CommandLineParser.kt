@@ -61,6 +61,9 @@ class CommandLineParser {
                 val sourceFilePath = retrieveNextValue(iterator, false) ?: defaultClusterDetailsFile
                 return ActionAnalyze(sourceFilePath)
             }
+            "-v", "--version", "version", "v" -> {
+                return ActionVersion
+            }
             else -> {
                 val msg = "Unrecognized parameter: $nextValue"
                 printHelp()
@@ -84,6 +87,7 @@ class CommandLineParser {
                        -c [VALUE] - specify path to configuration file
                     cron [start|stop|restart] - run cron to watch executed tasks and receive notifications
                     help - displays help
+                    version - displays version
         """.trimIndent())
     }
 

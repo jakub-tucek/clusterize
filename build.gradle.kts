@@ -34,6 +34,7 @@ apply(plugin = "kotlin")
 apply(plugin = "org.junit.platform.gradle.plugin")
 apply(from = "junit5.gradle")
 
+
 plugins {
     application
 }
@@ -92,10 +93,25 @@ distributions {
 }
 
 
+val versionFile by tasks.creating {
+    doLast {
+        val exec = Runtime.getRuntime().exec("git describe --abbrev=0 --tags")
+        exec.waitFor(10, TimeUnit.SECONDS)
+        val version = exec.inputStream.bufferedReader().use { it.readText() }
+        // generate version file
+        val file = File("$buildDir/resources/main/version.yml")
+        file.writeText("version: $version")
+        println("Version file generated with version $version")
+    }
+}
+tasks.jar.get().dependsOn(versionFile)
+
 val compileKotlin by tasks.getting(KotlinCompile::class) {
     // Customise the "compileKotlin" task.
     kotlinOptions.jvmTarget = "1.8"
-    doLast { println("Finished compiling Kotlin source code") }
+    doLast {
+        println("Finished compiling Kotlin source code")
+    }
 }
 val compileTestKotlin by tasks.getting(KotlinCompile::class) {
     // Customise the "compileTestKotlin" task.

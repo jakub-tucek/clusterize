@@ -43,3 +43,5 @@ data class ActionAnalyze(val cluterDetailsFile: String) : Action()
 // =====================================================================================================================
 // displays help
 object ActionHelp : Action()
+
+object ActionVersion : Action()
