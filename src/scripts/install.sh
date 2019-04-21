@@ -26,7 +26,8 @@ main() {
   set -e
 
   if [ ! -n "$JAVA_HOME" ]; then
-    printf "JAVA_HOME is not set before running. Please set JAVA first.\n"
+    printf "JAVA_HOME is not set before running. Trying to set add module.\n"
+    module add jdk-8
     exit
   fi
 

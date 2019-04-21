@@ -20,7 +20,7 @@ class ResourcesConfigurator : Configurator {
                 ?: consoleReader.askForValue("Please enter wall time [01:00:00]:") { it.ifBlank { "00:04:00" } }
 
         val chunks = if (config.resources.details?.chunks == null || config.resources.details.chunks < 1)
-            consoleReader.askForValue("Please chunks [1]:") { it.toIntOrNull() ?: 1 }
+            consoleReader.askForValue("Please select chunks [1]:") { it.toIntOrNull() ?: 1 }
         else config.resources.details.chunks
 
         val mem = config.resources.details?.mem
