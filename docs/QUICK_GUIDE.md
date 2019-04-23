@@ -1,7 +1,7 @@
 # Quick guide
 
 First install **clusterize** on your front-end node where you submit jobs. Installation
-can be found [here](../README.md#installation).
+guide can be found [here](../README.md#installation).
 
 ## Prepare files
 
@@ -11,24 +11,24 @@ can be found [here](../README.md#installation).
 
 ## Getting started: Fibbonnaci
 
-Example folder should contain two files **clusterize-configuration-python.yml**
+This example needs two files **clusterize-configuration-python.yml**
 and **sources/python_fibonacci.py**.
 
 The first one, is *clusterize configuration file* that contains what parameters
-will be calculated in task execution among other configuration options.
+will be calculated in task execution. Other parameters is task type (python),
+important directories and others.
 
 Second is **source** file. Source file can be function, script or just your dataset.
 
-Configuration will calculate Fibbonnaci numbers. Output is saved to standalone files
-for each job calculating number.
+Python script calculates Fibbnocci number for given range and prints them to standard
+output. Range is then accepted as two parameters of function.
+Configuration file will change these two parameters and thus generating different ranges
+in each job execution.
 
-Content of outputs will look like this:
-
-1, 1, 2, 3, 5, 1, 2, 3, 5, 2, 3, 5, 3, 5, 5
-
+ 
 ### Submission
 
-For submission use:
+To submit task use:
 
 ```
 $ clusterize submit clusterize-configuration.yml
@@ -40,7 +40,7 @@ use default values and press **enter** on each CLI prompt.
 
 ### Status
 
-If email notifications were enabled, the email will be send when all jobs finish.
+If email notifications were enabled, the email is send when all jobs finish.
 Second option is to check status manually using:
 
 ```
@@ -49,9 +49,9 @@ $ clusterize list
 
 ### Output
 
-Output is saved in *configuration file* under **general.storagePath**. The default
-value is **out-python** under which output of each submission is saved.
+Output is saved in *std-out* file in proper **general.storagePath**. 
 
+**Storage folder** is set to be created in examples folder under **out-python** name.
 
 ## Resubmit with email notifications
 
@@ -91,3 +91,5 @@ Email notification can then take >15minutes to be delivered after task ends.
 
 Matlab example can be executed by submitting different configuration file:
 **clusterize-configuration.yml**.
+
+Storage (Output) can be found in **examples/std-matlab** and proper task folder.

@@ -3,13 +3,13 @@ iterations:
   - type: INT_RANGE
     name: X
     from: 1
-    to: 5
+    to: 4
     step: 1
     stepOperation: PLUS
   - type: INT_RANGE
     name: Y
-    from: 1
-    to: 5
+    from: 5
+    to: 8
     step: 1
     stepOperation: PLUS
 
@@ -18,10 +18,6 @@ general:
   storagePath: 'out-python'
   sourcesPath: 'sources'
   maxResubmits: 3
-  dependentVariables:
-    - name: MAX_TRANSL
-      dependentVarName: Y
-      modifier: '+15'
 taskType:
   type: PYTHON # type of runner
   command: |-
