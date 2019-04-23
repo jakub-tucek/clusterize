@@ -15,7 +15,7 @@ iterations:
 
 general:
   #  metadataStoragePath: 'customer_metadata_storage_path'
-  #  storagePath: 'custom_storage_path'
+  storagePath: 'out-python'
   sourcesPath: 'sources'
   maxResubmits: 3
   dependentVariables:

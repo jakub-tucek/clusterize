@@ -38,10 +38,29 @@ The configuration file is missing some values, like task name or resource config
 They have to be inputted interactively before execution but it is possible to just
 use default values and press **enter** on each CLI prompt.
 
+### Status
+
+If email notifications were enabled, the email will be send when all jobs finish.
+Second option is to check status manually using:
+
+```
+$ clusterize status
+```
+
+### Output
+
+Output is saved in *configuration file* under **general.storagePath**. The default
+value is **out-python** under which output of each submission is saved.
+
+
+## Resubmit with email notifications
+
+Clusterize offers easy way to resubmit executed task and to wait for email notification
+when all jobs finish.
+
 
 ## Enable notifications
-
-To enable mail notifications execute this command:
+First, enable mail notifications and execute this command:
 
 ```
 $ clusterize cron start
@@ -49,5 +68,21 @@ $ clusterize cron start
 
 and follow instructions.
 
-
 To stop cron run ```$ clusterize cron stop``` or just remove it from cron tab.
+
+## Resubmit
+
+First we need to find task identification using status command:
+```
+$ clusterize status
+```
+
+The identification is number on the right side of executed task.
+
+Resubmit is then just:
+```
+$ clusterize resubmit [task_id]
+``` 
+
+Then you can again check status of resubmitted task or wait for mail notification.
+Email notification can then take >15minutes to be delivered after task ends.
