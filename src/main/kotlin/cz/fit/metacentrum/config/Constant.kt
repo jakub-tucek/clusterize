@@ -15,6 +15,7 @@ object FileNames {
     const val jobInfo = "job.info"
     // script
     const val innerScript = "inner_script.sh"
+    const val stdOutFile = "std-out"
 
     val configDataFolderName = "${System.getProperty("user.home")}/.$appName"
     val defaultMetadataFolder = "/$configDataFolderName/metadataStorage"
