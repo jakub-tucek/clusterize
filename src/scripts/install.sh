@@ -124,11 +124,12 @@ main() {
         echo "Error: Invalid PATH. Update PATH to contain proper path to installation folder in current home directory."
         echo "${NORMAL}Current home is ${RED} '$PWD' ${NORMAL}but clusterize uses${RED} '${CLUSTERIZE_LOCATION}'"
         printf "${NORMAL}Add following line to your .bashrc to use clusterize from command line:\n\n"
-        printf "export PATH=\$PATH:$SOURCE_DIR\n\n"
+        printf "export PATH=\$PATH:$SOURCE_DIR\n"
+        printf "Then reload using command ${BLUE} source ~/.bashrc \n\n"
     fi
 
     printf "${GREEN}"
-    echo '       _____ _     _    _  _____ _______ ______ _____  _____ ____________'
+    echo '     _______     _    _  _____ _______ ______ _____  _____ ____________  '
     echo '    / ____| |   | |  | |/ ____|__   __|  ____|  __ \|_   _|___  /  ____| '
     echo '   | |    | |   | |  | | (___    | |  | |__  | |__) | | |    / /| |__    '
     echo '   | |    | |   | |  | |\___ \   | |  |  __| |  _  /  | |   / / |  __|   '

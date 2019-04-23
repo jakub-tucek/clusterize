@@ -2,32 +2,21 @@
 iterations:
   - type: INT_RANGE
     name: X
-    from: -20
-    to: +20
+    from: 1
+    to: 5
     step: 1
     stepOperation: PLUS
   - type: INT_RANGE
     name: Y
-    from: -10
-    to: +10
+    from: 1
+    to: 5
     step: 1
     stepOperation: PLUS
-  - type: ARRAY
-    name: CONFIG_FILE
-    values:
-      - ./input/config-0bands.yaml
-      - ./input/config-vis2vis-1band.yaml
-      - ./input/config-vis2vis-2bands.yaml
-      - ./input/config-vis2vis-4bands.yaml
-      - ./input/config-vis2vis-6bands.yaml
-      - ./input/config-vis2vis-8bands.yaml
-      - ./input/config-vis2vis-10bands.yaml
-      - ./input/config-vis2vis-12bands.yaml
 
 general:
-  #  metadataStoragePath: 'dockershared/metadataStorage'
-  storagePath: 'dockershared/storage' #usually storage
-  sourcesPath: 'dockershared/sources'
+  #  metadataStoragePath: 'customer_metadata_storage_path'
+  #  storagePath: 'custom_storage_path'
+  sourcesPath: 'sources'
   maxResubmits: 3
   dependentVariables:
     - name: MAX_TRANSL
@@ -36,7 +25,7 @@ general:
 taskType:
   type: PYTHON # type of runner
   command: |-
-    python -x $X -y $Y -o outputs/out_$X-$Y.yaml -c "from python_fibonacci import main; main(1, $MAX_TRANSL)"
+    python -c "from python_fibonacci import main; main($Y, $X)"
 resources:
   profile: 'CUSTOM'
   resourceType: 'CPU'

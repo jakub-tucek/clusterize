@@ -24,15 +24,15 @@ iterations:
 
   - type: INT_RANGE
     name: RUN_ID
-    from: 1
+    from: 2
     to: 1
     step: 1
-    stepOperation: PLUS
+    stepOperation: MINUS
 
 general:
-  #  metadataStoragePath: 'dockershared/metadataStorage'
-  storagePath: 'dockershared/storage' #usually storage
-  sourcesPath: 'dockershared/sources'
+  #  metadataStoragePath: 'customer_metadata_storage_path'
+  #  storagePath: 'custom_storage_path'
+  sourcesPath: 'sources'
   maxResubmits: 3
   variables:
   dependentVariables:

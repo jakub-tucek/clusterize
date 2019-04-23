@@ -12,15 +12,22 @@ You can install this via the command-line with either curl or wget.
 
 via curl
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/jakub-tucek/metacentrum-cli/master/src/scripts/install.sh) v0.01"
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/jakub-tucek/metacentrum-cli/master/src/scripts/install.sh) v0.01"
 ```
 
-For easy use, you need to add **clusterize** 
+For easy use, you need to add path **clusterize** to clusterize to **.bashrc**. Path will
+be displayed during installation (along with instructions).
+To reload configuration, execute
+```
+$ source ~/.bashrc
+```
+or logout/login.
 
-## Dictionary
-
-- Task - represented by configuration file, consisted of jobs
-- Job - One configuration of function that is submitted for computation
+To check that **clusterize** is installed run:
+```
+$ clusterize --version
+```
+This should return current version that is installed.
 
 ## Quick guide
 
@@ -33,6 +40,11 @@ For detailed user guide how to use all features that CLI offers check
 
 
 ## Details
+
+## Dictionary
+
+- Task - represented by configuration file, consisted of jobs
+- Job - One configuration of function that is submitted for computation
 
 ### Storages
 
