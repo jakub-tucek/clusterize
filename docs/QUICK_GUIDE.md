@@ -44,7 +44,7 @@ If email notifications were enabled, the email will be send when all jobs finish
 Second option is to check status manually using:
 
 ```
-$ clusterize status
+$ clusterize list
 ```
 
 ### Output
@@ -74,7 +74,7 @@ To stop cron run ```$ clusterize cron stop``` or just remove it from cron tab.
 
 First we need to find task identification using status command:
 ```
-$ clusterize status
+$ clusterize list
 ```
 
 The identification is number on the right side of executed task.
@@ -86,3 +86,8 @@ $ clusterize resubmit [task_id]
 
 Then you can again check status of resubmitted task or wait for mail notification.
 Email notification can then take >15minutes to be delivered after task ends.
+
+## Matlab
+
+Matlab example can be executed by submitting different configuration file:
+**clusterize-configuration.yml**.

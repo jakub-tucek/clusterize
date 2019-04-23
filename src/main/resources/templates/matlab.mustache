@@ -15,6 +15,6 @@ matlab -nodesktop -nosplash -nodisplay -r            \
 "    exit(1),                                       "\
 "end,                                               "\
 "exit(0)"                                            \
-&> "{{runPath}}/{{fileNames.stdOutFile}}"
+&>"{{runPath}}/{{fileNames.stdOutFile}}"
 
 {{>footer}}
