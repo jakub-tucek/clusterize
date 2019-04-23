@@ -1,7 +1,7 @@
-
 # CLUSTERIZE
 
 Clusterize is CLI interface that will help you submit and track jobs on your grid network using PBS.
+
 
 [![Build Status](https://travis-ci.com/jakub-tucek/metacentrum-cli.svg?token=NqFVge8N1yh3apxFedae&branch=master)](https://travis-ci.com/jakub-tucek/metacentrum-cli)
 
@@ -95,7 +95,14 @@ clustize <command> [...additional parameters for command]
     * displays help and usage examples   
 
     
-### 
+### Env variables
+
+
+| Name | description |
+| ---- | ----------- |
+| CLUSTERIZE_PROFILE | enables develop mode if set to **dev** |
+| CLUSTERIZE_DISABLE_CLEANUP | disables cleanup if set to **true** |
+
 
 ## Configuration file
 

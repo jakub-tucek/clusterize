@@ -8,7 +8,7 @@ sealed class Action
 // =====================================================================================================================
 
 // action that submits new jobs to queue
-sealed class ActionSubmit() : Action()
+sealed class ActionSubmit : Action()
 
 // extension of action submit that contains path to configuration file
 data class ActionSubmitPath(val configFilePath: String) : ActionSubmit()
@@ -43,3 +43,5 @@ data class ActionAnalyze(val cluterDetailsFile: String) : Action()
 // =====================================================================================================================
 // displays help
 object ActionHelp : Action()
+
+object ActionVersion : Action()

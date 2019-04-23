@@ -2,7 +2,6 @@ package cz.fit.metacentrum.service
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
 
@@ -20,12 +19,7 @@ internal class ConsoleReaderTest {
         System.setIn(systemIn)
     }
 
-    @BeforeEach
-    fun init() {
-
-    }
-
-    fun writeToConsole(msg: String) {
+    private fun writeToConsole(msg: String) {
         testIn = ByteArrayInputStream(msg.toByteArray())
         System.setIn(testIn)
     }

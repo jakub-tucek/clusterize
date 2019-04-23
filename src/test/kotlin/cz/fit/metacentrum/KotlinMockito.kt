@@ -23,5 +23,5 @@ object KotlinMockito {
         return uninitialized()
     }
 
-    fun <T> uninitialized(): T = null as T
+    private fun <T> uninitialized(): T = null as T
 }

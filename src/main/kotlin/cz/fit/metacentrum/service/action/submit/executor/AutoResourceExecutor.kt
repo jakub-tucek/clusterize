@@ -53,7 +53,6 @@ class AutoResourceExecutor(private val clusterDetailsPath: Path = Paths.get(File
         for (i in 1..2) {
             for (j in 1..2) {
                 for (q in 1..2) {
-                    val cpus = j
                     val gpus = when (resourceType) {
                         "GPU" -> j
                         else -> null
@@ -62,7 +61,7 @@ class AutoResourceExecutor(private val clusterDetailsPath: Path = Paths.get(File
                             benchmarkJob.copy(
                                     usedResources = baseResourceDetails.copy(
                                             chunks = i,
-                                            ncpus = cpus,
+                                            ncpus = j,
                                             ngpus = gpus,
                                             mem = "${q}gb"
                                     )

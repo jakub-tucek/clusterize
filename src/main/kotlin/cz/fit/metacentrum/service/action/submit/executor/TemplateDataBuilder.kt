@@ -32,11 +32,11 @@ class TemplateDataBuilder {
                 ?: throw IllegalStateException("Couldn't create run path")
         Files.createDirectories(runPath)
 
-        return TemplateData<T>(
+        return TemplateData(
                 taskType,
                 variableData.toSortedMap().toList(),
                 GeneralTemplateData(
-                        dependents = metadata.configFile.general.dependents,
+                        dependentVariables = metadata.configFile.general.dependentVariables!!,
                         taskName = metadata.configFile.general.taskName
                 ),
                 runPath,
@@ -52,8 +52,8 @@ class TemplateDataBuilder {
                 walltime = details.walltime,
                 formattedResources = formatResources(details),
                 ncpus = details.ncpus,
-                modules = resources.modules,
-                toolboxes = resources.toolboxes
+                modules = resources.modules!!,
+                toolboxes = resources.toolboxes!!
         )
     }
 
@@ -63,6 +63,9 @@ class TemplateDataBuilder {
         stringBuilder.append(":ncpus=${details.ncpus}")
         stringBuilder.append(":mem=${details.mem}")
         stringBuilder.append(":scratch_local=${details.scratchLocal}")
+        if (details.ngpus != null) {
+            stringBuilder.append(":ngpus=${details.ngpus}")
+        }
         return stringBuilder.toString()
     }
 }

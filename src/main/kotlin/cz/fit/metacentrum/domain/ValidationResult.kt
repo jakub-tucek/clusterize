@@ -4,8 +4,7 @@ data class ValidationResult(val messages: List<String> = emptyList(),
                             val success: Boolean = true) {
 
 
-    constructor(message: String, success: Boolean) : this(listOf(message), success) {
-    }
+    constructor(message: String, success: Boolean) : this(listOf(message), success)
 
     companion object {
         fun merge(a1: ValidationResult, a2: ValidationResult): ValidationResult {

@@ -6,8 +6,8 @@ data class ConfigResources(
         val profile: ConfigResourceProfile,
         val resourceType: String? = null, // must be filled only for auto mode
         val details: ConfigResourcesDetails? = null,
-        val modules: Set<String> = emptySet(),
-        val toolboxes: Set<String> = emptySet()
+        val modules: Set<String>? = emptySet(),
+        val toolboxes: Set<String>? = emptySet()
 )
 
 data class ConfigResourcesDetails(

@@ -5,5 +5,5 @@ import cz.fit.metacentrum.domain.config.ConfigGeneralDependent
 // General information about task
 data class GeneralTemplateData(
         val taskName: String?,
-        val dependents: List<ConfigGeneralDependent>
+        val dependentVariables: List<ConfigGeneralDependent>
 )

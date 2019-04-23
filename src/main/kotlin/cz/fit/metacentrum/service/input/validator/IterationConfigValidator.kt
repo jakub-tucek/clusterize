@@ -47,9 +47,6 @@ class IterationConfigValidator : ConfigValidator {
                 if (!iteration.stepOperation.compare(iteration.from, iteration.to)) {
                     baseResult += "ConfigIterationIntRange has invalid range that provides no values: ${iteration.from}, ${iteration.to}"
                 }
-                if (iteration.from < 0 || iteration.to < 0) {
-                    baseResult += "ConfigIterationIntRange has invalid values < 0: ${iteration.from}, ${iteration.to}"
-                }
                 if (iteration.step == 0) {
                     baseResult += "Iteration step cannot be 0"
                 }

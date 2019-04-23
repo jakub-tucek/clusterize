@@ -12,7 +12,7 @@ data class ConfigGeneral(
         val maxResubmits: Int = 0,
         val variables: Map<String, String>? = emptyMap(),
         val taskName: String? = null,
-        val dependents: List<ConfigGeneralDependent>
+        val dependentVariables: List<ConfigGeneralDependent>? = emptyList()
 )
 
 data class ConfigGeneralDependent(

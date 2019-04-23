@@ -7,11 +7,8 @@ import cz.fit.metacentrum.service.api.ShellService
 import cz.fit.metacentrum.service.api.TaskExecutor
 import cz.fit.metacentrum.util.ConsoleWriter
 import cz.fit.metacentrum.util.QueueUtils
-import mu.KotlinLogging
 import java.io.IOException
 import javax.inject.Inject
-
-private val logger = KotlinLogging.logger {}
 
 /**
  * Submits created job to queue and persists pid.
@@ -26,19 +23,29 @@ class SubmitExecutor : TaskExecutor {
         ConsoleWriter.writeStatus("Submitting runs/jobs to queue")
         val jobs = metadata.jobs ?: throw IllegalStateException("No scripts to run available")
 
+        var messageBuffer = StringBuilder()
+        val step = 5;
+
         val scriptsWithPid = jobs
-                .map {
+                .mapIndexed { index, it ->
                     if (it.jobInfo.state != ExecutionMetadataState.INITIAL) {
-                        return@map it
+                        return@mapIndexed it
                     }
                     val scriptFile = it.jobPath.resolve(FileNames.innerScript).toAbsolutePath()
-                    val cmdResult = shellService.runCommand("qsub ${scriptFile.toString()}")
+                    val cmdResult = shellService.runCommand("qsub $scriptFile")
                     if (cmdResult.status != 0)
                         throw IOException("Submitting script $scriptFile failed with ${cmdResult.status}. ${cmdResult.errOutput}")
 
-                    ConsoleWriter.writeStatusDetail("Run ${it.jobId} submitted under ${cmdResult.output}")
+
+                    messageBuffer.append("Run ${it.jobId} submitted under ${cmdResult.output}\n")
+                    if (index % step == 0) {
+                        println(messageBuffer)
+                        messageBuffer = StringBuilder()
+                    }
+
                     it.copy(jobInfo = it.jobInfo.copy(pid = QueueUtils.extractPid(cmdResult.output), state = ExecutionMetadataState.QUEUED))
                 }
+        println(messageBuffer)
 
         return metadata.copy(jobs = scriptsWithPid)
     }

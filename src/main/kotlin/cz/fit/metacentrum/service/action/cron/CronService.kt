@@ -35,7 +35,7 @@ class CronService {
 
         // pass profile to cron job
         val envVarConfig = if (ProfileConfiguration.isDev())
-            "export ${ProfileConfiguration.envVariableName}=${ProfileConfiguration.activeProfile.name} &&" else ""
+            "export ${ProfileConfiguration.envProfileName}=${ProfileConfiguration.activeProfile.name} &&" else ""
         // append cron registration for every 10 minutes
         val newOutput = """$cronConfig
             |${Configuration.cronInterval} /bin/sh -c "$envVarConfig $cronJobPath cron-start-internal >> ${FileNames.cronLogFile} 2>&1"

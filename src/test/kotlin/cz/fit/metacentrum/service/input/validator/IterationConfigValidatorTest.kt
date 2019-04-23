@@ -81,8 +81,7 @@ internal class IterationConfigValidatorTest {
                         "ConfigIterationArray array value cannot be empty",
                         "Name of config iteration cannot be blank",
                         "ConfigIterationIntRange has invalid range that provides no values: 20, 10",
-                        "Iteration step cannot be 1 if DIVISION of MULTIPLICATION is given",
-                        "ConfigIterationIntRange has invalid values < 0: -1, 10"
+                        "Iteration step cannot be 1 if DIVISION of MULTIPLICATION is given"
                 )
     }
 }

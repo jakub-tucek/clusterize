@@ -17,13 +17,13 @@ import java.time.format.DateTimeFormatter
  */
 internal class InitOutputPathExecutorIntegTest {
 
-    val executor = InitOutputPathExecutor()
+    private val executor = InitOutputPathExecutor()
 
     var storagePath: Path? = null
     var metadataOutputDir: Path? = null
 
 
-    @Test()
+    @Test
     fun testThatDirectoryIsActuallyCreated() {
         val property = "java.io.tmpdir"
         // Get the temporary directory and print it.

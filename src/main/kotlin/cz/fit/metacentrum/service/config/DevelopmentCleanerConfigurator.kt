@@ -14,7 +14,7 @@ private val logging = KotlinLogging.logger {}
  * @author Jakub Tucek
  */
 class DevelopmentCleanerConfigurator : Configurator {
-    override fun configureInteractively(config: ConfigFile): ConfigFile {
+    override fun configure(config: ConfigFile): ConfigFile {
         if (!ProfileConfiguration.isDev()) {
             logging.warn("DevelopmentCleanerConfigurator is used outside DEV MODE.")
         }

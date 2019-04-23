@@ -33,14 +33,14 @@ class IterationExecutor : TaskExecutor {
     }
 
     private fun generateCombinations(options: List<Pair<String, ResetableIterator<String>>>): List<Map<String, String>> {
-        var combinations: List<Map<String, String>> = mutableListOf()
+        val combinations: MutableList<Map<String, String>> = mutableListOf()
 
         while (options.first().second.hasNext()) {
             val lastItem = options.last().second
             // if current option has more values, use next one
             if (lastItem.hasNext()) {
                 // append state to combinations
-                combinations += getCurrentIteratorValues(options)
+                combinations.add(getCurrentIteratorValues(options))
                 lastItem.next()
                 continue
             }

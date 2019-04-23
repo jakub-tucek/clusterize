@@ -15,6 +15,7 @@ import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.JobInfoFile
 import cz.fit.metacentrum.domain.meta.MetadataIdPathMapping
 import mu.KotlinLogging
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -26,6 +27,7 @@ private val logger = KotlinLogging.logger {}
 private const val metadataFileName: String = "metadata.yml"
 private const val appConfigurationFileName: String = "app-configuration.yml"
 private const val idPathMappingFileName: String = "metadata-id-to-path.yml"
+private const val versionFileName: String = "version.yml"
 
 /**
  * Serializes and dematerializes yaml files
@@ -91,9 +93,19 @@ class SerializationService {
             return null
         }
         return try {
-            Files.newBufferedReader(path).use { SerializationService.mapper.readValue<T>(it) }
+            Files.newBufferedReader(path).use { mapper.readValue<T>(it) }
         } catch (e: JsonProcessingException) {
             logger.error("Parsing file in $path failed.", e)
+            return null
+        }
+    }
+
+    fun readVersionFile(): Map<String, String>? {
+        try {
+            return this.javaClass.classLoader.getResourceAsStream(versionFileName)
+                    .use { mapper.readValue<Map<String, String>>(it) }
+        } catch (e: IOException) {
+            logger.error("Parsing version file failed", e)
             return null
         }
     }

@@ -52,7 +52,7 @@ class ActionAnalyzeService : ActionService<ActionAnalyze> {
                 .toMap()
                 .toSortedMap(String.CASE_INSENSITIVE_ORDER)
         records.forEach {
-            val value = watchedQueues.get(it.queueName)
+            val value = watchedQueues[it.queueName]
             if (value != null) {
                 watchedQueues[it.queueName] = value + 1
             }

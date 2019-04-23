@@ -26,7 +26,7 @@ class ScriptBuilderExecutor : TaskExecutor {
     private lateinit var templateService: TemplateService
 
     override fun execute(metadata: ExecutionMetadata): ExecutionMetadata {
-        ConsoleWriter.writeStatus("Generating bash scripts wrapping matlab")
+        ConsoleWriter.writeStatus("Generating bash scripts")
         val iterationCombinations = when {
             metadata.iterationCombinations == null -> throw IllegalStateException("Iteration combination is not initialized")
             metadata.iterationCombinations.isEmpty() -> listOf(emptyMap())
@@ -34,12 +34,27 @@ class ScriptBuilderExecutor : TaskExecutor {
         }
 
         val variableData = HashMap<String, String>()
-        variableData.putAll(metadata.configFile.general.variables ?: emptyMap())
+        variableData.putAll(metadata.configFile.general.variables!!)
+
+        // helper variables for printing status
+        val totalSize = iterationCombinations.size
+        var lastMessage = ""
+        val step = Math.ceil(totalSize / 10.0).toInt()
 
         val submittedJobs = iterationCombinations.mapIndexed { index, iterationCombination ->
             variableData.putAll(iterationCombination)
-            createTemplate(metadata, variableData, index)
+            val template = createTemplate(metadata, variableData, index)
+
+            if (index % step == 0) {
+                ConsoleWriter.deleteStatusDetail(lastMessage)
+                lastMessage = "Generated $index/$totalSize"
+                ConsoleWriter.writeStatusDetail(lastMessage, newline = false)
+            }
+
+            template
         }
+        println()
+        ConsoleWriter.writeStatusDetail("Generated $totalSize/$totalSize. All script generated")
 
 
         return metadata.copy(jobs = submittedJobs)
@@ -48,7 +63,7 @@ class ScriptBuilderExecutor : TaskExecutor {
     private fun createTemplate(metadata: ExecutionMetadata,
                                variableData: HashMap<String, String>,
                                runCounter: Int): ExecutionMetadataJob {
-        val templateData = when (metadata.configFile.taskType) {
+        @Suppress("REDUNDANT_ELSE_IN_WHEN") val templateData = when (metadata.configFile.taskType) {
             is MatlabTaskType -> {
                 val templateData = templateDataBuilder
                         .prepare<MatlabTaskType>(metadata, variableData, runCounter)

@@ -73,9 +73,7 @@ class MetadataInfoPrinter {
                 "- ${metadata.getJobsByState(ExecutionMetadataState.RUNNING).count()}/${totalCountJobs} RUNNING"))
         desc.append("\n")
         val runningJobsDetail = runningJobs
-                .map { "${it.jobInfo.pid}: ${it.jobInfo.runningTime}" }
-                .map { ConsoleWriter.getStatusDetailLine("   $it") }
-                .joinToString("\n")
+                .map { "${it.jobInfo.pid}: ${it.jobInfo.runningTime}" }.joinToString("\n") { ConsoleWriter.getStatusDetailLine("   $it") }
         desc.append(runningJobsDetail)
 
         return desc.toString()

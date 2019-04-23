@@ -4,7 +4,6 @@ import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.meta.ExecutionMetadata
 import cz.fit.metacentrum.domain.meta.ExecutionMetadataState
 import cz.fit.metacentrum.domain.template.StatusMailTemplateData
-import cz.fit.metacentrum.service.ConsoleReader
 import cz.fit.metacentrum.service.ShellServiceImpl
 import cz.fit.metacentrum.service.TemplateService
 import cz.fit.metacentrum.service.action.status.MetadataInfoPrinter
@@ -25,8 +24,6 @@ class CronMailService {
     @Inject
     private lateinit var serializationService: SerializationService
     @Inject
-    private lateinit var consoleReader: ConsoleReader
-    @Inject
     private lateinit var templateService: TemplateService
     @Inject
     private lateinit var metadataInfoPrinter: MetadataInfoPrinter
@@ -43,7 +40,7 @@ class CronMailService {
             templateService.write("templates/status-mail.mustache", tempFile, templateData)
 
             // verbose + read data (like from/to from file)
-            val output = shellServiceImpl.runCommand("/usr/sbin/sendmail -tv < ${tempFile.toAbsolutePath().toString()}")
+            val output = shellServiceImpl.runCommand("/usr/sbin/sendmail -tv < ${tempFile.toAbsolutePath()}")
             logger.info("Mail send for ${templateData.subject} with status ${output.status}")
         } catch (e: Exception) {
             logger.error("Error occurred while sending email", e)

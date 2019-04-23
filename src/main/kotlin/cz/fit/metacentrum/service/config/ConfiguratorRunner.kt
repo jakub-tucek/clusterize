@@ -15,8 +15,8 @@ class ConfiguratorRunner {
     private lateinit var configuratorList: Set<@JvmSuppressWildcards Configurator>
 
 
-    fun configure(config: ConfigFile): ConfigFile {
+    fun runConfiguration(config: ConfigFile): ConfigFile {
         return configuratorList
-                .fold(config) { acc, configurator -> configurator.configureInteractively(acc) }
+                .fold(config) { acc, configurator -> configurator.configure(acc) }
     }
 }

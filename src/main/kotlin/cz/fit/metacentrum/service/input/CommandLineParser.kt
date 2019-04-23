@@ -4,9 +4,6 @@ import cz.fit.metacentrum.config.FileNames.defaultClusterDetailsFile
 import cz.fit.metacentrum.config.FileNames.defaultMetadataFolder
 import cz.fit.metacentrum.config.appName
 import cz.fit.metacentrum.domain.*
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 
 const val genericErrorMessage = "Parsing arguments failed, value after argument expected but none was found"
@@ -64,6 +61,9 @@ class CommandLineParser {
                 val sourceFilePath = retrieveNextValue(iterator, false) ?: defaultClusterDetailsFile
                 return ActionAnalyze(sourceFilePath)
             }
+            "-v", "--version", "version", "v" -> {
+                return ActionVersion
+            }
             else -> {
                 val msg = "Unrecognized parameter: $nextValue"
                 printHelp()
@@ -81,13 +81,13 @@ class CommandLineParser {
 
                     submit [optional path to configuration file] - submits new task to cluster according to configuration structure
                                                                  - default path is used if not specified ($defaultConfigPath)
-                    resubmit [task id] - resubmits failed jobs of given task
+                    resubmit [task id] - resubmits failed task
                     list [OPTIONS] - lists tasks
                        -p [VALUE] - define path to metadata folder or default is used
                        -c [VALUE] - specify path to configuration file
-                    cron [start|stop] - run cron to watch executed tasks and receive notifications
-                    analyze [optional clusterInfoFile] - analyzes cluster
+                    cron [start|stop|restart] - run cron to watch executed tasks and receive notifications
                     help - displays help
+                    version - displays version
         """.trimIndent())
     }
 

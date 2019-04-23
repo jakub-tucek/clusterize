@@ -1,28 +1,42 @@
 # defines iterations in given order
 iterations:
   - type: INT_RANGE
-    name: FIB_TO
-    from: 1
-    to: 41
+    name: X
+    from: -20
+    to: +20
     step: 1
     stepOperation: PLUS
+  - type: INT_RANGE
+    name: Y
+    from: -10
+    to: +10
+    step: 1
+    stepOperation: PLUS
+  - type: ARRAY
+    name: CONFIG_FILE
+    values:
+      - ./input/config-0bands.yaml
+      - ./input/config-vis2vis-1band.yaml
+      - ./input/config-vis2vis-2bands.yaml
+      - ./input/config-vis2vis-4bands.yaml
+      - ./input/config-vis2vis-6bands.yaml
+      - ./input/config-vis2vis-8bands.yaml
+      - ./input/config-vis2vis-10bands.yaml
+      - ./input/config-vis2vis-12bands.yaml
 
 general:
   #  metadataStoragePath: 'dockershared/metadataStorage'
   storagePath: 'dockershared/storage' #usually storage
   sourcesPath: 'dockershared/sources'
   maxResubmits: 3
-  variables:
-  dependents:
+  dependentVariables:
     - name: MAX_TRANSL
-      dependentVarName: VICINITY_TYPE
-      modifier: '+1'
-
+      dependentVarName: Y
+      modifier: '+15'
 taskType:
   type: PYTHON # type of runner
   command: |-
-    from python_fibonacci import main; main(1, $FIB_TO)
-
+    python -x $X -y $Y -o outputs/out_$X-$Y.yaml -c "from python_fibonacci import main; main(1, $MAX_TRANSL)"
 resources:
-  profile: 'AUTO'
+  profile: 'CUSTOM'
   resourceType: 'CPU'

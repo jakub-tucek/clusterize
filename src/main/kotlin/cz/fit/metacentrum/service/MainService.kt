@@ -8,7 +8,7 @@ import javax.inject.Inject
 /**
  * Main service that processes user arguments and executors correct action.
  */
-class MainService() {
+class MainService {
     @Inject
     private lateinit var commandLineParser: CommandLineParser
     @Inject
@@ -23,6 +23,8 @@ class MainService() {
     private lateinit var actionResubmitService: ActionService<ActionResubmit>
     @Inject
     private lateinit var actionAnalyzeService: ActionService<ActionAnalyze>
+    @Inject
+    private lateinit var actionVersionService: ActionService<ActionVersion>
 
     fun execute(args: Array<String>) {
         // parseConfig arguments
@@ -36,6 +38,7 @@ class MainService() {
             is ActionCronStartInternal -> actionCronInternalService.processAction(argumentAction)
             is ActionResubmit -> actionResubmitService.processAction(argumentAction)
             is ActionAnalyze -> actionAnalyzeService.processAction(argumentAction)
+            is ActionVersion -> actionVersionService.processAction(argumentAction)
             is ActionHelp -> {
                 // dont do anything
             }

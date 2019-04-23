@@ -23,6 +23,7 @@ internal class ScriptBuilderExecutorTest {
     private lateinit var ex: ScriptBuilderExecutor
     @Mock
     private lateinit var templateService: TemplateService
+    @Suppress("unused")
     @Spy
     private var templateDataBuilder = TemplateDataBuilder()
 
