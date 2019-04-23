@@ -1,11 +1,13 @@
 
-# Metacentrum CLI
+# CLUSTERIZE
+
+Clusterize is CLI interface that will help you submit and track jobs on your grid network using PBS.
 
 [![Build Status](https://travis-ci.com/jakub-tucek/metacentrum-cli.svg?token=NqFVge8N1yh3apxFedae&branch=master)](https://travis-ci.com/jakub-tucek/metacentrum-cli)
 
-## Install
+## Installation
 
-Basic Installation is installed by running one of the following commands in your terminal. 
+Basic installation is installed by running one of the following commands in your terminal. 
 You can install this via the command-line with either curl or wget.
 
 via curl
@@ -13,13 +15,24 @@ via curl
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/jakub-tucek/metacentrum-cli/master/src/scripts/install.sh) v0.01"
 ```
 
-
+For easy use, you need to add **clusterize** 
 
 ## Dictionary
 
-- Task - high level task that consists of runs (also called as jobs)
-- Run/Job - Smallest piece action. Each run/job is submitted to task planer via **qsub**. Task is 
-considered as completed when all runs/jobs are finished.  
+- Task - represented by configuration file, consisted of jobs
+- Job - One configuration of function that is submitted for computation
+
+## Quick guide
+
+For quick start and examples check [Quick guide page](docs/QUICK_GUIDE.md).
+
+## User guide
+
+For detailed user guide how to use all features that CLI offers check
+[User guide page](docs/USER_GUIDE.md).
+
+
+## Details
 
 ### Storages
 
