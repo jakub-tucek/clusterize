@@ -1,13 +1,13 @@
 # defines iterations in given order
 iterations:
   - type: INT_RANGE
-    name: X
+    name: FROM
     from: 1
     to: 4
     step: 1
     stepOperation: PLUS
   - type: INT_RANGE
-    name: Y
+    name: TO
     from: 5
     to: 8
     step: 1
@@ -21,7 +21,7 @@ general:
 taskType:
   type: PYTHON # type of runner
   command: |-
-    python -c "from python_fibonacci import main; main($Y, $X)"
+    python -c "from python_fibonacci import main; main($FROM, $FROM)"
 resources:
   profile: 'CUSTOM'
   resourceType: 'CPU'

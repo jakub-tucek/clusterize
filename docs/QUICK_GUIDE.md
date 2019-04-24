@@ -20,7 +20,9 @@ important directories and others.
 
 Second is **source** file. Source file can be function, script or just your dataset.
 
-Python script calculates Fibbnocci number for given range and prints them to standard
+The source file lies in **source directory** from which the submitted job will execute script.  
+
+Python script calculates Fibbonocci number for given range and prints them to standard
 output. Range is then accepted as two parameters of function.
 Configuration file will change these two parameters and thus generating different ranges
 in each job execution.
