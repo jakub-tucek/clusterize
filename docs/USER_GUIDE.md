@@ -8,37 +8,10 @@
 
 ## Configuration - deep dive
 
-In this section
+For configuration check [deep dive](CONFIGURATION.md)
 
-Lets take first part of configuration file from [first example](QUICK_GUIDE.md#getting-started-fibbonnaci):
 
-```
-iterations:
-  - type: INT_RANGE
-    name: FROM
-    from: 1
-    to: 4
-    step: 1
-    stepOperation: PLUS
-  - type: INT_RANGE
-    name: TO
-    from: 5
-    to: 8
-    step: 1
-    stepOperation: PLUS
-```
-
-This part is defines generated configuration and its dimension. This code could be translated to for-cycles:
-```
-for (int FROM = 1; FROM<=4; FROM++) {
-    for (int TO = 1; FROM<=4; FROM++) {
-        configurations += (FROM, TO)
-    }
-}
-```
-
-For different types and values of **iterations** [matlab example](../examples/clusterize-configuration.yml).
-
+### General
 
 
 ## Storages

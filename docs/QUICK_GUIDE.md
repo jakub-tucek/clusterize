@@ -92,6 +92,6 @@ Email notification can then take >15minutes to be delivered after task ends.
 ## Matlab
 
 Matlab example can be executed by submitting different configuration file:
-**clusterize-configuration.yml**.
+**clusterize-configuration-matlab.yml**.
 
-Storage (Output) can be found in **examples/std-matlab** and proper task folder.
+Matlab script (main_batch01.m) itself only prints given variables but for that, much more variables are used.

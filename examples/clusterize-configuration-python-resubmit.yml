@@ -3,13 +3,7 @@ iterations:
   - type: INT_RANGE
     name: FROM
     from: 1
-    to: 4
-    step: 1
-    stepOperation: PLUS
-  - type: INT_RANGE
-    name: TO
-    from: 5
-    to: 8
+    to: 2
     step: 1
     stepOperation: PLUS
 
@@ -17,11 +11,11 @@ general:
   #  metadataStoragePath: 'customer_metadata_storage_path'
   storagePath: 'out-python'
   sourcesPath: 'sources'
-  maxResubmits: 3
+  maxResubmits: 5
 taskType:
   type: PYTHON # type of runner
   command: |-
-    python -c "from python_fibonacci import main; main($FROM, $TO)"
+    python python_file.py
 resources:
   profile: 'CUSTOM'
   resourceType: 'CPU'

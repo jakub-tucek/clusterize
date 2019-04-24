@@ -39,4 +39,4 @@ disp('layers');
 disp(layers);
 
 disp('sleep')
-java.lang.Thread.sleep(10*1000)
+java.lang.Thread.sleep(10*100)

@@ -38,6 +38,9 @@ For quick start and examples check [Quick guide page](docs/QUICK_GUIDE.md).
 For detailed user guide how to use all features that CLI offers check
 [User guide page](docs/USER_GUIDE.md).
 
+## Configuration
+
+For configuration check [configuration guide page](docs/CONFIGURATION.md)
     
 ### Env variables
 

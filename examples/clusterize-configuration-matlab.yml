@@ -35,6 +35,7 @@ general:
   sourcesPath: 'sources'
   maxResubmits: 3
   variables:
+    ENV_VAR: SOME_VALUE
   dependentVariables:
     - name: MAX_TRANSL
       dependentVarName: VICINITY_TYPE
@@ -48,6 +49,12 @@ taskType:
 resources:
   profile: 'CUSTOM'
   resourceType: 'CPU'
+  details:
+    chunks: 1
+    walltime: "00:04:00"
+    mem: "1gb"
+    ncpus: 1
+    scratchLocal: "1gb"
   toolboxes:
     - matlab_Neural_Network_Toolbox
   modules:
