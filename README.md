@@ -38,9 +38,28 @@ For quick start and examples check [Quick guide page](docs/QUICK_GUIDE.md).
 For detailed user guide how to use all features that CLI offers check
 [User guide page](docs/USER_GUIDE.md).
 
-## Configuration
+## Configuration file
 
 For configuration check [configuration guide page](docs/CONFIGURATION.md)
+
+
+## Build
+
+For successful building make sure you have installed JDK8+ and java is available under PATH variable.
+
+For building source code run:
+```
+$ ./gradlew build installDist
+```
+
+To execute run wrapping bash script in **build/installl/clusterize/bin/clusterize**.
+
+```
+$ ./build/installl/clusterize/bin/clusterize list
+```
+
+
+## Advanced configuration
     
 ### Env variables
 
