@@ -14,6 +14,7 @@ general:
   #  metadataStoragePath: 'customer_metadata_storage_path'
   storagePath: 'out-r'
   sourcesPath: 'sources'
+  taskName: RExample
   maxResubmits: 3
 taskType:
   type: PYTHON # type of runner
