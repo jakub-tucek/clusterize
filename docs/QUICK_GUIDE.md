@@ -117,3 +117,9 @@ script should persist data.
 The executed script, **sources/er-script.r** accepts three parameters **input csv** **random value** and **output file**.
 After loading input csv, it filters out non-numerical values and prints the result to given output file.
 
+
+To execute go to examples folder and run:
+
+```
+$ clusterize submit clusterize-configuration-r.yml
+```
