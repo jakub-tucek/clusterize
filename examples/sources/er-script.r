@@ -11,7 +11,7 @@ if (length(args)==0) {
 print(args[2])
 
 ## program...
-df = read.table(args[1], header=TRUE)
+df = read.csv(args[1], header=TRUE)
 num_vars = which(sapply(df, class)=="numeric")
 df_out = df[ ,num_vars]
 write.table(df_out, file=args[3], row.names=FALSE)

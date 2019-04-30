@@ -113,3 +113,7 @@ It is also possible to execute R script. Example is in:
 
 This configuration file also shows usage of other available variables, like **OUT_DIR** that specifies output directory where
 script should persist data.
+
+The executed script, **sources/er-script.r** accepts three parameters **input csv** **random value** and **output file**.
+After loading input csv, it filters out non-numerical values and prints the result to given output file.
+
