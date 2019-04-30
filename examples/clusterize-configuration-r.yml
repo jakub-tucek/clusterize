@@ -1,0 +1,26 @@
+# defines iterations in given order
+iterations:
+  - type: ARRAY
+    name: INPUT_FILE
+    values: ['er-iris1.txt', 'er-iris2.txt']
+  - type: INT_RANGE
+    name: RANDOMIZATION_PARAM # Random Int parameter
+    from: 1
+    to: 10
+    step: 1
+    stepOperation: PLUS
+
+general:
+  #  metadataStoragePath: 'customer_metadata_storage_path'
+  storagePath: 'out-r'
+  sourcesPath: 'sources'
+  maxResubmits: 3
+taskType:
+  type: PYTHON # type of runner
+  command: |-
+    Rscript --vanilla er-script.r $INPUT_FILE $RANDOMIZATION_PARAM $OUT_DIR/out.txt
+resources:
+  profile: 'CUSTOM'
+  resourceType: 'CPU'
+  modules:
+    - R

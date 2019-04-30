@@ -11,21 +11,30 @@ guide can be found [here](../README.md#installation).
 
 ## Getting started: Fibbonnaci
 
-This example needs two files **clusterize-configuration-python.yml**
+First example depends on two files: **clusterize-configuration-python.yml**
 and **sources/python_fibonacci.py**.
 
-The first one, is *clusterize configuration file* that contains what parameters
-will be calculated in task execution. Other parameters is task type (python),
-important directories and others.
+The first one, is *clusterize configuration file* that contains configuration of the execution.
+These are:
 
-Second is **source** file. Source file can be function, script or just your dataset.
+    * Specification how to generate configuration paraemeters
+    * task type (python)
+    * directories for metadata, output storage and sources
+    * command to execute (what python script to run)
+    * resubmit limit if execution fails
+    
+--------
+    
+#### Important note: Current directory when job is executed is *sources* directory.
 
-The source file lies in **source directory** from which the submitted job will execute script.  
+This means that command execution configuration must be relative to **sources** directory.
 
-Python script calculates Fibbonocci number for given range and prints them to standard
-output. Range is then accepted as two parameters of function.
-Configuration file will change these two parameters and thus generating different ranges
-in each job execution.
+--------
+   
+
+Python script calculates Fibbonacci number for given range and prints them as standard
+output. Range is then accepted as two parameters of function, which are changed
+based on the configuration generating these parameters.
 
  
 ### Submission
@@ -95,3 +104,12 @@ Matlab example can be executed by submitting different configuration file:
 **clusterize-configuration-matlab.yml**.
 
 Matlab script (main_batch01.m) itself only prints given variables but for that, much more variables are used.
+
+## R
+
+It is also possible to execute R script. Example is in:
+
+**clusterize-configuration-r.yml**.
+
+This configuration file also shows usage of other available variables, like **OUT_DIR** that specifies output directory where
+script should persist data.
