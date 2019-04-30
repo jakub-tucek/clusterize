@@ -12,12 +12,12 @@ Basic installation is installed by running following command in your terminal:
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/jakub-tucek/metacentrum-cli/master/src/scripts/install.sh) v0.12"
 ```
 
-For easy usage, you need to modify PATH variable in **.bashrc** so it contains executable **clsuterize** command. Path will
+For easy usage, you need to modify PATH variable in **.profile** so it contains executable **clsuterize** command. Path will
 be displayed during installation (along with instructions).
 
 To reload configuration, execute
 ```
-$ source ~/.bashrc
+$ source ~/.profile
 ```
 or logout/login.
 

@@ -26,8 +26,9 @@ main() {
     set -e
 
     if [[ ! -n "$JAVA_HOME" ]]; then
-    printf "JAVA_HOME is not set before installation. Trying to set add module.\n"
+    printf "JAVA_HOME is not set before installation. Trying to set add module...."
     module add jdk-8
+    printf "${BLUE} OK ${NORMAL}\n"
     fi
     if [[ ! -n "$JAVA_HOME" ]]; then
     printf "Setting JDK module failed. Please set JAVA_HOME manually before.\n"
@@ -35,7 +36,7 @@ main() {
     fi
 
     if [[ ! -n "$1" ]]; then
-    printf "Version not set. Please set version first.\n"
+    printf "${RED}Version not set. Please set version first.${NORMAL}\n"
     exit
     fi
 
@@ -109,24 +110,7 @@ main() {
 
     rm -Rf $BASE_DIR/clusterize-bin.tar
 
-    printf "${BLUE}Post-install check up ...${NORMAL}\n"
 
-    CLUSTERIZE_LOCATION=`whereis clusterize | cut -d ':' -f 2`
-
-    if [[ ${CLUSTERIZE_LOCATION} == *"$HOME"* ]]; then
-        printf "Installed version: "
-            clusterize version || {
-                printf "${RED}"
-                echo "Error: Unable to retrieve version. Update PATH to contain proper path to installation folder. (export PATH=\$PATH:$SOURCE_DIR\n\n)"
-            }
-    else
-        printf "${RED}"
-        echo "Error: Invalid PATH. Update PATH to contain proper path to installation folder in current home directory."
-        echo "${NORMAL}Current home is ${RED} '$PWD' ${NORMAL}but clusterize uses${RED} '${CLUSTERIZE_LOCATION}'"
-        printf "${NORMAL}Add following line to your .bashrc to use clusterize from command line:\n\n"
-        printf "export PATH=\$PATH:$SOURCE_DIR\n"
-        printf "Then reload using command ${BLUE} source ~/.bashrc \n\n"
-    fi
 
     printf "${GREEN}"
     echo '     _______     _    _  _____ _______ ______ _____  _____ ____________  '
@@ -138,6 +122,34 @@ main() {
     echo '                                                    ....is now installed!'
     echo ''
     printf "${NORMAL}\n"
+
+
+    printf "${BLUE}Post-install check up ...${NORMAL}"
+
+    CLUSTERIZE_LOCATION=`command -v clusterize || EXIT_CODE=$? && true`
+    echo $CLUSTERIZE_LOCATION
+    echo $EXIT_CODE
+
+    if [[ $EXIT_CODE != 0 ]]; then
+        printf "${RED}\n"
+        echo "Clusterize not found on PATH."
+        printf "${NORMAL}Add following line to your .profile to use clusterize from command line:\n\n"
+        printf "${BLUE}export PATH=\$PATH:$SOURCE_DIR${NORMAL}\n"
+        printf "Then reload using command ${BLUE} $ source ~/.profile ${NORMAL}\n\n"
+    else
+        CLUSTERIZE_VERSION=`clusterize --version`
+        if [[ ${CLUSTERIZE_VERSION} != $1 ]]; then
+            printf "${RED}\n"
+            printf "Looks like 'clusterize --version' retrieved different version from the one installed ($1)\n"
+            echo "${NORMAL}Current home is ${RED} '$PWD' ${NORMAL}but clusterize uses${RED} '${CLUSTERIZE_LOCATION}'"
+            echo ""
+            echo "Update PATH to contain proper path to installation folder in current home directory."
+            printf "${BLUE}export PATH=\$PATH:$SOURCE_DIR${NORMAL}\n"
+            printf "Then reload using command ${BLUE} $ source ~/.profile ${NORMAL} \n\n"
+        else
+            printf " ALL OK\n"
+        fi
+    fi
 }
 
 main $1
