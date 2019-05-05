@@ -83,15 +83,14 @@ class MetadataInfoPrinter {
         val res = StringBuilder()
 
         res.append("\n===== Job history =====\n")
-        res.append("\n Total resubmits count: ${metadata.totalResubmits}\n\n")
+        res.append("\nTotal resubmits count: ${metadata.totalResubmits}\n")
         metadata.jobs!!.forEachIndexed { index, job ->
             res.append("\n")
-            res.append(index)
-            res.append(") \n")
-            res.append(" - ${job.jobPath.subpath(job.jobPath.nameCount - 2, job.jobPath.nameCount)}")
-            res.append("    - ${job.jobInfo.state} - ${job.jobInfo.start}/${job.jobInfo.end}\n")
-            res.append("    - ${job.jobInfo.start}/${job.jobInfo.end}\n")
-            res.append("    - ${job.resubmitCounter}\n")
+            res.append("Job_${index})")
+            res.append(" Path: ${job.jobPath.subpath(job.jobPath.nameCount - 2, job.jobPath.nameCount)}")
+            res.append("    - State: ${job.jobInfo.state}\n")
+            res.append("    - Start: ${job.jobInfo.start} | End: ${job.jobInfo.end}\n")
+            res.append("    - Resubmit count: ${job.resubmitCounter}\n")
             res.append("\n")
         }
         return res.toString()
