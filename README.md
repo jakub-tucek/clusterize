@@ -33,12 +33,12 @@ For quick start and examples check [Quick guide page](docs/QUICK_GUIDE.md).
 
 ## User guide
 
-For detailed user guide how to use all features that CLI offers check
+For detailed user guide see
 [User guide page](docs/USER_GUIDE.md).
 
 ## Configuration file
 
-For detail configuration documentation check [configuration guide page](docs/CONFIGURATION.md)
+Detailed configuration documentation is located at [configuration guide page](docs/CONFIGURATION.md)
 
 
 ## Build
