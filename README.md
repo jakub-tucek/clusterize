@@ -12,7 +12,7 @@ Basic installation is installed by running following command in your terminal:
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/jakub-tucek/metacentrum-cli/master/src/scripts/install.sh) v0.13"
 ```
 
-For easy usage, you need to modify PATH variable in **.profile** so it contains executable **clsuterize** command. Path will
+For easy usage, you need to modify PATH variable in **.profile** so it contains executable **clusterize** command. Path will
 be displayed during installation (along with instructions).
 
 To reload configuration, execute
@@ -43,14 +43,14 @@ For detail configuration documentation check [configuration guide page](docs/CON
 
 ## Build
 
-For successful build of files make sure you have installed JDK8+ and java is available under PATH variable.
+For successful build make sure you have installed JDK8+ and have java is available under PATH variable.
 
-For building source code run:
+Building source code:
 ```
 $ ./gradlew build installDist
 ```
 
-To execute after build run wrapping bash script in **build/installl/clusterize/bin/clusterize**.
+Execute result by running wrapping bash script in **build/installl/clusterize/bin/clusterize**.
 
 ```
 $ ./build/installl/clusterize/bin/clusterize --version
