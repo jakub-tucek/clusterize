@@ -8,7 +8,7 @@ iterations:
   - type: INT_RANGE # will iterate over given integer range
     name: MIN_TRANSL
     from: 0
-    to: 2
+    to: 100
     step: 1
     stepOperation: PLUS
 
@@ -19,12 +19,12 @@ iterations:
   - type: INT_RANGE
     name: SUB_IMG_IDX
     from: 1
-    to: 2
+    to: 10
 
   - type: INT_RANGE
     name: RUN_ID
     from: 2
-    to: 1
+    to: 2
     step: 1
     stepOperation: MINUS
 

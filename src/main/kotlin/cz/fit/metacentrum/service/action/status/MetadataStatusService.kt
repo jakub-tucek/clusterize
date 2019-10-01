@@ -36,8 +36,7 @@ class MetadataStatusService {
                     res
                 }
                 .sorted(ExecutionMetadataComparator::compare)
-                .toList()
-                .filterNotNull()
+                .use { it.toList().filterNotNull() }
     }
 
     /**

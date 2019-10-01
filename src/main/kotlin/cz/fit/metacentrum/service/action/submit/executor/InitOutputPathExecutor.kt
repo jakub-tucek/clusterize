@@ -51,10 +51,7 @@ class InitOutputPathExecutor : TaskExecutor {
                         val (order) = taskFolderRegex.find(it.fileName.toString())!!.destructured
                         order.toInt()
                     }
-                    .toList()
-                    .filterNotNull()
-                    .sortedDescending()
-                    .firstOrNull()
+                    .use { it.toList().filterNotNull().max() }
             if (highestFolderNumber != null) {
                 folderNumber = highestFolderNumber + 1
             }

@@ -20,8 +20,7 @@ object JobUtils {
                      ============================================================
                 """.trimIndent()
                 }
-                .toList()
-                .joinToString("\n")
+                .use { it.toList().joinToString("\n") }
 
         return job.copy(jobInfo = job.jobInfo.copy(state = ExecutionMetadataState.FAILED, output = output))
     }

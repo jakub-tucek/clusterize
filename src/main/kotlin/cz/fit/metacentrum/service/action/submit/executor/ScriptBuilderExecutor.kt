@@ -34,7 +34,7 @@ class ScriptBuilderExecutor : TaskExecutor {
         }
 
         val variableData = HashMap<String, String>()
-        variableData.putAll(metadata.configFile.general.variables!!)
+        variableData.putAll(metadata.configFile.general.variables ?: emptyMap())
 
         // helper variables for printing status
         val totalSize = iterationCombinations.size
