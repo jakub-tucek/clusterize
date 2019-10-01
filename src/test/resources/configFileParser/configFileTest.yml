@@ -19,7 +19,7 @@ iterations:
   - type: INT_RANGE
     name: SUB_IMG_IDX
     from: 1
-    to: 10
+    to: 100
 
   - type: INT_RANGE
     name: RUN_ID
