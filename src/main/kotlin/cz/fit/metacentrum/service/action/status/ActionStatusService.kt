@@ -32,6 +32,7 @@ class ActionStatusService : ActionService<ActionStatus> {
         val originalMetadata = metadataStatusService.retrieveMetadata(metadataPath)
 
         val updatedMetadata = originalMetadata
+                .filter { it.paths.storagePath?.let { mPath -> Files.exists(mPath) } ?: false }
                 .map(metadataStatusService::updateMetadataState)
         metadataInfoPrinter.printMetadataListInfo(updatedMetadata)
 
