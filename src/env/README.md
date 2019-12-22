@@ -2,13 +2,13 @@
 
 Open up a terminal and build it:
 ```
-docker build -t pbsimage .
+docker build -t pbsmnt .
 ```
 
 Run container and mount local files to share files in development 
 (MUST BE DONE IN FOLDER WHERE dockershared is):
 ```
-docker run -it -v $PWD/dockershared:$PWD/dockershared -v ~/.clusterize:$HOME/.clusterize --name pbsmnt -h pbs -e PBS_START_MOM=1 pbsimage bash
+docker run -it -v $PWD/dockershared:$PWD/dockershared -v ~/.clusterize:$HOME/.clusterize --name pbsmnt -h pbs -e PBS_START_MOM=1 pbsmnt bash
 ```
 This also tells docker to launch a PBS Pro container with an interactive shell and name it pbs. 
 Docker will download the PBS Pro docker image from Docker Hub if the image is not already
