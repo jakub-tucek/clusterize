@@ -15,33 +15,32 @@ import java.nio.file.Files
  */
 class TemplateDataBuilder {
 
-
     fun <T : TaskType> prepare(metadata: ExecutionMetadata,
                                variableData: HashMap<String, String>,
                                runCounter: Int): TemplateData<T> {
         @Suppress("UNCHECKED_CAST")
         val taskType = metadata.configFile.taskType as? T
-                ?: throw IllegalStateException("Task type cannot be cased to given type")
+            ?: throw IllegalStateException("Task type cannot be cased to given type")
         val sourcesPath = metadata.paths.sourcesPath?.toAbsolutePath()
-                ?: throw IllegalStateException("Sources path not set")
+            ?: throw IllegalStateException("Sources path not set")
 
         // get run path, initialize folder
         val runPath = metadata.paths.storagePath
-                ?.resolve(runCounter.toString())
-                ?.toAbsolutePath()
-                ?: throw IllegalStateException("Couldn't create run path")
+            ?.resolve(runCounter.toString())
+            ?.toAbsolutePath()
+            ?: throw IllegalStateException("Couldn't create run path")
         Files.createDirectories(runPath)
 
         return TemplateData(
-                taskType,
-                variableData.toSortedMap().toList(),
-                GeneralTemplateData(
-                        dependentVariables = metadata.configFile.general.dependentVariables!!,
-                        taskName = metadata.configFile.general.taskName
-                ),
-                runPath,
-                sourcesPath,
-                buildTemplateResources(metadata.configFile.resources)
+            taskType,
+            variableData.toSortedMap().toList(),
+            GeneralTemplateData(
+                dependentVariables = metadata.configFile.general.dependentVariables!!,
+                taskName = metadata.configFile.general.taskName
+            ),
+            runPath,
+            sourcesPath,
+            buildTemplateResources(metadata.configFile.resources)
 
         )
     }
@@ -49,11 +48,17 @@ class TemplateDataBuilder {
     private fun buildTemplateResources(resources: ConfigResources): ResourcesTemplateData {
         val details = resources.details ?: throw IllegalStateException("Resource details configuration is missing")
         return ResourcesTemplateData(
-                walltime = details.walltime,
-                formattedResources = formatResources(details),
-                ncpus = details.ncpus,
-                modules = resources.modules!!,
-                toolboxes = resources.toolboxes!!
+            walltime = details.walltime,
+            formattedResources = formatResources(details),
+            ncpus = details.ncpus,
+            gpuQueue = if (details.ngpus != null) {
+                val wallTimeHours = resources.details.walltime.split(":").firstOrNull()?.toIntOrNull()
+                if (wallTimeHours != null && wallTimeHours >= 24) {
+                    "gpu_long"
+                } else "gpu"
+            } else null,
+            modules = resources.modules!!,
+            toolboxes = resources.toolboxes!!
         )
     }
 
