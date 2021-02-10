@@ -9,7 +9,7 @@ Clusterize is CLI interface that will help you submit and track jobs on your gri
 
 The tool can be installed by execution of following command in the terminal:
 ```
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/jakub-tucek/metacentrum-cli/master/src/scripts/install.sh) v0.16"
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/jakub-tucek/metacentrum-cli/master/src/scripts/install.sh) v0.16.1"
 ```
 
 For easy usage, you need to modify PATH variable in **.profile** so it contains executable **clusterize** command. Path will
