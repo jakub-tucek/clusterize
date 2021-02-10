@@ -4,7 +4,7 @@
 #PBS -l {{{resources.formattedResources}}}
 {{#resources.toolboxes}}#PBS -l {{.}}=1
 {{/resources.toolboxes}}
-{{#resources.gpuQueue}}#PBS -q {{gpuQueue}}
+{{#resources.gpuQueue}}#PBS -q {{resources.gpuQueue}}
 {{/resources.gpuQueue}}
 #PBS -o {{runPath}}/{{fileNames.stdOutLog}}
 #PBS -e {{runPath}}/{{fileNames.stdErrLog}}
