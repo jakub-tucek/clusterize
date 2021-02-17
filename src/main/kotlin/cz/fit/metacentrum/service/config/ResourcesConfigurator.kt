@@ -31,21 +31,28 @@ class ResourcesConfigurator : Configurator {
         else config.resources.details.ncpus
 
         val scratchLocal = config.resources.details?.scratchLocal
-                ?: consoleReader.askForValue("Please enter scratch local space [1gb]:") { it.ifBlank { "1gb" } }
+            ?: consoleReader.askForValue("Please enter scratch local space [1gb]:") { it.ifBlank { "1gb" } }
 
         val ngpus: Int? = if (consoleReader.askForConfirmation("Do you need to specify number of gpu?", false)) {
             config.resources.details?.ngpus
-                    ?: consoleReader.askForValue("Please enter number of gpus if needed [1]:") { it.toIntOrNull() ?: 2 }
+                ?: consoleReader.askForValue("Please enter number of gpus if needed [1]:") { it.toIntOrNull() ?: 2 }
         } else null
+
+        val cpuFlag = if (ngpus != null) {
+            config.resources.details?.cpuFlag
+                ?: consoleReader.askForValue("Please enter cpu flag if needed. (Ex. 'avx512dq'). [none]:") { it.ifBlank { null } }
+        } else null
+
         return config.copy(resources = config.resources.copy(
-                details = ConfigResourcesDetails(
-                        chunks = chunks,
-                        walltime = walltime,
-                        mem = mem,
-                        ncpus = ncpus,
-                        scratchLocal = scratchLocal,
-                        ngpus = ngpus
-                )
+            details = ConfigResourcesDetails(
+                chunks = chunks,
+                walltime = walltime,
+                mem = mem,
+                ncpus = ncpus,
+                scratchLocal = scratchLocal,
+                ngpus = ngpus,
+                cpuFlag = cpuFlag
+            )
         ))
     }
 }

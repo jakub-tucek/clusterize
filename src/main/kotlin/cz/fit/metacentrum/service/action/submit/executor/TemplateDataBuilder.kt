@@ -71,6 +71,9 @@ class TemplateDataBuilder {
         if (details.ngpus != null) {
             stringBuilder.append(":ngpus=${details.ngpus}")
         }
+        if (details.cpuFlag != null) {
+            stringBuilder.append(":cpu_flag=${details.cpuFlag}")
+        }
         return stringBuilder.toString()
     }
 }
