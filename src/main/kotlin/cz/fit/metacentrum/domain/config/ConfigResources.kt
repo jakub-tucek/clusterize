@@ -16,7 +16,8 @@ data class ConfigResourcesDetails(
         val mem: String,
         val ncpus: Int,
         val scratchLocal: String,
-        val ngpus: Int? = null
+        val ngpus: Int? = null,
+        val cpuFlag: String? = null
 )
 
 enum class ConfigResourceProfile {

@@ -117,7 +117,7 @@ will be added to configuration.
 
 ## Resources
 
-Defines resources and queue that will be selected based on wall-time. Most of values does not have to be
+Defines resources and queue that will be selected based on wall-time. Most of the values do not have to be
 set. CLI will ask for them before submission.
 
 
@@ -131,8 +131,18 @@ resources:
     mem: "1gb" # Optional
     ncpus: 1 # Optional
     scratchLocal: "1gb" # Optional
+    ngpus: "1" # Optional, Number, used for GPU computation
+    cpuFlag: "avx512dq" # Optional, Specifies cpu_flag
   toolboxes: # Optional
     - matlab_Neural_Network_Toolbox
   modules: # Optional
     - jdk-8
+```
+
+This section then results in following rows in the script (if all values are set):
+
+```
+#PBS -l walltime=00:04:00
+#PBS -l select=1:ncpus=1:mem=1gb:scratch_local=1gb:ngpus=2:cpu_flag=avx512dq
+#PBS -q gpu - this row will be added only for GPU computation; will set gpu_log for walltime > 24
 ```
