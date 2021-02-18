@@ -32,8 +32,11 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
   
+      - name: Tests
+        run: ./gradlew test
+  
       - name: Gradle build
-        run: gradlew build
+        run: ./gradlew build
 
       - name: Gradle install
-        run: gradlew installDist
+        run: ./gradlew tarDist
