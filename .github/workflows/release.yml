@@ -38,5 +38,15 @@ jobs:
       - name: Gradle build
         run: ./gradlew build
 
-      - name: Gradle install
+      - name: Gradle prepare release
         run: ./gradlew distTar
+      
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        if: (github.ref == 'refs/tags/**')
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/distributions/clusterize.tar
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "Clusterize release ${{ github.ref }}"
