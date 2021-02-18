@@ -29,10 +29,11 @@ jobs:
           java-version: '11.0.10'
           java-package: jdk
           architecture: x64
-      # Runs a single command using the runners shell
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+  
       - name: Gradle build
         run: gradlew build
 
-      # Runs a set of commands using the runners shell
       - name: Gradle install
         run: gradlew installDist
